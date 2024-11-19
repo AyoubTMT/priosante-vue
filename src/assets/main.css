@@ -1,4 +1,7 @@
 @import './base.css';
+@tailwindbase;
+@tailwind components;
+@tailwind utilities;
 
 #app {
   max-width: 1280px;
@@ -10,14 +13,22 @@
 a,
 .green {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: #000;
   transition: 0.4s;
   padding: 3px;
+}
+.buttonLimouni{
+  border-color: #fff !important;
+  box-shadow: #fff !important;
+  color : #fff;
+}
+.buttonLimouni:hover {
+  color: #000;
 }
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    color: var(--color-limouni);
   }
 }
 
@@ -28,7 +39,7 @@ a,
   }
 
   #app {
-    display: grid;
+    /* display: grid; */
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
