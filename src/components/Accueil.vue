@@ -21,7 +21,8 @@
                         <p className='mobile:hidden'>L'assurance</p>
                         <p className='mobile:hidden'>Vos questions</p>
                         <p className='py-3 px-6 bg-orange-500 text-white rounded-md  font-semibold'>
-                            <a href='obtenir-devis-en-ligne'>Devis en ligne</a>
+                            <router-link to="etape1">Devis en ligne</router-link>
+    <router-link to="/step-one">Start Subscription</router-link>
                         </p>
                     </div>
                 </div>
