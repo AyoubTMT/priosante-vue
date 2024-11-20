@@ -92,96 +92,96 @@
     };
 </script>
  
-<style setup>
-.assurmabarak {
-    margin: 15px 0;
-    text-align: justify;
-}
-.bonasavoir p, .assurmabarak p {
-    color: #6b6b6b;
-    font-size: 12px;
-}
-.bonasavoir {
-    display: flex;
-    align-items: center;
-    margin: 15px 0;
-}
-.separateur {
-    height: 1px;
-    background-color: var(--color3);
-    width: 96%;
-    margin: auto;
-}
-.firstBtn:hover{
-    color: var(--color1);
-}
-.firstBtn {
-    width: 100%;
-    background-color: var(--color3);
-    color: #000;
-    height: 60px;
-    border-radius: 9px;
-    border: 0;
-    font-size: 21px;
-    font-weight: 700;
-}
-.errorMsg, .raceErrorMsg {
-    display: flex;
-    align-items: center;
-    font-size: 13px;
-    color: var(--color1);
-    margin-top: 9px;
-    display: none;
-}
-.formLabel {
-    margin: 0 0 0px 0;
-}
-.formLabel {
-    font-weight: bold;
-    font-size: 16px;
-}
-.btnImg {
-    height: 47px;
-    margin-top: -17px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-.btnImg {
-    height: 47px;
-    margin-top: -17px;
-}
-.btn-check:checked + label .checkedLabel {
-    opacity: 1 !important;
-    transition: 0.5s;
-}
-#formulaire .btn-check:checked + .btn, #formulaire .btn.active {
-    background-color: var(--color5) !important;
-    border-color: var(--color1) !important;
-    color: #3e3e3e;
-}
-#formulaire .iconLabel {
-    background-color: #fff;
-    border: 1px solid #d9d9d9;
-    color: #000;
-    width: 100%;
-}
-#formulaire input, #formulaire select {
-    border-radius: 5px;
-    padding: 13px 20px;
-}
-.formIconContainer {
-    width: 100%;
-}
-.stepDescription {
-    font-size: 16px;
-    margin: 0;
-}
-.stepTitle {
-    font-weight: bold;
-    font-size: 21px;
-}
+<style>
+    .assurmabarak {
+        margin: 15px 0;
+        text-align: justify;
+    }
+    .bonasavoir p, .assurmabarak p {
+        color: #6b6b6b;
+        font-size: 12px;
+    }
+    .bonasavoir {
+        display: flex;
+        align-items: center;
+        margin: 15px 0;
+    }
+    .separateur {
+        height: 1px;
+        background-color: var(--color3);
+        width: 96%;
+        margin: auto;
+    }
+    .firstBtn:hover{
+        color: var(--color1);
+    }
+    .firstBtn {
+        width: 100%;
+        background-color: var(--color3);
+        color: #000;
+        height: 60px;
+        border-radius: 9px;
+        border: 0;
+        font-size: 21px;
+        font-weight: 700;
+    }
+    .errorMsg, .raceErrorMsg {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        color: var(--color1);
+        margin-top: 9px;
+        display: none;
+    }
+    .formLabel {
+        margin: 0 0 0px 0;
+    }
+    .formLabel {
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .btnImg {
+        height: 47px;
+        margin-top: -17px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .btnImg {
+        height: 47px;
+        margin-top: -17px;
+    }
+    .btn-check:checked + label .checkedLabel {
+        opacity: 1 !important;
+        transition: 0.5s;
+    }
+    #formulaire .btn-check:checked + .btn, #formulaire .btn.active {
+        background-color: var(--color5) !important;
+        border-color: var(--color1) !important;
+        color: #3e3e3e;
+    }
+    #formulaire .iconLabel {
+        background-color: #fff;
+        border: 1px solid #d9d9d9;
+        color: #000;
+        width: 100%;
+    }
+    #formulaire input, #formulaire select {
+        border-radius: 5px;
+        padding: 13px 20px;
+    }
+    .formIconContainer {
+        width: 100%;
+    }
+    .stepDescription {
+        font-size: 16px;
+        margin: 0;
+    }
+    .stepTitle {
+        font-weight: bold;
+        font-size: 21px;
+    }
     #formulaire {
         padding: 40px 0;
     }
@@ -304,10 +304,4 @@
         width: 100%;
         margin-top: 13px !important;
     }
-    body {
-        background-color: var(--color2) !important;
-        font-family: var(--font) !important;
-        overflow-x: hidden;
-    }
-
 </style>

@@ -7,8 +7,8 @@ export const useFormStore = defineStore('form', {
     currentStep: 1,
     formData: {
       step1: {
-        name: '',
-        email: '',
+        type_habitation: '',
+        assured: '',
       },
       step2: {
         address: '',

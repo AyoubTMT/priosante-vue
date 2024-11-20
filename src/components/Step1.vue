@@ -125,7 +125,8 @@
 </template>
 
 <script>
-export default {
+    import { useFormStore } from '@/stores/useFormStore';
+    export default {
     props: ['prevStep'],
     data() {
         return {
@@ -140,8 +141,9 @@ export default {
             this.$router.push('/');
         },
         submitStep() {
-            console.log(this.localData);
-            // Handle form submission
+            const formStore = useFormStore();
+            formStore.updateStepData('step1', this.localData);
+            formStore.nextStep();
         },
     },
 };
