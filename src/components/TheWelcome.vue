@@ -27,7 +27,7 @@ import "../assets/tailwind.css"; // Import Tailwind only for this page
                             <p className=''>
                                 <!-- <router-link to="/devis">Devis en ligne</router-link> -->
                                 <router-link to="/devis">
-                                    <button class="py-2 px-4 bg-orange-500 rounded-md rounded-lg rounded-xl border-orange-500 border-2 mobile:text-xs text-xl text-white font-semibold buttonLimouni">
+                                    <button class="py-2 px-3 bg-orange-500 rounded-md rounded-lg rounded-xl border-orange-500 border-2 mobile:text-xs text-xl text-white font-semibold buttonLimouni">
                                         Devis en ligne
                                     </button>
                                 </router-link>

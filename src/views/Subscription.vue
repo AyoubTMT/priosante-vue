@@ -73,26 +73,38 @@
     import Step1 from '../components/Step1.vue';
     import Step2 from '../components/Step2.vue';
     import Step3 from '../components/Step3.vue';
+    import { useRouter } from 'vue-router';
 
     export default {
         components: { Step1, Step2, Step3 },
         setup() {
             const formStore = useFormStore();
+            const router = useRouter();
 
             return {
                 formStore,
+                router,
                 submitForm: formStore.submitForm,
             };
         },
         methods: { 
             prevStep() { 
-                this.$router.push('/'); 
+                this.formStore.prevStep(this.router);
             }
         }
     };
 </script>
  
 <style>
+.nextBtn {
+    width: 100%;
+    background-color: var(--color1);
+    color: #fff;
+    height: 60px;
+    border-radius: 9px;
+    border: 0;
+    font-size: 21px;
+}
     .assurmabarak {
         margin: 15px 0;
         text-align: justify;

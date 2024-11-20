@@ -27,8 +27,12 @@ export const useFormStore = defineStore('form', {
     nextStep() {
       this.currentStep++;
     },
-    prevStep() {
+    prevStep(router) {
       this.currentStep--;
+      if (this.currentStep === 0) {
+        this.currentStep = 1;
+        router.push('/home');
+      }
     },
     async submitForm() {
         console.log(this.formData);
