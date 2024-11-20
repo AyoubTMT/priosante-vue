@@ -111,12 +111,17 @@
 <script>
     import 'bootstrap/dist/css/bootstrap.min.css';
     import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+    /**************** a voir apres ********************/
+    import 'https://code.jquery.com/jquery-3.6.3.min.js';
+    import * as customFunctions from '../custom-js/functions.js';
+    import * as customJS from '../custom-js/custom.js';
+    /***********************************************/
     import { useFormStore } from '../stores/useFormStore';
     import Step1 from '../components/Step1.vue';
     import Step2 from '../components/Step2.vue';
     import Step3 from '../components/Step3.vue';
-    import Step4 from '../components/Step5.vue';
-    import Step5 from '../components/Step4.vue';
+    import Step4 from '../components/Step4.vue';
+    import Step5 from '../components/Step5.vue';
     import Step6 from '../components/Step6.vue';
     import Step7 from '../components/Step7.vue';
     import Step8 from '../components/Step8.vue';
@@ -125,6 +130,10 @@
 
     export default {
         components: { Step1, Step2, Step3, Step4, Step5, Step6, Step7, Step8, Step9  },
+        mounted() { 
+            customFunctions;
+            customJS;
+        },
         setup() {
             const formStore = useFormStore();
             const router = useRouter();

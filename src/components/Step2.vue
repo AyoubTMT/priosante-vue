@@ -143,7 +143,7 @@
         methods: {
         submitStep() {
             const formStore = useFormStore();
-            formStore.updateStepData('step2', this.localData);
+            formStore.updateStepData('step2', this.formData);
             formStore.nextStep();
         },
         },
