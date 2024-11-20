@@ -1,8 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import StepOne from '../components/partials/StepOne.vue'
-import StepTwo from '../components/partials/StepTwo.vue'
-import StepThree from '../components/partials/StepThree.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import GeneralInfo from '../views/GeneralInfo.vue';
+import GuaranteesOptions from '../views/GuaranteesOptions.vue';
+import Pricing from '../views/Pricing.vue';
+import Recap from '../views/Recap.vue';
+import Subscription from '../views/Subscription.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,9 +22,12 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
-    { path: '/step-one', component: StepOne },
-    { path: '/etape2', component: StepTwo },
-    { path: '/etape3', component: StepThree },
+    // { path: '/', redirect: '/general-info' },
+    { path: '/general-info', name: 'GeneralInfo', component: GeneralInfo },
+    { path: '/guarantees-options', name: 'GuaranteesOptions', component: GuaranteesOptions },
+    { path: '/pricing', name: 'Pricing', component: Pricing },
+    { path: '/recap', name: 'Recap', component: Recap },
+    { path: '/subscription', name: 'Subscription', component: Subscription },
   ],
 })
 
