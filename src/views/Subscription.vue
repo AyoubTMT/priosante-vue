@@ -1,65 +1,190 @@
 <template>
-  <header class="container-fluid">
-      <div id="header-bar" class="container">
-          <div class="row align-items-center">
-              <div class="col-5 col-md-2 col-lg-2 col-xl-3 d-flex align-items-center">
-                  <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/back.svg" alt="retour" class="slideback me-2" onclick="goBack()">
-                  <div class="d-none d-lg-block"><img src="../assets/images/logoAssur.png" width="169" height="35" alt="Selfassurance" class="img-fluid"></div>
-                  <div class="d-block d-lg-none"><img src="../assets/images/logoAssur.png" width="44" height="36" alt="Selfassurance" class="img-fluid"></div>
-              </div>
-              <div class="col-md-8 col-lg-8 col-xl-6 d-none d-md-block">
-                  <div class="row justify-content-center mb-0 d-none d-md-block align-items-center">
-                      <div class="col-12">
-                          <div class="progress Mobile">
-                              <div class="progress-bar progressMobile" role="progressbar" style="width: 12.6%;" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-7 col-md-2 col-lg-2 col-xl-3 text-end p-0">
-                  <div class="questionLink d-flex justify-content-end align-items-center text-decoration-none">
-                      <!-- <div class="questionTxt">Une question</div> -->
-                      <div class="assistanteImg online" data-bs-toggle="modal" data-bs-target="#aide">
-                          <p class="d-none d-md-none d-lg-none d-xl-block">Besoin d'aide ?</p>
-                          <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/avatar.png" width="40" height="40" alt="image de l'assistante" class="img-fluid">
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="row d-none d-md-block d-lg-block">
-              <div class="headerSepar"></div>
-          </div>
-      </div>
-  </header>
-  <div>
-    <Step1 v-if="formStore.currentStep === 1" />
-    <Step2 v-if="formStore.currentStep === 2" />
-    <Step3 v-if="formStore.currentStep === 3" />
-    <button v-if="formStore.currentStep === 3" @click="submitForm">Submit</button>
-  </div>
+    <header class="container-fluid">
+        <div id="header-bar" class="container">
+            <div class="row align-items-center">
+                <div class="col-5 col-md-2 col-lg-2 col-xl-3 d-flex align-items-center">
+                    <img src="../assets/icons/back.svg" alt="retour" class="slideback me-2" @click="prevStep">
+                    <div class="d-none d-lg-block"><img src="../assets/images/logoAssur.png" width="169" height="35" alt="Selfassurance" class="img-fluid"></div>
+                    <div class="d-block d-lg-none"><img src="../assets/images/logoAssur.png" width="44" height="36" alt="Selfassurance" class="img-fluid"></div>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-6 d-none d-md-block">
+                    <div class="row justify-content-center mb-0 d-none d-md-block align-items-center">
+                        <div class="col-12">
+                            <div class="progress Mobile">
+                                <div class="progress-bar progressMobile" role="progressbar" style="width: 12.6%;" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7 col-md-2 col-lg-2 col-xl-3 text-end p-0">
+                    <div class="questionLink d-flex justify-content-end align-items-center text-decoration-none">
+                        <!-- <div class="questionTxt">Une question</div> -->
+                        <div class="assistanteImg online" data-bs-toggle="modal" data-bs-target="#aide">
+                            <p class="d-none d-md-none d-lg-none d-xl-block">Besoin d'aide ?</p>
+                            <img src="../assets/icons/avatar.png" width="40" height="40" alt="image de l'assistante" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-none d-md-block d-lg-block">
+                <div class="headerSepar"></div>
+            </div>
+        </div>
+    </header>
+    <section id="formulaire">
+        <div class="container">
+            <div class="row justify-content-center mb-0 mb-lg-4 d-block d-md-none">
+                <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6">
+                    <div class="progress Mobile">
+                        <div class="progress-bar progressMobile" role="progressbar" style="width: 16%;" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center justify-content-lg-center m-0">
+                <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
+                    <div class="container-fluid p-0">
+                        <Step1 v-if="formStore.currentStep === 1" />
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center justify-content-lg-center m-0">
+                <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
+                    <div class="container-fluid p-0">
+                        <Step2 v-if="formStore.currentStep === 2" />
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center justify-content-lg-center m-0">
+                <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
+                    <div class="container-fluid p-0">
+                        <Step3 v-if="formStore.currentStep === 3" />
+                    </div>
+                </div>
+            </div>
+            <button v-if="formStore.currentStep === 3" @click="submitForm">Submit</button>
+        </div>
+    </section>
 </template>
 
 <script>
-  import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS
-  import { useFormStore } from '../stores/useFormStore';
-  import Step1 from '../components/Step1.vue';
-  import Step2 from '../components/Step2.vue';
-  import Step3 from '../components/Step3.vue';
+    import 'bootstrap/dist/css/bootstrap.min.css';
+    import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+    import { useFormStore } from '../stores/useFormStore';
+    import Step1 from '../components/Step1.vue';
+    import Step2 from '../components/Step2.vue';
+    import Step3 from '../components/Step3.vue';
 
-  export default {
-    components: { Step1, Step2, Step3 },
-    setup() {
-      const formStore = useFormStore();
+    export default {
+        components: { Step1, Step2, Step3 },
+        setup() {
+            const formStore = useFormStore();
 
-      return {
-        formStore,
-        submitForm: formStore.submitForm,
-      };
-    },
-  };
+            return {
+                formStore,
+                submitForm: formStore.submitForm,
+            };
+        },
+        methods: { 
+            prevStep() { 
+                this.$router.push('/'); 
+            }
+        }
+    };
 </script>
  
-<style scoped>
+<style setup>
+.assurmabarak {
+    margin: 15px 0;
+    text-align: justify;
+}
+.bonasavoir p, .assurmabarak p {
+    color: #6b6b6b;
+    font-size: 12px;
+}
+.bonasavoir {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+.separateur {
+    height: 1px;
+    background-color: var(--color3);
+    width: 96%;
+    margin: auto;
+}
+.firstBtn:hover{
+    color: var(--color1);
+}
+.firstBtn {
+    width: 100%;
+    background-color: var(--color3);
+    color: #000;
+    height: 60px;
+    border-radius: 9px;
+    border: 0;
+    font-size: 21px;
+    font-weight: 700;
+}
+.errorMsg, .raceErrorMsg {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: var(--color1);
+    margin-top: 9px;
+    display: none;
+}
+.formLabel {
+    margin: 0 0 0px 0;
+}
+.formLabel {
+    font-weight: bold;
+    font-size: 16px;
+}
+.btnImg {
+    height: 47px;
+    margin-top: -17px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.btnImg {
+    height: 47px;
+    margin-top: -17px;
+}
+.btn-check:checked + label .checkedLabel {
+    opacity: 1 !important;
+    transition: 0.5s;
+}
+#formulaire .btn-check:checked + .btn, #formulaire .btn.active {
+    background-color: var(--color5) !important;
+    border-color: var(--color1) !important;
+    color: #3e3e3e;
+}
+#formulaire .iconLabel {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    color: #000;
+    width: 100%;
+}
+#formulaire input, #formulaire select {
+    border-radius: 5px;
+    padding: 13px 20px;
+}
+.formIconContainer {
+    width: 100%;
+}
+.stepDescription {
+    font-size: 16px;
+    margin: 0;
+}
+.stepTitle {
+    font-weight: bold;
+    font-size: 21px;
+}
+    #formulaire {
+        padding: 40px 0;
+    }
     #header-bar {
         padding: 6px 0;
     }
@@ -179,4 +304,10 @@
         width: 100%;
         margin-top: 13px !important;
     }
+    body {
+        background-color: var(--color2) !important;
+        font-family: var(--font) !important;
+        overflow-x: hidden;
+    }
+
 </style>

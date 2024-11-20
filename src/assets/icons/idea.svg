@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Calque_2" data-name="Calque 2" viewBox="0 0 40.39 40.39"><script xmlns="" id="nimlmejbmnecnaghgmbahmbaddhjbecg"/><script xmlns=""/><script xmlns=""/><script xmlns=""/>
+    <defs>
+      <style>
+        .cls-1 {
+          stroke: #f97316;
+        }
+  
+        .cls-1, .cls-2 {
+          fill: none;
+          stroke-miterlimit: 133.33;
+          stroke-width: 4.04px;
+        }
+  
+        .cls-2 {
+          stroke: #f97316;
+          stroke-linecap: round;
+        }
+      </style>
+    </defs>
+    <g id="Calque_1-2" data-name="Calque 1">
+      <g>
+        <path class="cls-2" d="m20.2,12.12v10.1"/>
+        <path class="cls-2" d="m20.2,28.27v-.02"/>
+        <path class="cls-1" d="m2.02,20.2C2.02,5.23,5.23,2.02,20.2,2.02s18.18,3.21,18.18,18.18-3.21,18.18-18.18,18.18S2.02,35.16,2.02,20.2Z"/>
+      </g>
+    </g>
+  <script xmlns=""/>
+</svg>
