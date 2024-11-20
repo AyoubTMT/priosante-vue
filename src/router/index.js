@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import GeneralInfo from '../views/GeneralInfo.vue';
-import GuaranteesOptions from '../views/GuaranteesOptions.vue';
-import Pricing from '../views/Pricing.vue';
-import Recap from '../views/Recap.vue';
-import Subscription from '../views/Subscription.vue';
+import Step1 from '../components/Step1.vue';
+import Step2 from '../components/Step2.vue';
+import Step3 from '../components/Step3.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,12 +20,31 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
-    // { path: '/', redirect: '/general-info' },
-    { path: '/general-info', name: 'GeneralInfo', component: GeneralInfo },
-    { path: '/guarantees-options', name: 'GuaranteesOptions', component: GuaranteesOptions },
-    { path: '/pricing', name: 'Pricing', component: Pricing },
-    { path: '/recap', name: 'Recap', component: Recap },
-    { path: '/subscription', name: 'Subscription', component: Subscription },
+    {
+      path: '/devis',
+      component: () => import('../views/Subscription.vue'), // Parent component for all steps
+      children: [
+        {
+          path: '',
+          name: 'Step1',
+          component: Step1,
+        },
+        {
+          path: 'step2',
+          name: 'Step2',
+          component: Step2,
+        },
+        {
+          path: 'step3',
+          name: 'Step3',
+          component: Step3,
+        },
+      ],
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/', // Redirect undefined routes to home 
+    },
   ],
 })
 

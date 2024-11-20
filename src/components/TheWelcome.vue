@@ -17,7 +17,7 @@ import "../assets/tailwind.css"; // Import Tailwind only for this page
                         <p className='mobile:hidden'>L'assurance</p>
                         <p className='mobile:hidden'>Vos questions</p>
                         <p className='py-3 px-6 bg-orange-500 text-white rounded-md  font-semibold'>
-                          <router-link to="/general-info">Devis en ligne</router-link>
+                          <router-link to="/devis">Devis en ligne</router-link>
                         </p>
                     </div>
                 </div>
