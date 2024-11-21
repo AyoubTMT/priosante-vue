@@ -30,7 +30,7 @@
                     <input type="number" class="form-control" id="nbr_pieces_principales_sup30" placeholder="Ex : 5"
                         v-model="formData.pieceCount" />
                 </div>
-                <div class="errorMsg">
+                <div class="errorMsg d-none">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
                             viewBox="0 0 10.497 10.008">
@@ -62,7 +62,7 @@
                     <input type="number" class="form-control" id="nbr_dependances_sup30" placeholder="Ex : 5"
                         v-model="formData.dependenceCount" />
                 </div>
-                <div class="errorMsg">
+                <div class="errorMsg d-none">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
                             viewBox="0 0 10.497 10.008">
@@ -94,7 +94,7 @@
                     <input type="number" class="form-control" id="surface_dependance" placeholder="Ex : 5"
                         v-model="formData.surfaceDependance" />
                 </div>
-                <div class="errorMsg">
+                <div class="errorMsg d-none">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
                             viewBox="0 0 10.497 10.008">
@@ -148,7 +148,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="errorMsg">
+                <div class="errorMsg d-none">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
                             viewBox="0 0 10.497 10.008">

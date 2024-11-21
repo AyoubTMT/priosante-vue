@@ -44,7 +44,7 @@
           <input type="number" class="form-control" placeholder="Ex : 2" id="nbpiece"
             v-model.number="formData.nbr_pieces_principales" min="1" max="5">
         </div>
-        <div class="errorMsg">
+        <div class="errorMsg d-none">
           <div class="d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
               <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
@@ -74,7 +74,7 @@
           <input type="number" id="surfacem2" v-model.number="formData.surface_habitable" class="form-control"
             placeholder="ex : 49m²">
         </div>
-        <div class="errorMsg">
+        <div class="errorMsg d-none">
           <div class="d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
               <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">

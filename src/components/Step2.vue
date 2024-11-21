@@ -36,7 +36,7 @@
                 <option value="INTERMEDIAIRE">À un étage intermédiaire</option>
                 <option value="DERNIER">Au dernier étage</option>
                 </select>
-                <div class="errorMsg">
+                <div class="errorMsg d-none">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
                             <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
@@ -82,7 +82,7 @@
             <div class="col-12 mt-3 VotreCodepostale">
                 <label for="zipcode" class="formLabel mb-2">Code postal ou ville</label>
                 <input type="text" class="form-control villeCpSearch" autocomplete="off" id="zipcode" placeholder="Code postal ou ville" v-model="formData.zipcode">
-                <div class="errorMsg">
+                <div class="errorMsg d-none">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
                             <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
