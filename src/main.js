@@ -7,7 +7,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://assurmabarak-laravel.test/api';
+// axios.defaults.baseURL = 'http://assurmabarak-laravel.test/api';
 
 const app = createApp(App)
 

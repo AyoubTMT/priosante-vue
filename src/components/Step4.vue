@@ -11,7 +11,7 @@
             <div v-for="(option, index) in options" :key="index" class="col-4 mt-3 accomodation">
                 <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
                     <input type="checkbox" class="btn-check" :id="option.id" :value="option.value"
-                        v-model="formData.selectedOptions" @change="handleOptionChange(option)" />
+                        v-model="formData.selectedOptions" />
                     <label class="btn btn-outline-primary iconLabel" :for="option.id">
                         <div class="text-end checkedLabel">
                             <img src="../assets/icons/checkedicon.svg" width="15" height="15" alt="checked">
@@ -23,7 +23,7 @@
                     </label>
                 </div>
             </div>
-            <div class="col-12 mt-3 surfaceSup d-none">
+            <div v-if="showPieceSup" class="col-12 mt-3 surfaceSup">
                 <label for="nbr_pieces_principales_sup30" class="formLabel mb-3">Nombre de pièces de plus de 30
                     m²</label>
                 <div class="sufpiece">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-3 depSup d-none">
+            <div v-if="showDepSup" class="col-12 mt-3 depSup">
                 <label for="nbr_dependances_sup30" class="formLabel mb-3">Nombre de dépendances de plus de 30 m²</label>
                 <div class="sufdep">
                     <input type="number" class="form-control" id="nbr_dependances_sup30" placeholder="Ex : 5"
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-3 depSup d-none">
+            <div v-if="showDepSup" class="col-12 mt-3 depSup">
                 <label for="surface_dependance" class="formLabel mb-3">Surface des dépendances en m<sup>2</sup></label>
                 <div class="sufm2">
                     <input type="number" class="form-control" id="surface_dependance" placeholder="Ex : 5"
@@ -120,7 +120,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-3 chemSup d-none">
+            <div v-if="showChemSup" class="col-12 mt-3 chemSup">
                 <div class="formLabel mb-3">Cette cheminée a été installée par un professionnel du bâtiment ?</div>
                 <div class="container-fluid p-0">
                     <div class="row">
@@ -138,7 +138,7 @@
                         <div class="col-6">
                             <div class="btn-group formIconContainer miniClass" role="group"
                                 aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" value="NON" id="chemOui" v-model="formData.cheminepro" />
+                                <input type="radio" class="btn-check" value="NON" id="chemNon" v-model="formData.cheminepro" />
                                 <label class="btn btn-outline-primary iconLabel" for="chemNon">
                                     <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
                                             width="15" height="15" alt="checked"></div>
@@ -178,13 +178,10 @@
                 <div class="container-fluid p-0">
                     <div class="row align-items-center">
                         <div class="col-12">
-                            <button type="button"
-                                class="navBtn nextBtn mt-4 flex justify-center align-items-center"><span
-                                    class="equippedOrNot">Aucun de ces équipements</span> <img
-                                    src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid"></button>
-                            <button type="submit"
-                                class="navBtn nextBtn mt-4 flex justify-center align-items-center">Étape suivante <img
-                                    src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid"></button>
+                            <button type="submit" class="navBtn nextBtn mt-4 flex justify-center align-items-center">
+                                <span :class="{ 'equippedOrNot': !isAnyOptionSelected }" >{{ isAnyOptionSelected ? 'Étape suivante' : 'Aucun de ces équipements' }}</span>
+                                <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid">
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -215,7 +212,7 @@
                     {
                         id: 'chemine',
                         value: 'chemine',
-                        label: 'Cheminée ou poêle à bois',
+                        label: "Cheminée ou poêle à bois",
                         icon: chemineIcon,
                         alt: 'chemine',
                     },
@@ -264,21 +261,21 @@
                 },
             };
         },
+        computed: {
+            isAnyOptionSelected() {
+                return this.formData.selectedOptions.length > 0;
+            },
+            showPieceSup() {
+                return this.formData.selectedOptions.includes('superieur30m');
+            },
+            showDepSup() {
+                return this.formData.selectedOptions.includes('dependances');
+            },
+            showChemSup() {
+                return this.formData.selectedOptions.includes('chemine');
+            },
+        },
         methods: {
-            handleOptionChange(option) {
-                console.log(`Option changed: ${option.label}`);
-                this.equipement();
-
-                if (['dependances', 'superieur30m'].includes(option.value)) {
-                    this.logementsup();
-                }
-            },
-            equipement() {
-                console.log('Equipement method triggered with options:', this.formData.selectedOptions);
-            },
-            logementsup() {
-                console.log('Logement supplémentaire logic executed.');
-            },
             submitStep() {
                 const formStore = useFormStore();
                 formStore.updateStepData('step4', this.formData);
@@ -287,3 +284,9 @@
         },
     };
 </script>
+
+<style scoped>
+    .formIconContainer{
+        height: 100%;
+    }
+</style>

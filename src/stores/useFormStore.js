@@ -11,12 +11,32 @@ export const useFormStore = defineStore('form', {
         assured: '',
       },
       step2: {
-        address: '',
-        phone: '',
+        statut_resident: '',
+        appartement_situe: '',
+        specification: '',
+        zipcode: '',
       },
       step3: {
-        productType: '',
-        pricingDetails: '',
+        type_residence: '',
+        nbr_pieces_principales: '',
+        surface_habitable: '',
+      },
+      step4: {
+        selectedOptions: '',
+        pieceCount: '',
+        dependenceCount: '',
+        surfaceDependance: '',
+        cheminepro: '',
+      },
+      step5: {
+      },
+      step6: {
+      },
+      step7: {
+      },
+      step8: {
+      },
+      step9: {
       },
     },
   }),

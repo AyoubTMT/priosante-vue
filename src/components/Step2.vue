@@ -1,12 +1,11 @@
 <template>
     <form @submit.prevent="submitStep">
         <div class="row g-3 g-md-4">
-            <div class="col-12 mt-0">
+            <div class="col-12 mt-0 mb-3">
                 <h2 class="stepTitle mb-3">Commençons par votre logement </h2>
                 <p class="stepDescription mb-3 mb-md-0">
                 Afin de bien évaluer votre demande, pourriez-vous m’en dire un peu plus ?
                 </p>
-                <p class="mb-3">En ce moment, <span class="underligned">3 mois offerts*</span> pour toute souscription d’un contrat en ligne.</p>
             </div>
             <label for="maison-b" class="formLabel mb-3">Qualité de l'assuré</label>
             <div class="col-6 mt-0">
