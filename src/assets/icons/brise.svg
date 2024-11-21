@@ -1,0 +1,20 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="71.206" height="54.433" viewBox="0 0 71.206 54.433">
+    <defs>
+      <clipPath id="clip-path">
+        <rect id="Rectangle_213" data-name="Rectangle 213" width="71.206" height="54.433" transform="translate(0 0)" fill="none"/>
+      </clipPath>
+    </defs>
+    <g id="brise" transform="translate(0 0)">
+      <g id="Groupe_766" data-name="Groupe 766" clip-path="url(#clip-path)">
+        <path id="Tracé_267" data-name="Tracé 267" d="M69.956,53.086,59.6,47.06l4.059-5.682L52.78,34.354l-9.942,3.53L35.6,30.472,29.427,16.354H12.838V11.237" fill="none" stroke="#a1c84e" stroke-miterlimit="10" stroke-width="2.5"/>
+        <path id="Tracé_268" data-name="Tracé 268" d="M35.6,53.183H3.4a2.149,2.149,0,0,1-2.15-2.15V3.4A2.149,2.149,0,0,1,3.4,1.25H35.6Z" fill="none" stroke="#7c7c7c" stroke-miterlimit="10" stroke-width="2.5"/>
+        <path id="Tracé_269" data-name="Tracé 269" d="M67.806,53.183H35.6V1.25h32.2a2.15,2.15,0,0,1,2.15,2.15V51.033A2.15,2.15,0,0,1,67.806,53.183Z" fill="none" stroke="#7c7c7c" stroke-miterlimit="10" stroke-width="2.5"/>
+        <rect id="Rectangle_211" data-name="Rectangle 211" width="2.471" height="9" transform="translate(26.955 23.237)" fill="none" stroke="#7c7c7c" stroke-miterlimit="10" stroke-width="2.5"/>
+        <rect id="Rectangle_212" data-name="Rectangle 212" width="2.471" height="9" transform="translate(41.603 23.237)" fill="none" stroke="#7c7c7c" stroke-miterlimit="10" stroke-width="2.5"/>
+        <path id="Tracé_270" data-name="Tracé 270" d="M53.458,35.354,51.84,27.325l2.765-2.3-4.853-6.882" fill="none" stroke="#a1c84e" stroke-miterlimit="10" stroke-width="2.5"/>
+        <line id="Ligne_12" data-name="Ligne 12" y1="3.574" x2="3.971" transform="translate(53.015 18.746)" fill="none" stroke="#a1c84e" stroke-miterlimit="10" stroke-width="2.5"/>
+      </g>
+    </g>
+  </svg>
+  

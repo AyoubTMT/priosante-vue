@@ -280,6 +280,9 @@
     import { useFormStore } from '@/stores/useFormStore';
     import { useRouter } from 'vue-router';
     export default {
+        components: {
+            BonASavoir,
+        },
         data() {
             return {
                 form: {

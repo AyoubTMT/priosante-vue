@@ -1,0 +1,28 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="57.385" height="53.086" viewBox="0 0 57.385 53.086">
+    <defs>
+      <clipPath id="clip-path">
+        <path id="Tracé_266" data-name="Tracé 266" d="M0-53.086H57.385V0H0Z" fill="none"/>
+      </clipPath>
+    </defs>
+    <g id="eau" transform="translate(0 53.086)">
+      <g id="Groupe_765" data-name="Groupe 765" clip-path="url(#clip-path)">
+        <g id="Groupe_760" data-name="Groupe 760" transform="translate(0 -50.017)">
+          <path id="Tracé_261" data-name="Tracé 261" d="M0,0H21.836V19.829H0" fill="none" stroke="#7b7b7b" stroke-width="2.5"/>
+        </g>
+        <g id="Groupe_761" data-name="Groupe 761" transform="translate(26.176 -53.086)">
+          <path id="Tracé_262" data-name="Tracé 262" d="M0,0H-1.909A3.177,3.177,0,0,0-5.086,3.176V22.79a3.178,3.178,0,0,0,3.177,3.177H0A3.177,3.177,0,0,0,3.176,22.79V3.176A3.176,3.176,0,0,0,0,0M0,2.5a.676.676,0,0,1,.676.676V22.79A.677.677,0,0,1,0,23.467H-1.909a.678.678,0,0,1-.677-.677V3.176A.677.677,0,0,1-1.909,2.5Z" fill="#7b7b7b"/>
+        </g>
+        <g id="Groupe_762" data-name="Groupe 762" transform="translate(57.385 -50.017)">
+          <path id="Tracé_263" data-name="Tracé 263" d="M0,0H-21.836V19.829H0" fill="none" stroke="#7b7b7b" stroke-width="2.5"/>
+        </g>
+        <g id="Groupe_763" data-name="Groupe 763" transform="translate(33.118 -53.086)">
+          <path id="Tracé_264" data-name="Tracé 264" d="M0,0H-1.909A3.177,3.177,0,0,0-5.086,3.176V22.79a3.178,3.178,0,0,0,3.177,3.177H0A3.177,3.177,0,0,0,3.176,22.79V3.176A3.176,3.176,0,0,0,0,0M0,2.5a.676.676,0,0,1,.676.676V22.79A.677.677,0,0,1,0,23.467H-1.909a.678.678,0,0,1-.677-.677V3.176A.677.677,0,0,1-1.909,2.5Z" fill="#7b7b7b"/>
+        </g>
+        <g id="Groupe_764" data-name="Groupe 764" transform="translate(36.246 -4.144)">
+          <path id="Tracé_265" data-name="Tracé 265" d="M0,0A9.7,9.7,0,0,1-13.718.108a9.7,9.7,0,0,1-.107-13.718l6.8-6.912,6.912,6.8A9.7,9.7,0,0,1,0,0Z" fill="none" stroke="#a0c74e" stroke-width="2.5"/>
+        </g>
+      </g>
+    </g>
+  </svg>
+  

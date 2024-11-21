@@ -19,24 +19,6 @@
         devis/contrat. Le destinataire des données est le personnel habilité de GLS LASSURANCES. Reportez-vous à nos
         Mentions légales et notre politique de confidentialité des données.
       </p>
-      <p>Chaque adresse représente un niveau de risque différent</p>
-      <p>
-        Les dépendances et annexes sont tous les locaux qui ne sont pas à usage d’habitation, communiquant ou non avec
-        l’habitation (buanderie, cellier, remise, débarras, les abris de jardin, cave, les combles et le sous-sol).
-      </p>
-      <p>
-        Dès lors que vous utilisez votre logement dans le cadre de vos activités professionnelles et/ou que vous y
-        recevez des clients (même de manière occasionnelle), vous devez répondre positivement à cette question. Petite
-        précision : vous ne devez pas prendre en compte le télétravail.
-      </p>
-      <p>
-        Le mobilier correspond à vos meubles, équipement électroménager. Les objets de valeur correspondent à vos
-        bijoux, montres…
-      </p>
-      <p>
-        La protection de vos données est l'une de nos priorités. Toutes vos données personnelles, notamment relatives à
-        des infractions et condamnations pénales, sont 100% sécurisées.
-      </p>
     </div>
   </div>
 </template>
