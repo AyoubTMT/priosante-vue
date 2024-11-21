@@ -28,10 +28,24 @@ export const useFormStore = defineStore('form', {
         cheminepro: '',
       },
       step5: {
+        declare_sinistre2ans: '',
+        resilie_par_assureur3ans: '',
+        utilisations_professionnelles: '',
       },
       step6: {
+        type_mutuelle: '',
+        valeur_bien: '',
+        budget: '',
       },
       step7: {
+        civilite: "",
+        nom: "",
+        prenom: "",
+        telephone: "",
+        email: "",
+        birthDay: "",
+        dateEffet: "",
+        nbrEnfant: "",
       }
     },
     responseData: null,
@@ -59,7 +73,7 @@ export const useFormStore = defineStore('form', {
 
         this.responseData = response.data;
         if (response.data.success) {
-          router.push('/tarifs');
+          // router.push('/devis/tarifs');
         } else {
           alert('Submission failed: ' + response.data.message);
         }

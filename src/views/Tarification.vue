@@ -31,7 +31,7 @@
             </div>
         </div>
     </header>
-    <form id="formulaire_form" action="#" method="POST">
+    <form id="formulaire_form" action="#/devis/options" method="POST">
 
         <input type="hidden" name="formule_choisie" value=""> 
         <input type="hidden" name="date_effet" value="22/11/2024"> 

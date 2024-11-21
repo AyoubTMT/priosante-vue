@@ -66,9 +66,14 @@ const router = createRouter({
       ],
     },
     {
-      path: '/tarifs',
+      path: '/devis/tarifs',
       name: 'tarifs',
       component: () => import('../views/Tarification.vue'),
+    },
+    {
+      path: '/devis/options',
+      name: 'options',
+      component: () => import('../views/Options.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
