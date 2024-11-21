@@ -1,0 +1,299 @@
+<template>
+    <header class="container-fluid">
+        <div id="header-bar" class="container">
+            <div class="row align-items-center">
+                <div class="col-5 col-md-2 col-lg-2 col-xl-3 d-flex align-items-center">
+                    <img src="../assets/icons/back.svg" alt="retour" class="slideback me-2" @click="prevStep">
+                    <div class="d-none d-lg-block"><img src="../assets/images/logoAssur.png" width="169" height="35"
+                            alt="Assurmabarak" class="img-fluid"></div>
+                    <div class="d-block d-lg-none"><img src="../assets/images/logoAssur.png" width="44" height="36"
+                            alt="Assurmabarak" class="img-fluid"></div>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-6 d-none d-md-block">
+                    <div class="row justify-content-center mb-0 d-none d-md-block align-items-center">
+                        <div class="col-12">
+                            <div class="progress Mobile">
+                                <div class="progress-bar progressMobile" role="progressbar" style="width: 12.6%;"
+                                    aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7 col-md-2 col-lg-2 col-xl-3 text-end p-0">
+                    <div class="questionLink d-flex justify-content-end align-items-center text-decoration-none">
+                        <!-- <div class="questionTxt">Une question</div> -->
+                        <div class="assistanteImg online" data-bs-toggle="modal" data-bs-target="#aide">
+                            <p class="d-none d-md-none d-lg-none d-xl-block">Besoin d'aide ?</p>
+                            <img src="../assets/icons/avatar.png" width="40" height="40" alt="image de l'assistante"
+                                class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-none d-md-block d-lg-block">
+                <div class="headerSepar"></div>
+            </div>
+        </div>
+    </header>
+    <form id="formulaire" class="p-0" action="#/devis/paiement"
+        method="POST">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 mt-3">
+                    <h2 class="stepTitle mb-3">Informations</h2>
+                    <p class="stepDescription mb-3 mb-md-0">
+                        Nous aurions besoin de quelques informations complémentaires.
+                    </p>
+                    <p>Ces informations nous sont utiles pour <span class="underligned bolder">éditer votre
+                            contrat</span> .</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6">
+                    <div class="container-fluid p-0 mb-3">
+                        <!-- <div class="row">
+                            <label for="tutelle" class="formLabel mb-3">Êtes-vous sous tutelle ou curatelle</label>
+
+                            <div class="col-6 mt-0">
+                                <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="tutelle" value="nontutelle" id="nontutelle" autocomplete="off" checked />
+                                    <label class="btn btn-outline-primary iconLabel" for="nontutelle">
+                                        <div class="text-end checkedLabel"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/checkedicon.svg" width="15" height="15" alt="checked" /></div>
+                                        <div class="btnImg"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/non.svg" alt="Non" /></div>
+                                        <div>Non</div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-6 mt-0">
+                                <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="tutelle" value="tutelle" id="tutelle" autocomplete="off" />
+                                    <label class="btn btn-outline-primary iconLabel" for="tutelle">
+                                        <div class="text-end checkedLabel"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/checkedicon.svg" width="15" height="15" alt="checked" /></div>
+                                        <div class="btnImg"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/oui.svg" alt="Oui" /></div>
+                                        <div>Oui</div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <label class="formLabel mb-3">Vérifiez et complétez votre adresse postale</label>
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" class="form-control mb-3 " name="numero" value="" id="num-voie"
+                                    placeholder="N° de voie">
+                            </div>
+                            <div class="col-6">
+                                <select id="type_voie" name="type_voie" class="mb-3 form-select">
+                                    <option value="RUE">rue</option>
+                                    <option value="ALLEE">allée</option>
+                                    <option value="AVENUE">avenue</option>
+                                    <option value="BOULEVARD">boulevard</option>
+                                    <option value="BOURG">bourg</option>
+                                    <option value="CHEMIN">chemin</option>
+                                    <option value="COURS">cours</option>
+                                    <option value="CLOS">clos</option>
+                                    <option value="CARREFOUR">carrefour</option>
+                                    <option value="DIGUE">digue</option>
+                                    <option value="FAUBOURG">faubourg</option>
+                                    <option value="IMPASSE">impasse</option>
+                                    <option value="PASSAGE">passage</option>
+                                    <option value="PARC">parc</option>
+                                    <option value="PLACE">place</option>
+                                    <option value="PROMENADE">promenade</option>
+                                    <option value="QUAI">quai</option>
+                                    <option value="ROND_POINT">rond-point</option>
+                                    <option value="ROUTE">route</option>
+
+                                    <option value="RUELLE">ruelle</option>
+                                    <option value="SENTIER">sentier</option>
+                                    <option value="SQUARE">square</option>
+                                    <option value="TRAVERSE">traverse</option>
+                                    <option value="VOIE">voie</option>
+                                    <option value="LIEU_DIT">Lieu-dit</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mt-0 mb-3 VotreCodepostale">
+                                <input type="text" class="form-control adressePostale" autocomplete="off"
+                                    id="adressePostale" placeholder="Votre adresse postale" name="adressePostale">
+                                <div class="errorMsg">
+                                    <div class="d-flex align-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
+                                            viewBox="0 0 10.497 10.008">
+                                            <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
+                                                <g id="Page-1" transform="translate(30 591)">
+                                                    <g id="Alert" transform="translate(5 5)">
+                                                        <rect id="Rectangle" width="10" height="10"
+                                                            transform="translate(1 1.581)" fill="none"></rect>
+                                                        <path id="Path"
+                                                            d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
+                                                            transform="translate(6.766 5.194)" fill="#f4627f"></path>
+                                                        <path id="Path-2" data-name="Path"
+                                                            d="M-.476.117A.524.524,0,0,1-1-.408V-.476A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v.068A.524.524,0,0,1-.476.117Z"
+                                                            transform="translate(6.766 9.125)" fill="#f4627f"></path>
+                                                        <path id="Path-3" data-name="Path"
+                                                            d="M7.274,3a1.557,1.557,0,0,1,1.362.786l3.632,6.29a1.573,1.573,0,0,1-1.362,2.359H3.642A1.573,1.573,0,0,1,2.28,10.077l3.632-6.29A1.557,1.557,0,0,1,7.274,3Zm3.632,8.387a.524.524,0,0,0,.454-.786L7.728,4.31a.524.524,0,0,0-.908,0L3.188,10.6a.524.524,0,0,0,.454.786Z"
+                                                            transform="translate(-0.983 -1.427)" fill="#f4627f"></path>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <p class="m-0 ms-2">Une ville doit être sélectionnée.</p>
+                                    </div>
+                                </div>
+                                <!-- <div class="adressesResult">
+                                    <ul id="adresses"></ul>
+                                </div>
+                                <input type="hidden" name="ville" class="form-control villeSearch" placeholder="code" /> -->
+                            </div>
+                            <div class="col-12 mt-0 mb-3 VotreCodepostale">
+                                <!-- <label for="#zipcode" class="formLabel mb-2">Votre code postale ou ville</label> -->
+                                <input type="text" class="form-control villeCpSearch" autocomplete="off" id="zipcode"
+                                    placeholder="Ville ou code postale" disabled="" value="75001 Paris">
+                                <div class="errorMsg">
+                                    <div class="d-flex align-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
+                                            viewBox="0 0 10.497 10.008">
+                                            <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
+                                                <g id="Page-1" transform="translate(30 591)">
+                                                    <g id="Alert" transform="translate(5 5)">
+                                                        <rect id="Rectangle" width="10" height="10"
+                                                            transform="translate(1 1.581)" fill="none"></rect>
+                                                        <path id="Path"
+                                                            d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
+                                                            transform="translate(6.766 5.194)" fill="#f4627f"></path>
+                                                        <path id="Path-2" data-name="Path"
+                                                            d="M-.476.117A.524.524,0,0,1-1-.408V-.476A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v.068A.524.524,0,0,1-.476.117Z"
+                                                            transform="translate(6.766 9.125)" fill="#f4627f"></path>
+                                                        <path id="Path-3" data-name="Path"
+                                                            d="M7.274,3a1.557,1.557,0,0,1,1.362.786l3.632,6.29a1.573,1.573,0,0,1-1.362,2.359H3.642A1.573,1.573,0,0,1,2.28,10.077l3.632-6.29A1.557,1.557,0,0,1,7.274,3Zm3.632,8.387a.524.524,0,0,0,.454-.786L7.728,4.31a.524.524,0,0,0-.908,0L3.188,10.6a.524.524,0,0,0,.454.786Z"
+                                                            transform="translate(-0.983 -1.427)" fill="#f4627f"></path>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <p class="m-0 ms-2">Une ville doit être sélectionnée.</p>
+                                    </div>
+                                </div>
+                                <div class="villeSearchResult">
+                                    <ul id="villesCp"></ul>
+                                </div>
+                                <input type="hidden" name="ville_risque" class="form-control villeSearch"
+                                    placeholder="ville">
+                                <input type="hidden" name="code_postal_risque" class="form-control cpSearch"
+                                    placeholder="cp">
+                            </div>
+                        </div>
+                    </div>
+                    <label class="formLabel mb-3">Votre numéro de téléphone mobile<button type="button"
+                            class="pusletooltip" data-bs-toggle="modal" data-bs-target="#infoMobile"><i
+                                class="fa-solid fa-question" aria-hidden="true"></i></button></label>
+                    <input type="tel" class="form-control mobileInput" placeholder="Votre numéro de téléphone mobile"
+                        maxlength="10" name="mobile" pattern="[0-9]*" value="">
+                    <div class="errorMsg">
+                        <div class="d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
+                                viewBox="0 0 10.497 10.008">
+                                <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
+                                    <g id="Page-1" transform="translate(30 591)">
+                                        <g id="Alert" transform="translate(5 5)">
+                                            <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)"
+                                                fill="none"></rect>
+                                            <path id="Path"
+                                                d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
+                                                transform="translate(6.766 5.194)" fill="#f4627f"></path>
+                                            <path id="Path-2" data-name="Path"
+                                                d="M-.476.117A.524.524,0,0,1-1-.408V-.476A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v.068A.524.524,0,0,1-.476.117Z"
+                                                transform="translate(6.766 9.125)" fill="#f4627f"></path>
+                                            <path id="Path-3" data-name="Path"
+                                                d="M7.274,3a1.557,1.557,0,0,1,1.362.786l3.632,6.29a1.573,1.573,0,0,1-1.362,2.359H3.642A1.573,1.573,0,0,1,2.28,10.077l3.632-6.29A1.557,1.557,0,0,1,7.274,3Zm3.632,8.387a.524.524,0,0,0,.454-.786L7.728,4.31a.524.524,0,0,0-.908,0L3.188,10.6a.524.524,0,0,0,.454.786Z"
+                                                transform="translate(-0.983 -1.427)" fill="#f4627f"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                            <p class="m-0 ms-2">Les champs encadré en rouge sont requis</p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-0 mb-5">
+                        <div class="container-fluid p-0">
+                            <div class="row align-items-center">
+                                <div class="col-12">
+                                    <button type="submit"
+                                        class="navBtn nextBtn mt-4 flex justify-center align-items-center">
+                                        Étape suivante
+                                        <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6">
+                    <div class="assurmabarak">
+                        <p>
+                            ASSURMABARK est une marque de GLS LASSURANCES. Les informations recueillies par GLS
+                            LASSURANCES, Courtier en
+                            assurance, société anonyme immatriculée au RCS de Paris sous le numéro 483 666 137, et dont
+                            le siège social est
+                            au 45 rue de Boulainvilliers 75016 Paris font l'objet d'un traitement informatique afin
+                            d'établir votre
+                            devis/contrat. Le destinataire des données est le personnel habilité de GLS LASSURANCES.
+                            Reportez-vous à nos
+                            Mentions légales et notre politique de confidentialité des données.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="modal fade" id="infoMobile" tabindex="-1" aria-labelledby="infoMobileLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 px-4 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4 helpContent">
+                    <div class="text-center d-flex align-items-center justify-content-center">
+                        <img src="../assets/images/supportbig.jpg" alt="assistante" class="img-fluid mb-4">
+                    </div>
+                    <div class="formLabel">Numéro de téléphone mobile</div>
+                    Par mesure de sécurité, un code d'authentification va vous être envoyé par sms. Le numéro est-il correct ?<br>Si non, merci de le corriger ci-dessous.
+                    <div class="text-center mt-4">
+                        <button type="button" class="customCloseBtn" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+export default {
+    mounted() {
+    },
+    data() {
+    },
+    setup() {
+    },
+    methods: {
+    }
+};
+</script>
+
+<style>
+    .customCloseBtn {
+        background: var(--color1);
+        border: 0;
+        padding: 14px 50px;
+        font-size: 16px;
+        border-radius: 9px;
+        color: #fff;
+    }
+</style>

@@ -76,6 +76,16 @@ const router = createRouter({
       component: () => import('../views/Options.vue'),
     },
     {
+      path: '/devis/informations',
+      name: 'informations',
+      component: () => import('../views/Informations.vue'),
+    },
+    {
+      path: '/devis/paiement',
+      name: 'paiement',
+      component: () => import('../views/Paiement.vue'),
+    },
+    {
       path: '/:pathMatch(.*)*',
       redirect: '/', // Redirect undefined routes to home 
     },
