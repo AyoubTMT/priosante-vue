@@ -155,6 +155,10 @@
 </script>
  
 <style>
+.inputError {
+    border: 1px solid var(--color6) !important;
+    background-color: rgba(244, 98, 127, 0.1);
+}
 .nextBtn {
     width: 100%;
     background-color: var(--color1);
@@ -208,9 +212,8 @@
         display: flex;
         align-items: center;
         font-size: 13px;
-        color: var(--color1);
+        color: var(--color6);
         margin-top: 9px;
-        display: none;
     }
     .formLabel {
         margin: 0 0 0px 0;
