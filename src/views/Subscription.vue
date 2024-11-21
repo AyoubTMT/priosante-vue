@@ -89,21 +89,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-md-center justify-content-lg-center m-0">
-                <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
-                    <div class="container-fluid p-0">
-                        <Step8 v-if="formStore.currentStep === 8" />
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-md-center justify-content-lg-center m-0">
-                <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
-                    <div class="container-fluid p-0">
-                        <Step9 v-if="formStore.currentStep === 9" />
-                    </div>
-                </div>
-            </div>
-            <button v-if="formStore.currentStep === 9" @click="submitForm">Submit</button>
+            <button v-if="formStore.currentStep === 7" @click="submitForm">Submit</button>
         </div>
     </section>
 </template>
@@ -124,12 +110,10 @@
     import Step5 from '../components/Step5.vue';
     import Step6 from '../components/Step6.vue';
     import Step7 from '../components/Step7.vue';
-    import Step8 from '../components/Step8.vue';
-    import Step9 from '../components/Step9.vue';
     import { useRouter } from 'vue-router';
 
     export default {
-        components: { Step1, Step2, Step3, Step4, Step5, Step6, Step7, Step8, Step9  },
+        components: { Step1, Step2, Step3, Step4, Step5, Step6, Step7  },
         mounted() { 
             /**************** a voir apres ********************/
             // customFunctions;
@@ -143,7 +127,7 @@
             return {
                 formStore,
                 router,
-                submitForm: formStore.submitForm,
+                submitForm: formStore.submitForm(router),
             };
         },
         methods: { 

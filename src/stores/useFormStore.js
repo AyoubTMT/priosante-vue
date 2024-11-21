@@ -1,4 +1,3 @@
-// src/stores/useFormStore.js
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
@@ -33,12 +32,10 @@ export const useFormStore = defineStore('form', {
       step6: {
       },
       step7: {
-      },
-      step8: {
-      },
-      step9: {
-      },
+      }
     },
+    responseData: null,
+    responseError: null,
   }),
   actions: {
     updateStepData(step, data) {
@@ -54,18 +51,25 @@ export const useFormStore = defineStore('form', {
         router.push('/home');
       }
     },
-    async submitForm() {
-        console.log(this.formData);
-        try {
-            const response = await axios.post('http://assurmabarak-laravel.test/api/submit-devis', this.formData);
-            console.log('Response:', response.data);
-            alert('Form submitted successfully!');
-        } catch (error) {
-            if (error.response && error.response.status === 422) {
-                console.error('Validation errors:', error.response.data.errors);
-            } else {
-                console.error('Error submitting form:', error.message);
-            }
+    async submitForm(router) {
+      console.log(this.formData);
+      try {
+        const response = await axios.post('http://assurmabarak-laravel.test/api/submit-devis', this.formData);
+        console.log('Response:', response.data);
+
+        this.responseData = response.data;
+        if (response.data.success) {
+          router.push('/tarifs');
+        } else {
+          alert('Submission failed: ' + response.data.message);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 422) {
+          console.error('Validation errors:', error.response.data.errors);
+        } else {
+          console.error('Error submitting form:', error.message);
+        }
+        this.responseError = error.response.data;
       }
     },
   },

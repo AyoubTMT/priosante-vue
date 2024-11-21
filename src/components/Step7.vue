@@ -278,6 +278,7 @@
 <script>
     import BonASavoir from '../components/BonASavoir.vue';
     import { useFormStore } from '@/stores/useFormStore';
+    import { useRouter } from 'vue-router';
     export default {
         data() {
             return {
@@ -324,7 +325,12 @@
             validateDateEffet() {
                 
             },
-            submitStep() {
+            setup() {
+                // const router = useRouter();
+                // const formStore = useFormStore();
+                // return { router, formStore };
+            },
+            async submitStep() {
                 this.validateNom();
                 this.validatePrenom();
                 this.validateTelephone();
@@ -334,9 +340,18 @@
 
                 if (Object.values(this.errors).every((error) => !error)) {
                     console.log("Form submitted:", this.form);
+
+                    const router = useRouter();
                     const formStore = useFormStore();
+                    // const { formStore, router } = this;
                     formStore.updateStepData('step7', this.form);
-                    formStore.nextStep();
+
+                    // Submit form and handle navigation
+                    try {
+                        await formStore.submitForm(router);
+                    } catch (error) {
+                        console.error("Error during form submission:", error);
+                    }
                 } else {
                     console.log("Validation failed.");
                 }

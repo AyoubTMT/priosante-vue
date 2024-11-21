@@ -1,0 +1,643 @@
+<template>
+    <header class="container-fluid">
+        <div id="header-bar" class="container">
+            <div class="row align-items-center">
+                <div class="col-5 col-md-2 col-lg-2 col-xl-3 d-flex align-items-center">
+                    <img src="../assets/icons/back.svg" alt="retour" class="slideback me-2" @click="prevStep">
+                    <div class="d-none d-lg-block"><img src="../assets/images/logoAssur.png" width="169" height="35" alt="Selfassurance" class="img-fluid"></div>
+                    <div class="d-block d-lg-none"><img src="../assets/images/logoAssur.png" width="44" height="36" alt="Selfassurance" class="img-fluid"></div>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-6 d-none d-md-block">
+                    <div class="row justify-content-center mb-0 d-none d-md-block align-items-center">
+                        <div class="col-12">
+                            <div class="progress Mobile">
+                                <div class="progress-bar progressMobile" role="progressbar" style="width: 12.6%;" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7 col-md-2 col-lg-2 col-xl-3 text-end p-0">
+                    <div class="questionLink d-flex justify-content-end align-items-center text-decoration-none">
+                        <!-- <div class="questionTxt">Une question</div> -->
+                        <div class="assistanteImg online" data-bs-toggle="modal" data-bs-target="#aide">
+                            <p class="d-none d-md-none d-lg-none d-xl-block">Besoin d'aide ?</p>
+                            <img src="../assets/icons/avatar.png" width="40" height="40" alt="image de l'assistante" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-none d-md-block d-lg-block">
+                <div class="headerSepar"></div>
+            </div>
+        </div>
+    </header>
+    <form id="formulaire_form" action="https://assurance-habitation.selfassurance.fr/devis/options" method="POST">
+
+        <input type="hidden" name="formule_choisie" value=""> 
+        <input type="hidden" name="date_effet" value="22/11/2024"> 
+             
+        <section id="content">
+            <div class="container container-md-fluid container-lg-fluid container-xl">
+                <div class="row justify-content-center mb-0 mb-lg-4 d-block d-md-none">
+                    <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6">
+                        <div class="progress Mobile">
+                            <div class="progress-bar progressMobile" role="progressbar" style="width: 76.8%;" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-3">
+                        <h2 class="stepTitle mb-3">Votre devis personnalisé</h2>
+                        <p class="stepDescription mb-3 mb-md-0">
+                            Les offres qui se rapprochent le plus de vos besoins et de votre budget.
+                        </p>
+                        <p>Vous trouverez le détail dans <span class="underligned bolder recap" data-bs-toggle="modal" data-bs-target="#recapitulatif">Récapitulatif</span> au regard des besoins exprimés.</p>
+                    </div>
+                </div>
+              
+                <div class="my-4">
+                    <my-carousel :items-to-show="itemsCount" :wrap-around="true" />
+                </div>
+
+                <div class="row mb-5 justify-content-center">
+                    <div class="col-12">
+                        <div class="separ"></div>
+                    </div>
+                    <div class="col-10 col-md-3 mb-3 mb-md-0 text-md-center text-center">
+                        <a href="https://self-assurance.fr/mimenteSelf/downloadFile?parameters=cHJvZHVpdD1GT1JNVUxFX01SSF9BUkVBU19TRUxGX0lOVEVSTkVUJmRvY3VtZW50VHlwZT1DT05ESVRJT05TX0dFTkVSQUxFUw%3D%3D" class="fileDownload" target="_blank"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/pdffile.svg" alt="downloadFile"> Conditions Générales</a>
+                    </div>
+                    <div class="col-10 col-md-3 mb-3 mb-md-0 text-md-center text-center">
+                        <a href="https://assurance-habitation.self-assurance.fr/devis/docs/IPID-MRH-AREAS-072020.pdf" class="fileDownload" target="_blank"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/pdffile.svg" alt="downloadFile"> Document d'information IPID</a>
+                    </div>
+                    <div class="col-10 col-md-3 mb-3 mb-md-0 text-md-center text-center">
+                        <a href="https://self-assurance.fr/mimenteSelf/downloadFile?parameters=cHJvZHVpdD1GT1JNVUxFX01SSF9BUkVBU19TRUxGX0lOVEVSTkVUJmRvY3VtZW50VHlwZT1UQUJMRUFVX0dBUkFOVElF" class="fileDownload" target="_blank"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/pdffile.svg" alt="downloadFile"> Tableau des garanties</a>
+                    </div>
+                </div>
+
+            </div>
+        </section> 
+
+        <section class="explications">
+            <div class="container py-3 py-md-5">
+                <div class="row">
+                    <!-- Assuré -->
+                    <div class="col-12">
+                        <div class="container-fluid p-0">
+                            <div class="row justify-content-center">
+                                <div class="col-12 mt-2 mb-3">
+                                    <h2 class="stepTitle text-center">Ce qui est <span class="underligned bolder">assuré</span></h2>
+                                    <!-- <p>LES GARANTIES SYSTEMATIQUEMENT PREVUES</p> -->
+                                </div>
+                                <div class="col-md-6 col-lg-3 my-md-5">
+                                    <div class="assured">
+                                        <div class="assuredIconBig">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/incendie.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText text-center">
+                                            <strong>Fumée et incendie</strong>
+                                            <p class="miniText text-center">Vous êtes couvert en cas d'incendie, d'explosion et de fumées accidentelles. Les dégâts occasionnés par les pompiers sont également couverts.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3 my-md-5">
+                                    <div class="assured">
+                                        <div class="assuredIconBig">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/eau.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText text-center">
+                                            <strong>Dégâts des eaux</strong>
+                                            <p class="miniText text-center">Vous êtes couvert en cas de fuite d'eau, de débordement et d'infiltration. Par exemple en cas de rupture d’une canalisation intérieure, de la fuite d’un lave-linge, d’un lavabo ou d'une infiltration à travers votre toiture.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3 my-md-5">
+                                    <div class="assured">
+                                        <div class="assuredIconBig">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/civil.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText text-center">
+                                            <strong>Responsabilités civiles</strong>
+                                            <p class="miniText text-center">Vous et vos co-assurés êtes couverts pour les dommages que vous pourriez causer aux autres.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3 my-md-5">
+                                    <div class="assured">
+                                        <div class="assuredIconBig">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/storm.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText text-center">
+                                            <strong>Tempêtes et catastrophes natuelles</strong>
+                                            <p class="miniText text-center">Vous êtes couvert en cas de tempête, de grêle, de neige et de gel, mais aussi de catastrophe naturelle déclarée par l'État.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3 my-md-5">
+                                    <div class="assured">
+                                        <div class="assuredIconBig">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/vol.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText text-center">
+                                            <strong>Vol et vandalisme</strong>
+                                            <p class="miniText text-center">
+                                                Vous êtes couvert en cas de vol et vandalisme commis à l’intérieur de votre habitation, notamment par effraction, escalade ou usage de fausses clés. Les dommages subis par votre logement, la détérioration et la perte de vos biens sont couverts
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3 my-md-5">
+                                    <div class="assured">
+                                        <div class="assuredIconBig">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/brise.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText text-center">
+                                            <strong>Bris de glace et sanitaire</strong>
+                                            <p class="miniText text-center">
+                                                Vous êtes indemnisé si vous cassez involontairement une vitre, vos toilettes ou votre lavabo par exemple.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3 my-md-5">
+                                    <div class="assured">
+                                        <div class="assuredIconBig">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/defense.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText text-center">
+                                            <strong>Défenses pénales et recours</strong>
+                                            <p class="miniText text-center">
+                                                En prolongement de la Responsabilité civile, la défense pénale permet de défendre vos droits. Nous assurons votre défense en cas de poursuite judiciaire contre vous et nous nous chargeons de vos réclamations si vous êtes victimes de dommages pour tous les événements.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3 my-md-5">
+                                    <div class="assured">
+                                        <div class="assuredIconBig">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/electronic.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText text-center">
+                                            <strong>Catastrophes technologiques et terrorisme</strong>
+                                            <p class="miniText text-center">
+                                                Vous êtes couvert en cas d'incendie ou d'explosion suite à un acte de terrorisme ou à une catastrophe technologique reconnu par l'État.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container py-5">
+                <div class="row">
+                    <!-- Optionnel -->
+                    <div class="col-12 mt-5">
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-12 mt-2 mb-5">
+                                    <h2 class="stepTitle text-center">Ce qui <span class="underligned bolder">est optionnel</span></h2>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Vol et actes de vandalisme</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Bris de glace</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Séjours-voyages</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Dommages électriques</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Bris de glace aux vérandas</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Responsabilité civile Piscine/tennis</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Jardins et biens extérieurs</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Dommages matériels aux piscines</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Assurance scolaire</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/option.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Assistante maternelle</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Non Assuré -->
+                    <div class="col-12 mt-5">
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-12 mt-2 mb-5">
+                                    <h2 class="stepTitle text-center">Ce qui <span class="underligned red bolder">n'est pas assuré</span></h2>
+                                    <!-- <p>LES GARANTIES SYSTEMATIQUEMENT PREVUES</p> -->
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/nonassurer.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Les caravanes et leur contenu</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/nonassurer.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Les marchandises professionnelles</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/nonassurer.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Les biens professionnels</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="nonassured">
+                                        <div class="assuredIcon">
+                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/nonassurer.svg" alt="assurer" class="img-fluid">
+                                        </div>
+                                        <div class="assuredText">Les biens n’appartenant pas à l’assuré ou aux occupants du bien assuré</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exclusions -->
+                    <div class="col-12 mt-5">
+                        <div class="container-fluid p-0">
+                            <div class="row justify-content-center">
+                                <div class="col-12 mt-2 mb-5">
+                                    <h2 class="stepTitle text-center mb-5">Y a-t-il des <span class="underligned bolder yellow">exclusions</span> ?</h2>
+                                    <!-- <p>LES GARANTIES SYSTEMATIQUEMENT PREVUES</p> -->
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="nonassured">
+                                                        <div class="assuredIcon">
+                                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/info.svg" alt="assurer" class="img-fluid">
+                                                        </div>
+                                                        <div class="assuredText">Le fait intentionnel du souscripteur</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="nonassured">
+                                                        <div class="assuredIcon">
+                                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/info.svg" alt="assurer" class="img-fluid">
+                                                        </div>
+                                                        <div class="assuredText">Les dommages consécutifs à une guerre</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="nonassured">
+                                                        <div class="assuredIcon">
+                                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/info.svg" alt="assurer" class="img-fluid">
+                                                        </div>
+                                                        <div class="assuredText">Les dommages dus au défaut d’entretien ou de réparation
+                                                            indispensable</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="nonassured">
+                                                        <div class="assuredIcon">
+                                                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/info.svg" alt="assurer" class="img-fluid">
+                                                        </div>
+                                                        <div class="assuredText">La responsabilité civile des chasseurs.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-12 mb-5">
+                                            <h2 class="stepTitle text-center">Y a-t-il des <span class="underligned bolder yellow">restrictions</span> ?</h2>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="nonassured">
+                                                <div class="assuredIcon">
+                                                    <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/info.svg" alt="assurer" class="img-fluid">
+                                                </div>
+                                                <div class="assuredText">Une somme peut rester à la charge de l’assuré (franchise)</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="nonassured">
+                                                <div class="assuredIcon">
+                                                    <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/info.svg" alt="assurer" class="img-fluid">
+                                                </div>
+                                                <div class="assuredText">Réduction d’indemnité en cas de vol si les mesures de protection
+                                                    prévues au contrat ne sont pas utilisées ou non présentes</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="nonassured">
+                                                <div class="assuredIcon">
+                                                    <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/info.svg" alt="assurer" class="img-fluid">
+                                                </div>
+                                                <div class="assuredText">Réduction d’indemnité en cas de dégâts des eaux si les mesures de
+                                                    prévention prévues au contrat n’ont pas été mises en place</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-5">
+                        <div class="selfassurance">
+                            <p>
+                                Selfassurance est une marque de ECA-Assurances. Les informations recueillies par ECA-Assurances, Courtier en assurance, société anonyme immatriculée au RCS de Nanterre sous le numéro B 402 430
+                                276, et dont le siège social est au 92-98 Boulevard Victor Hugo 92115 Clichy Cedex font l'objet d'un traitement informatique afin d'établir votre devis/contrat. Le destinataire des données est
+                                le personnel habilité d'ECA-Assurances. Reportez-vous à nos Mentions légales et notre politique de confidentialité des données.
+                            </p>
+                            <p>(*) Dans le cadre de l'offre exclusive Web Selfassurance, pour toute reconduction d'un contrat souscrit en ligne (souscription réalisée intégralement sur le site internet sans l'intervention d'un conseiller) d'une assurance habitation en formule, confort, optimal ou premium plus par carte bancaire, l'équivalent des trois derniers mois de cotisations de la 2ème année est offert selon les conditions et modalités suivantes : </p>
+                            <p>Vous devez être à jour du paiement de vos cotisations à la date de la demande de remboursement. Le remboursement correspond aux 22, 23 et 24ème mois de cotisation. Celui-ci interviendra au plus tôt à l’issue du 25ème mois de cotisations.</p>
+                            <p>Aucun remboursement ne pourra être effectué en cas de : résiliation du contrat avant le 25ème mois d’adhésion / résiliation du contrat demandé au moment de la demande de remboursement. 
+                            Afin de pouvoir bénéficier de l’offre de remboursement, vous devez réaliser votre demande directement sur votre espace client. Une fois votre demande traitée et validée par nos services, le remboursement sera réalisé sous 2 mois.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</template>
+
+<script>
+    import 'bootstrap/dist/css/bootstrap.min.css';
+    import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+    import { useFormStore } from '../stores/useFormStore';
+    import Step8 from '../components/Step8.vue';
+    import Step9 from '../components/Step9.vue';
+    import { useRouter } from 'vue-router';
+    import MyCarousel from '../components/caroussel.vue';
+
+    export default {
+        components: { MyCarousel, Step8, Step9  },
+        mounted() { 
+        },
+        data() {
+            return {
+                itemsCount: 3,
+            };
+        },
+        setup() {
+            const formStore = useFormStore();
+            const router = useRouter();
+
+            return {
+                formStore,
+                router,
+                submitForm: formStore.submitForm,
+            };
+        },
+        methods: { 
+            prevStep() { 
+                this.formStore.prevStep(this.router);
+            }
+        }
+    };
+</script>
+ 
+<style>
+    .fileDownload img {
+        width: 16px;
+    }
+    .fileDownload img {
+        margin-right: 10px;
+    }
+    .fileDownload {
+        text-decoration: none;
+        color: #959595;
+        font-size: 15px;
+    }
+    /* Begin carousel */
+    .carousel__slide {
+    padding: 5;
+    }
+
+    .carousel__viewport {
+    perspective: 2000px;
+    }
+
+    .carousel__track {
+    transform-style: preserve-3d;
+    }
+
+    .carousel__slide--sliding {
+    transition: 0.5s;
+    }
+
+    .carousel__slide {
+    opacity: 0.9;
+    transform: rotateY(-20deg) scale(0.9);
+    }
+
+    .carousel__slide--active ~ .carousel__slide {
+    transform: rotateY(20deg) scale(0.9);
+    }
+
+    .carousel__slide--prev {
+    opacity: 1;
+    transform: rotateY(-10deg) scale(0.95);
+    }
+
+    .carousel__slide.carousel__slide--next {
+    opacity: 1;
+    transform: rotateY(10deg) scale(0.95);
+    }
+
+    .carousel__slide--active {
+    opacity: 1;
+    transform: rotateY(0) scale(1);
+    }
+    /* Fin Carousel */
+    .stepTitle {
+        font-weight: bold;
+        font-size: 21px;
+    }
+    #header-bar {
+        padding: 6px 0;
+    }
+    @media (min-width: 576px) {
+        .container, .container-sm {
+            max-width: 540px;
+        }
+    }
+    @media (min-width: 768px) {
+        .container, .container-md, .container-sm {
+            max-width: 720px;
+        }
+    }
+    @media (min-width: 992px) {
+        .container, .container-lg, .container-md, .container-sm {
+            max-width: 960px;
+        }
+    }
+    @media (min-width: 1200px) {
+        .container, .container-lg, .container-md, .container-sm, .container-xl {
+            max-width: 1140px;
+        }
+    }
+    @media (min-width: 1400px) {
+        .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+            max-width: 1320px;
+        }
+    }
+    .progress, .progress-stacked {
+        --bs-progress-height: 1rem;
+        --bs-progress-font-size: 0.75rem;
+        --bs-progress-bg: var(--bs-secondary-bg);
+        --bs-progress-border-radius: var(--bs-border-radius);
+        --bs-progress-box-shadow: var(--bs-box-shadow-inset);
+        --bs-progress-bar-color: #fff;
+        --bs-progress-bar-bg: #0d6efd;
+        --bs-progress-bar-transition: width 0.6s ease;
+        display: flex;
+        height: var(--bs-progress-height);
+        overflow: hidden;
+        font-size: var(--bs-progress-font-size);
+        background-color: var(--bs-progress-bg);
+        border-radius: var(--bs-progress-border-radius);
+    }
+    .progress {
+        background-color: #e0e0e0;
+    }
+    .progressMobile, .progress {
+        height: 4px !important;
+    }
+    .progress-bar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        color: var(--bs-progress-bar-color);
+        text-align: center;
+        white-space: nowrap;
+        background-color: var(--bs-progress-bar-bg);
+        transition: var(--bs-progress-bar-transition);
+    }
+    .progressMobile {
+        border-radius: 50px;
+        background: var(--color-limouni) !important;
+    }
+    .progressMobile, .progress {
+        height: 4px !important;
+    }
+    .questionLink {
+        color: var(--color4);
+    }
+    .assistanteImg {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+    .assistanteImg p {
+        margin: 0;
+        margin-right: 2px;
+    }
+    .assistanteImg img {
+        width: 40px;
+        margin-top: 3px;
+    }
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+    img, svg {
+        vertical-align: middle;
+    }
+    .assistanteImg:after {
+        content: "";
+        width: 14px;
+        height: 14px;
+        background: var(--green1);
+        display: inline-block;
+        border-radius: 100%;
+        border: 2px solid #fff;
+        position: relative;
+        top: 14px;
+        right: 10px;
+    }
+    @media (min-width: 768px) {
+        .d-md-block {
+            display: block !important;
+        }
+    }
+    @media (min-width: 992px) {
+        .d-lg-block {
+            display: block !important;
+        }
+    }
+    .headerSepar {
+        height: 1px;
+        background-color: #e9e9e9;
+        width: 100%;
+        margin-top: 13px !important;
+    }
+</style>
