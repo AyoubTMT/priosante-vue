@@ -177,6 +177,14 @@
         align-items: center;
         margin: 15px 0;
     }
+    .bonasavoir img {
+        min-width: 37px;
+    }
+    .bonasavoir h6 {
+        font-size: 12px;
+        font-weight: bold;
+        color: #000;
+    }
     .separateur {
         height: 1px;
         background-color: var(--color3);

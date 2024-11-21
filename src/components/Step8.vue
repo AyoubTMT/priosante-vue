@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </div>
-            <BonASavoir />
+            <BonASavoir remarque="texte." />
         </div>
     </form>
   </template>

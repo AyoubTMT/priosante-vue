@@ -161,7 +161,7 @@
                     </div>
                 </div>
             </div>
-            <BonASavoir />
+            <BonASavoir remarque="Le mobilier correspond à vos meubles, équipement électroménager. Les objets de valeur correspondent à vos bijoux, montres…" />
         </div>
     </form>
 </template>

@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <BonASavoir />
+            <BonASavoir remarque="Chaque adresse représente un niveau de risque différent" />
         </div>
     </form>
 </template>

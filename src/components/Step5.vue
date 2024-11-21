@@ -133,7 +133,7 @@
                 </div>
             </div>
 
-            <BonASavoir />
+            <BonASavoir remarque="Dès lors que vous utilisez votre logement dans le cadre de vos activités professionnelles et/ou que vous y recevez des clients (même de manière occasionnelle), vous devez répondre positivement à cette question. Petite précision : vous ne devez pas prendre en compte le télétravail." />
         </div>
     </form>
 </template>

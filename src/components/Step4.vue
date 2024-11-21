@@ -186,7 +186,7 @@
                     </div>
                 </div>
             </div>
-            <BonASavoir />
+            <BonASavoir remarque="Les dépendances et annexes sont tous les locaux qui ne sont pas à usage d’habitation, communiquant ou non avec l’habitation (buanderie, cellier, remise, débarras, les abris de jardin, cave, les combles et le sous-sol)." />
         </div>
     </form>
 </template>

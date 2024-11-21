@@ -108,7 +108,7 @@
           </div>
         </div>
       </div>
-      <BonASavoir />
+      <BonASavoir remarque="Vous ne pouvez assurer qu'une seule résidence principale à la fois. Vos éventuels autres logements sont donc considérés comme des résidences secondaires." />
     </div>
   </form>
 </template>

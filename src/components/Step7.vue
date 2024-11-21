@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </div>
-            <BonASavoir />
+            <BonASavoir remarque="La protection de vos données est l'une de nos priorités. Toutes vos données personnelles, notamment relatives à des infractions et condamnations pénales, sont 100% sécurisées." />
         </div>
     </form>
   </template>
