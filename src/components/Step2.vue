@@ -81,7 +81,11 @@
             </div>
             <div class="col-12 mt-3 VotreCodepostale">
                 <label for="zipcode" class="formLabel mb-2">Code postal ou ville</label>
-                <input type="text" class="form-control villeCpSearch" autocomplete="off" id="zipcode" placeholder="Code postal ou ville" v-model="formData.zipcode">
+                <input type="text" class="form-control villeCpSearch" autocomplete="off" id="zipcode" placeholder="Code postal ou ville" 
+                v-model="formData.zipcode"
+                @keyup="onVilleCpSearchKeyup"
+                @click.stop="toggleListVilles"
+                >
                 <div class="errorMsg d-none">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
@@ -100,10 +104,14 @@
                     </div>
                 </div>
                 <div class="villeSearchResult">
-                    <ul id="villesCp" style="display: none;"></ul>
+                    <ul v-show="showVillesCp" id="villesCp">
+                        <li v-for="(city, index) in filteredCities" :key="index" @click="selectCpVille(city.cp, city.name)">
+                            {{ city.cp }} {{ city.name }}
+                        </li>
+                    </ul>
                 </div>
-                <input type="hidden" name="ville" class="form-control villeSearch" placeholder="ville" value="Paris">
-                <input type="hidden" name="cp" class="form-control cpSearch" placeholder="cp" value="75001">
+                <!-- <input type="hidden" name="ville" class="form-control villeSearch" placeholder="ville" value="Paris">
+                <input type="hidden" name="cp" class="form-control cpSearch" placeholder="cp" value="75001"> -->
             </div>
             <div class="col-12 mt-0">
                 <div class="container-fluid p-0">
@@ -135,16 +143,89 @@
                 statut_resident: "LOCATAIRE_OCCUPANT",
                 appartement_situe: "INTERMEDIAIRE",  
                 specification: "NON",
-                zipcode: "75001 Paris"
-            }
+                zipcode: "75001 Paris",
+                codePostal:"",
+                ville:"",
+            },
+            villes: [],
+            filteredCities: [],
+            showVillesCp: false,
+            showErrorMsg: false,
         };
         },
         methods: {
-        submitStep() {
-            const formStore = useFormStore();
-            formStore.updateStepData('step2', this.formData);
-            formStore.nextStep();
-        },
+            submitStep() {
+                const formStore = useFormStore();
+                formStore.updateStepData('step2', this.formData);
+                formStore.nextStep();
+            },
+            toggleListVilles(event) {
+                this.showVillesCp = !this.showVillesCp;
+            },
+            onVilleCpSearchKeyup() {
+                const pressedKey = this.formData.zipcode.trim();
+                    console.log(this.formData.zipcode);
+                if (pressedKey && pressedKey.length > 2) {
+                    this.getVilleZip(pressedKey);
+                    this.showErrorMsg = false;
+                }
+
+            },
+            selectCpVille(cp, ville) {
+                this.formData.zipcode = `${cp} ${ville}`;
+                this.formData.codePostal = cp;
+                this.formData.ville = ville;
+                this.showVillesCp = false;
+                this.verifyZipVille();
+            },
+            async getVilleZip(key) {
+                try {
+                    const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${key}`);
+                    const data = await response.json();
+
+                    if (data) {
+                    this.filteredCities = data.features.map((feature) => ({
+                        cp: feature.properties.postcode,
+                        name: feature.properties.city,
+                    }));
+                        this.showVillesCp = true;
+                    
+                    }
+                } catch (error) {
+                    console.error("Error fetching city data:", error);
+                        this.showVillesCp = false;
+                }
+            },
         },
     };
 </script>
+<style scoped>
+    .villeSearchResult, .containerResult, .adressesResult {
+        height: 0px;
+        position: relative;
+        z-index: 2;
+    }
+    #villesCp, .racesList, #adresses, #stationCp {
+        max-height: 176px;
+        overflow-y: auto;
+        background-color: rgb(255, 255, 255);
+        list-style: none;
+        padding: 0px 0px;
+        border-radius: 4px;
+        width: 100%;
+        border: 1px solid rgb(165, 165, 165);
+        margin-top: 8px;
+    }
+    ul#villesCp li, ul#stationCp li, #adresses li {
+        font-size: 16px;
+        padding: 5px 15px;
+        color: #303030;
+        cursor: pointer;
+    }
+    ul#villesCp li:hover, ul#stationCp li:hover, #adresses li:hover {
+        color: var(--color1);
+        transition: 0.3s;
+        background-color: var(--color3);
+        border-radius: 0;
+    }
+</style>
