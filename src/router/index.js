@@ -27,43 +27,7 @@ const router = createRouter({
     {
       path: '/devis',
       component: () => import('../views/Subscription.vue'), // Parent component for all steps
-      children: [
-        {
-          path: '',
-          name: 'Step1',
-          component: Step1,
-        },
-        {
-          path: 'step2',
-          name: 'Step2',
-          component: Step2,
-        },
-        {
-          path: 'step3',
-          name: 'Step3',
-          component: Step3,
-        },
-        {
-          path: 'step4',
-          name: 'Step4',
-          component: Step4,
-        },
-        {
-          path: 'step5',
-          name: 'Step5',
-          component: Step5,
-        },
-        {
-          path: 'step6',
-          name: 'Step6',
-          component: Step6,
-        },
-        {
-          path: 'step7',
-          name: 'Step7',
-          component: Step7,
-        },
-      ],
+ 
     },
     {
       path: '/devis/tarifs',

@@ -279,6 +279,7 @@
     import BonASavoir from '../components/BonASavoir.vue';
     import { useFormStore } from '@/stores/useFormStore';
     import { useRouter } from 'vue-router';
+    import axios from 'axios';
     export default {
         components: {
             BonASavoir,
@@ -291,8 +292,8 @@
                     prenom: "",
                     telephone: "",
                     email: "",
-                    birthDay: "",
-                    dateEffet: "",
+                    birthDay: "1980-01-01",
+                    dateEffet: "2024-12-23",
                     nbrEnfant: "0",
                 },
                 errors: {
@@ -303,6 +304,8 @@
                     birthDay: "",
                     dateEffet: "",
                 },
+                formStore : useFormStore(),
+                 router : useRouter()
             };
         },
         methods: {
@@ -343,13 +346,16 @@
 
                 if (Object.values(this.errors).every((error) => !error)) {
                     console.log("Form submitted:", this.form);
-                    const router = useRouter();
-                    const formStore = useFormStore();
                     // const { formStore, router } = this;
-                    formStore.updateStepData('step7', this.form);
+
+                    this.formStore.updateStepData('step7', this.form);
+
                     // Submit form and handle navigation
                     try {
-                        await formStore.submitForm();
+                       // await formStore.submitForm();
+
+                        await this.getTarifs();
+
                     } catch (error) {
                         console.error("Error during form submission:", error);
                     }
@@ -357,7 +363,29 @@
                     console.log("Validation failed.");
                 }
             },
+
+            async getTarifs() {
+  
+                const dataTarif = this.formStore.getDataForTarif;
+                await axios.post('http://assurmabarak-laravel.test/api/tarificateur', dataTarif)
+                .then(response => {
+                    if(response.status == 200){
+                        //set tarifs
+                        this.formStore.updateStepData('tarifs', response.data.response);
+
+                        //redirect
+                        this.router.push('/devis/tarifs');
+                        
+                    }
+                    console.log(response)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            },
+
         },
+     
     };
 </script>
 

@@ -31,10 +31,9 @@
             </div>
         </div>
     </header>
-    <form id="formulaire_form" action="#/devis/options" method="POST">
+    <form @submit.prevent="submitStep">
 
-        <input type="hidden" name="formule_choisie" value=""> 
-        <input type="hidden" name="date_effet" value="22/11/2024"> 
+
              
         <section id="content">
             <div class="container container-md-fluid container-lg-fluid container-xl">
@@ -54,9 +53,16 @@
                         <p>Vous trouverez le détail dans <span class="underligned bolder recap" data-bs-toggle="modal" data-bs-target="#recapitulatif">Récapitulatif</span> au regard des besoins exprimés.</p>
                     </div>
                 </div>
-              
+
                 <div class="my-4">
-                    <my-carousel :items-to-show="itemsCount" :wrap-around="true" />
+                    <carousel :items-to-show="3" :wrap-around="true" >
+                        <slide v-for="tarif in tarifs" :key="tarif.formule">
+                            <my-slide :tarif="tarif" :dateEffet="dateEffet"/>
+                        </slide>
+                        <template #addons>
+                            <navigation />
+                        </template>
+                    </carousel>
                 </div>
 
                 <div class="row mb-5 justify-content-center">
@@ -426,39 +432,29 @@
     </form>
 </template>
 
-<script>
+<script setup>
+
     import 'bootstrap/dist/css/bootstrap.min.css';
     import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+    import 'vue3-carousel/dist/carousel.css'
+    import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+
     import { useFormStore } from '../stores/useFormStore';
     import Step8 from '../components/Step8.vue';
     import Step9 from '../components/Step9.vue';
     import { useRouter } from 'vue-router';
-    import MyCarousel from '../components/caroussel.vue';
+    import MySlide from '../components/slide.vue';
 
-    export default {
-        components: { MyCarousel, Step8, Step9  },
-        mounted() { 
-        },
-        data() {
-            return {
-                itemsCount: 3,
-            };
-        },
-        setup() {
-            const formStore = useFormStore();
-            const router = useRouter();
+    const formStore = useFormStore();
+    const router = useRouter();
 
-            return {
-                formStore,
-                router,
-                submitForm: formStore.submitForm,
-            };
-        },
-        methods: { 
-            prevStep() { 
-                this.formStore.prevStep(this.router);
-            }
-        }
+    const tarifs = formStore.getTarifs;
+    const dateEffet = formStore.getDateEffet;
+
+    function submitStep() {
+    };
+    function prevStep() { 
+        this.formStore.prevStep(this.router);
     };
 </script>
  

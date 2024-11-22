@@ -52,185 +52,23 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6">
-                    <div class="col-12 mt-3">
-                        <input type="checkbox" id="responsable" name="tarif_rachat_franchise" class="addon d-none"
-                            value="3,20">
-                        <label for="responsable" class="d-flex align-items-center osingle">
-                            <div class="oicon">
-                                <img src="../assets/icons/responsable.svg"
-                                    alt="responsable">
 
-                            </div>
-                            <div class="d-flex align-items-center w-100 justify-content-between">
-                                <div class="p-2">
-                                    <div class="otitre">
-                                        Rachat de franchise
-                                    </div>
-                                    <div class="odescription">
-                                        L'option rachat de franchise permet de supprimer la franchise sur l'ensemble des
-                                        garanties souscrites appart celle de catastrophes naturelles (franchise fixée
-                                        par l'état).
-                                    </div>
-                                </div>
-                                <div class="oprice d-flex">
-                                    <div type="button" class="obtn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 16 16">
-                                            <g id="Groupe_849" data-name="Groupe 849" transform="translate(-334 -391)">
-                                                <circle id="lecercle" data-name="Ellipse 17" cx="8" cy="8" r="8"
-                                                    transform="translate(334 391)" fill="#fff"></circle>
-                                                <g id="plus" transform="translate(335.059 392.059)">
-                                                    <g id="Groupe_848" data-name="Groupe 848"
-                                                        transform="translate(2.603 2.603)">
-                                                        <path id="leplus" data-name="Tracé 884"
-                                                            d="M17.676,12.47h-3.47V9H12.47v3.47H9v1.735h3.47v3.47h1.735v-3.47h3.47Z"
-                                                            transform="translate(-9 -9)" fill="#a1c84e"></path>
-                                                    </g>
-                                                    <path id="Tracé_885" data-name="Tracé 885" d="M0,0H13.881V13.881H0Z"
-                                                        fill="none"></path>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                        3,20 €<span>/mois</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </label>
+                    <div v-for="(price, option) in selectedTarif.optionsCompatibles" :key="option">
+                        {{ option }}
+                        <rachat-franchise v-if="option == 'RACHAT_FRANCHISE'" :price="price" />
+                        <assistance-maternelle v-else-if="option == 'ASSISTANCE_MATERNELLE'" :price="price" />
+                        <sys-photo-voltaique v-else-if="option == 'SYS_PHOTOVOLTAIQUE'" :price="price" />
+                        <location-sale v-else-if="option == 'LOCATION_SALLE'" :price="price" />
+                        <ind-enfant-mineur v-else-if="option == 'IND_ENFANT_MINEUR'" :price="price" />
+                        <dommage-electrique v-else-if="option == 'DOMMAGE_ELECTRIQUE'" :price="price" />
                     </div>
+                    
 
-                    <div class="col-12 mt-3">
-                        <input type="checkbox" id="electric" name="tarif_dommage_electrique" class="addon d-none"
-                            value="1,06">
-                        <label for="electric" class="d-flex align-items-center osingle">
-                            <div class="oicon">
-                                <img src="../assets/icons/electric.svg"
-                                    alt="electric">
+                   
 
-                            </div>
-                            <div class="d-flex align-items-center w-100 justify-content-between">
-                                <div class="p-2">
-                                    <div class="otitre">
-                                        Dommages électriques
-                                    </div>
-                                    <div class="odescription">
-                                        Couvre les dommages causés aux appareils électriques, électroniques,
-                                        électroménagers et aux accessoires à l’intérieur du bien assuré.
-                                    </div>
-                                </div>
-                                <div class="oprice d-flex">
-                                    <div type="button" class="obtn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 16 16">
-                                            <g id="Groupe_849" data-name="Groupe 849" transform="translate(-334 -391)">
-                                                <circle id="lecercle" data-name="Ellipse 17" cx="8" cy="8" r="8"
-                                                    transform="translate(334 391)" fill="#fff"></circle>
-                                                <g id="plus" transform="translate(335.059 392.059)">
-                                                    <g id="Groupe_848" data-name="Groupe 848"
-                                                        transform="translate(2.603 2.603)">
-                                                        <path id="leplus" data-name="Tracé 884"
-                                                            d="M17.676,12.47h-3.47V9H12.47v3.47H9v1.735h3.47v3.47h1.735v-3.47h3.47Z"
-                                                            transform="translate(-9 -9)" fill="#a1c84e"></path>
-                                                    </g>
-                                                    <path id="Tracé_885" data-name="Tracé 885" d="M0,0H13.881V13.881H0Z"
-                                                        fill="none"></path>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                        1,06 €<span>/mois</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </label>
-                    </div>
+                   
 
-                    <div class="col-12 mt-3">
-                        <input type="checkbox" id="salle" name="tarif_location_salle" class="addon d-none" value="1,56">
-                        <label for="salle" class="d-flex align-items-center osingle">
-                            <div class="oicon">
-                                <img src="../assets/icons/salle.svg"
-                                    alt="salle">
-
-                            </div>
-                            <div class="d-flex align-items-center w-100 justify-content-between">
-                                <div class="p-2">
-                                    <div class="otitre">
-                                        Location de salle
-                                    </div>
-                                    <div class="odescription">
-                                        Garantit la salle louée ou déjà occupée à l’occasion d’une fête ou d’une réunion
-                                        d’ordre familial ou privé comptant jusqu’à 150 personnes.
-                                    </div>
-                                </div>
-                                <div class="oprice d-flex">
-                                    <div type="button" class="obtn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 16 16">
-                                            <g id="Groupe_849" data-name="Groupe 849" transform="translate(-334 -391)">
-                                                <circle id="lecercle" data-name="Ellipse 17" cx="8" cy="8" r="8"
-                                                    transform="translate(334 391)" fill="#fff"></circle>
-                                                <g id="plus" transform="translate(335.059 392.059)">
-                                                    <g id="Groupe_848" data-name="Groupe 848"
-                                                        transform="translate(2.603 2.603)">
-                                                        <path id="leplus" data-name="Tracé 884"
-                                                            d="M17.676,12.47h-3.47V9H12.47v3.47H9v1.735h3.47v3.47h1.735v-3.47h3.47Z"
-                                                            transform="translate(-9 -9)" fill="#a1c84e"></path>
-                                                    </g>
-                                                    <path id="Tracé_885" data-name="Tracé 885" d="M0,0H13.881V13.881H0Z"
-                                                        fill="none"></path>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                        1,56 €<span>/mois</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div class="col-12 mt-3">
-                        <input type="checkbox" id="maternite" name="tarif_assistance_maternelle" class="addon d-none"
-                            value="2,54">
-                        <label for="maternite" class="d-flex align-items-center osingle">
-                            <div class="oicon">
-                                <img src="../assets/icons/maternite.svg"
-                                    alt="maternite" width="45px">
-
-                            </div>
-                            <div class="d-flex align-items-center w-100 justify-content-between">
-                                <div class="p-2">
-                                    <div class="otitre">
-                                        Assistance maternelle
-                                    </div>
-                                    <div class="odescription">
-                                        Couvre les dommages causés ou subis par les enfants qui vous sont confiés dans
-                                        le cadre de votre activité professionnelle jusqu’à trois enfants gardés.
-                                    </div>
-                                </div>
-                                <div class="oprice d-flex">
-                                    <div type="button" class="obtn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 16 16">
-                                            <g id="Groupe_849" data-name="Groupe 849" transform="translate(-334 -391)">
-                                                <circle id="lecercle" data-name="Ellipse 17" cx="8" cy="8" r="8"
-                                                    transform="translate(334 391)" fill="#fff"></circle>
-                                                <g id="plus" transform="translate(335.059 392.059)">
-                                                    <g id="Groupe_848" data-name="Groupe 848"
-                                                        transform="translate(2.603 2.603)">
-                                                        <path id="leplus" data-name="Tracé 884"
-                                                            d="M17.676,12.47h-3.47V9H12.47v3.47H9v1.735h3.47v3.47h1.735v-3.47h3.47Z"
-                                                            transform="translate(-9 -9)" fill="#a1c84e"></path>
-                                                    </g>
-                                                    <path id="Tracé_885" data-name="Tracé 885" d="M0,0H13.881V13.881H0Z"
-                                                        fill="none"></path>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                        2,54 €<span>/mois</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </label>
-                    </div>
+                 
 
                     <div class="col-12 mt-0 mb-5">
                         <div class="container-fluid p-0">
@@ -244,6 +82,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -269,20 +108,23 @@
     </form>
 </template>
 
-<script>
+<script setup>
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-export default {
-    mounted() {
-    },
-    data() {
-    },
-    setup() {
-    },
-    methods: {
-    }
-};
+import RachatFranchise from '../components/partials/options/RachatFranchise.vue';
+import AssistanceMaternelle from '../components/partials/options/AssistanceMaternelle.vue';
+import DommageElectrique from '../components/partials/options/DommageElectrique.vue';
+import IndEnfantMineur from '../components/partials/options/IndEnfantMineur.vue';
+import LocationSale from '../components/partials/options/LocationSale.vue';
+import SysPhotoVoltaique from '../components/partials/options/SysPhotoVoltaique.vue';
+import { useFormStore } from '../stores/useFormStore';
+const formStore = useFormStore();
+
+// get selected tarif
+const selectedTarif = formStore.getSelectedTarif;
+
+
 </script>
 
 <style>
