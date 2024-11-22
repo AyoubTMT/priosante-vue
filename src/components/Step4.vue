@@ -127,7 +127,8 @@
                         <div class="col-6">
                             <div class="btn-group formIconContainer miniClass" role="group"
                                 aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" value="OUI" id="chemOui" v-model="formData.cheminepro" />
+                                <input type="radio" class="btn-check" value="OUI" id="chemOui"
+                                    v-model="formData.cheminepro" />
                                 <label class="btn btn-outline-primary iconLabel" for="chemOui">
                                     <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
                                             width="15" height="15" alt="checked"></div>
@@ -138,7 +139,8 @@
                         <div class="col-6">
                             <div class="btn-group formIconContainer miniClass" role="group"
                                 aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" value="NON" id="chemNon" v-model="formData.cheminepro" />
+                                <input type="radio" class="btn-check" value="NON" id="chemNon"
+                                    v-model="formData.cheminepro" />
                                 <label class="btn btn-outline-primary iconLabel" for="chemNon">
                                     <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
                                             width="15" height="15" alt="checked"></div>
@@ -179,114 +181,105 @@
                     <div class="row align-items-center">
                         <div class="col-12">
                             <button type="submit" class="navBtn nextBtn mt-4 flex justify-center align-items-center">
-                                <span :class="{ 'equippedOrNot': !isAnyOptionSelected }" >{{ isAnyOptionSelected ? 'Étape suivante' : 'Aucun de ces équipements' }}</span>
+                                <span :class="{ 'equippedOrNot': !isAnyOptionSelected }">{{ isAnyOptionSelected ? 'Étape
+                                    suivante' : 'Aucun de ces équipements' }}</span>
                                 <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid">
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <BonASavoir remarque="Les dépendances et annexes sont tous les locaux qui ne sont pas à usage d’habitation, communiquant ou non avec l’habitation (buanderie, cellier, remise, débarras, les abris de jardin, cave, les combles et le sous-sol)." />
+            <BonASavoir
+                remarque="Les dépendances et annexes sont tous les locaux qui ne sont pas à usage d’habitation, communiquant ou non avec l’habitation (buanderie, cellier, remise, débarras, les abris de jardin, cave, les combles et le sous-sol)." />
         </div>
     </form>
 </template>
 
-<script>
-    import BonASavoir from '../components/BonASavoir.vue';
-    import { useFormStore } from '@/stores/useFormStore';
-    import chemineIcon from '../assets/icons/chemine.svg';
-    import dependancesIcon from '../assets/icons/dependances.svg';
-    import verandaIcon from '../assets/icons/veranda.svg';
-    import garageIcon from '../assets/icons/garage.svg';
-    import alarmeIcon from '../assets/icons/alarme.svg';
-    import pieceIcon from '../assets/icons/piece.svg';
+<script setup>
+import BonASavoir from '../components/BonASavoir.vue';
+import { useFormStore } from '@/stores/useFormStore';
+import chemineIcon from '../assets/icons/chemine.svg';
+import dependancesIcon from '../assets/icons/dependances.svg';
+import verandaIcon from '../assets/icons/veranda.svg';
+import garageIcon from '../assets/icons/garage.svg';
+import alarmeIcon from '../assets/icons/alarme.svg';
+import pieceIcon from '../assets/icons/piece.svg';
 
+import { ref, reactive, computed } from 'vue'
+const formStore = useFormStore();
 
-    export default {
-        components: {
-            BonASavoir,
-        },
-        data() {
-            return {
-                options: [
-                    {
-                        id: 'chemine',
-                        value: 'chemine',
-                        label: "Cheminée ou poêle à bois",
-                        icon: chemineIcon,
-                        alt: 'chemine',
-                    },
-                    {
-                        id: 'dependances',
-                        value: 'dependances',
-                        label: 'Dépendance supérieure à 30 m²',
-                        icon: dependancesIcon,
-                        alt: 'dependances',
-                    },
-                    {
-                        id: 'veranda',
-                        value: 'veranda',
-                        label: 'Véranda ou loggia',
-                        icon: verandaIcon,
-                        alt: 'veranda',
-                    },
-                    {
-                        id: 'garage',
-                        value: 'garage',
-                        label: 'Garage ou box fermé',
-                        icon: garageIcon,
-                        alt: 'garage',
-                    },
-                    {
-                        id: 'alarme',
-                        value: 'alarme',
-                        label: 'Alarme antivol',
-                        icon: alarmeIcon,
-                        alt: 'alarme',
-                    },
-                    {
-                        id: 'superieur30m',
-                        value: 'superieur30m',
-                        label: 'Pièce supérieure à 30 m²',
-                        icon: pieceIcon,
-                        alt: 'superieur30m',
-                    },
-                ],
-                formData: {
-                    selectedOptions: [],
-                    pieceCount: 0,
-                    dependenceCount: 0,
-                    surfaceDependance: 0,
-                    cheminepro: 'OUI',
-                },
-            };
-        },
-        computed: {
-            isAnyOptionSelected() {
-                return this.formData.selectedOptions.length > 0;
-            },
-            showPieceSup() {
-                return this.formData.selectedOptions.includes('superieur30m');
-            },
-            showDepSup() {
-                return this.formData.selectedOptions.includes('dependances');
-            },
-            showChemSup() {
-                return this.formData.selectedOptions.includes('chemine');
-            },
-        },
-        methods: {
-            submitStep() {
-                const formStore = useFormStore();
-                formStore.updateStepData('step4', this.formData);
-                formStore.nextStep();
-            },
-        },
-    };
+const formData = reactive({
+    selectedOptions: [],
+    pieceCount: 0,
+    dependenceCount: 0,
+    surfaceDependance: 0,
+    cheminepro: 'OUI',
+})
+const options = reactive([
+    {
+        id: 'chemine',
+        value: 'chemine',
+        label: "Cheminée ou poêle à bois",
+        icon: chemineIcon,
+        alt: 'chemine',
+    },
+    {
+        id: 'dependances',
+        value: 'dependances',
+        label: 'Dépendance supérieure à 30 m²',
+        icon: dependancesIcon,
+        alt: 'dependances',
+    },
+    {
+        id: 'veranda',
+        value: 'veranda',
+        label: 'Véranda ou loggia',
+        icon: verandaIcon,
+        alt: 'veranda',
+    },
+    {
+        id: 'garage',
+        value: 'garage',
+        label: 'Garage ou box fermé',
+        icon: garageIcon,
+        alt: 'garage',
+    },
+    {
+        id: 'alarme',
+        value: 'alarme',
+        label: 'Alarme antivol',
+        icon: alarmeIcon,
+        alt: 'alarme',
+    },
+    {
+        id: 'superieur30m',
+        value: 'superieur30m',
+        label: 'Pièce supérieure à 30 m²',
+        icon: pieceIcon,
+        alt: 'superieur30m',
+    },
+])
+
+const isAnyOptionSelected = computed(() => {
+    return formData.selectedOptions.length > 0;
+});
+const showPieceSup = computed(() => {
+    return formData.selectedOptions.includes('superieur30m');
+});
+const showDepSup = computed(() => {
+    return formData.selectedOptions.includes('dependances');
+});
+const showChemSup = computed(() => {
+    return formData.selectedOptions.includes('chemine');
+});
+function submitStep() {
+    formStore.updateStepData('step4', formData);
+    formStore.nextStep();
+}
 </script>
 
 <style scoped>
-    .formIconContainer{
-        height: 100%;
-    }
+.formIconContainer {
+    height: 100%;
+}
 </style>

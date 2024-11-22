@@ -226,36 +226,22 @@
     </form>
   </template>
   
-  <script>
+  <script setup>
     import BonASavoir from '../components/BonASavoir.vue';
     import { useFormStore } from '@/stores/useFormStore';
+    import { ref, reactive } from 'vue'
 
-    export default {
-        components: {
-            BonASavoir
-        },
-        setup() {
+
             const formStore = useFormStore();
             const responseData = formStore.responseData;
             const responseError = formStore.responseError;
-            return {
-                responseData,
-                responseError
-            };
-        },
-        // data() {
-        //     return {
-        //         formData: {
-        //         }
-        //     };
-        // },
-        methods: {
-            submitStep() {
+
+
+            function submitStep() {
                 // const formStore = useFormStore();
-                // formStore.updateStepData('step8', this.localData);
+                // formStore.updateStepData('step8', localData);
                 // formStore.nextStep();
-            },
-        },
-    };
+            }
+
   </script>
   

@@ -94,7 +94,7 @@
     </section>
 </template>
 
-<script>
+<script setup>
     import 'bootstrap/dist/css/bootstrap.min.css';
     import 'bootstrap/dist/js/bootstrap.bundle.min.js';
     /**************** a voir apres ********************/
@@ -111,31 +111,11 @@
     import Step6 from '../components/Step6.vue';
     import Step7 from '../components/Step7.vue';
     import { useRouter } from 'vue-router';
-
-    export default {
-        components: { Step1, Step2, Step3, Step4, Step5, Step6, Step7  },
-        mounted() { 
-            /**************** a voir apres ********************/
-            // customFunctions;
-            // customJS;
-            /***********************************************/
-        },
-        setup() {
-            const formStore = useFormStore();
-            const router = useRouter();
-
-            return {
-                formStore,
-                router
-                // submitForm: formStore.submitForm(router),
-            };
-        },
-        methods: { 
-            prevStep() { 
-                this.formStore.prevStep(this.router);
-            }
-        }
-    };
+    const formStore = useFormStore();
+    const router = useRouter();
+    function prevStep() { 
+        this.formStore.prevStep(this.router);
+    }
 </script>
  
 <style>

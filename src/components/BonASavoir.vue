@@ -23,18 +23,19 @@
   </div>
 </template>
 
-<script>
-    export default {
-    name: "BonASavoir",
-    props: {
-        remarque: {
-        type: String,
-        required: true,
-        default: "Déjà assuré(e) ailleurs ? ASSURMABARK peut s’occuper de résilier votre ancien contrat gratuitement."
-        }
-    }
-    };
+<script setup>
+
+const props = defineProps({
+  // Required but nullable string
+  remarque: {
+    type: [String, null],
+    type: String,
+    required: true,
+    default: "Déjà assuré(e) ailleurs ? ASSURMABARK peut s’occuper de résilier votre ancien contrat gratuitement."
+  },
+});
+
+
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

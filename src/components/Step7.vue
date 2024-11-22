@@ -44,8 +44,8 @@
             </div>
 
             <div class="col-12 mt-0 mb-3">
-                <input type="text" id="nom" class="form-control" :class="{'inputError': errors.nom}" minlength="3" placeholder="Votre nom"
-                    v-model="form.nom" @input="validateNom" />
+                <input type="text" id="nom" class="form-control" :class="{ 'inputError': errors.nom }" minlength="3"
+                    placeholder="Votre nom" v-model="form.nom" @input="validateNom" />
                 <div v-if="errors.nom" class="errorMsg">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
@@ -74,8 +74,8 @@
             </div>
 
             <div class="col-12 mt-0 mb-3">
-                <input type="text" id="prenom" class="form-control" :class="{'inputError': errors.prenom}" minlength="3" placeholder="Votre prénom"
-                    v-model="form.prenom" @input="validatePrenom" />
+                <input type="text" id="prenom" class="form-control" :class="{ 'inputError': errors.prenom }" minlength="3"
+                    placeholder="Votre prénom" v-model="form.prenom" @input="validatePrenom" />
                 <div v-if="errors.prenom" class="errorMsg">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
@@ -104,8 +104,9 @@
             </div>
 
             <div class="col-12 mt-0 mb-3">
-                <input type="tel" id="telephone" class="form-control" :class="{'inputError': errors.telephone}" maxlength="10" placeholder="Téléphone"
-                    pattern="[0-9]*" v-model="form.telephone" @input="validateTelephone" />
+                <input type="tel" id="telephone" class="form-control" :class="{ 'inputError': errors.telephone }"
+                    maxlength="10" placeholder="Téléphone" pattern="[0-9]*" v-model="form.telephone"
+                    @input="validateTelephone" />
                 <div v-if="errors.telephone" class="errorMsg">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
@@ -134,8 +135,8 @@
             </div>
 
             <div class="col-12 mt-0 mb-3">
-                <input type="email" id="email" class="form-control" :class="{'inputError': errors.email}" placeholder="E-mail" v-model="form.email"
-                    @input="validateEmail" />
+                <input type="email" id="email" class="form-control" :class="{ 'inputError': errors.email }"
+                    placeholder="E-mail" v-model="form.email" @input="validateEmail" />
                 <div v-if="errors.email" class="errorMsg">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
@@ -143,8 +144,8 @@
                             <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
                                 <g id="Page-1" transform="translate(30 591)">
                                     <g id="Alert" transform="translate(5 5)">
-                                        <rect id="Rectangle" width="10" height="10"
-                                            transform="translate(1 1.581)" fill="none"></rect>
+                                        <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)"
+                                            fill="none"></rect>
                                         <path id="Path"
                                             d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
                                             transform="translate(6.766 5.194)" fill="#f4627f"></path>
@@ -166,7 +167,8 @@
             <div class="col-12 mt-0 mb-3">
                 <label for="datedenaissance"><b>Votre date de naissance</b></label>
                 <div class="date-input-container">
-                    <input type="date" class="form-control" :class="{'inputError': errors.birthDay}" maxlength="10" v-model="form.birthDay">
+                    <input type="date" class="form-control" :class="{ 'inputError': errors.birthDay }" maxlength="10"
+                        v-model="form.birthDay">
                     <div v-if="errors.birthDay" class="errorMsg">
                         <div class="d-flex align-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
@@ -174,8 +176,8 @@
                                 <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
                                     <g id="Page-1" transform="translate(30 591)">
                                         <g id="Alert" transform="translate(5 5)">
-                                            <rect id="Rectangle" width="10" height="10"
-                                                transform="translate(1 1.581)" fill="none"></rect>
+                                            <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)"
+                                                fill="none"></rect>
                                             <path id="Path"
                                                 d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
                                                 transform="translate(6.766 5.194)" fill="#f4627f"></path>
@@ -194,31 +196,40 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-12 mt-0 votreEtreAppele">
                 <div class="formLabel mb-3">A quelle date souhaitez-vous être assuré(e) ?</div>
                 <div class="date-input-container forEffet">
-                    <input type="date" class="form-control" :class="{'inputError': errors.dateEffet}" name="dateEffet" maxlength="10" v-model="form.dateEffet">
+                    <input type="date" class="form-control" :class="{ 'inputError': errors.dateEffet }" name="dateEffet"
+                        maxlength="10" v-model="form.dateEffet">
                 </div>
                 <div v-if="errors.dateEffet" class="errorMsg">
                     <div class="d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
+                            viewBox="0 0 10.497 10.008">
                             <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
                                 <g id="Page-1" transform="translate(30 591)">
                                     <g id="Alert" transform="translate(5 5)">
-                                        <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)" fill="none"></rect>
-                                        <path id="Path" d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z" transform="translate(6.766 5.194)" fill="#f4627f"></path>
-                                        <path id="Path-2" data-name="Path" d="M-.476.117A.524.524,0,0,1-1-.408V-.476A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v.068A.524.524,0,0,1-.476.117Z" transform="translate(6.766 9.125)" fill="#f4627f"></path>
-                                        <path id="Path-3" data-name="Path" d="M7.274,3a1.557,1.557,0,0,1,1.362.786l3.632,6.29a1.573,1.573,0,0,1-1.362,2.359H3.642A1.573,1.573,0,0,1,2.28,10.077l3.632-6.29A1.557,1.557,0,0,1,7.274,3Zm3.632,8.387a.524.524,0,0,0,.454-.786L7.728,4.31a.524.524,0,0,0-.908,0L3.188,10.6a.524.524,0,0,0,.454.786Z" transform="translate(-0.983 -1.427)" fill="#f4627f"></path>
+                                        <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)"
+                                            fill="none"></rect>
+                                        <path id="Path"
+                                            d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
+                                            transform="translate(6.766 5.194)" fill="#f4627f"></path>
+                                        <path id="Path-2" data-name="Path"
+                                            d="M-.476.117A.524.524,0,0,1-1-.408V-.476A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v.068A.524.524,0,0,1-.476.117Z"
+                                            transform="translate(6.766 9.125)" fill="#f4627f"></path>
+                                        <path id="Path-3" data-name="Path"
+                                            d="M7.274,3a1.557,1.557,0,0,1,1.362.786l3.632,6.29a1.573,1.573,0,0,1-1.362,2.359H3.642A1.573,1.573,0,0,1,2.28,10.077l3.632-6.29A1.557,1.557,0,0,1,7.274,3Zm3.632,8.387a.524.524,0,0,0,.454-.786L7.728,4.31a.524.524,0,0,0-.908,0L3.188,10.6a.524.524,0,0,0,.454.786Z"
+                                            transform="translate(-0.983 -1.427)" fill="#f4627f"></path>
                                     </g>
                                 </g>
                             </g>
                         </svg>
                         <p class="m-0 ms-2">Ce champ est requis</p>
                     </div>
-                </div> 
+                </div>
             </div>
-            
+
             <div class="col-12 mt-0 mb-3 d-none">
                 <label for="nbr_enfant" class="formLabel mb-3">Le nombre d'enfants</label>
                 <select id="nbr_enfant" class="form-select" v-model="form.nbrEnfant">
@@ -237,8 +248,8 @@
                             <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
                                 <g id="Page-1" transform="translate(30 591)">
                                     <g id="Alert" transform="translate(5 5)">
-                                        <rect id="Rectangle" width="10" height="10"
-                                            transform="translate(1 1.581)" fill="none"></rect>
+                                        <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)"
+                                            fill="none"></rect>
                                         <path id="Path"
                                             d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
                                             transform="translate(6.766 5.194)" fill="#f4627f"></path>
@@ -276,118 +287,117 @@
 </template>
 
 <script>
-    import BonASavoir from '../components/BonASavoir.vue';
-    import { useFormStore } from '@/stores/useFormStore';
-    import { useRouter } from 'vue-router';
-    import axios from 'axios';
-    export default {
-        components: {
-            BonASavoir,
+import BonASavoir from '../components/BonASavoir.vue';
+import { useFormStore } from '@/stores/useFormStore';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+export default {
+    components: {
+        BonASavoir,
+    },
+    data() {
+        return {
+            form: {
+                civilite: "MR",
+                nom: "",
+                prenom: "",
+                telephone: "",
+                email: "",
+                birthDay: "1980-01-01",
+                dateEffet: "2024-12-23",
+                nbrEnfant: "0",
+            },
+            errors: {
+                nom: "",
+                prenom: "",
+                telephone: "",
+                email: "",
+                birthDay: "",
+                dateEffet: "",
+            },
+            formStore: useFormStore(),
+            router: useRouter()
+        };
+    },
+    methods: {
+        validateNom() {
+            this.errors.nom = this.form.nom.length >= 3 ? "" : "Veuillez renseigner un nom valide.";
         },
-        data() {
-            return {
-                form: {
-                    civilite: "MR",
-                    nom: "",
-                    prenom: "",
-                    telephone: "",
-                    email: "",
-                    birthDay: "1980-01-01",
-                    dateEffet: "2024-12-23",
-                    nbrEnfant: "0",
-                },
-                errors: {
-                    nom: "",
-                    prenom: "",
-                    telephone: "",
-                    email: "",
-                    birthDay: "",
-                    dateEffet: "",
-                },
-                formStore : useFormStore(),
-                 router : useRouter()
-            };
+        validatePrenom() {
+            this.errors.prenom = this.form.prenom.length >= 3 ? "" : "Veuillez renseigner un prénom valide.";
         },
-        methods: {
-            validateNom() {
-                this.errors.nom = this.form.nom.length >= 3 ? "" : "Veuillez renseigner un nom valide.";
-            },
-            validatePrenom() {
-                this.errors.prenom = this.form.prenom.length >= 3 ? "" : "Veuillez renseigner un prénom valide.";
-            },
-            validateTelephone() {
-                const phonePattern = /^[0-9]{10}$/;
-                this.errors.telephone = phonePattern.test(this.form.telephone)
-                    ? ""
-                    : "Veuillez renseigner un téléphone valide.";
-            },
-            validateEmail() {
-                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                this.errors.email = emailPattern.test(this.form.email) ? "" : "Veuillez renseigner un email valide.";
-            },
-            validateAge() {
-                
-            },
-            validateDateEffet() {
-                
-            },
-            setup() {
-                // const router = useRouter();
-                // const formStore = useFormStore();
-                // return { router, formStore };
-            },
-            async submitStep() {
-                this.validateNom();
-                this.validatePrenom();
-                this.validateTelephone();
-                this.validateEmail();
-                this.validateAge();
-                this.validateDateEffet();
+        validateTelephone() {
+            const phonePattern = /^[0-9]{10}$/;
+            this.errors.telephone = phonePattern.test(this.form.telephone)
+                ? ""
+                : "Veuillez renseigner un téléphone valide.";
+        },
+        validateEmail() {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            this.errors.email = emailPattern.test(this.form.email) ? "" : "Veuillez renseigner un email valide.";
+        },
+        validateAge() {
 
-                if (Object.values(this.errors).every((error) => !error)) {
-                    console.log("Form submitted:", this.form);
-                    // const { formStore, router } = this;
+        },
+        validateDateEffet() {
 
-                    this.formStore.updateStepData('step7', this.form);
+        },
+        setup() {
+            // const router = useRouter();
+            // const formStore = useFormStore();
+            // return { router, formStore };
+        },
+        async submitStep() {
+            this.validateNom();
+            this.validatePrenom();
+            this.validateTelephone();
+            this.validateEmail();
+            this.validateAge();
+            this.validateDateEffet();
 
-                    // Submit form and handle navigation
-                    try {
-                       // await formStore.submitForm();
+            if (Object.values(this.errors).every((error) => !error)) {
+                console.log("Form submitted:", this.form);
+                // const { formStore, router } = this;
 
-                        await this.getTarifs();
+                this.formStore.updateStepData('step7', this.form);
 
-                    } catch (error) {
-                        console.error("Error during form submission:", error);
-                    }
-                } else {
-                    console.log("Validation failed.");
+                // Submit form and handle navigation
+                try {
+                    // await formStore.submitForm();
+
+                    await this.getTarifs();
+
+                } catch (error) {
+                    console.error("Error during form submission:", error);
                 }
-            },
+            } else {
+                console.log("Validation failed.");
+            }
+        },
 
-            async getTarifs() {
-  
-                const dataTarif = this.formStore.getDataForTarif;
-                await axios.post('http://assurmabarak-laravel.test/api/tarificateur', dataTarif)
+        async getTarifs() {
+
+            const dataTarif = this.formStore.getDataForTarif;
+            await axios.post('http://assurmabarak-laravel.test/api/tarificateur', dataTarif)
                 .then(response => {
-                    if(response.status == 200){
+                    if (response.status == 200) {
                         //set tarifs
                         this.formStore.updateStepData('tarifs', response.data.response);
 
                         //redirect
                         this.router.push('/devis/tarifs');
-                        
+
                     }
                     console.log(response)
                 })
                 .catch(error => {
                     console.log(error)
                 })
-            },
-
         },
-     
-    };
+
+    },
+
+};
 </script>
 
-<style>
-</style>
+<style></style>

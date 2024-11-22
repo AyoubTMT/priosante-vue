@@ -13,12 +13,9 @@
           <input type="radio" class="btn-check" name="type_residence" id="principale" value="RESIDENCE_PRINCIPALE"
             v-model="formData.type_residence" autocomplete="off">
           <label class="btn btn-outline-primary iconLabel" for="principale">
-            <div class="text-end checkedLabel"><img
-                src="../assets/icons/checkedicon.svg"
-                width="15" height="15" alt="checked"></div>
-            <div class="btnImg"><img
-                src="../assets/icons/principale.svg"
-                alt="principale"></div>
+            <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15" height="15"
+                alt="checked"></div>
+            <div class="btnImg"><img src="../assets/icons/principale.svg" alt="principale"></div>
             <div>Résidence<br>principale</div>
           </label>
         </div>
@@ -28,12 +25,9 @@
           <input type="radio" class="btn-check" name="type_residence" id="secondaire" value="RESIDENCE_SECONDAIRE"
             v-model="formData.type_residence" autocomplete="off">
           <label class="btn btn-outline-primary iconLabel" for="secondaire">
-            <div class="text-end checkedLabel"><img
-                src="../assets/icons/checkedicon.svg"
-                width="15" height="15" alt="checked"></div>
-            <div class="btnImg"><img
-                src="../assets/icons/secondaire.svg"
-                alt="secondaire"></div>
+            <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15" height="15"
+                alt="checked"></div>
+            <div class="btnImg"><img src="../assets/icons/secondaire.svg" alt="secondaire"></div>
             <div>Résidence<br>secondaire</div>
           </label>
         </div>
@@ -108,34 +102,26 @@
           </div>
         </div>
       </div>
-      <BonASavoir remarque="Vous ne pouvez assurer qu'une seule résidence principale à la fois. Vos éventuels autres logements sont donc considérés comme des résidences secondaires." />
+      <BonASavoir
+        remarque="Vous ne pouvez assurer qu'une seule résidence principale à la fois. Vos éventuels autres logements sont donc considérés comme des résidences secondaires." />
     </div>
   </form>
 </template>
 
-<script>
-  import BonASavoir from '../components/BonASavoir.vue';
-  import { useFormStore } from '@/stores/useFormStore';
+<script setup>
+import BonASavoir from '../components/BonASavoir.vue';
+import { useFormStore } from '@/stores/useFormStore';
+import { ref, reactive } from 'vue'
+const formStore = useFormStore();
 
-  export default {
-    components: {
-      BonASavoir
-    },
-    data() {
-      return {
-        formData: {
-          type_residence: 'RESIDENCE_PRINCIPALE',
-          nbr_pieces_principales: 1,
-          surface_habitable: 100
-        }
-      };
-    },
-    methods: {
-      submitStep() {
-        const formStore = useFormStore();
-        formStore.updateStepData('step3', this.formData);
-        formStore.nextStep();
-      },
-    },
-  };
+const formData = reactive({
+  type_residence: 'RESIDENCE_PRINCIPALE',
+  nbr_pieces_principales: 1,
+  surface_habitable: 100
+})
+function submitStep() {
+  formStore.updateStepData('step3', formData);
+  formStore.nextStep();
+}
+
 </script>

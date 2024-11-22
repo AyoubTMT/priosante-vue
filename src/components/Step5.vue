@@ -10,16 +10,11 @@
             <label for="labelNbSinistres" class="formLabel mb-3">Nombre de sinistres déclarés</label>
             <div class="col-6 mt-0">
                 <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
-                    <input 
-                        type="radio" 
-                        class="btn-check declare_sinistre2ans" 
-                        name="declare_sinistre2ans" 
-                        id="nonSinistre" 
-                        value="NON" 
-                        v-model="formData.declare_sinistre2ans"
-                    >
+                    <input type="radio" class="btn-check declare_sinistre2ans" name="declare_sinistre2ans"
+                        id="nonSinistre" value="NON" v-model="formData.declare_sinistre2ans">
                     <label class="btn btn-outline-primary iconLabel" for="nonSinistre">
-                        <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15" height="15" alt="checked"></div>
+                        <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
+                                height="15" alt="checked"></div>
                         <div class="btnImg"><img src="../assets/icons/zero.svg" alt="oui"></div>
                         <div>Aucun sinistre</div>
                     </label>
@@ -27,16 +22,11 @@
             </div>
             <div class="col-6 mt-0">
                 <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
-                    <input 
-                        type="radio" 
-                        class="btn-check declare_sinistre2ans" 
-                        name="declare_sinistre2ans" 
-                        id="ouiSinistre" 
-                        value="OUI" 
-                        v-model="formData.declare_sinistre2ans"
-                    >
+                    <input type="radio" class="btn-check declare_sinistre2ans" name="declare_sinistre2ans"
+                        id="ouiSinistre" value="OUI" v-model="formData.declare_sinistre2ans">
                     <label class="btn btn-outline-primary iconLabel" for="ouiSinistre">
-                        <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15" height="15" alt="checked"></div>
+                        <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
+                                height="15" alt="checked"></div>
                         <div class="btnImg"><img src="../assets/icons/oneplus.svg" alt="non"></div>
                         <div>Un ou plusieurs</div>
                     </label>
@@ -47,33 +37,27 @@
                 <div class="container-fluid p-0">
                     <div class="row">
                         <div class="col-6">
-                            <div class="btn-group formIconContainer miniClass" role="group" aria-label="Basic radio toggle button group">
-                                <input 
-                                    type="radio" 
-                                    class="btn-check resilie_par_assureur3ans" 
-                                    name="resilie_par_assureur3ans" 
-                                    id="resnon" 
-                                    value="NON" 
-                                    v-model="formData.resilie_par_assureur3ans"
-                                >
+                            <div class="btn-group formIconContainer miniClass" role="group"
+                                aria-label="Basic radio toggle button group">
+                                <input type="radio" class="btn-check resilie_par_assureur3ans"
+                                    name="resilie_par_assureur3ans" id="resnon" value="NON"
+                                    v-model="formData.resilie_par_assureur3ans">
                                 <label class="btn btn-outline-primary iconLabel" for="resnon">
-                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15" height="15" alt="checked"></div>
+                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
+                                            width="15" height="15" alt="checked"></div>
                                     <div class="twoBtns">Non</div>
                                 </label>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="btn-group formIconContainer miniClass" role="group" aria-label="Basic radio toggle button group">
-                                <input 
-                                    type="radio" 
-                                    class="btn-check resilie_par_assureur3ans" 
-                                    name="resilie_par_assureur3ans" 
-                                    id="resoui" 
-                                    value="OUI" 
-                                    v-model="formData.resilie_par_assureur3ans"
-                                >
+                            <div class="btn-group formIconContainer miniClass" role="group"
+                                aria-label="Basic radio toggle button group">
+                                <input type="radio" class="btn-check resilie_par_assureur3ans"
+                                    name="resilie_par_assureur3ans" id="resoui" value="OUI"
+                                    v-model="formData.resilie_par_assureur3ans">
                                 <label class="btn btn-outline-primary iconLabel" for="resoui">
-                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15" height="15" alt="checked"></div>
+                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
+                                            width="15" height="15" alt="checked"></div>
                                     <div class="twoBtns">Oui</div>
                                 </label>
                             </div>
@@ -86,33 +70,29 @@
                 <div class="container-fluid p-0">
                     <div class="row">
                         <div class="col-6">
-                            <div class="btn-group formIconContainer miniClass" role="group" aria-label="Basic radio toggle button group">
-                                <input 
-                                    type="radio" 
-                                    class="btn-check utilisations_professionnelles" 
-                                    name="utilisations_professionnelles" 
-                                    id="utilisations_professionnelles_non" 
-                                    value="NON" 
-                                    v-model="formData.utilisations_professionnelles"
-                                >
-                                <label class="btn btn-outline-primary iconLabel" for="utilisations_professionnelles_non">
-                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15" height="15" alt="checked"></div>
+                            <div class="btn-group formIconContainer miniClass" role="group"
+                                aria-label="Basic radio toggle button group">
+                                <input type="radio" class="btn-check utilisations_professionnelles"
+                                    name="utilisations_professionnelles" id="utilisations_professionnelles_non"
+                                    value="NON" v-model="formData.utilisations_professionnelles">
+                                <label class="btn btn-outline-primary iconLabel"
+                                    for="utilisations_professionnelles_non">
+                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
+                                            width="15" height="15" alt="checked"></div>
                                     <div class="twoBtns">Non</div>
                                 </label>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="btn-group formIconContainer miniClass" role="group" aria-label="Basic radio toggle button group">
-                                <input 
-                                    type="radio" 
-                                    class="btn-check utilisations_professionnelles" 
-                                    name="utilisations_professionnelles" 
-                                    id="utilisations_professionnelles_oui" 
-                                    value="OUI" 
-                                    v-model="formData.utilisations_professionnelles"
-                                >
-                                <label class="btn btn-outline-primary iconLabel" for="utilisations_professionnelles_oui">
-                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15" height="15" alt="checked"></div>
+                            <div class="btn-group formIconContainer miniClass" role="group"
+                                aria-label="Basic radio toggle button group">
+                                <input type="radio" class="btn-check utilisations_professionnelles"
+                                    name="utilisations_professionnelles" id="utilisations_professionnelles_oui"
+                                    value="OUI" v-model="formData.utilisations_professionnelles">
+                                <label class="btn btn-outline-primary iconLabel"
+                                    for="utilisations_professionnelles_oui">
+                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
+                                            width="15" height="15" alt="checked"></div>
                                     <div class="twoBtns">Oui</div>
                                 </label>
                             </div>
@@ -133,34 +113,27 @@
                 </div>
             </div>
 
-            <BonASavoir remarque="Dès lors que vous utilisez votre logement dans le cadre de vos activités professionnelles et/ou que vous y recevez des clients (même de manière occasionnelle), vous devez répondre positivement à cette question. Petite précision : vous ne devez pas prendre en compte le télétravail." />
+            <BonASavoir
+                remarque="Dès lors que vous utilisez votre logement dans le cadre de vos activités professionnelles et/ou que vous y recevez des clients (même de manière occasionnelle), vous devez répondre positivement à cette question. Petite précision : vous ne devez pas prendre en compte le télétravail." />
         </div>
     </form>
 </template>
 
-<script>
-    import BonASavoir from '../components/BonASavoir.vue';
-    import { useFormStore } from '@/stores/useFormStore';
+<script setup>
+import BonASavoir from '../components/BonASavoir.vue';
+import { useFormStore } from '@/stores/useFormStore';
+import { ref, reactive } from 'vue'
 
-    export default {
-        components: {
-            BonASavoir
-        },
-        data() {
-            return {
-                formData: {
-                    declare_sinistre2ans: 'NON',
-                    resilie_par_assureur3ans: 'NON',
-                    utilisations_professionnelles: 'NON',
-                }
-            };
-        },
-        methods: {
-            submitStep() {
-                const formStore = useFormStore();
-                formStore.updateStepData('step5', this.formData);
-                formStore.nextStep();
-            },
-        },
-    };
+const formStore = useFormStore();
+const formData = reactive({
+    declare_sinistre2ans: 'NON',
+    resilie_par_assureur3ans: 'NON',
+    utilisations_professionnelles: 'NON',
+})
+
+function submitStep() {
+
+    formStore.updateStepData('step5', formData);
+    formStore.nextStep();
+}
 </script>
