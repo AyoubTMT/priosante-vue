@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia';
+import router from '../router';
+
 import axios from 'axios';
 
 export const useFormStore = defineStore('form', {
@@ -65,7 +67,7 @@ export const useFormStore = defineStore('form', {
         router.push('/home');
       }
     },
-    async submitForm(router) {
+    async submitForm() {
       console.log(this.formData);
       try {
         const response = await axios.post('http://assurmabarak-laravel.test/api/submit-devis', this.formData);
@@ -73,7 +75,7 @@ export const useFormStore = defineStore('form', {
 
         this.responseData = response.data;
         if (response.data.success) {
-          // router.push('/devis/tarifs');
+          router.push('/devis/tarifs');
         } else {
           alert('Submission failed: ' + response.data.message);
         }

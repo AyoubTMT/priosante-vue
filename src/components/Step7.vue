@@ -343,15 +343,13 @@
 
                 if (Object.values(this.errors).every((error) => !error)) {
                     console.log("Form submitted:", this.form);
-
                     const router = useRouter();
                     const formStore = useFormStore();
                     // const { formStore, router } = this;
                     formStore.updateStepData('step7', this.form);
-
                     // Submit form and handle navigation
                     try {
-                        await formStore.submitForm(router);
+                        await formStore.submitForm();
                     } catch (error) {
                         console.error("Error during form submission:", error);
                     }

@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <button v-if="formStore.currentStep === 7" @click="submitForm">Submit</button>
+            <!-- <button v-if="formStore.currentStep === 7" @click="submitForm">Submit</button> -->
         </div>
     </section>
 </template>
@@ -126,8 +126,8 @@
 
             return {
                 formStore,
-                router,
-                submitForm: formStore.submitForm(router),
+                router
+                // submitForm: formStore.submitForm(router),
             };
         },
         methods: { 
