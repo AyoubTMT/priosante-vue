@@ -98,10 +98,10 @@
             </div>
             <div class="col-12 mt-3 VotreCodepostale">
                 <label for="zipcode" class="formLabel mb-2">Code postal ou ville</label>
-                <input type="text" class="form-control villeCpSearch" autocomplete="off" id="zipcode"
+                <input type="text" class="form-control villeCpSearch" :class="{ 'inputError': showErrorMsg }" autocomplete="off" id="zipcode"
                     placeholder="Code postal ou ville" v-model="formData.zipcode" @keyup="onVilleCpSearchKeyup"
                     @click.stop="toggleListVilles">
-                <div class="errorMsg d-none">
+                <div v-show="showErrorMsg" class="errorMsg">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
                             viewBox="0 0 10.497 10.008">
@@ -134,8 +134,6 @@
                         </li>
                     </ul>
                 </div>
-                <!-- <input type="hidden" name="ville" class="form-control villeSearch" placeholder="ville" value="Paris">
-                <input type="hidden" name="cp" class="form-control cpSearch" placeholder="cp" value="75001"> -->
             </div>
             <div class="col-12 mt-0">
                 <div class="container-fluid p-0">
@@ -167,7 +165,7 @@ const formData = reactive({
     statut_resident: "LOCATAIRE_OCCUPANT",
     appartement_situe: "INTERMEDIAIRE",
     specification: "NON",
-    zipcode: "75001 Paris",
+    zipcode: "",
     codePostal: "",
     ville: "",
 })
@@ -179,40 +177,50 @@ const showErrorMsg = ref(false)
 
 
 function submitStep() {
-    formStore.updateStepData('step2', formData);
-    formStore.nextStep();
+    console.log(showErrorMsg.value)
+    if(showErrorMsg.value == false && formData.codePostal.length == 5){
+        formStore.updateStepData('step2', formData);
+        formStore.nextStep();
+    }else {
+        showErrorMsg.value = true;
+        showVillesCp.value = false;
+    }
 }
 function toggleListVilles(event) {
-    showVillesCp.value = !showVillesCp;
+    showVillesCp.value = !showVillesCp.value;
 }
 function onVilleCpSearchKeyup() {
     const pressedKey = formData.zipcode.trim();
-    console.log(formData.zipcode);
-    if (pressedKey && pressedKey.length > 2) {
+    if (pressedKey && pressedKey.length >= 3 ) {
         getVilleZip(pressedKey);
-        showErrorMsg.value = false;
+    }else {
+        showErrorMsg.value = true;
+        showVillesCp.value = true;
     }
 
 }
 function selectCpVille(cp, ville) {
-    formData.zipcode.value = `${cp} ${ville}`;
-    formData.codePostal.value = cp;
-    formData.ville.value = ville;
+    formData.zipcode = `${cp} ${ville}`;
+    formData.codePostal = cp;
+    formData.ville = ville;
     showVillesCp.value = false;
-    verifyZipVille();
 }
 async function getVilleZip(key) {
     try {
         const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${key}`);
         const data = await response.json();
 
-        if (data) {
-            filteredCities.value = data.features.map((feature) => ({
+        if (data && data.features.length > 0) {
+            filteredCities.value = data.features.slice(0,3).map((feature) => ({
                 cp: feature.properties.postcode,
                 name: feature.properties.city,
             }));
             showVillesCp.value = true;
-
+            showErrorMsg.value = false;
+        } else {
+            filteredCities.value = [];
+            showVillesCp.value = false;
+            showErrorMsg.value = true;
         }
     } catch (error) {
         console.error("Error fetching city data:", error);
