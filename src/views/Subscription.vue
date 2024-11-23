@@ -114,7 +114,7 @@
     const formStore = useFormStore();
     const router = useRouter();
     function prevStep() { 
-        this.formStore.prevStep(this.router);
+        formStore.prevStep(router);
     }
 </script>
  

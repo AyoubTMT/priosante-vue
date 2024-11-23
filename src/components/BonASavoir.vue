@@ -30,7 +30,7 @@ const props = defineProps({
   remarque: {
     type: [String, null],
     type: String,
-    required: true,
+    required: false,
     default: "Déjà assuré(e) ailleurs ? ASSURMABARK peut s’occuper de résilier votre ancien contrat gratuitement."
   },
 });

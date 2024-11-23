@@ -181,8 +181,7 @@
                     <div class="row align-items-center">
                         <div class="col-12">
                             <button type="submit" class="navBtn nextBtn mt-4 flex justify-center align-items-center">
-                                <span :class="{ 'equippedOrNot': !isAnyOptionSelected }">{{ isAnyOptionSelected ? 'Étape
-                                    suivante' : 'Aucun de ces équipements' }}</span>
+                                <span :class="{ 'equippedOrNot': !isAnyOptionSelected }">{{ isAnyOptionSelected ? 'Étape suivante' : 'Aucun de ces équipements' }}</span>
                                 <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid">
                             </button>
                         </div>
