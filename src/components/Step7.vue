@@ -287,117 +287,116 @@
 </template>
 
 <script>
+import { ref, reactive, computed } from 'vue';
 import BonASavoir from '../components/BonASavoir.vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 export default {
-    components: {
-        BonASavoir,
-    },
-    data() {
-        return {
-            form: {
-                civilite: "MR",
-                nom: "",
-                prenom: "",
-                telephone: "",
-                email: "",
-                birthDay: "1980-01-01",
-                dateEffet: "2024-12-23",
-                nbrEnfant: "0",
-            },
-            errors: {
-                nom: "",
-                prenom: "",
-                telephone: "",
-                email: "",
-                birthDay: "",
-                dateEffet: "",
-            },
-            formStore: useFormStore(),
-            router: useRouter()
-        };
-    },
-    methods: {
-        validateNom() {
-            this.errors.nom = this.form.nom.length >= 3 ? "" : "Veuillez renseigner un nom valide.";
-        },
-        validatePrenom() {
-            this.errors.prenom = this.form.prenom.length >= 3 ? "" : "Veuillez renseigner un prénom valide.";
-        },
-        validateTelephone() {
-            const phonePattern = /^[0-9]{10}$/;
-            this.errors.telephone = phonePattern.test(this.form.telephone)
-                ? ""
-                : "Veuillez renseigner un téléphone valide.";
-        },
-        validateEmail() {
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            this.errors.email = emailPattern.test(this.form.email) ? "" : "Veuillez renseigner un email valide.";
-        },
-        validateAge() {
+  components: {
+    BonASavoir,
+  },
+  setup() {
+    const formStore = useFormStore();
+    const router = useRouter();
 
-        },
-        validateDateEffet() {
+    const form = reactive({
+      civilite: "MR",
+      nom: "",
+      prenom: "",
+      telephone: "",
+      email: "",
+      birthDay: "1980-01-01",
+      dateEffet: "2024-12-23",
+      nbrEnfant: "0",
+    });
 
-        },
-        setup() {
-            // const router = useRouter();
-            // const formStore = useFormStore();
-            // return { router, formStore };
-        },
-        async submitStep() {
-            this.validateNom();
-            this.validatePrenom();
-            this.validateTelephone();
-            this.validateEmail();
-            this.validateAge();
-            this.validateDateEffet();
+    const errors = reactive({
+      nom: "",
+      prenom: "",
+      telephone: "",
+      email: "",
+      birthDay: "",
+      dateEffet: "",
+    });
 
-            if (Object.values(this.errors).every((error) => !error)) {
-                console.log("Form submitted:", this.form);
-                // const { formStore, router } = this;
+    const validateNom = () => {
+      errors.nom = form.nom.length >= 3 ? "" : "Veuillez renseigner un nom valide.";
+    };
 
-                this.formStore.updateStepData('step7', this.form);
+    const validatePrenom = () => {
+      errors.prenom = form.prenom.length >= 3 ? "" : "Veuillez renseigner un prénom valide.";
+    };
 
-                // Submit form and handle navigation
-                try {
-                    // await formStore.submitForm();
+    const validateTelephone = () => {
+      const phonePattern = /^[0-9]{10}$/;
+      errors.telephone = phonePattern.test(form.telephone)
+        ? ""
+        : "Veuillez renseigner un téléphone valide.";
+    };
 
-                    await this.getTarifs();
+    const validateEmail = () => {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      errors.email = emailPattern.test(form.email) ? "" : "Veuillez renseigner un email valide.";
+    };
 
-                } catch (error) {
-                    console.error("Error during form submission:", error);
-                }
-            } else {
-                console.log("Validation failed.");
-            }
-        },
+    const validateAge = () => {
+      // Add age validation logic here
+    };
 
-        async getTarifs() {
+    const validateDateEffet = () => {
+      // Add dateEffet validation logic here
+    };
 
-            const dataTarif = this.formStore.getDataForTarif;
-            await axios.post('http://assurmabarak-laravel.test/api/tarificateur', dataTarif)
-                .then(response => {
-                    if (response.status == 200) {
-                        //set tarifs
-                        this.formStore.updateStepData('tarifs', response.data.response);
+    const submitStep = async () => {
+      validateNom();
+      validatePrenom();
+      validateTelephone();
+      validateEmail();
+      validateAge();
+      validateDateEffet();
 
-                        //redirect
-                        this.router.push('/devis/tarifs');
+      if (Object.values(errors).every((error) => !error)) {
+        console.log("Form submitted:", form);
+        formStore.updateStepData('step7', form);
 
-                    }
-                    console.log(response)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        },
+        try {
+          await getTarifs();
+        } catch (error) {
+          console.error("Error during form submission:", error);
+        }
+      } else {
+        console.log("Validation failed.");
+      }
+    };
 
-    },
+    const getTarifs = async () => {
+      const dataTarif = formStore.getDataForTarif;
+      try {
+        const response = await axios.post('http://assurmabarak-laravel.test/api/tarificateur', dataTarif);
+        if (response.status === 200) {
+          formStore.updateStepData('tarifs', response.data.response);
+          router.push('/devis/tarifs');
+        }
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    return {
+      form,
+      errors,
+      validateNom,
+      validatePrenom,
+      validateTelephone,
+      validateEmail,
+      validateAge,
+      validateDateEffet,
+      submitStep,
+      getTarifs,
+      BonASavoir,
+    };
+  },
 };
 </script>
-
-<style></style>
