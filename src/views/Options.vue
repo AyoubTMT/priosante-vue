@@ -141,7 +141,7 @@ const selectedTarif = formStore.getSelectedTarif;
 const tarifOptions = ref([])
 
 function submitStep (){
-    formStore.updateStepData('selectedTarifOptions', tarifOptions);
+    formStore.updateStepData('selectedTarifOptions', tarifOptions.value);
     router.push('/devis/informations');
 
 }

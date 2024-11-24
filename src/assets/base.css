@@ -568,11 +568,11 @@ img, svg {
 }
 
 .apayer {
-  background-color: var(--green3);
+  background-color: var(--color3);
   padding: 20px;
   font-size: 14px;
   border-radius: 9px;
-  border: 1px solid var(--green2);
+  border: 1px solid var(--color3);
 }
 
 .apayer ul{
@@ -592,6 +592,6 @@ img, svg {
 
 .totalBloc {
   margin-bottom: 18px;
-  border-bottom: 1px solid var(--green2);
+  border-bottom: 1px solid var(--color1);
   font-size: 16px;
 }

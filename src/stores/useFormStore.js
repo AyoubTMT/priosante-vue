@@ -113,6 +113,7 @@ export const useFormStore = defineStore('form', {
           }
       },
       selectedTarifOptions:[],
+      finalTarif:0,
       informations : {}
 
 
@@ -125,6 +126,7 @@ export const useFormStore = defineStore('form', {
     getFormData: (state) => state.formData,
     getTarifs: (state) => state.formData.tarifs,
     getSelectedTarif: (state) => state.formData.selectedTarif,
+    getSelectedTarifOptions: (state) => state.formData.selectedTarifOptions,
     getDateEffet: (state) => state.formData.step7.dateEffet,
     getDataForTarif: (state) => ({
       codePostal : 75001,
