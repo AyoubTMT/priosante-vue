@@ -179,4 +179,7 @@ export const useFormStore = defineStore('form', {
      
     },
   },
+  persist: {
+    enabled: true,
+  },
 });
