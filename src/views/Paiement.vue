@@ -205,11 +205,11 @@
             });
     }
     
+    updateTarifWithOptions();
     const taxe = 6.5;
     const tarifWithTax = parseFloat(formStore.finalTarif) + taxe;
     const formattedTarif = formatTarifWithComma(formStore.finalTarif);
     const formattedTarifWithTax = formatTarifWithComma(tarifWithTax);
-    updateTarifWithOptions();
     
     // validate IBAN
     const isValidIBANNumber = (ibanValue) => {
