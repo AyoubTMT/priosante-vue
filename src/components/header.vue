@@ -41,7 +41,7 @@
 
     const formStore = useFormStore();
 
-    
+
 
     function prevStep() { 
         formStore.prevStep(router);
@@ -49,7 +49,7 @@
             router.push('/devis')
         }
         else if(props.step =="options"){
-            router.push('/devis/tarification')
+            router.push('/devis/tarifs')
         }
         else if(props.step =="informations"){
             router.push('/devis/options')
