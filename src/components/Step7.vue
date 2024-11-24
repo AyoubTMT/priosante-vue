@@ -225,7 +225,7 @@
                                 </g>
                             </g>
                         </svg>
-                        <p class="m-0 ms-2">Ce champ est requis</p>
+                        <p class="m-0 ms-2">{{ errors.dateEffet }}</p>
                     </div>
                 </div>
             </div>
@@ -341,11 +341,28 @@ export default {
     };
 
     const validateAge = () => {
-      // Add age validation logic here
+      // Add age validation
     };
 
     const validateDateEffet = () => {
-      // Add dateEffet validation logic here
+        const now = new Date();
+        const minDate = new Date();
+        const maxDate = new Date();
+
+        minDate.setDate(now.getDate() + 1);
+        maxDate.setMonth(now.getMonth() + 4);
+
+        const selectedDate = new Date(form.dateEffet);
+
+        if (!form.dateEffet) {
+            errors.dateEffet = 'Veuillez sélectionner une date.';
+        } else if (isNaN(selectedDate.getTime())) {
+            errors.dateEffet = 'Format de date invalide.';
+        } else if (selectedDate < minDate || selectedDate > maxDate) {
+            errors.dateEffet = `La date doit être entre ${minDate.toLocaleDateString()} et ${maxDate.toLocaleDateString()}.`;
+        } else {
+            errors.dateEffet = null;
+        }
     };
 
     const submitStep = async () => {

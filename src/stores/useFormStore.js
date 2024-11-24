@@ -12,7 +12,7 @@ export const useFormStore = defineStore('form', {
         assured: '',
       },
       step2: {
-        statut_resident: '',
+        qualiteAssure: '',
         appartement_situe: '',
         specification: '',
         zipcode: '',
@@ -23,8 +23,8 @@ export const useFormStore = defineStore('form', {
         surface_habitable: '',
       },
       step4: {
-        selectedOptions: '',
-        pieceCount: '',
+        selectedOptions: [],
+        nbrPiecePrincipalePlus30m: '',
         dependenceCount: '',
         surfaceDependance: '',
         cheminepro: '',
@@ -37,7 +37,9 @@ export const useFormStore = defineStore('form', {
       step6: {
         type_mutuelle: '',
         valeur_bien: '',
-        budget: '',
+        indemnisation_mobilier: '',
+        niveau_franchise: '',
+        objets_valeur: '',
       },
       step7: {
         civilite: "",
@@ -51,64 +53,64 @@ export const useFormStore = defineStore('form', {
       },
       //tarifs:null,
       tarifs:[
-        {
-            "formule": "ECO",
-            "tarif": "10.11",
-            "optionsCompatibles": {
-                "ASSISTANCE_MATERNELLE": "3.04",
-                "RACHAT_FRANCHISE": "2.8",
-                "IND_ENFANT_MINEUR": "0.00",
-                "SYS_PHOTOVOLTAIQUE": "4.05",
-                "LOCATION_SALLE": "1.87"
-            }
-        },
-        {
-            "formule": "CONFORT",
-            "tarif": "15.15",
-            "optionsCompatibles": {
-                "ASSISTANCE_MATERNELLE": "3.04",
-                "RACHAT_FRANCHISE": "3.84",
-                "IND_ENFANT_MINEUR": "0.00",
-                "SYS_PHOTOVOLTAIQUE": "4.05",
-                "DOMMAGE_ELECTRIQUE": "1.27",
-                "LOCATION_SALLE": "1.87"
-            }
-        },
-        {
-            "formule": "OPTIMALE",
-            "tarif": "19.3",
-            "optionsCompatibles": {
-                "ASSISTANCE_MATERNELLE": "3.04",
-                "RACHAT_FRANCHISE": "4.2",
-                "IND_ENFANT_MINEUR": "0.00",
-                "SYS_PHOTOVOLTAIQUE": "4.05",
-                "DOMMAGE_ELECTRIQUE": "1.39",
-                "LOCATION_SALLE": "1.87"
-            }
-        },
-        {
-            "formule": "PREMIUM",
-            "tarif": "21.35",
-            "optionsCompatibles": {
-                "ASSISTANCE_MATERNELLE": "3.04",
-                "RACHAT_FRANCHISE": "4.81",
-                "IND_ENFANT_MINEUR": "0.00",
-                "SYS_PHOTOVOLTAIQUE": "4.05",
-                "DOMMAGE_ELECTRIQUE": "1.5",
-                "LOCATION_SALLE": "1.87"
-            }
-        }
+        // {
+        //     "formule": "ECO",
+        //     "tarif": "10.11",
+        //     "optionsCompatibles": {
+        //         "ASSISTANCE_MATERNELLE": "3.04",
+        //         "RACHAT_FRANCHISE": "2.8",
+        //         "IND_ENFANT_MINEUR": "0.00",
+        //         "SYS_PHOTOVOLTAIQUE": "4.05",
+        //         "LOCATION_SALLE": "1.87"
+        //     }
+        // },
+        // {
+        //     "formule": "CONFORT",
+        //     "tarif": "15.15",
+        //     "optionsCompatibles": {
+        //         "ASSISTANCE_MATERNELLE": "3.04",
+        //         "RACHAT_FRANCHISE": "3.84",
+        //         "IND_ENFANT_MINEUR": "0.00",
+        //         "SYS_PHOTOVOLTAIQUE": "4.05",
+        //         "DOMMAGE_ELECTRIQUE": "1.27",
+        //         "LOCATION_SALLE": "1.87"
+        //     }
+        // },
+        // {
+        //     "formule": "OPTIMALE",
+        //     "tarif": "19.3",
+        //     "optionsCompatibles": {
+        //         "ASSISTANCE_MATERNELLE": "3.04",
+        //         "RACHAT_FRANCHISE": "4.2",
+        //         "IND_ENFANT_MINEUR": "0.00",
+        //         "SYS_PHOTOVOLTAIQUE": "4.05",
+        //         "DOMMAGE_ELECTRIQUE": "1.39",
+        //         "LOCATION_SALLE": "1.87"
+        //     }
+        // },
+        // {
+        //     "formule": "PREMIUM",
+        //     "tarif": "21.35",
+        //     "optionsCompatibles": {
+        //         "ASSISTANCE_MATERNELLE": "3.04",
+        //         "RACHAT_FRANCHISE": "4.81",
+        //         "IND_ENFANT_MINEUR": "0.00",
+        //         "SYS_PHOTOVOLTAIQUE": "4.05",
+        //         "DOMMAGE_ELECTRIQUE": "1.5",
+        //         "LOCATION_SALLE": "1.87"
+        //     }
+        // }
       ],
       selectedTarif:{
-          "formule": "ECO",
-          "tarif": "10.11",
-          "optionsCompatibles": {
-              "ASSISTANCE_MATERNELLE": "3.04",
-              "RACHAT_FRANCHISE": "2.8",
-              "IND_ENFANT_MINEUR": "0.00",
-              "SYS_PHOTOVOLTAIQUE": "4.05",
-              "LOCATION_SALLE": "1.87"
-          }
+          // "formule": "ECO",
+          // "tarif": "10.11",
+          // "optionsCompatibles": {
+          //     "ASSISTANCE_MATERNELLE": "3.04",
+          //     "RACHAT_FRANCHISE": "2.8",
+          //     "IND_ENFANT_MINEUR": "0.00",
+          //     "SYS_PHOTOVOLTAIQUE": "4.05",
+          //     "LOCATION_SALLE": "1.87"
+          // }
       },
 
     },
@@ -133,26 +135,29 @@ export const useFormStore = defineStore('form', {
         dateEffet : this.formData.step7.dateEffet,
         typeResidence : this.formData.step3.type_residence,
         typeHabitation : this.formData.step1.type_habitation,
-        qualiteAssure : this.formData.step2.statut_resident,
+        qualiteAssure : this.formData.step2.qualiteAssure,
         nbrPiecePrincipale : this.formData.step3.nbr_pieces_principales,
-        nbrPiecePrincipalePlus30m : this.formData.step4.pieceCount,
-        nbrDependance : this.formData.step4.surfaceDependance,
+        nbrPiecePrincipalePlus30m : this.formData.step4.nbrPiecePrincipalePlus30m,
+        nbrDependance : this.formData.step4.dependenceCount,
         nbrDependancePlus30m : this.formData.step4.dependenceCount,
+        nbPiecesPrincipalesSup50 : this.formData.step4.dependenceCount,
         resilieAutreAssureur : this.formData.step5.resilie_par_assureur3ans,
         sinistres2ansDerniers : this.formData.step5.declare_sinistre2ans,
-        insertOuCheminee :"NON",//selected options
+        insertOuCheminee : this.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
         chemineeConforme : this.formData.step4.cheminepro,
-        comporteInsert : "NON",//selected options
         surfaceDependances : this.formData.step4.surfaceDependance,
+        surfacePieces : this.formData.step3.surface_habitable,// à ajouter au ws savecontrat ECA
         nbEnfantMineur :  this.formData.step7.nbrEnfant,
         nbrEtageImmb : this.formData.step2.appartement_situe,
         etageBien : this.formData.step2.appartement_situe,
-        presenceVeranda : "NON",//selected options
-        presencePicineOuTennis :  "NON",//selected options
         capitalMobilier : this.formData.step6.valeur_bien,
-        niveauFranchise : "AUCUNE",
-        indemnMobilier : "VALEUR_USAGE",
-        niveauOJ : "ZERO"
+        comporteInsert : this.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
+        presenceVeranda :  this.formData.step4.selectedOptions.includes('veranda') ? 'OUI' : 'NON',
+        presencePicineOuTennis :  this.formData.step4.selectedOptions.includes('presencePicineOuTennis') ? 'OUI' : 'NON',
+        moyenProtectionVols :  this.formData.step4.selectedOptions.includes('alarme') ? 'OUI' : 'NON',
+        niveauFranchise : this.formData.step6.niveau_franchise,
+        indemnMobilier : this.formData.step6.indemnisation_mobilier,
+        niveauOJ : this.formData.step6.objets_valeur
       };
     },
   },

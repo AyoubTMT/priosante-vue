@@ -10,8 +10,8 @@
             <label for="maison-b" class="formLabel mb-3">Qualité de l'assuré</label>
             <div class="col-6 mt-0">
                 <div class="btn-group formIconContainer" role="group">
-                    <input type="radio" class="btn-check" name="statut_resident" value="LOCATAIRE_OCCUPANT"
-                        id="locataire" autocomplete="off" v-model="formData.statut_resident">
+                    <input type="radio" class="btn-check" name="qualiteAssure" value="LOCATAIRE_OCCUPANT"
+                        id="locataire" autocomplete="off" v-model="formData.qualiteAssure">
                     <label class="btn btn-outline-primary iconLabel" for="locataire">
                         <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
                                 height="15" alt="checked"></div>
@@ -22,8 +22,8 @@
             </div>
             <div class="col-6 mt-0">
                 <div class="btn-group formIconContainer" role="group">
-                    <input type="radio" class="btn-check" name="statut_resident" value="PROPRIETAIRE_OCCUPANT"
-                        id="proprietaire" autocomplete="off" v-model="formData.statut_resident">
+                    <input type="radio" class="btn-check" name="qualiteAssure" value="PROPRIETAIRE_OCCUPANT"
+                        id="proprietaire" autocomplete="off" v-model="formData.qualiteAssure">
                     <label class="btn btn-outline-primary iconLabel" for="proprietaire">
                         <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
                                 height="15" alt="checked"></div>
@@ -162,7 +162,7 @@ import { ref, reactive } from 'vue'
 const formStore = useFormStore();
 
 const formData = reactive({
-    statut_resident: "LOCATAIRE_OCCUPANT",
+    qualiteAssure: "LOCATAIRE_OCCUPANT",
     appartement_situe: "INTERMEDIAIRE",
     specification: "NON",
     zipcode: "",

@@ -28,7 +28,7 @@
                     m²</label>
                 <div class="sufpiece">
                     <input type="number" class="form-control" id="nbr_pieces_principales_sup30" placeholder="Ex : 5"
-                        v-model="formData.pieceCount" />
+                        v-model="formData.nbrPiecePrincipalePlus30m" />
                 </div>
                 <div class="errorMsg d-none">
                     <div class="d-flex align-items-center">
@@ -127,11 +127,11 @@
                         <div class="col-6">
                             <div class="btn-group formIconContainer miniClass" role="group"
                                 aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" value="OUI" id="chemOui"
-                                    v-model="formData.cheminepro" />
+                                <input type="radio" class="btn-check" value="OUI" id="chemOui" v-model="formData.cheminepro" />
                                 <label class="btn btn-outline-primary iconLabel" for="chemOui">
-                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
-                                            width="15" height="15" alt="checked"></div>
+                                    <div class="text-end checkedLabel">
+                                        <img src="../assets/icons/checkedicon.svg" width="15" height="15" alt="checked">
+                                    </div>
                                     <div class="twoBtns">Oui</div>
                                 </label>
                             </div>
@@ -139,28 +139,26 @@
                         <div class="col-6">
                             <div class="btn-group formIconContainer miniClass" role="group"
                                 aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" value="NON" id="chemNon"
-                                    v-model="formData.cheminepro" />
+                                <input type="radio" class="btn-check" value="NON" id="chemNon" v-model="formData.cheminepro" />
                                 <label class="btn btn-outline-primary iconLabel" for="chemNon">
-                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
-                                            width="15" height="15" alt="checked"></div>
+                                    <div class="text-end checkedLabel">
+                                        <img src="../assets/icons/checkedicon.svg" width="15" height="15" alt="checked">
+                                    </div>
                                     <div class="twoBtns">Non</div>
                                 </label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="errorMsg d-none">
+                <!-- Show the error message dynamically -->
+                <div class="errorMsg" v-if="showErrorMsg">
                     <div class="d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
-                            viewBox="0 0 10.497 10.008">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
                             <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
                                 <g id="Page-1" transform="translate(30 591)">
                                     <g id="Alert" transform="translate(5 5)">
-                                        <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)"
-                                            fill="none"></rect>
-                                        <path id="Path"
-                                            d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
+                                        <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)" fill="none"></rect>
+                                        <path id="Path" d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
                                             transform="translate(6.766 5.194)" fill="#f4627f"></path>
                                         <path id="Path-2" data-name="Path"
                                             d="M-.476.117A.524.524,0,0,1-1-.408V-.476A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v.068A.524.524,0,0,1-.476.117Z"
@@ -172,10 +170,11 @@
                                 </g>
                             </g>
                         </svg>
-                        <p class="m-0 ms-2">Veuillez renseigner votre nom</p>
+                        <p class="m-0 ms-2">Votre cheminée doit être certifiée par un professionnel du bâtiment.</p>
                     </div>
                 </div>
             </div>
+
             <div class="col-12 mt-0">
                 <div class="container-fluid p-0">
                     <div class="row align-items-center">
@@ -203,13 +202,14 @@ import verandaIcon from '../assets/icons/veranda.svg';
 import garageIcon from '../assets/icons/garage.svg';
 import alarmeIcon from '../assets/icons/alarme.svg';
 import pieceIcon from '../assets/icons/piece.svg';
+import piscineIcon from '../assets/icons/piscine.svg';
 
 import { ref, reactive, computed } from 'vue'
 const formStore = useFormStore();
 
 const formData = reactive({
     selectedOptions: [],
-    pieceCount: 0,
+    nbrPiecePrincipalePlus30m: 0,
     dependenceCount: 0,
     surfaceDependance: 0,
     cheminepro: 'OUI',
@@ -236,13 +236,13 @@ const options = reactive([
         icon: verandaIcon,
         alt: 'veranda',
     },
-    {
-        id: 'garage',
-        value: 'garage',
-        label: 'Garage ou box fermé',
-        icon: garageIcon,
-        alt: 'garage',
-    },
+    // {
+    //     id: 'garage',
+    //     value: 'garage',
+    //     label: 'Garage ou box fermé',
+    //     icon: garageIcon,
+    //     alt: 'garage',
+    // },
     {
         id: 'alarme',
         value: 'alarme',
@@ -257,8 +257,15 @@ const options = reactive([
         icon: pieceIcon,
         alt: 'superieur30m',
     },
+    {
+        id: 'presencePicineOuTennis',
+        value: 'presencePicineOuTennis',
+        label: 'Piscine et/ou un terrain de tennis',
+        icon: piscineIcon,
+        alt: 'presencePicineOuTennis',
+    },
 ])
-
+const showErrorMsg = computed(() => formData.cheminepro === "NON");
 const isAnyOptionSelected = computed(() => {
     return formData.selectedOptions.length > 0;
 });
@@ -272,8 +279,10 @@ const showChemSup = computed(() => {
     return formData.selectedOptions.includes('chemine');
 });
 function submitStep() {
-    formStore.updateStepData('step4', formData);
-    formStore.nextStep();
+    if(showErrorMsg.value == false){
+        formStore.updateStepData('step4', formData);
+        formStore.nextStep();
+    }
 }
 </script>
 

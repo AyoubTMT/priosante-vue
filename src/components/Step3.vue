@@ -36,9 +36,9 @@
         <label for="nbpiece" class="formLabel mb-3">Nombre de pièces principales</label>
         <div class="sufpiece">
           <input type="number" class="form-control" placeholder="Ex : 2" id="nbpiece"
-            v-model.number="formData.nbr_pieces_principales" min="1" max="5">
+            v-model.number="formData.nbr_pieces_principales" @input="validateNbrPieces" :class="{ 'inputError': showErrorMsg }">
         </div>
-        <div class="errorMsg d-none">
+        <div v-if="showErrorMsg"  class="errorMsg">
           <div class="d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
               <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
@@ -58,7 +58,7 @@
                 </g>
               </g>
             </svg>
-            <p class="m-0 ms-2">Ce champ est requis</p>
+            <p class="m-0 ms-2">{{errors.nbr_pieces_principales}}</p>
           </div>
         </div>
       </div>
@@ -66,9 +66,9 @@
         <label for="surfacem2" class="formLabel mb-3">Surface habitable en m²</label>
         <div class="sufm2">
           <input type="number" id="surfacem2" v-model.number="formData.surface_habitable" class="form-control"
-            placeholder="ex : 49m²">
+            placeholder="ex : 49m²" :class="{ 'inputError': showErrorMsg }">
         </div>
-        <div class="errorMsg d-none">
+        <div v-if="showErrorMsg" class="errorMsg">
           <div class="d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
               <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
@@ -111,17 +111,40 @@
 <script setup>
 import BonASavoir from '../components/BonASavoir.vue';
 import { useFormStore } from '@/stores/useFormStore';
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 const formStore = useFormStore();
 
 const formData = reactive({
   type_residence: 'RESIDENCE_PRINCIPALE',
-  nbr_pieces_principales: 1,
-  surface_habitable: 100
+  nbr_pieces_principales: '',
+  surface_habitable: '',
 })
+const errors = reactive({ nbr_pieces_principales: '' });
+const validateNbrPieces = () => {
+  if (formData.nbr_pieces_principales < 1) {
+    errors.nbr_pieces_principales = 'Le nombre de pièces principales doit être au moins de 1.';
+    showErrorMsg.value = true;
+  } else if (formData.nbr_pieces_principales > 6) {
+    errors.nbr_pieces_principales = 'Le nombre de pièces principales ne peut pas dépasser 6.'; 
+    showErrorMsg.value = true; 
+  } else { 
+    errors.nbr_pieces_principales = '';
+    showErrorMsg.value = false;
+  }
+};
+const showErrorMsg = ref(false)
+const showSurfaceError = computed(() => {
+  const value = formData.surface_habitable;
+  const value2 = formData.nbr_pieces_principales;
+  return value === 0 || value === '' || value2 === 0 || value2 === '';
+});
 function submitStep() {
-  formStore.updateStepData('step3', formData);
-  formStore.nextStep();
+  validateNbrPieces();
+  if(!showSurfaceError.value && !errors.nbr_pieces_principales){  
+    formStore.updateStepData('step3', formData);
+    formStore.nextStep();
+  }
+  showErrorMsg.value = 'true';
 }
 
 </script>
