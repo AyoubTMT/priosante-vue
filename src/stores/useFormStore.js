@@ -46,72 +46,75 @@ export const useFormStore = defineStore('form', {
         nom: "",
         prenom: "",
         telephone: "",
-        email: "",
-        birthDay: "",
-        dateEffet: "",
+        email: "test@gmail.com",
+        birthDay: "1980-01-01",
+        dateEffet: "2024-11-27",
         nbrEnfant: "0",
       },
       //tarifs:null,
       tarifs:[
-        // {
-        //     "formule": "ECO",
-        //     "tarif": "10.11",
-        //     "optionsCompatibles": {
-        //         "ASSISTANCE_MATERNELLE": "3.04",
-        //         "RACHAT_FRANCHISE": "2.8",
-        //         "IND_ENFANT_MINEUR": "0.00",
-        //         "SYS_PHOTOVOLTAIQUE": "4.05",
-        //         "LOCATION_SALLE": "1.87"
-        //     }
-        // },
-        // {
-        //     "formule": "CONFORT",
-        //     "tarif": "15.15",
-        //     "optionsCompatibles": {
-        //         "ASSISTANCE_MATERNELLE": "3.04",
-        //         "RACHAT_FRANCHISE": "3.84",
-        //         "IND_ENFANT_MINEUR": "0.00",
-        //         "SYS_PHOTOVOLTAIQUE": "4.05",
-        //         "DOMMAGE_ELECTRIQUE": "1.27",
-        //         "LOCATION_SALLE": "1.87"
-        //     }
-        // },
-        // {
-        //     "formule": "OPTIMALE",
-        //     "tarif": "19.3",
-        //     "optionsCompatibles": {
-        //         "ASSISTANCE_MATERNELLE": "3.04",
-        //         "RACHAT_FRANCHISE": "4.2",
-        //         "IND_ENFANT_MINEUR": "0.00",
-        //         "SYS_PHOTOVOLTAIQUE": "4.05",
-        //         "DOMMAGE_ELECTRIQUE": "1.39",
-        //         "LOCATION_SALLE": "1.87"
-        //     }
-        // },
-        // {
-        //     "formule": "PREMIUM",
-        //     "tarif": "21.35",
-        //     "optionsCompatibles": {
-        //         "ASSISTANCE_MATERNELLE": "3.04",
-        //         "RACHAT_FRANCHISE": "4.81",
-        //         "IND_ENFANT_MINEUR": "0.00",
-        //         "SYS_PHOTOVOLTAIQUE": "4.05",
-        //         "DOMMAGE_ELECTRIQUE": "1.5",
-        //         "LOCATION_SALLE": "1.87"
-        //     }
-        // }
+        {
+            "formule": "ECO",
+            "tarif": "10.11",
+            "optionsCompatibles": {
+                "ASSISTANCE_MATERNELLE": "3.04",
+                "RACHAT_FRANCHISE": "2.8",
+                "IND_ENFANT_MINEUR": "0.00",
+                "SYS_PHOTOVOLTAIQUE": "4.05",
+                "LOCATION_SALLE": "1.87"
+            }
+        },
+        {
+            "formule": "CONFORT",
+            "tarif": "15.15",
+            "optionsCompatibles": {
+                "ASSISTANCE_MATERNELLE": "3.04",
+                "RACHAT_FRANCHISE": "3.84",
+                "IND_ENFANT_MINEUR": "0.00",
+                "SYS_PHOTOVOLTAIQUE": "4.05",
+                "DOMMAGE_ELECTRIQUE": "1.27",
+                "LOCATION_SALLE": "1.87"
+            }
+        },
+        {
+            "formule": "OPTIMALE",
+            "tarif": "19.3",
+            "optionsCompatibles": {
+                "ASSISTANCE_MATERNELLE": "3.04",
+                "RACHAT_FRANCHISE": "4.2",
+                "IND_ENFANT_MINEUR": "0.00",
+                "SYS_PHOTOVOLTAIQUE": "4.05",
+                "DOMMAGE_ELECTRIQUE": "1.39",
+                "LOCATION_SALLE": "1.87"
+            }
+        },
+        {
+            "formule": "PREMIUM",
+            "tarif": "21.35",
+            "optionsCompatibles": {
+                "ASSISTANCE_MATERNELLE": "3.04",
+                "RACHAT_FRANCHISE": "4.81",
+                "IND_ENFANT_MINEUR": "0.00",
+                "SYS_PHOTOVOLTAIQUE": "4.05",
+                "DOMMAGE_ELECTRIQUE": "1.5",
+                "LOCATION_SALLE": "1.87"
+            }
+        }
       ],
       selectedTarif:{
-          // "formule": "ECO",
-          // "tarif": "10.11",
-          // "optionsCompatibles": {
-          //     "ASSISTANCE_MATERNELLE": "3.04",
-          //     "RACHAT_FRANCHISE": "2.8",
-          //     "IND_ENFANT_MINEUR": "0.00",
-          //     "SYS_PHOTOVOLTAIQUE": "4.05",
-          //     "LOCATION_SALLE": "1.87"
-          // }
+          "formule": "ECO",
+          "tarif": "10.11",
+          "optionsCompatibles": {
+              "ASSISTANCE_MATERNELLE": "3.04",
+              "RACHAT_FRANCHISE": "2.8",
+              "IND_ENFANT_MINEUR": "0.00",
+              "SYS_PHOTOVOLTAIQUE": "4.05",
+              "LOCATION_SALLE": "1.87"
+          }
       },
+      selectedTarifOptions:[],
+      informations : {}
+
 
     },
     
@@ -153,9 +156,14 @@ export const useFormStore = defineStore('form', {
       indemnMobilier: state.formData.step6.indemnisation_mobilier,
       niveauOJ: state.formData.step6.objets_valeur
     })
+
   },
+
   actions: {
     updateStepData(step, data) {
+      if(step == "tarifs" || step == "selectedTarifOptions"  ){
+        this.formData[step]=[];
+      }
       this.formData[step] = { ...this.formData[step], ...data };
     },
     nextStep() {

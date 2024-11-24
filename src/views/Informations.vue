@@ -35,8 +35,7 @@
             </div>
         </div>
     </header>
-    <form id="formulaire" class="p-0" action="#/devis/paiement"
-        method="POST">
+    <form @submit.prevent="submitStep">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 mt-3">
@@ -51,40 +50,16 @@
             <div class="row justify-content-center">
                 <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6">
                     <div class="container-fluid p-0 mb-3">
-                        <!-- <div class="row">
-                            <label for="tutelle" class="formLabel mb-3">Êtes-vous sous tutelle ou curatelle</label>
-
-                            <div class="col-6 mt-0">
-                                <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="tutelle" value="nontutelle" id="nontutelle" autocomplete="off" checked />
-                                    <label class="btn btn-outline-primary iconLabel" for="nontutelle">
-                                        <div class="text-end checkedLabel"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/checkedicon.svg" width="15" height="15" alt="checked" /></div>
-                                        <div class="btnImg"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/non.svg" alt="Non" /></div>
-                                        <div>Non</div>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-6 mt-0">
-                                <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="tutelle" value="tutelle" id="tutelle" autocomplete="off" />
-                                    <label class="btn btn-outline-primary iconLabel" for="tutelle">
-                                        <div class="text-end checkedLabel"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/checkedicon.svg" width="15" height="15" alt="checked" /></div>
-                                        <div class="btnImg"><img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/oui.svg" alt="Oui" /></div>
-                                        <div>Oui</div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div> -->
+                       
                     </div>
                     <label class="formLabel mb-3">Vérifiez et complétez votre adresse postale</label>
                     <div class="container-fluid p-0">
                         <div class="row">
                             <div class="col-6">
-                                <input type="number" class="form-control mb-3 " name="numero" value="" id="num-voie"
-                                    placeholder="N° de voie">
+                                <input v-model="infomations.numeroVoie"  type="number" class="form-control mb-3" placeholder="N° de voie">
                             </div>
                             <div class="col-6">
-                                <select id="type_voie" name="type_voie" class="mb-3 form-select">
+                                <select v-model="infomations.typeVoie" class="mb-3 form-select">
                                     <option value="RUE">rue</option>
                                     <option value="ALLEE">allée</option>
                                     <option value="AVENUE">avenue</option>
@@ -114,9 +89,8 @@
                                 </select>
                             </div>
                             <div class="col-12 mt-0 mb-3 VotreCodepostale">
-                                <input type="text" class="form-control adressePostale" autocomplete="off"
-                                    id="adressePostale" placeholder="Votre adresse postale" name="adressePostale">
-                                <div class="errorMsg">
+                                <input v-model="infomations.adressePostale" type="text" class="form-control adressePostale" autocomplete="off" placeholder="Votre adresse postale">
+                                <div  v-show="showErrorMsg" class="errorMsg">
                                     <div class="d-flex align-items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
                                             viewBox="0 0 10.497 10.008">
@@ -141,16 +115,13 @@
                                         <p class="m-0 ms-2">Une ville doit être sélectionnée.</p>
                                     </div>
                                 </div>
-                                <!-- <div class="adressesResult">
-                                    <ul id="adresses"></ul>
-                                </div>
-                                <input type="hidden" name="ville" class="form-control villeSearch" placeholder="code" /> -->
+                             
                             </div>
                             <div class="col-12 mt-0 mb-3 VotreCodepostale">
                                 <!-- <label for="#zipcode" class="formLabel mb-2">Votre code postale ou ville</label> -->
                                 <input type="text" class="form-control villeCpSearch" autocomplete="off" id="zipcode"
-                                    placeholder="Ville ou code postale" disabled="" value="75001 Paris">
-                                <div class="errorMsg">
+                                    placeholder="Ville ou code postale" disabled="" :value="zipCode">
+                                <div  v-show="showErrorMsg" class="errorMsg">
                                     <div class="d-flex align-items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
                                             viewBox="0 0 10.497 10.008">
@@ -175,13 +146,6 @@
                                         <p class="m-0 ms-2">Une ville doit être sélectionnée.</p>
                                     </div>
                                 </div>
-                                <div class="villeSearchResult">
-                                    <ul id="villesCp"></ul>
-                                </div>
-                                <input type="hidden" name="ville_risque" class="form-control villeSearch"
-                                    placeholder="ville">
-                                <input type="hidden" name="code_postal_risque" class="form-control cpSearch"
-                                    placeholder="cp">
                             </div>
                         </div>
                     </div>
@@ -189,8 +153,8 @@
                             class="pusletooltip" data-bs-toggle="modal" data-bs-target="#infoMobile"><i
                                 class="fa-solid fa-question" aria-hidden="true"></i></button></label>
                     <input type="tel" class="form-control mobileInput" placeholder="Votre numéro de téléphone mobile"
-                        maxlength="10" name="mobile" pattern="[0-9]*" value="">
-                    <div class="errorMsg">
+                        maxlength="10"  pattern="[0-9]*" v-model="infomations.tel">
+                    <div  v-show="showErrorMsg" class="errorMsg">
                         <div class="d-flex align-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
                                 viewBox="0 0 10.497 10.008">
@@ -250,7 +214,7 @@
             </div>
         </div>
     </form>
-    <div class="modal fade" id="infoMobile" tabindex="-1" aria-labelledby="infoMobileLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="infoMobile" tabindex="-1" aria-labelledby="infoMobileLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0 px-4 pb-0">
@@ -268,14 +232,35 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script setup>
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { useFormStore } from '@/stores/useFormStore';
+import { ref, reactive } from 'vue'
+import { createPersistedState } from 'pinia-plugin-persistedstate';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const formStore = useFormStore();
 
+const showErrorMsg = ref(false);
+
+const zipCode = formStore.getFormData.step2.zipcode;
+
+const infomations = reactive({
+    numeroVoie: "23", // Default value
+    typeVoie: "RUE", 
+    adressePostale: " test tessst",
+    tel: "0615151515", // Default value
+})
+
+function submitStep(){
+    formStore.updateStepData('infomations', infomations);
+    router.push('/devis/paiement');
+}
 </script>
 
 <style>

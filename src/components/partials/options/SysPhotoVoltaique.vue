@@ -1,8 +1,6 @@
 <template>
-   <div class="col-12 mt-3">
-                        <input type="checkbox" id="maternite" name="tarif_assistance_maternelle" class="addon d-none"
-                            value="2,54">
-                        <label for="maternite" class="d-flex align-items-center osingle">
+
+                        <label :for="option" class="d-flex align-items-center osingle">
                             <div class="oicon">
                                 <img src="../../../assets/icons/maternite.svg"
                                     alt="maternite" width="45px">
@@ -11,11 +9,10 @@
                             <div class="d-flex align-items-center w-100 justify-content-between">
                                 <div class="p-2">
                                     <div class="otitre">
-                                        Assistance maternelle
+                                        SYS_PHOTOVOLTAIQUE
                                     </div>
                                     <div class="odescription">
-                                        Couvre les dommages causés ou subis par les enfants qui vous sont confiés dans
-                                        le cadre de votre activité professionnelle jusqu’à trois enfants gardés.
+                                       xxxxxxxxx
                                     </div>
                                 </div>
                                 <div class="oprice d-flex">
@@ -42,13 +39,12 @@
                                 </div>
                             </div>
                         </label>
-                    </div>
 </template>
 
 <script setup>
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-const props = defineProps(['price'])
+const props = defineProps(['price','option'])
 
 </script>

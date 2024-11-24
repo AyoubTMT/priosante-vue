@@ -1,7 +1,5 @@
 <template>
- <div class="col-12 mt-3">
-                        <input type="checkbox" id="salle" name="tarif_location_salle" class="addon d-none" value="1,56">
-                        <label for="salle" class="d-flex align-items-center osingle">
+                        <label :for="option" class="d-flex align-items-center osingle">
                             <div class="oicon">
                                 <img src="../../../assets/icons/salle.svg"
                                     alt="salle">
@@ -41,13 +39,12 @@
                                 </div>
                             </div>
                         </label>
-                    </div>
 </template>
 
 <script setup>
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-const props = defineProps(['price'])
+const props = defineProps(['price','option'])
 
 </script>

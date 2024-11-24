@@ -35,8 +35,7 @@
             </div>
         </div>
     </header>
-    <form id="formulaire_form" action="#/devis/informations" method="POST"
-        class="p-0">
+    <form @submit.prevent="submitStep">
         <input type="hidden" name="dd">
 
         <div class="container">
@@ -55,21 +54,31 @@
 
                     <div v-for="(price, option) in selectedTarif.optionsCompatibles" :key="option">
                         {{ option }}
-                        <rachat-franchise v-if="option == 'RACHAT_FRANCHISE'" :price="price" />
-                        <assistance-maternelle v-else-if="option == 'ASSISTANCE_MATERNELLE'" :price="price" />
-                        <sys-photo-voltaique v-else-if="option == 'SYS_PHOTOVOLTAIQUE'" :price="price" />
-                        <location-sale v-else-if="option == 'LOCATION_SALLE'" :price="price" />
-                        <ind-enfant-mineur v-else-if="option == 'IND_ENFANT_MINEUR'" :price="price" />
-                        <dommage-electrique v-else-if="option == 'DOMMAGE_ELECTRIQUE'" :price="price" />
+                        <div class="col-12 mt-3" v-if="option == 'RACHAT_FRANCHISE'">
+                            <input type="checkbox" class="addon d-none"  :id="option" :value="option" v-model="tarifOptions" />
+                            <rachat-franchise  :price="price" :option="option" />
+                        </div>
+
+                        <div class="col-12 mt-3" v-else-if="option == 'ASSISTANCE_MATERNELLE'">
+                            <input type="checkbox" class="addon d-none"  :id="option" :value="option" v-model="tarifOptions" />
+                            <assistance-maternelle   :price="price" :option="option" />
+                        </div>
+
+                        <div class="col-12 mt-3" v-else-if="option == 'SYS_PHOTOVOLTAIQUE'">
+                            <input type="checkbox" class="addon d-none"  :id="option" :value="option" v-model="tarifOptions" />
+                            <sys-photo-voltaique    :price="price" :option="option" />
+                        </div>
+                        <div class="col-12 mt-3" v-else-if="option == 'LOCATION_SALLE'">
+                            <input type="checkbox" class="addon d-none"  :id="option" :value="option" v-model="tarifOptions" />
+                            <location-sale    :price="price" :option="option" />
+                        </div>
+                        <div class="col-12 mt-3" v-else-if="option == 'DOMMAGE_ELECTRIQUE'">
+                            <input type="checkbox" class="addon d-none"  :id="option" :value="option" v-model="tarifOptions" />
+                            <dommage-electrique   :price="price" :option="option" />
+                        </div>
+                        <!-- <ind-enfant-mineur v-else-if="option == 'IND_ENFANT_MINEUR'" :price="price" /> -->
                     </div>
                     
-
-                   
-
-                   
-
-                 
-
                     <div class="col-12 mt-0 mb-5">
                         <div class="container-fluid p-0">
                             <div class="row align-items-center">
@@ -119,11 +128,23 @@ import IndEnfantMineur from '../components/partials/options/IndEnfantMineur.vue'
 import LocationSale from '../components/partials/options/LocationSale.vue';
 import SysPhotoVoltaique from '../components/partials/options/SysPhotoVoltaique.vue';
 import { useFormStore } from '../stores/useFormStore';
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
 const formStore = useFormStore();
 
 // get selected tarif
 const selectedTarif = formStore.getSelectedTarif;
 
+const tarifOptions = ref([])
+
+function submitStep (){
+    formStore.updateStepData('selectedTarifOptions', tarifOptions);
+    router.push('/devis/informations');
+
+}
 
 </script>
 
