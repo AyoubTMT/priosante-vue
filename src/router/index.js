@@ -50,6 +50,11 @@ const router = createRouter({
       component: () => import('../views/Paiement.vue'),
     },
     {
+      path: '/devis/complet',
+      name: 'complet',
+      component: () => import('../views/document.vue'),
+    },
+    {
       path: '/:pathMatch(.*)*',
       redirect: '/', // Redirect undefined routes to home 
     },

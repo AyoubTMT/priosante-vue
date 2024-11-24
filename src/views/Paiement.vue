@@ -170,9 +170,12 @@
 <script setup>
     import 'bootstrap/dist/css/bootstrap.min.css';
     import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+    import { useRouter } from 'vue-router';
     import { useFormStore } from '../stores/useFormStore';
     import { ref, reactive, computed } from 'vue';
-
+    import axios from 'axios';
+    
+    const router = useRouter();
     const formStore = useFormStore();
     const selectedTarif = reactive(formStore.getSelectedTarif);
     const selectedOptions = formStore.getSelectedTarifOptions;
@@ -261,7 +264,27 @@
         'red': formSubmitted.value && !formData.declaration 
     }));
 
-    const accederAuDevis = () => {
+    const saveDevis = async () => {
+      const dataSave = formStore.getDataForSave;
+      try {
+        const response = await axios.post('http://assurmabarak-laravel.test/api/save', dataSave);
+        if (response.status === 200) {
+          formStore.updateStepData('devisComplet', response.data.response);
+          router.push('/devis/complet');
+        }
+        console.log(response);
+        } catch (error) {
+            if (error.response) {
+                console.error('Error data:', error.response.data);
+            } else if (error.request) {
+                console.error('No response:', error.request);
+            } else {
+                console.error('Error', error.message);// Axios setup error
+            }
+        }
+    };
+
+    const accederAuDevis = async () => {
         formSubmitted.value = true;
         
         ibanError.value = formData.iban ? !isValidIBANNumber(formData.iban) : false;
@@ -269,7 +292,11 @@
         console.log(isFormValid ? "Form is valid" : "Form is not valid");
 
         if (isFormValid) {
-
+            try {
+                await saveDevis();
+            } catch (error) {
+                console.error("Error during saving devis:", error);
+            }
         }
     };
 </script>
