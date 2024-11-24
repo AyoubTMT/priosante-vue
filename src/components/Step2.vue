@@ -160,14 +160,15 @@ import { useFormStore } from '@/stores/useFormStore';
 import { ref, reactive } from 'vue'
 
 const formStore = useFormStore();
+const step2Data = formStore.getFormData;
 
 const formData = reactive({
-    qualiteAssure: "LOCATAIRE_OCCUPANT",
-    appartement_situe: "INTERMEDIAIRE",
-    specification: "NON",
-    zipcode: "",
-    codePostal: "",
-    ville: "",
+    qualiteAssure: step2Data.step2.qualiteAssure || "LOCATAIRE_OCCUPANT",
+    appartement_situe: step2Data.step2.appartement_situe || "INTERMEDIAIRE",
+    specification: step2Data.step2.specification || "NON",
+    zipcode: step2Data.step2.zipcode || "",
+    codePostal: step2Data.step2.codePostal || "",
+    ville: step2Data.step2.ville || "",
 })
 
 const villes = ref([])

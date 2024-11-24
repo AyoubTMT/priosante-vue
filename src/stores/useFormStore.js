@@ -12,13 +12,13 @@ export const useFormStore = defineStore('form', {
         assured: '',
       },
       step2: {
-        qualiteAssure: '',
+        qualiteAssure: 'LOCATAIRE_OCCUPANT',
         appartement_situe: '',
         specification: '',
         zipcode: '',
       },
       step3: {
-        type_residence: '',
+        type_residence: 'RESIDENCE_PRINCIPALE',
         nbr_pieces_principales: '',
         surface_habitable: '',
       },
@@ -49,7 +49,7 @@ export const useFormStore = defineStore('form', {
         email: "",
         birthDay: "",
         dateEffet: "",
-        nbrEnfant: "",
+        nbrEnfant: "0",
       },
       //tarifs:null,
       tarifs:[
@@ -119,51 +119,44 @@ export const useFormStore = defineStore('form', {
     responseError: null,
   }),
   getters: {
-    getTarifs() {
-      return this.formData.tarifs;
-    },
-    getSelectedTarif() {
-      return this.formData.selectedTarif;
-    },
-    getDateEffet() {
-      return this.formData.step7.dateEffet;
-    },
-    getDataForTarif() {
-      return {
-        codePostal : 75001,
-        ville : 'paris',
-        dateEffet : this.formData.step7.dateEffet,
-        typeResidence : this.formData.step3.type_residence,
-        typeHabitation : this.formData.step1.type_habitation,
-        qualiteAssure : this.formData.step2.qualiteAssure,
-        nbrPiecePrincipale : this.formData.step3.nbr_pieces_principales,
-        nbrPiecePrincipalePlus30m : this.formData.step4.nbrPiecePrincipalePlus30m,
-        nbrDependance : this.formData.step4.dependenceCount,
-        nbrDependancePlus30m : this.formData.step4.dependenceCount,
-        nbPiecesPrincipalesSup50 : this.formData.step4.dependenceCount,
-        resilieAutreAssureur : this.formData.step5.resilie_par_assureur3ans,
-        sinistres2ansDerniers : this.formData.step5.declare_sinistre2ans,
-        insertOuCheminee : this.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
-        chemineeConforme : this.formData.step4.cheminepro,
-        surfaceDependances : this.formData.step4.surfaceDependance,
-        surfacePieces : this.formData.step3.surface_habitable,// à ajouter au ws savecontrat ECA
-        nbEnfantMineur :  this.formData.step7.nbrEnfant,
-        nbrEtageImmb : this.formData.step2.appartement_situe,
-        etageBien : this.formData.step2.appartement_situe,
-        capitalMobilier : this.formData.step6.valeur_bien,
-        comporteInsert : this.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
-        presenceVeranda :  this.formData.step4.selectedOptions.includes('veranda') ? 'OUI' : 'NON',
-        presencePicineOuTennis :  this.formData.step4.selectedOptions.includes('presencePicineOuTennis') ? 'OUI' : 'NON',
-        moyenProtectionVols :  this.formData.step4.selectedOptions.includes('alarme') ? 'OUI' : 'NON',
-        niveauFranchise : this.formData.step6.niveau_franchise,
-        indemnMobilier : this.formData.step6.indemnisation_mobilier,
-        niveauOJ : this.formData.step6.objets_valeur
-      };
-    },
+    getFormData: (state) => state.formData,
+    getTarifs: (state) => state.formData.tarifs,
+    getSelectedTarif: (state) => state.formData.selectedTarif,
+    getDateEffet: (state) => state.formData.step7.dateEffet,
+    getDataForTarif: (state) => ({
+      codePostal : 75001,
+      ville : 'paris',
+      dateEffet : state.formData.step7.dateEffet,
+      typeResidence : state.formData.step3.type_residence,
+      typeHabitation : state.formData.step1.type_habitation,
+      qualiteAssure : state.formData.step2.qualiteAssure,
+      nbrPiecePrincipale : state.formData.step3.nbr_pieces_principales,
+      nbrPiecePrincipalePlus30m : state.formData.step4.nbrPiecePrincipalePlus30m,
+      nbrDependance : state.formData.step4.dependenceCount,
+      nbrDependancePlus30m : state.formData.step4.dependenceCount,
+      nbPiecesPrincipalesSup50 : state.formData.step4.dependenceCount,
+      resilieAutreAssureur : state.formData.step5.resilie_par_assureur3ans,
+      sinistres2ansDerniers : state.formData.step5.declare_sinistre2ans,
+      insertOuCheminee : state.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
+      chemineeConforme : state.formData.step4.cheminepro,
+      surfaceDependances : state.formData.step4.surfaceDependance,
+      surfacePieces : state.formData.step3.surface_habitable,// à ajouter au ws savecontrat ECA
+      nbEnfantMineur :  state.formData.step7.nbrEnfant,
+      nbrEtageImmb : state.formData.step2.appartement_situe,
+      etageBien : state.formData.step2.appartement_situe,
+      capitalMobilier : state.formData.step6.valeur_bien,
+      comporteInsert : state.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
+      presenceVeranda :  state.formData.step4.selectedOptions.includes('veranda') ? 'OUI' : 'NON',
+      presencePicineOuTennis :  state.formData.step4.selectedOptions.includes('presencePicineOuTennis') ? 'OUI' : 'NON',
+      moyenProtectionVols :  state.formData.step4.selectedOptions.includes('alarme') ? 'OUI' : 'NON',
+      niveauFranchise : state.formData.step6.niveau_franchise,
+      indemnMobilier: state.formData.step6.indemnisation_mobilier,
+      niveauOJ: state.formData.step6.objets_valeur
+    })
   },
   actions: {
     updateStepData(step, data) {
-      this.formData[step] = data;
+      this.formData[step] = { ...this.formData[step], ...data };
     },
     nextStep() {
       this.currentStep++;
@@ -181,5 +174,6 @@ export const useFormStore = defineStore('form', {
   },
   persist: {
     enabled: true,
+    storage: localStorage // or sessionStorage
   },
 });

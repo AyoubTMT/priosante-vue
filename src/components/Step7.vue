@@ -299,16 +299,17 @@ export default {
   setup() {
     const formStore = useFormStore();
     const router = useRouter();
+    const step7Data = formStore.getFormData;
 
     const form = reactive({
-      civilite: "MR",
-      nom: "",
-      prenom: "",
-      telephone: "",
-      email: "",
-      birthDay: "1980-01-01",
-      dateEffet: "2024-12-23",
-      nbrEnfant: "0",
+      civilite: step7Data.step7.civilite || "MR",
+      nom: step7Data.step7.nom,
+      prenom: step7Data.step7.prenom,
+      telephone: step7Data.step7.telephone,
+      email: step7Data.step7.email,
+      birthDay: step7Data.step7.birthDay,
+      dateEffet: step7Data.step7.dateEffet,
+      nbrEnfant: 0,//step7Data.step7.nbrEnfant,
     });
 
     const errors = reactive({
@@ -397,7 +398,13 @@ export default {
         }
         console.log(response);
       } catch (error) {
-        console.log(error);
+            if (error.response) {
+                console.error('Error data:', error.response.data);
+            } else if (error.request) {
+                console.error('No response:', error.request);
+            } else {
+                console.error('Error', error.message);// Axios setup error
+            }
       }
     };
 

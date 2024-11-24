@@ -1,5 +1,9 @@
 <script setup>
 import "../assets/tailwind.css"; // Import Tailwind only for this page
+const clearLocalStorage = () => {
+  localStorage.clear();
+  console.log("LocalStorage cleared, starting a new devis.");
+};
 
 </script>
 
@@ -27,7 +31,7 @@ import "../assets/tailwind.css"; // Import Tailwind only for this page
                             <p className=''>
                                 <!-- <router-link to="/devis">Devis en ligne</router-link> -->
                                 <router-link to="/devis">
-                                    <button class="py-2 px-3 bg-orange-500 rounded-md rounded-lg rounded-xl border-orange-500 border-2 mobile:text-xs text-xl text-white font-semibold buttonLimouni">
+                                    <button @click="clearLocalStorage" class="py-2 px-3 bg-orange-500 rounded-md rounded-lg rounded-xl border-orange-500 border-2 mobile:text-xs text-xl text-white font-semibold buttonLimouni">
                                         Devis en ligne
                                     </button>
                                 </router-link>

@@ -113,11 +113,12 @@ import BonASavoir from '../components/BonASavoir.vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { ref, reactive, computed } from 'vue'
 const formStore = useFormStore();
+const step3Data = formStore.getFormData;
 
 const formData = reactive({
-  type_residence: 'RESIDENCE_PRINCIPALE',
-  nbr_pieces_principales: '',
-  surface_habitable: '',
+  type_residence: step3Data.step3.type_residence || 'RESIDENCE_PRINCIPALE',
+  nbr_pieces_principales: step3Data.step3.nbr_pieces_principales,
+  surface_habitable: step3Data.step3.surface_habitable,
 })
 const errors = reactive({ nbr_pieces_principales: '' });
 const validateNbrPieces = () => {
