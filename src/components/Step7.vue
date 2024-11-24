@@ -394,6 +394,7 @@ export default {
         const response = await axios.post('http://assurmabarak-laravel.test/api/tarificateur', dataTarif);
         if (response.status === 200) {
           formStore.updateStepData('tarifs', response.data.response);
+          formStore.nextStep();
           router.push('/devis/tarifs');
         }
         console.log(response);

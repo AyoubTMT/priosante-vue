@@ -211,6 +211,9 @@ export const useFormStore = defineStore('form', {
     nextStep() {
       this.currentStep++;
     },
+    updateCurrentStep(step) {
+      this.currentStep = step;
+    },
     prevStep(router) {
       this.currentStep--;
       if (this.currentStep === 0) {
