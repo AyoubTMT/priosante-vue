@@ -142,7 +142,7 @@
                         </div>
                     </div>
     
-                    <button type="submit" class="navBtn nextBtn mt-4">Accéder au paiement </button>
+                    <button type="submit" class="navBtn nextBtn mt-4">Completer le devis </button>
                 </div>
             </div>
 
