@@ -71,9 +71,9 @@ const decimalPart = computed(() => {
 });
 
 function defineTarifSelected(selectedTarif) {
-    this.formStore.updateStepData('selectedTarif', selectedTarif);
-    this.router.push('/devis/options');
-
+    formStore.updateStepData('selectedTarif', selectedTarif);
+    formStore.nextStep();
+    router.push('/devis/options');
 }
 
 function formatDate(value) {
