@@ -177,7 +177,7 @@
     
     const router = useRouter();
     const formStore = useFormStore();
-    const selectedTarif = reactive(formStore.getSelectedTarif);
+    const selectedTarif = formStore.getSelectedTarif;
     const selectedOptions = formStore.getSelectedTarifOptions;
     const ibanError = ref(false);
     const formSubmitted = ref(false);
@@ -190,12 +190,16 @@
     // calcul total tarif
     function updateTarifWithOptions() {
         let tarif = parseFloat(selectedTarif.tarif);
-        for (const option of Object.values(selectedOptions)) {
-            if (selectedTarif.optionsCompatibles[option]) {
-                tarif += parseFloat(selectedTarif.optionsCompatibles[option]);
+        console.log(selectedOptions);
+        console.log(Object.values(selectedOptions));
+        if (selectedOptions) {
+            for (const option of Object.values(selectedOptions)) {
+                if (selectedTarif.optionsCompatibles[option]) {
+                    tarif += parseFloat(selectedTarif.optionsCompatibles[option]);
+                }
             }
+            formStore.finalTarif = tarif.toFixed(2);
         }
-        formStore.finalTarif = tarif.toFixed(2);
     }
     
     function formatTarifWithComma(tarif) {

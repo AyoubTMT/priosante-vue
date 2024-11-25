@@ -38,8 +38,8 @@
     
     <div class="container">
         <div class="row justify-content-center">
-            <div :style="{ height: '700px' }">
-                <VPdfViewer :src="pdfFileSource"/>
+            <div>
+                <iframe :src="pdfFileSource" width="100%" height="700px"></iframe>
             </div>
         </div>
     </div>

@@ -206,7 +206,7 @@ export const useFormStore = defineStore('form', {
       if(step == "tarifs" || step == "selectedTarifOptions"  ){
         this.formData[step]=[];
       }
-      this.formData[step] = { ...this.formData[step], ...data };
+      this.formData[step] = data;
     },
     nextStep() {
       this.currentStep++;

@@ -225,7 +225,7 @@ const infomations = reactive({
 })
 
 function submitStep(){
-    formStore.updateStepData('infomations', infomations);
+    formStore.updateStepData('informations', infomations);
     formStore.nextStep();
     router.push('/devis/paiement');
 }
