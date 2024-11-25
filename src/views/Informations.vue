@@ -202,8 +202,6 @@
 </template>
 
 <script setup>
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useFormStore } from '@/stores/useFormStore';
 import { ref, reactive } from 'vue'
 import { createPersistedState } from 'pinia-plugin-persistedstate';

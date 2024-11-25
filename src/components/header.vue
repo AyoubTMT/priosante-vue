@@ -33,6 +33,9 @@
 </header>
 </template>
 <script setup>
+    import 'bootstrap/dist/css/bootstrap.min.css';
+    import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+    import 'vue3-toastify/dist/index.css';
     import { useFormStore } from '../stores/useFormStore';
     import { useRouter } from 'vue-router';
     const router = useRouter();

@@ -12,8 +12,6 @@
 </template>
 
 <script setup>
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { VPdfViewer } from "@vue-pdf-viewer/viewer";
 import { useFormStore } from '@/stores/useFormStore';
 import { ref, onMounted } from 'vue';

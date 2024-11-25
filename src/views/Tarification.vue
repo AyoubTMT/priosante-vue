@@ -403,15 +403,9 @@
 </template>
 
 <script setup>
-
-    import 'bootstrap/dist/css/bootstrap.min.css';
-    import 'bootstrap/dist/js/bootstrap.bundle.min.js';
     import 'vue3-carousel/dist/carousel.css'
     import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-
     import { useFormStore } from '../stores/useFormStore';
-    import Step8 from '../components/Step8.vue';
-    import Step9 from '../components/Step9.vue';
     import { useRouter } from 'vue-router';
     import MySlide from '../components/slide.vue';
     import MyHeader from '../components/header.vue';

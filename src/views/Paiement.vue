@@ -139,14 +139,16 @@
 </template>
 
 <script setup>
-    import 'bootstrap/dist/css/bootstrap.min.css';
-    import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
     import MyHeader from '../components/header.vue';
 
     import { useRouter } from 'vue-router';
     import { useFormStore } from '../stores/useFormStore';
     import { ref, reactive, computed } from 'vue';
     import axios from 'axios';
+    import { toast } from 'vue3-toastify';
+    
+
     const loadingDevis = ref(false);
     const router = useRouter();
     const formStore = useFormStore();
@@ -242,9 +244,10 @@
     }));
 
     const saveDevis = async () => {
+        
         const dataSave = formStore.getDataForSave;
         loadingDevis.value =true;
-        await axios.post('https://php.assurmabarak.com/api/save', dataSave)
+        await axios.post(import.meta.env.VITE_BASE_URL+'/api/save', dataSave)
         .then(response => {
             if (response.status === 200) {
                 formStore.updateStepData('devisComplet', response.data.response);
@@ -253,6 +256,7 @@
             }
         })
         .catch(({response}) => {
+            toast.error('une erreur est survenue merci de réessayer plus tard');
             console.error('Error data:');
             console.log(response);
         }).finally(() => {

@@ -295,7 +295,7 @@ import { useFormStore } from '@/stores/useFormStore';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import {VueSpinner} from 'vue3-spinners';
-
+import { toast } from 'vue3-toastify';
 
     const formStore = useFormStore();
     const router = useRouter();
@@ -391,7 +391,7 @@ import {VueSpinner} from 'vue3-spinners';
     const getTarifs = async () => {
         const dataTarif = formStore.getDataForTarif;
         loadingTarif.value =true;
-        await axios.post('https://php.assurmabarak.com/api/tarificateur', dataTarif)
+        await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
         .then(response => {
             if (response.status === 200) {
                 formStore.updateStepData('tarifs', response.data.response);
@@ -399,7 +399,7 @@ import {VueSpinner} from 'vue3-spinners';
                 router.push('/devis/tarifs');
             }
         }).catch(({response}) => {
-            console.error('Error data:');
+            toast.error('une erreur est survenue merci de réessayer plus tard');
             console.log(response);
         }).finally(() => {
             loadingTarif.value =false;
