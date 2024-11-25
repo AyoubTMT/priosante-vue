@@ -391,7 +391,7 @@ export default {
     const getTarifs = async () => {
       const dataTarif = formStore.getDataForTarif;
       try {
-        const response = await axios.post('http://assurmabarak-laravel.test/api/tarificateur', dataTarif);
+        const response = await axios.post('https://php.assurmabarak.com/api/tarificateur', dataTarif);
         if (response.status === 200) {
           formStore.updateStepData('tarifs', response.data.response);
           formStore.nextStep();

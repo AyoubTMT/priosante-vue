@@ -267,7 +267,7 @@
     const saveDevis = async () => {
       const dataSave = formStore.getDataForSave;
       try {
-        const response = await axios.post('http://assurmabarak-laravel.test/api/save', dataSave);
+        const response = await axios.post('https://php.assurmabarak.com/api/save', dataSave);
         if (response.status === 200) {
           formStore.updateStepData('devisComplet', response.data.response);
           router.push('/devis/complet');

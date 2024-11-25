@@ -8,7 +8,8 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios';
 
-// axios.defaults.baseURL = 'http://assurmabarak-laravel.test/api';
+axios.defaults.baseURL = 'https://php.assurmabarak.com/api';
+axios.defaults.withCredentials = true; // Include cookies if needed
 
 const app = createApp(App)
 
