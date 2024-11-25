@@ -152,7 +152,7 @@
                                 <div class="col-12">
                                     <button type="submit"
                                         class="navBtn nextBtn mt-4 flex justify-center align-items-center">
-                                        Étape suivante
+                                         Étape suivantee
                                         <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid">
                                     </button>
                                 </div>
@@ -209,7 +209,6 @@ import { ref, reactive } from 'vue'
 import { createPersistedState } from 'pinia-plugin-persistedstate';
 import { useRouter } from 'vue-router';
 import MyHeader from '../components/header.vue';
-
 const router = useRouter();
 const formStore = useFormStore();
 
