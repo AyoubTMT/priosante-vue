@@ -115,7 +115,9 @@ export const useFormStore = defineStore('form', {
       devisComplet:{},
       selectedTarifOptions:[],
       finalTarif:0,
-      informations : {}
+      flagType:'DOCUMENT',
+      informations : {},
+      lienSignature:'',
 
 
     },
@@ -160,6 +162,7 @@ export const useFormStore = defineStore('form', {
       niveauOJ: state.formData.step6.objets_valeur
     }),
     getDataForSave: (state) => ({
+      flagType: state.formData.flagType,
       habitationUsageProfessionel: 'NON',
       piscine: 'NON',
       dateEffet: '01/12/2024',
