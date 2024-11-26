@@ -64,8 +64,6 @@
 </template>
 
 <script setup>
-    import 'bootstrap/dist/css/bootstrap.min.css';
-    import 'bootstrap/dist/js/bootstrap.bundle.min.js';
     /**************** a voir apres ********************/
     // import 'https://code.jquery.com/jquery-3.6.3.min.js';
     // import * as customFunctions from '../custom-js/functions.js';
@@ -80,12 +78,13 @@
     import Step6 from '../components/Step6.vue';
     import Step7 from '../components/Step7.vue';
     import MyHeader from '../components/header.vue';
+    import { ref, onMounted } from 'vue'
     const formStore = useFormStore();
 
     if(formStore.currentStep > 7 ){
         formStore.updateCurrentStep(7) 
     }
-    
+  
 </script>
  
 <style>
