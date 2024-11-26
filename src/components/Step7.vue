@@ -350,7 +350,7 @@ import { toast } from 'vue3-toastify';
         const minDate = new Date();
         const maxDate = new Date();
 
-        minDate.setDate(now.getDate() + 1);
+        minDate.setDate(now.getDate());
         maxDate.setMonth(now.getMonth() + 4);
 
         const selectedDate = new Date(form.dateEffet);
@@ -360,6 +360,7 @@ import { toast } from 'vue3-toastify';
         } else if (isNaN(selectedDate.getTime())) {
             errors.dateEffet = 'Format de date invalide.';
         } else if (selectedDate < minDate || selectedDate > maxDate) {
+            minDate.setDate(now.getDate() + 1);
             errors.dateEffet = `La date doit être entre ${minDate.toLocaleDateString()} et ${maxDate.toLocaleDateString()}.`;
         } else {
             errors.dateEffet = null;

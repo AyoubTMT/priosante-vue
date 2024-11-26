@@ -115,11 +115,11 @@
                             </div>
                         </div>
                     </div>
-                    <label class="formLabel mb-3">Votre numéro de téléphone mobile<button type="button"
-                            class="pusletooltip" data-bs-toggle="modal" data-bs-target="#infoMobile"><i
-                                class="fa-solid fa-question" aria-hidden="true"></i></button></label>
+                    <label class="formLabel mb-3">Votre numéro de téléphone mobile
+                        <!-- <button type="button" class="pusletooltip" data-bs-toggle="modal" data-bs-target="#infoMobile"><i class="fa-solid fa-question" aria-hidden="true"></i></button> -->
+                    </label>
                     <input type="tel" class="form-control mobileInput" placeholder="Votre numéro de téléphone mobile"
-                        maxlength="10"  pattern="[0-9]*" v-model="infomations.tel">
+                        maxlength="10"  pattern="[0-9]*" v-model="infomations.tel" disabled="" >
                     <div  v-show="showErrorMsg" class="errorMsg">
                         <div class="d-flex align-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
@@ -152,7 +152,7 @@
                                 <div class="col-12">
                                     <button type="submit"
                                         class="navBtn nextBtn mt-4 flex justify-center align-items-center">
-                                         Étape suivantee
+                                         Étape suivante
                                         <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid">
                                     </button>
                                 </div>
@@ -218,7 +218,7 @@ const infomations = reactive({
     numeroVoie: "23", // Default value
     typeVoie: "RUE", 
     adressePostale: " test tessst",
-    tel: "0615151515", // Default value
+    tel: formStore.formData.step7.telephone, // Default value
 })
 
 function submitStep(){

@@ -125,8 +125,8 @@ const validateNbrPieces = () => {
   if (formData.nbr_pieces_principales < 1) {
     errors.nbr_pieces_principales = 'Le nombre de pièces principales doit être au moins de 1.';
     showErrorMsg.value = true;
-  } else if (formData.nbr_pieces_principales > 6) {
-    errors.nbr_pieces_principales = 'Le nombre de pièces principales ne peut pas dépasser 6.'; 
+  } else if (formData.nbr_pieces_principales > 5) {
+    errors.nbr_pieces_principales = 'Le nombre de pièces principales ne peut pas dépasser 5.'; 
     showErrorMsg.value = true; 
   } else { 
     errors.nbr_pieces_principales = '';

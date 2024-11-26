@@ -9,10 +9,10 @@
                             <div class="d-flex align-items-center w-100 justify-content-between">
                                 <div class="p-2">
                                     <div class="otitre">
-                                        SYS_PHOTOVOLTAIQUE
+                                        Système photovoltaïque
                                     </div>
                                     <div class="odescription">
-                                       xxxxxxxxx
+                                       
                                     </div>
                                 </div>
                                 <div class="oprice d-flex">

@@ -86,8 +86,6 @@
                         Je reconnais que les conseils reçus ont revêtu un caractère personnalisé, adapté à ma situation ainsi qu'à l'assurance de mes risques. 
                         <br><br>
                         Je bénéficie d'un délai de rétractation de 14 jours calendaires révolus à compter du jour de la conclusion du contrat.
-                        <br><br>
-                        J'autorise Assurmabarak à prélever mes cotisations le 10 de chaque période fractionnée sur le compte bancaire ou postal indiqué dans l’autorisation de prélèvement.
                         </label>
                     </div>
                     <div v-show="formSubmitted && !formData.declaration" class="errorMsg">

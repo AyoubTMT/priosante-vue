@@ -19,7 +19,7 @@
                 <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6">
 
                     <div v-for="(price, option) in selectedTarif.optionsCompatibles" :key="option">
-                        {{ option }}
+                        <!-- {{ option }} -->
                         <div class="col-12 mt-3" v-if="option == 'RACHAT_FRANCHISE'">
                             <input type="checkbox" class="addon d-none"  :id="option" :value="option" v-model="tarifOptions" />
                             <rachat-franchise  :price="price" :option="option" />
