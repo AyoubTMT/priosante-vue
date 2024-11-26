@@ -54,6 +54,12 @@
         else if(props.step =="informations"){
             router.push('/devis/options')
         }
+        else if(props.step =="document"){
+            router.push('/devis/paiement')
+        }
+        else if(props.step =="paiement"){
+            router.push('/devis/informations')
+        }
     }
 </script>
 <style>

@@ -272,10 +272,12 @@
                 <div class="container-fluid p-0">
                     <div class="row align-items-center">
                         <div class="col-12">
-                            <button type="submit"
-                                class="navBtn nextBtn mt-4 flex justify-center align-items-center">Étape
-                                suivante <img src="../assets/icons/arrow-next.svg" alt="suivant"
-                                    class="ms-3 img-fluid"></button>
+                            <button v-if="loadingTarif" type="button" class="navBtn nextBtn mt-4 flex justify-center align-items-center">
+                                <vue-spinner size="30" color="white" />
+                            </button>
+                            <button v-else type="submit"  class="navBtn nextBtn mt-4 flex justify-center align-items-center">
+                                Étape suivante <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid">
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -286,17 +288,15 @@
     </form>
 </template>
 
-<script>
+<script setup>
 import { ref, reactive, computed } from 'vue';
 import BonASavoir from '../components/BonASavoir.vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-export default {
-  components: {
-    BonASavoir,
-  },
-  setup() {
+import {VueSpinner} from 'vue3-spinners';
+
+
     const formStore = useFormStore();
     const router = useRouter();
     const step7Data = formStore.getFormData;
@@ -320,7 +320,7 @@ export default {
       birthDay: "",
       dateEffet: "",
     });
-
+    const loadingTarif = ref(false);
     const validateNom = () => {
       errors.nom = form.nom.length >= 3 ? "" : "Veuillez renseigner un nom valide.";
     };
@@ -389,39 +389,21 @@ export default {
     };
 
     const getTarifs = async () => {
-      const dataTarif = formStore.getDataForTarif;
-      try {
-        const response = await axios.post('https://php.assurmabarak.com/api/tarificateur', dataTarif);
-        if (response.status === 200) {
-          formStore.updateStepData('tarifs', response.data.response);
-          formStore.nextStep();
-          router.push('/devis/tarifs');
-        }
-        console.log(response);
-      } catch (error) {
-            if (error.response) {
-                console.error('Error data:', error.response.data);
-            } else if (error.request) {
-                console.error('No response:', error.request);
-            } else {
-                console.error('Error', error.message);// Axios setup error
+        const dataTarif = formStore.getDataForTarif;
+        loadingTarif.value =true;
+        await axios.post('https://php.assurmabarak.com/api/tarificateur', dataTarif)
+        .then(response => {
+            if (response.status === 200) {
+                formStore.updateStepData('tarifs', response.data.response);
+                formStore.nextStep();
+                router.push('/devis/tarifs');
             }
-      }
+        }).catch(({response}) => {
+            console.error('Error data:');
+            console.log(response);
+        }).finally(() => {
+            loadingTarif.value =false;
+        });
     };
 
-    return {
-      form,
-      errors,
-      validateNom,
-      validatePrenom,
-      validateTelephone,
-      validateEmail,
-      validateAge,
-      validateDateEffet,
-      submitStep,
-      getTarifs,
-      BonASavoir,
-    };
-  },
-};
 </script>
