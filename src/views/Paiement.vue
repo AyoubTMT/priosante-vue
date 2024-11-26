@@ -249,6 +249,7 @@
         .then(response => {
             if (response.status === 200) {
                 formStore.updateStepData('devisComplet', response.data.response);
+                formStore.updateStepData('paiement', formData);
                 formStore.nextStep();
                 router.push('/devis/complet');
             }

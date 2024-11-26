@@ -5,7 +5,7 @@
     <form id="formulaire" class="p-0" @submit.prevent="saveAgain" method="POST">
         <div class="container">
             <div class="d-flex justify-content-end my-2">
-                <button type="submit" class="btn"><i class="animation"></i>SOUSCRIRE<i class="animation"></i></button>
+                <button type="submit" class="btn" v-show="showbtnSouscrire"><i class="animation"></i>SOUSCRIRE<i class="animation"></i></button>
             </div>
             <div class="row justify-content-center">
                 <div>
@@ -25,6 +25,7 @@ import axios from 'axios';
 
 const formStore = useFormStore();
 const pdfFileSource = ref('');
+const showbtnSouscrire = ref(true);
 const { devisComplet, devisCompletAvecLien, step7, informations, lienSignature } = formStore.formData;
 const base64PDF = devisComplet?.document;
 
@@ -64,7 +65,10 @@ const sendLienSignature = async () => {
     reference: devisComplet.reference,
   };
   console.log('Sending signature data:', data);
-  await sendPostRequest('https://php.assurmabarak.com/api/send-email', data);
+  const response = await sendPostRequest(import.meta.env.VITE_BASE_URL+'/api/send-email', data);
+  if (response && response.status === 200) {
+    showbtnSouscrire.value=false;
+  }
 };
 
 // Sauvegarde des données de devis
@@ -72,7 +76,7 @@ const saveDevis = async () => {
     formStore.updateStepData('flagType', 'LIEN');
     const dataSave = formStore.getDataForSave;
     console.log('Saving devis data:', dataSave);
-    const response = await sendPostRequest('https://php.assurmabarak.com/api/save', dataSave);
+    const response = await sendPostRequest(import.meta.env.VITE_BASE_URL+'/api/save', dataSave);
     formStore.updateStepData('devisCompletAvecLien', response.data.response);
     formStore.updateStepData('lienSignature', response.data.response.signature);
 

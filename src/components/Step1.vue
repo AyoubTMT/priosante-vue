@@ -34,7 +34,7 @@
             </div>
             <div class="col-6">
                 <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check type_habitation" name="type_habitation" value="STUDIO"
+                    <input type="radio" class="btn-check type_habitation" name="type_habitation" value="APPARTEMENT"
                         id="studio" autocomplete="off" v-model="localData.type_habitation">
                     <label class="btn btn-outline-primary iconLabel" for="studio">
                         <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
