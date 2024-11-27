@@ -5,7 +5,12 @@
     <form id="formulaire" class="p-0" @submit.prevent="saveAgain" method="POST">
         <div class="container">
             <div class="d-flex justify-content-end my-2">
-                <button type="submit" class="btn" v-show="showbtnSouscrire"><i class="animation"></i>SOUSCRIRE<i class="animation"></i></button>
+                <button type="button" class="btn d-flex justify-center align-items-center" style="justify-content: center !important;" v-if="loadingSouscrire">
+                  <vue-spinner size="30" color="white" />
+                </button>
+                <button type="submit" class="btn" v-else>
+                  <i class="animation"></i>SOUSCRIRE<i class="animation"></i>
+                </button>
             </div>
             <div class="row justify-content-center">
                 <div>
@@ -22,10 +27,12 @@ import { ref, onMounted } from 'vue';
 import MyHeader from '../components/header.vue';
 
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const formStore = useFormStore();
 const pdfFileSource = ref('');
-const showbtnSouscrire = ref(true);
+const loadingSouscrire = ref(false);
 const { devisComplet, devisCompletAvecLien, step7, informations, lienSignature } = formStore.formData;
 const base64PDF = devisComplet?.document;
 
@@ -67,22 +74,34 @@ const sendLienSignature = async () => {
   console.log('Sending signature data:', data);
   const response = await sendPostRequest(import.meta.env.VITE_BASE_URL+'/api/send-email', data);
   if (response && response.status === 200) {
-    showbtnSouscrire.value=false;
+    loadingSouscrire.value=true;
+    router.push('/devis/merci');
   }
+  
 };
 
 // Sauvegarde des données de devis
 const saveDevis = async () => {
+    loadingSouscrire.value = true;
     formStore.updateStepData('flagType', 'LIEN');
     const dataSave = formStore.getDataForSave;
     console.log('Saving devis data:', dataSave);
-    const response = await sendPostRequest(import.meta.env.VITE_BASE_URL+'/api/save', dataSave);
-    formStore.updateStepData('devisCompletAvecLien', response.data.response);
-    formStore.updateStepData('lienSignature', response.data.response.signature);
+    await axios.post(import.meta.env.VITE_BASE_URL+'/api/save', dataSave)
+        .then(async response => {
+            if (response.status === 200) {
+              formStore.updateStepData('devisCompletAvecLien', response.data.response);
+              formStore.updateStepData('lienSignature', response.data.response.signature);
+              await sendLienSignature();
+            }
+        }).catch(({response}) => {
+            toast.error('une erreur est survenue merci de réessayer plus tard');
+            console.log(response);
+        }).finally(() => {
+          loadingSouscrire.value =false;
+        });
 
-    if (response && response.status === 200) {
-        await sendLienSignature();
-    }
+
+    
 };
 
 const saveAgain = async () => {
