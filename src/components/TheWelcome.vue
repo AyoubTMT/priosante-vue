@@ -14,7 +14,7 @@ const clearLocalStorage = () => {
             <div className='mx-auto container'>
                 <div className='flex flex-row justify-between'>
                     <div className='flex items-center mobile:w-1/2'>
-                        <img className='w-1/2' src='../assets/images/logo.png' alt="" />
+                        <img className='' src='../assets/images/logo.png' alt="" />
                     </div>
                     <div className='flex items-center mobile:w-1/2 mobile:justify-end'>
                         <div
