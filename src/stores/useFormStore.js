@@ -42,6 +42,7 @@ export const useFormStore = defineStore('form', {
         indemnisation_mobilier: '',
         niveau_franchise: '',
         objets_valeur: '',
+        produitType: '',
       },
       step7: {
         civilite: "",
@@ -140,6 +141,7 @@ export const useFormStore = defineStore('form', {
     getSelectedTarifOptions: (state) => state.formData.selectedTarifOptions,
     getDateEffet: (state) => state.formData.step7.dateEffet,
     getDataForTarif: (state) => ({
+      produitType: state.formData.step6.produitType,
       codePostal : 75001,
       ville : 'paris',
       dateEffet : state.formData.step7.dateEffet,
@@ -150,7 +152,7 @@ export const useFormStore = defineStore('form', {
       nbrPiecePrincipalePlus30m : state.formData.step4.nbrPiecePrincipalePlus30m,
       nbrDependance : state.formData.step4.dependenceCount,
       nbrDependancePlus30m : state.formData.step4.dependenceCount,
-      nbPiecesPrincipalesSup50 : state.formData.step4.dependenceCount,
+      nbPiecesPrincipalesSup50: "0",//state.formData.step4.dependenceCount,
       resilieAutreAssureur : state.formData.step5.resilie_par_assureur3ans,
       sinistres2ansDerniers : state.formData.step5.declare_sinistre2ans,
       insertOuCheminee : state.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
@@ -158,8 +160,8 @@ export const useFormStore = defineStore('form', {
       surfaceDependances : state.formData.step4.surfaceDependance,
       surfacePieces : state.formData.step3.surface_habitable,// à ajouter au ws savecontrat ECA
       nbEnfantMineur :  state.formData.step7.nbrEnfant,
-      nbrEtageImmb : state.formData.step2.appartement_situe,
-      etageBien : state.formData.step2.appartement_situe,
+      nbrEtageImmb : "10",
+      etageBien : "1",
       capitalMobilier : state.formData.step6.valeur_bien,
       comporteInsert : state.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
       presenceVeranda :  state.formData.step4.selectedOptions.includes('veranda') ? 'OUI' : 'NON',
