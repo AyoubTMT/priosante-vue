@@ -97,22 +97,71 @@
             </div>
             <BonASavoir />
         </div>
+        
+        <button type="button" class="btn btn-secondary fw-bold mt-4 d-none" data-bs-toggle="modal" data-bs-target="#autrePopup2" ref="modalTrigger" >Voir mon devis </button>
+        <div class="modal fade" id="autrePopup2" :class="{ show: showModal }" tabindex="-1" aria-labelledby="pdfModalLabel">
+            <div class="modal-dialog  modal-dialog-centered modal-mdl">
+                <div class="modal-content">
+                    <div class="modal-body text-center p-4">
+                        <div class="contenu">
+                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/supportbig.jpg"
+                                alt="assistante" class="img-fluid mb-4" />
+                            <div class="formLabel mb-3">
+                                Votre habitation présente-t-elle une spécificité ?
+                                (loft, embarcation, habitation troglodytique, château/domaine, manoir, hôtel
+                                particulier, moulin, monument à caractère religieux)
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="button">
+                                <a class="customCloseBtn mobile:text-xl font-bold text-center" href="tel:0146592228">Contactez-nous</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </template>
 
 <script setup>
 import BonASavoir from '../components/BonASavoir.vue';
 import { useFormStore } from '@/stores/useFormStore';
-import { ref, reactive } from 'vue'
+import { reactive, ref } from 'vue';
 
 const localData = reactive({
-    type_habitation: "APPARTEMENT", // Default value
-    assured: "NON", // Default value
-})
+  type_habitation: "APPARTEMENT", // Default value
+  assured: "NON", // Default value
+});
+
+const showModal = ref(false);
+const modalTrigger = ref(null);
 
 function submitStep() {
-    const formStore = useFormStore();
-    formStore.updateStepData('step1', localData);
-    formStore.nextStep();
+  if (localData.type_habitation === "AUTRE") {
+    showModal.value = true;
+    modalTrigger.value?.click();
+    return;
+  }
+
+  const formStore = useFormStore();
+  formStore.updateStepData('step1', localData);
+  formStore.nextStep();
 }
 </script>
+<style scoped>
+
+.customCloseBtn {
+    background: var(--color1);
+    border: 0;
+    padding: 14px 50px;
+    font-size: 16px;
+    border-radius: 9px;
+    color: #fff;
+}
+.contenu{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+</style>
