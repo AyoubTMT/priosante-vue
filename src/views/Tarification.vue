@@ -39,13 +39,13 @@
                     <div class="col-12">
                         <div class="separ"></div>
                     </div>
-                    <div class="col-10 col-md-3 mb-3 mb-md-0 text-md-center text-center">
+                    <div class="col-10 col-md-4 mb-3 mb-md-0 text-md-center text-center">
                         <a href="https://self-assurance.fr/mimenteSelf/downloadFile?parameters=cHJvZHVpdD1GT1JNVUxFX01SSF9BUkVBU19TRUxGX0lOVEVSTkVUJmRvY3VtZW50VHlwZT1DT05ESVRJT05TX0dFTkVSQUxFUw%3D%3D" class="fileDownload" target="_blank"><img src="../assets/icons/pdffile.svg" alt="downloadFile">Conditions Générales</a>
                     </div>
-                    <div class="col-10 col-md-3 mb-3 mb-md-0 text-md-center text-center">
+                    <div class="col-10 col-md-4 mb-3 mb-md-0 text-md-center text-center">
                         <a href="https://assurance-habitation.self-assurance.fr/devis/docs/IPID-MRH-AREAS-072020.pdf" class="fileDownload" target="_blank"><img src="../assets/icons/pdffile.svg" alt="downloadFile"> Document d'information IPID</a>
                     </div>
-                    <div class="col-10 col-md-3 mb-3 mb-md-0 text-md-center text-center">
+                    <div class="col-10 col-md-4 mb-3 mb-md-0 text-md-center text-center">
                         <a href="https://self-assurance.fr/mimenteSelf/downloadFile?parameters=cHJvZHVpdD1GT1JNVUxFX01SSF9BUkVBU19TRUxGX0lOVEVSTkVUJmRvY3VtZW50VHlwZT1UQUJMRUFVX0dBUkFOVElF" class="fileDownload" target="_blank"><img src="../assets/icons/pdffile.svg" alt="downloadFile"> Tableau des garanties</a>
                     </div>
                 </div>
@@ -502,7 +502,7 @@
         display: inline-flex;
         text-decoration: none;
         color: #959595;
-        font-size: 15px;
+        font-size: 20px;
     }
     .stepTitle {
         font-weight: bold;
