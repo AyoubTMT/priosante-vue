@@ -135,32 +135,32 @@
         </div>
     </form>
 
-  <!-- Modal -->
-  <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="pdfModalLabel">Demande d'adhésion</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <vue-spinner
-              v-if="loadingDevis2"
-              size="30"
-              color="#f97316"
-            ></vue-spinner>
+    <!-- Modal -->
+    <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel">
+        <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="pdfModalLabel">Demande d'adhésion</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <vue-spinner
+                v-if="loadingDevis2"
+                size="30"
+                color="#f97316"
+                ></vue-spinner>
 
-            <!--PDF-->
-            <iframe
-              v-if="!loadingDevis2 && pdfFileSource"
-              :src="pdfFileSource"
-              style="width: 100%; height: 700px;"
-              frameborder="0"
-            ></iframe>
+                <!--PDF-->
+                <iframe
+                v-if="!loadingDevis2 && pdfFileSource"
+                :src="pdfFileSource"
+                style="width: 100%; height: 700px;"
+                frameborder="0"
+                ></iframe>
+            </div>
         </div>
-      </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup>
@@ -268,61 +268,101 @@
         'declarationBlock': formSubmitted.value && !formData.declaration,
         'red': formSubmitted.value && !formData.declaration 
     }));
-    const saveDevis = async () => {
-        const dataSave = formStore.getDataForSave;
-        loadingDevis.value =true;
+
+    const handleApiRequest = async (url, data, onSuccess = () => {}, errorMessage = 'Une erreur est survenue, merci de réessayer plus tard.') => {
         try {
-            const response = await axios.post(import.meta.env.VITE_BASE_URL + '/api/save', dataSave);
+            const response = await axios.post(url, data);
             if (response.status === 200) {
-                formStore.updateStepData('devisComplet', response.data.response);
-                formStore.updateStepData('paiement', formData);
+                onSuccess(response);
             }
             return response;
         } catch (error) {
             const errorResponse = error.response;
-            toast.error('Une erreur est survenue, merci de réessayer plus tard.');
-            console.error('Error data:', errorResponse);
-            return errorResponse;
-        } finally {
-            loadingDevis.value = false;
+            console.error(errorMessage, errorResponse || error.message);
+            toast.error(errorMessage);
+            throw error;
         }
     };
 
+    const saveDevis = async () => {
+        const dataSave = formStore.getDataForSave;
+        loadingDevis.value = true;
+
+        return await handleApiRequest(`${import.meta.env.VITE_BASE_URL}/api/save`, dataSave, (response) => {
+                formStore.updateStepData('devisComplet', response.data.response);
+                formStore.updateStepData('paiement', formData);
+            }
+        ).finally(() => {
+            loadingDevis.value = false;
+        });
+    };
+
     const showDevis = async () => {
-        loadingDevis2.value =true;
+        loadingDevis2.value = true;
         formStore.updateStepData('flagType', 'DOCUMENT');
+
         try {
             const response = await saveDevis();
-            const base64PDF = formStore.formData.devisComplet.document || '';
-            if (response && response.status === 200 && base64PDF) {
+            const base64PDF = formStore.formData.devisComplet?.document || '';
+            if (response?.status === 200 && base64PDF) {
                 pdfFileSource.value = `data:application/pdf;base64,${base64PDF}`;
             } else {
-            console.error('Failed to load PDF: Invalid response or data');
+                console.error('Failed to load PDF: Invalid response or data');
             }
         } catch (error) {
-            console.error("Error during show devis:", error);
+            console.error('Error during show devis:', error);
+        } finally {
+            loadingDevis2.value = false;
         }
-        loadingDevis2.value =false;
+    };
+
+    const sendLienSignature = async () => {
+        const { devisComplet, devisCompletAvecLien, step7, informations } = formStore.formData;
+        const data = {
+            name: `${step7.nom} ${step7.prenom}`,
+            telephone: informations.tel,
+            email: step7.email,
+            lien: devisCompletAvecLien.signature,
+            reference: devisComplet.reference,
+        };
+
+        console.log('Sending signature data:', data);
+
+        return await handleApiRequest(
+            `${import.meta.env.VITE_BASE_URL}/api/send-email`,
+            data,
+            (response) => {
+                console.log('Email sent successfully:', response);
+            },
+            'Erreur lors de l\'envoi du lien de signature.'
+        );
     };
 
     const finaliserDevis = async () => {
         formSubmitted.value = true;
-        
+
         ibanError.value = formData.iban ? !isValidIBANNumber(formData.iban) : false;
         const isFormValid = formData.declaration && !ibanError.value;
-        console.log(isFormValid ? "Form is valid" : "Form is not valid");
 
-        if (isFormValid) {
-            formStore.updateStepData('flagType', 'LIEN');
-            try {
-                const response = await saveDevis();
-                if (response && response.status === 200) {
-                    formStore.nextStep();
-                    router.push('/devis/complet');
+        console.log(isFormValid ? 'Form is valid' : 'Form is not valid');
+
+        if (!isFormValid) return;
+
+        formStore.updateStepData('flagType', 'LIEN');
+
+        try {
+            const response = await saveDevis();
+            if (response?.status === 200) {
+                formStore.updateStepData('devisCompletAvecLien', response.data.response);
+                formStore.updateStepData('lienSignature', response.data.response.signature);
+
+                const response2 = await sendLienSignature();
+                if (response2?.status === 200) {
+                    router.push('/devis/merci');
                 }
-            } catch (error) {
-                console.error("Error during saving devis:", error);
             }
+        } catch (error) {
+            console.error('Error during finalizing devis:', error);
         }
     };
 </script>
