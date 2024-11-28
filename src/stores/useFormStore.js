@@ -199,6 +199,8 @@ export const useFormStore = defineStore('form', {
       declarAssistantMatern: state.formData.selectedTarifOptions.includes('ASSISTANCE_MATERNELLE') ? 'OUI' : 'NON',
       panneauPhotoVolt: state.formData.selectedTarifOptions.includes('SYS_PHOTOVOLTAIQUE') ? 'OUI' : 'NON',
       bienElectrMoin5ans: state.formData.selectedTarifOptions.includes('DOMMAGE_ELECTRIQUE') ? 'OUI' : 'NON',
+      rachatFranchise: state.formData.selectedTarifOptions.includes('RACHAT_FRANCHISE') ? 'OUI' : 'NON',
+      locationSalle: state.formData.selectedTarifOptions.includes('LOCATION_SALLE') ? 'OUI' : 'NON',
       modePaiement: state.formData.modePaiement,
       souscripteurAdressePostale: state.formData.informations.numeroVoie +' '+ state.formData.informations.typeVoie +' '+ state.formData.informations.adressePostale,
       souscripteurVille: state.formData.step2.ville,

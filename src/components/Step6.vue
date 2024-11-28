@@ -61,10 +61,11 @@
             <div class="col-12 mt-3 mb-0">
                 <label for="capital" class="formLabel mb-3">Capital mobilier à assurer</label>
                 <select class="form-select" name="valeur_bien" v-model="formData.valeur_bien">
-                    <option value="8000">Moins de 10 000€</option>
-                    <option value="10000">Entre 10 000€ et 20 000€</option>
-                    <option value="20000">Entre 20 000€ et 40 000€</option>
-                    <option value="40000">Plus de 40 000€</option>
+                    <option value="4000">Moins de 5 000€</option>
+                    <option value="8000">Entre 5 000€ de 10 000€</option>
+                    <option value="16000">Entre 10 000€ et 20 000€</option>
+                    <option value="24000">Entre 20 000€ et 30 000€</option>
+                    <option value="32000">Plus de 30 000€</option>
                 </select>
                 <div class="errorMsg" style="display: none;">
                     <div class="d-flex align-items-center">
