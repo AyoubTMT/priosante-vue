@@ -191,7 +191,7 @@
                                     </g>
                                 </g>
                             </svg>
-                            <p class="m-0 ms-2">Ce champ est requis</p>
+                            <p class="m-0 ms-2">{{ errors.birthDay }}</p>
                         </div>
                     </div>
                 </div>
@@ -300,6 +300,7 @@ import { toast } from 'vue3-toastify';
     const formStore = useFormStore();
     const router = useRouter();
     const step7Data = formStore.getFormData;
+    const loadingTarif = ref(false);
 
     const form = reactive({
       civilite: step7Data.step7.civilite || "MR",
@@ -308,7 +309,7 @@ import { toast } from 'vue3-toastify';
       telephone: step7Data.step7.telephone,
       email: step7Data.step7.email,
       birthDay: step7Data.step7.birthDay,
-      dateEffet: step7Data.step7.dateEffet,
+      dateEffet: getDefaultDatePlusOne(),
       nbrEnfant: 0,//step7Data.step7.nbrEnfant,
     });
 
@@ -320,7 +321,27 @@ import { toast } from 'vue3-toastify';
       birthDay: "",
       dateEffet: "",
     });
-    const loadingTarif = ref(false);
+
+    function getDefaultDatePlusOne() {
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + 1);
+        return currentDate.toISOString().substring(0, 10); // Format YYYY-MM-DD
+    }    
+
+    function calculateAge(birthDate) {
+        const today = new Date();
+        const birth = new Date(birthDate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+        const dayDiff = today.getDate() - birth.getDate();
+
+        // Adjust age if the birthday hasn't occurred this year yet
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+            age--;
+        }
+        return age;
+    }
+
     const validateNom = () => {
       errors.nom = form.nom.length >= 3 ? "" : "Veuillez renseigner un nom valide.";
     };
@@ -342,7 +363,8 @@ import { toast } from 'vue3-toastify';
     };
 
     const validateAge = () => {
-      // Add age validation
+        const age = calculateAge(form.birthDay);
+        errors.birthDay = age >= 18 ? "" : "L'âge ne peut être inférieur à 18 ans";
     };
 
     const validateDateEffet = () => {
