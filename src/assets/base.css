@@ -595,3 +595,6 @@ img, svg {
   border-bottom: 1px solid var(--color1);
   font-size: 16px;
 }
+.colorText{
+  color: var(--color1);
+}

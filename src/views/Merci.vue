@@ -5,7 +5,7 @@
 
     <img src='../assets/images/VectorValid.png' class="m-5" alt="" />
     <!-- Titre -->
-    <h1 class="text-3xl font-bold text-green-600 mb-4">Merci pour votre confiance !</h1>
+    <h1 class="text-3xl font-bold colorText mb-4">Merci pour votre confiance !</h1>
 
     <!-- Sous-titre -->
     <p class="text-lg mb-6 text-center">
@@ -33,8 +33,10 @@
     <!-- Contact -->
     <div class="mt-8 text-center text-sm text-gray-500">
       <h3 class="text-gray-700 font-medium">Besoin d’aide ?</h3>
-      <p>Contactez notre service client au <span class="font-semibold">01 23 45 67 89</span><br>
-        ou par e-mail à <span class="font-semibold">assistance@votreassurance.com</span>.</p>
+      <p>Contactez notre service client au <span class="font-semibold">
+        <a href="tel:0146592228">01 46 59 22 28</a></span><br>
+        ou par e-mail à <span class="font-semibold">
+                <a href="mailto:contact@assurmabarak.fr">contact@assurmabarak.fr</a></span>.</p>
     </div>
 
     <!-- Footer -->

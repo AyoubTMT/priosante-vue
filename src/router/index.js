@@ -52,7 +52,7 @@ const router = createRouter({
     {
       path: '/devis/merci',
       name: 'merci',
-      component: () => import('../views/merci.vue'),
+      component: () => import('../views/Merci.vue'),
     },
     {
       path: '/devis/complet',
