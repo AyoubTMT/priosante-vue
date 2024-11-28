@@ -145,7 +145,8 @@
     import { ref, reactive, computed } from 'vue';
     import axios from 'axios';
     import { toast } from 'vue3-toastify';
-    
+    import {VueSpinner} from 'vue3-spinners';
+
 
     const loadingDevis = ref(false);
     const router = useRouter();
