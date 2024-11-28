@@ -1,7 +1,7 @@
 <template>
     <my-header :progress="formStore.currentStep" :step="'paiement'"/>
 
-    <form id="formulaire" class="p-0" @submit.prevent="accederAuDevis"
+    <form id="formulaire" class="p-0" @submit.prevent="finaliserDevis"
         method="POST">
         <div class="container">
             <div class="row justify-content-center">
@@ -25,7 +25,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="14" height="14" viewBox="0 0 32 32" version="1.1">
                                 <path d="M29.005 5.5h-26.009c-1.657 0-3 1.343-3 3v15c0 1.657 1.343 3 3 3h26.009c1.657 0 3-1.343 3-3v-15c0-1.657-1.343-3-3-3zM2.995 7.5h26.009c0.552 0 1 0.448 1 1v2h-28.009v-2c0-0.552 0.449-1 1-1zM29.005 24.5h-26.009c-0.552 0-1-0.448-1-1v-9h28.009v9c0 0.552-0.448 1-1 1z"></path>
                             </svg>
-                            Par chèque</strong>
+                            Par prèlevement bancaire</strong>
                         <ul>
                             <li>La première échéance de {{ formattedTarif }}</li>
                             <li>La taxe attentat obligatoire de {{ formatTarifWithComma(taxe) }}</li>
@@ -47,7 +47,7 @@
                             <li>Le paiement des prochaines échéances</li>
                             <li>Le prélèvement est effectué le 10 du mois</li>
                         </ul>
-                    </div>
+                        <button @click="showDevis" class="btn btn-secondary fw-bold mt-4" data-bs-toggle="modal" data-bs-target="#pdfModal">Voir mon devis </button>                    </div>
                 </div>
             </div>
             <div class="row justify-content-center mt-3">
@@ -134,21 +134,48 @@
             </div>
         </div>
     </form>
+
+  <!-- Modal -->
+  <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pdfModalLabel">Demande d'adhésion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <vue-spinner
+              v-if="loadingDevis2"
+              size="30"
+              color="#f97316"
+            ></vue-spinner>
+
+            <!--PDF-->
+            <iframe
+              v-if="!loadingDevis2 && pdfFileSource"
+              :src="pdfFileSource"
+              style="width: 100%; height: 700px;"
+              frameborder="0"
+            ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 
     import MyHeader from '../components/header.vue';
-
     import { useRouter } from 'vue-router';
     import { useFormStore } from '../stores/useFormStore';
-    import { ref, reactive, computed } from 'vue';
+    import { ref, reactive, computed, onMounted } from 'vue';
     import axios from 'axios';
     import { toast } from 'vue3-toastify';
     import {VueSpinner} from 'vue3-spinners';
 
 
     const loadingDevis = ref(false);
+    const loadingDevis2 = ref(false);
     const router = useRouter();
     const formStore = useFormStore();
     const selectedTarif = formStore.getSelectedTarif;
@@ -160,7 +187,7 @@
         iban: '',
         declaration: false
     });
-
+    const pdfFileSource = ref('');
     // calcul total tarif
     function updateTarifWithOptions() {
         let tarif = parseFloat(selectedTarif.tarif);
@@ -241,30 +268,44 @@
         'declarationBlock': formSubmitted.value && !formData.declaration,
         'red': formSubmitted.value && !formData.declaration 
     }));
-
     const saveDevis = async () => {
-        
         const dataSave = formStore.getDataForSave;
         loadingDevis.value =true;
-        await axios.post(import.meta.env.VITE_BASE_URL+'/api/save', dataSave)
-        .then(response => {
+        try {
+            const response = await axios.post(import.meta.env.VITE_BASE_URL + '/api/save', dataSave);
             if (response.status === 200) {
                 formStore.updateStepData('devisComplet', response.data.response);
                 formStore.updateStepData('paiement', formData);
-                formStore.nextStep();
-                router.push('/devis/complet');
             }
-        })
-        .catch(({response}) => {
-            toast.error('une erreur est survenue merci de réessayer plus tard');
-            console.error('Error data:');
-            console.log(response);
-        }).finally(() => {
-            loadingDevis.value =false;
-        });
+            return response;
+        } catch (error) {
+            const errorResponse = error.response;
+            toast.error('Une erreur est survenue, merci de réessayer plus tard.');
+            console.error('Error data:', errorResponse);
+            return errorResponse;
+        } finally {
+            loadingDevis.value = false;
+        }
     };
 
-    const accederAuDevis = async () => {
+    const showDevis = async () => {
+        loadingDevis2.value =true;
+        formStore.updateStepData('flagType', 'DOCUMENT');
+        try {
+            const response = await saveDevis();
+            const base64PDF = formStore.formData.devisComplet.document || '';
+            if (response && response.status === 200 && base64PDF) {
+                pdfFileSource.value = `data:application/pdf;base64,${base64PDF}`;
+            } else {
+            console.error('Failed to load PDF: Invalid response or data');
+            }
+        } catch (error) {
+            console.error("Error during show devis:", error);
+        }
+        loadingDevis2.value =false;
+    };
+
+    const finaliserDevis = async () => {
         formSubmitted.value = true;
         
         ibanError.value = formData.iban ? !isValidIBANNumber(formData.iban) : false;
@@ -272,8 +313,13 @@
         console.log(isFormValid ? "Form is valid" : "Form is not valid");
 
         if (isFormValid) {
+            formStore.updateStepData('flagType', 'LIEN');
             try {
-                await saveDevis();
+                const response = await saveDevis();
+                if (response && response.status === 200) {
+                    formStore.nextStep();
+                    router.push('/devis/complet');
+                }
             } catch (error) {
                 console.error("Error during saving devis:", error);
             }
@@ -336,5 +382,16 @@
     #formulaire input, #formulaire select {
         border-radius: 5px;
         padding: 13px 20px;
+    }
+    .modal-body {
+        position: relative;
+        height: 700px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    iframe {
+        border: none;
     }
 </style>
