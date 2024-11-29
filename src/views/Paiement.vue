@@ -183,7 +183,7 @@
     const ibanError = ref(false);
     const formSubmitted = ref(false);
     const formData = reactive({
-        titulaire_compte: 'test test',
+        titulaire_compte: formStore.formData.step7.prenom + ' ' + formStore.formData.step7.nom,
         iban: '',
         declaration: false
     });
@@ -341,7 +341,7 @@
     const finaliserDevis = async () => {
         formSubmitted.value = true;
 
-        ibanError.value = formData.iban ? !isValidIBANNumber(formData.iban) : false;
+        ibanError.value = !isValidIBANNumber(formData.iban);
         const isFormValid = formData.declaration && !ibanError.value;
 
         console.log(isFormValid ? 'Form is valid' : 'Form is not valid');
@@ -349,6 +349,8 @@
         if (!isFormValid) return;
 
         formStore.updateStepData('flagType', 'LIEN');
+        formStore.updateStepData('modePaiement', 'PRELEVEMENT');
+        formStore.updateStepData('paiement', formData);
 
         try {
             const response = await saveDevis();

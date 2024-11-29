@@ -103,7 +103,7 @@ const formStore = useFormStore();
 // get selected tarif
 const selectedTarif = formStore.getSelectedTarif;
 
-const tarifOptions = ref([])
+const tarifOptions = ref(formStore.getSelectedTarifOptions)
 
 function submitStep (){
     formStore.updateStepData('selectedTarifOptions', tarifOptions);
