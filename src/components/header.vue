@@ -11,7 +11,7 @@
                 <div class="row justify-content-center mb-0 d-none d-md-block align-items-center">
                     <div class="col-12">
                         <div class="progress Mobile">
-                            <div class="progress-bar progressMobile" role="progressbar" :style="{ 'width': formStore.currentStep*100/13 + '%' }" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar progressMobile" role="progressbar" :style="{ 'width': formStore.currentStep*100/11 + '%' }" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
