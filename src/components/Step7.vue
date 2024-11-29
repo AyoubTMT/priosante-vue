@@ -351,7 +351,7 @@ import { toast } from 'vue3-toastify';
     };
 
     const validateTelephone = () => {
-      const phonePattern = /^[0-9]{10}$/;
+      const phonePattern = /^0[6|7]([0-9]{2}){4}$/;
       errors.telephone = phonePattern.test(form.telephone)
         ? ""
         : "Veuillez renseigner un téléphone valide.";

@@ -56,7 +56,7 @@
                     <input type="text" id="titulaire" class="form-control" placeholder="Nom et prénom du titulaire" v-model="formData.titulaire_compte">
 
                     <label class="formLabel d-block mt-3 mb-2">Relevé d'identité bancaire (IBAN)</label>
-                    <input type="text" id="IBAN" class="mb-3 form-control" :class="{ 'inputError': ibanError }" placeholder="---- ---- ---- ---- ---- ---- ---" name="IBAN" v-model="formData.iban" maxlength="33">
+                    <input type="text" id="IBAN" class="mb-3 form-control" :class="{ 'inputError': ibanError }" @input="validateIBAN" placeholder="---- ---- ---- ---- ---- ---- ---" name="IBAN" v-model="formData.iban" maxlength="33">
                     <div v-show="formSubmitted && ibanError" class="errorMsg">
                         <div class="d-flex align-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
@@ -219,9 +219,13 @@
     const formattedTarif = formatTarifWithComma(formStore.finalTarif);
     const formattedTarifWithTax = formatTarifWithComma(tarifWithTax);
     
+    const validateIBAN = () => {
+      const isValid = isValidIBANNumber(formData.iban);
+      ibanError.value = isValid ? "" : "Merci de renseigner un IBAN valide.";
+    };
+
     // validate IBAN
     const isValidIBANNumber = (ibanValue) => {
-        // Check if IBAN is empty or null
         if (!ibanValue || ibanValue.trim() === '') {
             return false; // No validation needed if the IBAN is empty
         }
