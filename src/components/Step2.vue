@@ -99,8 +99,7 @@
             <div class="col-12 mt-3 VotreCodepostale">
                 <label for="zipcode" class="formLabel mb-2">Code postal ou ville</label>
                 <input type="text" class="form-control villeCpSearch" :class="{ 'inputError': showErrorMsg }" autocomplete="off" id="zipcode"
-                    placeholder="Code postal ou ville" v-model="formData.zipcode" @keyup="onVilleCpSearchKeyup"
-                    @click.stop="toggleListVilles">
+                    placeholder="Code postal ou ville" v-model="formData.zipcode" @keyup="onVilleCpSearchKeyup">
                 <div v-show="showErrorMsg" class="errorMsg">
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
@@ -129,8 +128,8 @@
                 <div class="villeSearchResult">
                     <ul v-show="showVillesCp" id="villesCp">
                         <li v-for="(city, index) in filteredCities" :key="index"
-                            @click="selectCpVille(city.cp, city.name)">
-                            {{ city.cp }} {{ city.name }}
+                            @click="selectCpVille(city.code_postal, city.commune)">
+                            {{ city.code_postal }} {{ city.commune }}
                         </li>
                     </ul>
                 </div>
@@ -171,15 +170,14 @@ const formData = reactive({
     ville: step2Data.step2.ville || "",
 })
 
-const villes = ref([])
+const allCities = ref([])
 const filteredCities = ref([])
 const showVillesCp = ref(false)
 const showErrorMsg = ref(false)
 
 
 function submitStep() {
-    console.log(showErrorMsg.value)
-    if(showErrorMsg.value == false && formData.codePostal.length == 5){
+    if(showErrorMsg.value == false && String(formData.codePostal).length == 5){
         formStore.updateStepData('step2', formData);
         formStore.nextStep();
     }else {
@@ -187,16 +185,15 @@ function submitStep() {
         showVillesCp.value = false;
     }
 }
-function toggleListVilles(event) {
-    showVillesCp.value = !showVillesCp.value;
-}
-function onVilleCpSearchKeyup() {
+
+const onVilleCpSearchKeyup = async () => {
     const pressedKey = formData.zipcode.trim();
     if (pressedKey && pressedKey.length >= 3 ) {
-        getVilleZip(pressedKey);
+        await getVilleZip(pressedKey);
+        showErrorMsg.value = false;
     }else {
-        showErrorMsg.value = true;
-        showVillesCp.value = true;
+        showErrorMsg.value = pressedKey.length === 0 ? false : true;
+        showVillesCp.value = false;
     }
 
 }
@@ -206,25 +203,17 @@ function selectCpVille(cp, ville) {
     formData.ville = ville;
     showVillesCp.value = false;
 }
-async function getVilleZip(key) {
+async function getVilleZip(query) {
     try {
-        const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${key}`);
+        const response = await fetch('/Villes.json');
         const data = await response.json();
-
-        if (data && data.features.length > 0) {
-            filteredCities.value = data.features.slice(0,3).map((feature) => ({
-                cp: feature.properties.postcode,
-                name: feature.properties.city,
-            }));
-            showVillesCp.value = true;
-            showErrorMsg.value = false;
-        } else {
-            filteredCities.value = [];
-            showVillesCp.value = false;
-            showErrorMsg.value = true;
-        }
+        allCities.value = data;
+        filteredCities.value = allCities.value.filter(city => String(city.code_postal).includes(query) || city.code_postal==query || city.commune.toLowerCase().includes(query.toLowerCase()) ); 
+        showVillesCp.value = filteredCities.value.length > 0; 
+        showErrorMsg.value = filteredCities.value.length === 0;
     } catch (error) {
         console.error("Error fetching city data:", error);
+        showErrorMsg.value = true;
         showVillesCp.value = false;
     }
 }
