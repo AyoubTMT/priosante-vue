@@ -288,8 +288,8 @@ body {
   font-size: 17px;
 }
 
-.topnav a:hover {
-  background-color: #ddd;
+.topnav a:hover:not(:nth-child(3)) {
+  background-color: #b0e2fd;
   color: black;
 }
 
