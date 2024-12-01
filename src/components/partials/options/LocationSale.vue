@@ -5,12 +5,12 @@
                                     alt="salle">
 
                             </div>
-                            <div class="d-flex align-items-center w-100 justify-content-between">
-                                <div class="p-2">
-                                    <div class="otitre">
+                            <div class="d-flex align-items-center w-100 justify-content-between oicontent">
+                                <div  class="p-2">
+                                    <div class="otitre oitext">
                                         Location de salle
                                     </div>
-                                    <div class="odescription">
+                                    <div class="odescription oitext">
                                         Garantit la salle louée ou déjà occupée à l’occasion d’une fête ou d’une réunion
                                         d’ordre familial ou privé comptant jusqu’à 150 personnes.
                                     </div>

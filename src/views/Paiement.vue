@@ -47,7 +47,7 @@
                             <li>Le paiement des prochaines échéances</li>
                             <li>Le prélèvement est effectué le 10 du mois</li>
                         </ul>
-                        <button @click="showDevis" class="btn btn-secondary fw-bold mt-4" data-bs-toggle="modal" data-bs-target="#pdfModal">Voir mon devis </button>                    </div>
+                        <button @click="showDevis" type="button" class="btn btn-secondary fw-bold mt-4" data-bs-toggle="modal" data-bs-target="#pdfModal">Voir mon devis </button>                    </div>
                 </div>
             </div>
             <div class="row justify-content-center mt-3">

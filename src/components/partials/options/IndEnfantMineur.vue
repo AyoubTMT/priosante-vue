@@ -6,12 +6,12 @@
                                     alt="maternite" width="45px">
 
                             </div>
-                            <div class="d-flex align-items-center w-100 justify-content-between">
-                                <div class="p-2">
-                                    <div class="otitre">
+                            <div class="d-flex align-items-center w-100 justify-content-between oicontent">
+                                <div  class="p-2">
+                                    <div class="otitre oitext">
                                         Assistance maternelle
                                     </div>
-                                    <div class="odescription">
+                                    <div class="odescription oitext">
                                         Couvre les dommages causés ou subis par les enfants qui vous sont confiés dans
                                         le cadre de votre activité professionnelle jusqu’à trois enfants gardés.
                                     </div>

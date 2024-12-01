@@ -6,12 +6,12 @@
                                     alt="maternite" width="45px">
 
                             </div>
-                            <div class="d-flex align-items-center w-100 justify-content-between">
-                                <div class="p-2">
-                                    <div class="otitre">
+                            <div class="d-flex align-items-center w-100 justify-content-between oicontent">
+                                <div  class="p-2">
+                                    <div class="otitre oitext">
                                         Système photovoltaïque
                                     </div>
-                                    <div class="odescription">
+                                    <div class="odescription oitext">
                                        
                                     </div>
                                 </div>

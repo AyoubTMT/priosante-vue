@@ -6,12 +6,12 @@
                                     alt="electric">
 
                             </div>
-                            <div class="d-flex align-items-center w-100 justify-content-between">
-                                <div class="p-2">
-                                    <div class="otitre">
+                            <div class="d-flex align-items-center w-100 justify-content-between oicontent">
+                                <div  class="p-2">
+                                    <div class="otitre oitext">
                                         Dommages électriques
                                     </div>
-                                    <div class="odescription">
+                                    <div class="odescription oitext">
                                         Couvre les dommages causés aux appareils électriques, électroniques,
                                         électroménagers et aux accessoires à l’intérieur du bien assuré.
                                     </div>
