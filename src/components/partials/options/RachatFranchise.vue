@@ -5,12 +5,12 @@
                     alt="responsable">
 
             </div>
-            <div class="d-flex align-items-center w-100 justify-content-between">
-                <div class="p-2">
-                    <div class="otitre">
+            <div class="d-flex align-items-center w-100 justify-content-between oicontent">
+                <div  class="p-2">
+                    <div class="otitre oitext">
                         Rachat de franchise
                     </div>
-                    <div class="odescription">
+                    <div class="odescription oitext">
                         L'option rachat de franchise permet de supprimer la franchise sur l'ensemble des
                         garanties souscrites appart celle de catastrophes naturelles (franchise fixée
                         par l'état).
