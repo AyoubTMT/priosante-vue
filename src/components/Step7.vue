@@ -302,6 +302,8 @@ import { toast } from 'vue3-toastify';
     const step7Data = formStore.getFormData;
     const loadingTarif = ref(false);
 
+    const nbrPieces = formStore.getNbrPieces;
+    const tarifs =ref([]);
     const form = reactive({
       civilite: step7Data.step7.civilite || "MR",
       nom: step7Data.step7.nom,
@@ -403,6 +405,10 @@ import { toast } from 'vue3-toastify';
 
         try {
           await getTarifs();
+          //il doit verifier c'est tarifs OK or KO
+          formStore.updateStepData('tarifs', tarifs);
+          formStore.nextStep();
+        router.push('/devis/tarifs');
         } catch (error) {
           console.error("Error during form submission:", error);
         }
@@ -412,21 +418,48 @@ import { toast } from 'vue3-toastify';
     };
 
     const getTarifs = async () => {
-        const dataTarif = formStore.getDataForTarif;
-        loadingTarif.value =true;
-        await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
-        .then(response => {
-            if (response.status === 200) {
-                formStore.updateStepData('tarifs', response.data.response);
-                formStore.nextStep();
-                router.push('/devis/tarifs');
-            }
-        }).catch(({response}) => {
-            toast.error('une erreur est survenue merci de réessayer plus tard');
-            console.log(response);
-        }).finally(() => {
-            loadingTarif.value =false;
-        });
+        const formules = formStore.getDependecies;
+        for (const element of formules) {
+                const dataTarif = formStore.getDataForTarif;
+                dataTarif.formuleGenerali = element.formule
+                dataTarif.capitalMobilier = Object.keys(element.capitals)[0] 
+                //dataTarif.niveauFranchise = Object.keys(element.franchise)[0] 
+                dataTarif.niveauFranchise = Object.keys(element.franchise).includes('TROISCENTS') ? 'TROISCENTS' : Object.keys(element.franchise)[0] 
+                dataTarif.indemnMobilier = Object.keys(element.indemnisationMobilier)[0] 
+                dataTarif.niveauOJ = Object.keys(element.objetValeur)[0] 
+                console.log(JSON.stringify(dataTarif))
+                 loadingTarif.value =true;
+                await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
+                .then(response => {
+                    if (response.status === 200) {
+                        tarifs.value.push( response.data.response[0]);
+                    }
+                }).catch(({response}) => {
+                    toast.error('une erreur est survenue merci de réessayer plus tard');
+                    console.log(response);
+                }).finally(() => {
+                    loadingTarif.value =false;
+                });
+        };
+        
+  
+     
+        
+        // const dataTarif = formStore.getDataForTarif;
+        // loadingTarif.value =true;
+        // await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
+        // .then(response => {
+        //     if (response.status === 200) {
+        //         formStore.updateStepData('tarifs', response.data.response);
+        //         formStore.nextStep();
+        //         router.push('/devis/tarifs');
+        //     }
+        // }).catch(({response}) => {
+        //     toast.error('une erreur est survenue merci de réessayer plus tard');
+        //     console.log(response);
+        // }).finally(() => {
+        //     loadingTarif.value =false;
+        // });
     };
 
 </script>

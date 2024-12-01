@@ -27,7 +27,7 @@
                 <div class="my-4">
                     <carousel :items-to-show="3" :wrap-around="true" >
                         <slide v-for="tarif in tarifs" :key="tarif.formule">
-                            <my-slide :tarif="tarif" :dateEffet="dateEffet"/>
+                            <my-slide :tarif="tarif" :dateEffet="dateEffet" :dependecies="dependecies.filter(element => element.formule == tarif.formule)[0]" />
                         </slide>
                         <template #addons>
                             <navigation />
@@ -407,6 +407,7 @@
     import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
     import { useFormStore } from '../stores/useFormStore';
     import { useRouter } from 'vue-router';
+    import { ref,onMounted } from 'vue';
     import MySlide from '../components/slide.vue';
     import MyHeader from '../components/header.vue';
 
@@ -415,11 +416,14 @@
 
     const tarifs = formStore.getTarifs;
     const dateEffet = formStore.getDateEffet;
+    const dependecies = formStore.getDependecies;
+
+    onMounted( () => {
+      
+    })
 
 
-    function prevStep() { 
-        this.formStore.prevStep(this.router);
-    };
+
 </script>
  
 <style>

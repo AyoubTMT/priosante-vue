@@ -55,6 +55,7 @@ export const useFormStore = defineStore('form', {
         nbrEnfant: "0",
       },
       //tarifs:null,
+      dependecies:[],
       tarifs:[],
       selectedTarif:{},
       devisComplet:{},
@@ -79,9 +80,11 @@ export const useFormStore = defineStore('form', {
   getters: {
     getFormData: (state) => state.formData,
     getTarifs: (state) => state.formData.tarifs,
+    getDependecies: (state) => state.formData.dependecies,
     getSelectedTarif: (state) => state.formData.selectedTarif,
     getSelectedTarifOptions: (state) => state.formData.selectedTarifOptions,
     getDateEffet: (state) => state.formData.step7.dateEffet,
+    getNbrPieces: (state) => state.formData.step3.nbr_pieces_principales,
     getDataForTarif: (state) => ({
       produitType: state.formData.step6.produitType,
       codePostal : 75001,
@@ -161,7 +164,7 @@ export const useFormStore = defineStore('form', {
 
   actions: {
     updateStepData(step, data) {
-      if(step == "tarifs" || step == "selectedTarifOptions"  ){
+      if(step == "tarifs" || step == "selectedTarifOptions" || step == "dependecies" ){
         this.formData[step]=[];
       }
       this.formData[step] = data;
