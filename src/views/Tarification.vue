@@ -409,6 +409,7 @@
     import { useRouter } from 'vue-router';
     import MySlide from '../components/slide.vue';
     import MyHeader from '../components/header.vue';
+    import {ref,onMounted,watch,onUnmounted} from 'vue';
 
     const formStore = useFormStore();
     const router = useRouter();
