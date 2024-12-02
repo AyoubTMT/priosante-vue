@@ -240,7 +240,8 @@ const formData = reactive({
 const nbr_pieces_principales = formStore.formData.step3.nbr_pieces_principales ;
 const isMrhGenerali = computed(() => {
     formData.produitType = nbr_pieces_principales > 1 ? "MRH_GENERALI" : "MRH";
-    return nbr_pieces_principales > 1;
+    // return nbr_pieces_principales > 1;
+    return false;
 });
 function submitStep() {
     formStore.updateStepData('step6', formData);
