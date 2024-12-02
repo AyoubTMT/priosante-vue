@@ -28,6 +28,7 @@
                     <carousel :key="carouselKey" :items-to-show="itemsToShow" :wrap-around="false" >
                         <slide v-for="tarif in tarifs" :key="tarif.formule">
                             <my-slide :tarif="tarif" :dateEffet="dateEffet"/>
+                            <my-slide :tarif="tarif" :dateEffet="dateEffet"/>
                         </slide>
                         <template #addons>
                             <navigation />
