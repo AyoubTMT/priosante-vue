@@ -1,9 +1,9 @@
 <template>
 
-    <div class="tarifBox text-center slick-slide slick-active" data-slick-index="1" aria-hidden="false"
+    <div class="tarifBox text-center slick-slide slick-active " :class="{ 'recommanded': tarif.formule == 'CONFORT' }" data-slick-index="1" aria-hidden="false"
         style="width: 394px;" tabindex="-1">
 
-        <div class="mb-0 tarifTitle">{{ tarif.formule }}</div>
+        <div class="mb-0 tarifTitle " :class="{ 'recommandedBox': tarif.formule == 'CONFORT' }">{{ tarif.formule }}</div>
         <div class="dateEffet mb-2 mt-2" data-bs-toggle="modal" data-bs-target="#dateEffet">A partir du : <span
                 class="effetDate mx-2">{{ formatDate(dateEffet) }}</span>
             <!-- <svg xmlns="http://www.w3.org/2000/svg" width="14.773" height="14.759" viewBox="0 0 14.773 14.759">
@@ -177,7 +177,7 @@ function formatDate(value) {
 }
 
 .tarifPrice {
-    background-color: var(--green3);
+    background-color: var(--color3);
     padding: 5px 0;
     display: flex;
     align-items: flex-start;
@@ -207,7 +207,22 @@ function formatDate(value) {
     padding: 21px 0;
     margin: 0 15px;
 }
-
+.tarifBox.recommanded {
+    border: 4px solid var(--color3);
+    padding-top: 0;
+}
+.tarifBox.recommanded .recommandedBox {
+    display: block;
+}
+.recommandedBox {
+    background: var(--color3);
+    color: #fff;
+    margin-bottom: 12px;
+    padding: 8px 0;
+    display: none;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
 /*****************************/
 .carousel__slide {
     padding: 5;
