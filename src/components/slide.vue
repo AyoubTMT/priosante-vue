@@ -19,27 +19,27 @@
         <ul class="text-start">
             <li>Capital mobilier à assurer</li>
             <li>
-                <select class="form-select" name="capital">
+                <select class="form-select" v-model="selectedDependecies.capitals" @change="getTarif">
                     <option v-for="(item, index) in dependecies.capitals" :key="index" :value="index">{{ item }}</option>
                 </select>
             </li>
             <li>Indemnisation Mobilier</li>
             <li>
-                <select class="form-select" name="capital">
+                <select class="form-select" v-model="selectedDependecies.indemnisationMobilier"  @change="getTarif">
                     <option v-for="(item, index) in dependecies.indemnisationMobilier" :key="index" :value="index">
                         {{ item }}</option>
                 </select>
             </li>
             <li>Objets de valeur</li>
             <li>
-                <select class="form-select" name="capital">
+                <select class="form-select" v-model="selectedDependecies.objetValeur"  @change="getTarif">
                     <option v-for="(item, index) in dependecies.objetValeur" :key="index" :value="index">{{ item }}
                     </option>
                 </select>
             </li>
             <li>Franchise</li>
             <li>
-                <select class="form-select" name="capital">
+                <select class="form-select" v-model="selectedDependecies.franchise"  @change="getTarif">
                     <option v-for="(item, index) in dependecies.franchise" :selected="index == 'TROISCENTS'"  :key="index" :value="index">{{ item }}</option>
                 </select>
             </li>
@@ -76,19 +76,28 @@
 
 <script setup>
 // If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
-import { computed } from 'vue'
+import { computed ,reactive} from 'vue'
 
 
 import { useFormStore } from '@/stores/useFormStore';
 import { useRouter } from 'vue-router';
-
+import axios from 'axios';
 import moment from 'moment';
-
+import {VueSpinner} from 'vue3-spinners';
+import { toast } from 'vue3-toastify';
 const props = defineProps(['tarif', "dependecies",'dateEffet'])
 const formStore = useFormStore();
 const router = useRouter();
 
-
+const defaultDependecie = formStore.getDefaultDependecie(props.tarif.formule)
+console.log(defaultDependecie)
+const selectedDependecies = reactive({
+    formule:props.tarif.formule,
+    franchise:defaultDependecie.franchise,
+    indemnisationMobilier:defaultDependecie.indemnisationMobilier,
+    objetValeur:defaultDependecie.objetValeur,
+    capitals:defaultDependecie.capitals,
+})
 // a computed ref
 
 const integerPart = computed(() => {
@@ -110,6 +119,34 @@ function formatDate(value) {
         return moment(String(value)).format('DD/MM/YYYY')
     }
 }
+
+async function getTarif(){
+        const dataTarif = formStore.getDataForTarif;
+        dataTarif.formuleGenerali = selectedDependecies.formule
+        dataTarif.capitalMobilier = selectedDependecies.capitals 
+        //dataTarif.niveauFranchise = Object.keys(element.franchise)[0] 
+        dataTarif.niveauFranchise = selectedDependecies.franchise  
+        dataTarif.indemnMobilier = selectedDependecies.indemnisationMobilier  
+        dataTarif.niveauOJ = selectedDependecies.objetValeur  
+        console.log(JSON.stringify(dataTarif))
+        //  loadingTarif.value =true;
+        await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
+        .then(response => {
+            if (response.status === 200) {
+                console.log(selectedDependecies.formule)
+                formStore.updateFormuleTarif(selectedDependecies, response.data.response[0]);
+                //tarifs.value.push( response.data.response[0]);
+            }
+        }).catch(({response}) => {
+            toast.error('une erreur est survenue merci de réessayer plus tard');
+            console.log(response);
+        }).finally(() => {
+        });
+}
+
+
+
+
 
 </script>
 
