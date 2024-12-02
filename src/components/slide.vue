@@ -35,8 +35,6 @@
                     <strong v-if="['OPTIMALE', 'CONFORT'].includes(props.tarif.formule)">à 1 000 € / pièce</strong>
                     <strong v-if="['PREMIUM'].includes(props.tarif.formule)"> à 1 500 € / pièce</strong>
                 </li>
-                <li :class="[['ECO'].includes(props.tarif.formule) ? 'uncheck' : '']">3 mois d’assurance OFFERTS*
-                    <strong></strong></li>
             </ul>
         </div>
         <div class="tarifActions">

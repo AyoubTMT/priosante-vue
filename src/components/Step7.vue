@@ -5,8 +5,6 @@
                 <h2 class="stepTitle mb-3">C’est la dernière étape !</h2>
                 <p class="stepDescription mb-3 mb-md-0">Et si nous faisions plus ample connaissance avant de partager le
                     devis ?</p>
-                <p class="mb-3">En ce moment, <span class="underligned">3 mois offerts*</span> pour toute souscription
-                    d’un contrat en ligne.</p>
             </div>
 
             <label class="formLabel mb-2" for="homme">Vos informations</label>

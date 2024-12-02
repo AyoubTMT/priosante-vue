@@ -6,8 +6,6 @@
                 <p class="stepDescription mb-3 mb-md-0">
                     Parlons de votre besoin et votre budget pour constituer la meilleure offre.
                 </p>
-                <p class="mb-3">En ce moment, <span class="underligned">3 mois offerts*</span> pour toute souscription
-                    d’un contrat en ligne.</p>
             </div>
             <!-- Protection souhaitée -->
             <label for="economique" class="formLabel mb-3">Quelle est la protection souhaitée ?</label>
