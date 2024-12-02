@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="my-4">
-                    <carousel :items-to-show="itemsToShow" :wrap-around="false" >
+                    <carousel :key="carouselKey" :items-to-show="itemsToShow" :wrap-around="false" >
                         <slide v-for="tarif in tarifs" :key="tarif.formule">
                             <my-slide :tarif="tarif" :dateEffet="dateEffet"/>
                         </slide>
@@ -407,7 +407,7 @@
     import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
     import { useFormStore } from '../stores/useFormStore';
     import { useRouter } from 'vue-router';
-    import { ref, onMounted, onUnmounted } from 'vue';
+    import { ref, watch, onMounted, onUnmounted } from 'vue';
     import MySlide from '../components/slide.vue';
     import MyHeader from '../components/header.vue';
 
@@ -416,7 +416,8 @@
 
     const tarifs = formStore.getTarifs;
     const dateEffet = formStore.getDateEffet;
-    const itemsToShow = ref(3); 
+    const itemsToShow = ref(3);
+    const carouselKey = ref(0);
 
     const updateItemsToShow = () => {
         const width = window.innerWidth;
@@ -428,14 +429,20 @@
         itemsToShow.value = 3;
       }
     };
-    
+
+    watch(itemsToShow, () => {
+      carouselKey.value += 1; // Increment key to force re-render
+    });
+
     onMounted(() => {
       updateItemsToShow();
       window.addEventListener('resize', updateItemsToShow);
+        console.log(itemsToShow.value);
     });
 
     onUnmounted(() => {
       window.removeEventListener('resize', updateItemsToShow);
+        console.log(itemsToShow.value);
     });
 
     function prevStep() { 
