@@ -27,8 +27,7 @@
                 <div class="my-4">
                     <carousel :key="carouselKey" :items-to-show="itemsToShow" :wrap-around="false" >
                         <slide v-for="tarif in tarifs" :key="tarif.formule">
-                            <my-slide :tarif="tarif" :dateEffet="dateEffet"/>
-                            <my-slide :tarif="tarif" :dateEffet="dateEffet"/>
+                            <my-slide :tarif="tarif" :dateEffet="dateEffet" :dependecies="dependecies.filter(element => element.formule == tarif.formule)[0]" />
                         </slide>
                         <template #addons>
                             <navigation />
@@ -408,7 +407,6 @@
     import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
     import { useFormStore } from '../stores/useFormStore';
     import { useRouter } from 'vue-router';
-    import { ref, watch, onMounted, onUnmounted } from 'vue';
     import MySlide from '../components/slide.vue';
     import MyHeader from '../components/header.vue';
 
@@ -417,6 +415,8 @@
 
     const tarifs = formStore.getTarifs;
     const dateEffet = formStore.getDateEffet;
+    const dependecies = formStore.getDependecies;
+
     const itemsToShow = ref(3);
     const carouselKey = ref(0);
 
@@ -432,7 +432,7 @@
     };
 
     watch(itemsToShow, () => {
-      carouselKey.value += 1; // Increment key to force re-render
+      carouselKey.value += 1;
     });
 
     onMounted(() => {
