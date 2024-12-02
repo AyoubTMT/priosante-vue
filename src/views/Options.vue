@@ -103,7 +103,7 @@ const formStore = useFormStore();
 // get selected tarif
 const selectedTarif = formStore.getSelectedTarif;
 
-const tarifOptions = ref([])
+const tarifOptions = ref(formStore.getSelectedTarifOptions)
 
 function submitStep (){
     formStore.updateStepData('selectedTarifOptions', tarifOptions);
@@ -130,7 +130,15 @@ function submitStep (){
         min-width: 105px;
         justify-content: space-around;
     }
-    @media (min-width: 751px) {
+    @media (max-width: 751px) {
+        .osingle,.oicontent {
+            display: flex;
+            flex-direction: column;
+        }
+        .oitext{
+            text-align: center;
+        }
+    }
         .osingle {
             box-shadow: 0px 6px 7px 0px #f1f1f1;
             border-radius: 10px;
@@ -173,5 +181,4 @@ function submitStep (){
         .obtn span {
             font-size: 10px;
         }
-    }
 </style>

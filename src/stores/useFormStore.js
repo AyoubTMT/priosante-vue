@@ -56,66 +56,8 @@ export const useFormStore = defineStore('form', {
         nbrEnfant: "0",
       },
       //tarifs:null,
-      tarifs:[
-        {
-            "formule": "ECO",
-            "tarif": "10.11",
-            "optionsCompatibles": {
-                "ASSISTANCE_MATERNELLE": "3.04",
-                "RACHAT_FRANCHISE": "2.8",
-                "IND_ENFANT_MINEUR": "0.00",
-                "SYS_PHOTOVOLTAIQUE": "4.05",
-                "LOCATION_SALLE": "1.87"
-            }
-        },
-        {
-            "formule": "CONFORT",
-            "tarif": "15.15",
-            "optionsCompatibles": {
-                "ASSISTANCE_MATERNELLE": "3.04",
-                "RACHAT_FRANCHISE": "3.84",
-                "IND_ENFANT_MINEUR": "0.00",
-                "SYS_PHOTOVOLTAIQUE": "4.05",
-                "DOMMAGE_ELECTRIQUE": "1.27",
-                "LOCATION_SALLE": "1.87"
-            }
-        },
-        {
-            "formule": "OPTIMALE",
-            "tarif": "19.3",
-            "optionsCompatibles": {
-                "ASSISTANCE_MATERNELLE": "3.04",
-                "RACHAT_FRANCHISE": "4.2",
-                "IND_ENFANT_MINEUR": "0.00",
-                "SYS_PHOTOVOLTAIQUE": "4.05",
-                "DOMMAGE_ELECTRIQUE": "1.39",
-                "LOCATION_SALLE": "1.87"
-            }
-        },
-        {
-            "formule": "PREMIUM",
-            "tarif": "21.35",
-            "optionsCompatibles": {
-                "ASSISTANCE_MATERNELLE": "3.04",
-                "RACHAT_FRANCHISE": "4.81",
-                "IND_ENFANT_MINEUR": "0.00",
-                "SYS_PHOTOVOLTAIQUE": "4.05",
-                "DOMMAGE_ELECTRIQUE": "1.5",
-                "LOCATION_SALLE": "1.87"
-            }
-        }
-      ],
-      selectedTarif:{
-          "formule": "ECO",
-          "tarif": "10.11",
-          "optionsCompatibles": {
-              "ASSISTANCE_MATERNELLE": "3.04",
-              "RACHAT_FRANCHISE": "2.8",
-              "IND_ENFANT_MINEUR": "0.00",
-              "SYS_PHOTOVOLTAIQUE": "4.05",
-              "LOCATION_SALLE": "1.87"
-          }
-      },
+      tarifs:[],
+      selectedTarif:{},
       devisComplet:{},
       devisCompletAvecLien:{},
       selectedTarifOptions:[],
@@ -174,6 +116,7 @@ export const useFormStore = defineStore('form', {
     }),
     getDataForSave: (state) => ({
       flagType: state.formData.flagType,
+      produitType: state.formData.step6.produitType,
       habitationUsageProfessionel: 'NON',
       piscine: state.formData.step4.selectedOptions.includes('presencePicineOuTennis') ? 'OUI' : 'NON',
       dateEffet: state.formData.step7.dateEffet,
@@ -194,9 +137,9 @@ export const useFormStore = defineStore('form', {
       etageAppart : state.formData.step2.appartement_situe,
       capitalMobilier: state.formData.step6.valeur_bien,
       formuleChoisi: state.formData.selectedTarif.formule,
-      franchise: state.formData.step6.niveau_franchise,
-      indemnisationMobilier: state.formData.step6.indemnisation_mobilier,
-      niveauGarantieObjVal: state.formData.step6.objets_valeur,
+      // franchise: state.formData.step6.niveau_franchise,
+      // indemnisationMobilier: state.formData.step6.indemnisation_mobilier,
+      // niveauGarantieObjVal: state.formData.step6.objets_valeur,
       declarAssistantMatern: state.formData.selectedTarifOptions.includes('ASSISTANCE_MATERNELLE') ? 'OUI' : 'NON',
       panneauPhotoVolt: state.formData.selectedTarifOptions.includes('SYS_PHOTOVOLTAIQUE') ? 'OUI' : 'NON',
       bienElectrMoin5ans: state.formData.selectedTarifOptions.includes('DOMMAGE_ELECTRIQUE') ? 'OUI' : 'NON',

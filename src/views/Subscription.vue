@@ -2,7 +2,7 @@
    <my-header :progress="formStore.currentStep"  :step="'subscription'"/>
     <section id="formulaire">
         <div class="container">
-            <div class="row justify-content-center mb-0 mb-lg-4 d-block d-md-none">
+            <div class="row justify-content-center mb-lg-4 d-block d-md-none progressdiv">
                 <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6">
                     <div class="progress Mobile">
                         <div class="progress-bar progressMobile" role="progressbar" style="width: 16%;" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100"></div>

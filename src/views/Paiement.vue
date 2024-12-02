@@ -47,7 +47,7 @@
                             <li>Le paiement des prochaines échéances</li>
                             <li>Le prélèvement est effectué le 10 du mois</li>
                         </ul>
-                        <button @click="showDevis" class="btn btn-secondary fw-bold mt-4" data-bs-toggle="modal" data-bs-target="#pdfModal">Voir mon devis </button>                    </div>
+                        <button @click="showDevis" type="button" class="btn btn-secondary fw-bold mt-4" data-bs-toggle="modal" data-bs-target="#pdfModal">Voir mon devis </button>                    </div>
                 </div>
             </div>
             <div class="row justify-content-center mt-3">
@@ -56,7 +56,7 @@
                     <input type="text" id="titulaire" class="form-control" placeholder="Nom et prénom du titulaire" v-model="formData.titulaire_compte">
 
                     <label class="formLabel d-block mt-3 mb-2">Relevé d'identité bancaire (IBAN)</label>
-                    <input type="text" id="IBAN" class="mb-3 form-control" :class="{ 'inputError': ibanError }" placeholder="---- ---- ---- ---- ---- ---- ---" name="IBAN" v-model="formData.iban" maxlength="33">
+                    <input type="text" id="IBAN" class="mb-3 form-control" :class="{ 'inputError': ibanError }" @input="validateIBAN" placeholder="---- ---- ---- ---- ---- ---- ---" name="IBAN" v-model="formData.iban" maxlength="33">
                     <div v-show="formSubmitted && ibanError" class="errorMsg">
                         <div class="d-flex align-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008" viewBox="0 0 10.497 10.008">
@@ -183,7 +183,7 @@
     const ibanError = ref(false);
     const formSubmitted = ref(false);
     const formData = reactive({
-        titulaire_compte: 'test test',
+        titulaire_compte: formStore.formData.step7.prenom + ' ' + formStore.formData.step7.nom,
         iban: '',
         declaration: false
     });
@@ -219,9 +219,13 @@
     const formattedTarif = formatTarifWithComma(formStore.finalTarif);
     const formattedTarifWithTax = formatTarifWithComma(tarifWithTax);
     
+    const validateIBAN = () => {
+      const isValid = isValidIBANNumber(formData.iban);
+      ibanError.value = isValid ? "" : "Merci de renseigner un IBAN valide.";
+    };
+
     // validate IBAN
     const isValidIBANNumber = (ibanValue) => {
-        // Check if IBAN is empty or null
         if (!ibanValue || ibanValue.trim() === '') {
             return false; // No validation needed if the IBAN is empty
         }
@@ -341,7 +345,7 @@
     const finaliserDevis = async () => {
         formSubmitted.value = true;
 
-        ibanError.value = formData.iban ? !isValidIBANNumber(formData.iban) : false;
+        ibanError.value = !isValidIBANNumber(formData.iban);
         const isFormValid = formData.declaration && !ibanError.value;
 
         console.log(isFormValid ? 'Form is valid' : 'Form is not valid');
@@ -349,6 +353,8 @@
         if (!isFormValid) return;
 
         formStore.updateStepData('flagType', 'LIEN');
+        formStore.updateStepData('modePaiement', 'PRELEVEMENT');
+        formStore.updateStepData('paiement', formData);
 
         try {
             const response = await saveDevis();

@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="my-4">
-                    <carousel :items-to-show="3" :wrap-around="true" >
+                    <carousel :key="carouselKey" :items-to-show="itemsToShow" :wrap-around="false" >
                         <slide v-for="tarif in tarifs" :key="tarif.formule">
                             <my-slide :tarif="tarif" :dateEffet="dateEffet"/>
                         </slide>
@@ -407,6 +407,7 @@
     import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
     import { useFormStore } from '../stores/useFormStore';
     import { useRouter } from 'vue-router';
+    import { ref, watch, onMounted, onUnmounted } from 'vue';
     import MySlide from '../components/slide.vue';
     import MyHeader from '../components/header.vue';
 
@@ -415,7 +416,34 @@
 
     const tarifs = formStore.getTarifs;
     const dateEffet = formStore.getDateEffet;
+    const itemsToShow = ref(3);
+    const carouselKey = ref(0);
 
+    const updateItemsToShow = () => {
+        const width = window.innerWidth;
+      if (width <= 480) {
+        itemsToShow.value = 1;
+      } else if (width <= 768) {
+        itemsToShow.value = 2;
+      } else {
+        itemsToShow.value = 3;
+      }
+    };
+
+    watch(itemsToShow, () => {
+      carouselKey.value += 1; // Increment key to force re-render
+    });
+
+    onMounted(() => {
+      updateItemsToShow();
+      window.addEventListener('resize', updateItemsToShow);
+        console.log(itemsToShow.value);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', updateItemsToShow);
+        console.log(itemsToShow.value);
+    });
 
     function prevStep() { 
         this.formStore.prevStep(this.router);
@@ -627,4 +655,20 @@
         width: 100%;
         margin-top: 13px !important;
     }
+    
+    /* @media screen and (max-width: 700px) {
+        .carousel__slide{
+            width: 100% !important;
+        }
+    } */
+    .carousel {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .slide {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
 </style>

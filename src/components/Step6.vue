@@ -6,8 +6,6 @@
                 <p class="stepDescription mb-3 mb-md-0">
                     Parlons de votre besoin et votre budget pour constituer la meilleure offre.
                 </p>
-                <p class="mb-3">En ce moment, <span class="underligned">3 mois offerts*</span> pour toute souscription
-                    d’un contrat en ligne.</p>
             </div>
             <!-- Protection souhaitée -->
             <label for="economique" class="formLabel mb-3">Quelle est la protection souhaitée ?</label>
@@ -240,7 +238,8 @@ const formData = reactive({
 const nbr_pieces_principales = formStore.formData.step3.nbr_pieces_principales ;
 const isMrhGenerali = computed(() => {
     formData.produitType = nbr_pieces_principales > 1 ? "MRH_GENERALI" : "MRH";
-    return nbr_pieces_principales > 1;
+    // return nbr_pieces_principales > 1;
+    return false;
 });
 function submitStep() {
     formStore.updateStepData('step6', formData);

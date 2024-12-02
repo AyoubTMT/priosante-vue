@@ -128,10 +128,10 @@
 import BonASavoir from '../components/BonASavoir.vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { reactive, ref } from 'vue';
-
+const formStore = useFormStore();
 const localData = reactive({
-  type_habitation: "APPARTEMENT", // Default value
-  assured: "NON", // Default value
+  type_habitation: formStore.formData.step1.type_habitation || "APPARTEMENT",
+  assured: "NON",
 });
 
 const showModal = ref(false);

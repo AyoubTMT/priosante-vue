@@ -60,6 +60,16 @@ const router = createRouter({
       component: () => import('../views/document.vue'),
     },
     {
+      path: '/lassurance',
+      name: 'lassurance',
+      component: () => import('../views/AboutView.vue'),
+    },
+    {
+      path: '/vosquestions',
+      name: 'vosquestions',
+      component: () => import('../views/AboutView.vue'),
+    },
+    {
       path: '/:pathMatch(.*)*',
       redirect: '/', // Redirect undefined routes to home 
     },

@@ -598,3 +598,7 @@ img, svg {
 .colorText{
   color: var(--color1);
 }
+
+.progressdiv{
+  margin-bottom: 50px !important;
+}

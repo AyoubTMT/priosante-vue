@@ -9,7 +9,7 @@
             </div>
             <label for="economique" class="formLabel">Dans ce logement, vous avez</label>
             <div v-for="(option, index) in options" :key="index" class="col-4 mt-3 accomodation">
-                <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
+                <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group" v-if="!isAppartement || (option.id !== 'veranda' && option.id !== 'presencePicineOuTennis')">
                     <input type="checkbox" class="btn-check" :id="option.id" :value="option.value"
                         v-model="formData.selectedOptions" />
                     <label class="btn btn-outline-primary iconLabel" :for="option.id">
@@ -277,6 +277,9 @@ const showDepSup = computed(() => {
 });
 const showChemSup = computed(() => {
     return formData.selectedOptions.includes('chemine');
+});
+const isAppartement = computed(() => {
+    return formStore.formData.step1.type_habitation == "APPARTEMENT";
 });
 function submitStep() {
     if(showErrorMsg.value == false){
