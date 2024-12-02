@@ -229,13 +229,6 @@ const options = reactive([
         icon: dependancesIcon,
         alt: 'dependances',
     },
-    {
-        id: 'veranda',
-        value: 'veranda',
-        label: 'Véranda ou loggia',
-        icon: verandaIcon,
-        alt: 'veranda',
-    },
     // {
     //     id: 'garage',
     //     value: 'garage',
@@ -256,6 +249,13 @@ const options = reactive([
         label: 'Pièce supérieure à 30 m²',
         icon: pieceIcon,
         alt: 'superieur30m',
+    },
+    {
+        id: 'veranda',
+        value: 'veranda',
+        label: 'Véranda ou loggia',
+        icon: verandaIcon,
+        alt: 'veranda',
     },
     {
         id: 'presencePicineOuTennis',
