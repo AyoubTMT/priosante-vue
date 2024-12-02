@@ -9,9 +9,6 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios';
 
-import jQuery from "jquery";
-const $ = jQuery;
-window.$ = $;
 
 
 const app = createApp(App)

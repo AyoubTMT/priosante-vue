@@ -96,10 +96,7 @@
         <div class="container-fluid p-0">
           <div class="row align-items-center">
             <div class="col-12">
-              <button v-if="loading" type="button" class="navBtn nextBtn mt-4 flex justify-center align-items-center">
-                  <vue-spinner size="30" color="white" />
-              </button>
-              <button v-else type="submit" class="navBtn nextBtn mt-4 flex justify-center align-items-center">Étape suivante
+              <button type="submit" class="navBtn nextBtn mt-4 flex justify-center align-items-center">Étape suivante
                 <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid"></button>
             </div>
           </div>
@@ -114,13 +111,10 @@
 <script setup>
 import BonASavoir from '../components/BonASavoir.vue';
 import { useFormStore } from '@/stores/useFormStore';
-import { ref, reactive, computed } from 'vue';
-import {VueSpinner} from 'vue3-spinners';
-import axios from 'axios';
-
+import { ref, reactive, computed } from 'vue'
 const formStore = useFormStore();
 const step3Data = formStore.getFormData;
-const loading = ref(false);
+
 const formData = reactive({
   type_residence: step3Data.step3.type_residence || 'RESIDENCE_PRINCIPALE',
   nbr_pieces_principales: step3Data.step3.nbr_pieces_principales,
@@ -145,24 +139,11 @@ const showSurfaceError = computed(() => {
   const value2 = formData.nbr_pieces_principales;
   return value === 0 || value === '' || value2 === 0 || value2 === '';
 });
-
-async function submitStep() {
+function submitStep() {
   validateNbrPieces();
   if(!showSurfaceError.value && !errors.nbr_pieces_principales){  
-    loading.value =true;
-    await axios.get(import.meta.env.VITE_BASE_URL+'/api/getDependecies/'+formData.nbr_pieces_principales)
-    .then(response => {
-        if (response.status === 200) {
-          formStore.updateStepData('dependecies', response.data);
-          formStore.updateStepData('step3', formData);
-          formStore.nextStep();
-        }
-    }).catch(({response}) => {
-        toast.error('une erreur est survenue merci de réessayer plus tard');
-        console.log(response);
-    }).finally(() => {
-        loading.value =false;
-    });
+    formStore.updateStepData('step3', formData);
+    formStore.nextStep();
   }
   showErrorMsg.value = 'true';
 }

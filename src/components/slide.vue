@@ -16,34 +16,6 @@
             <div class="price-rounded parmois">{{ integerPart }}</div>
             <div class="price-decimal">, {{ decimalPart }} €</div>
         </div>
-        <ul class="text-start">
-            <li>Capital mobilier à assurer</li>
-            <li>
-                <select class="form-select" name="capital">
-                    <option v-for="(item, index) in dependecies.capitals" :key="index" :value="index">{{ item }}</option>
-                </select>
-            </li>
-            <li>Indemnisation Mobilier</li>
-            <li>
-                <select class="form-select" name="capital">
-                    <option v-for="(item, index) in dependecies.indemnisationMobilier" :key="index" :value="index">
-                        {{ item }}</option>
-                </select>
-            </li>
-            <li>Objets de valeur</li>
-            <li>
-                <select class="form-select" name="capital">
-                    <option v-for="(item, index) in dependecies.objetValeur" :key="index" :value="index">{{ item }}
-                    </option>
-                </select>
-            </li>
-            <li>Franchise</li>
-            <li>
-                <select class="form-select" name="capital">
-                    <option v-for="(item, index) in dependecies.franchise" :selected="index == 'TROISCENTS'"  :key="index" :value="index">{{ item }}</option>
-                </select>
-            </li>
-        </ul>
         <div class="composants">
             <ul>
                 <li>Responsabilité civile <strong></strong></li>
@@ -54,8 +26,7 @@
                 <li>Bris de glace <strong></strong></li>
                 <li>Vol et vandalisme <strong></strong></li>
                 <li :class="[['ECO', 'CONFORT'].includes(props.tarif.formule) ? 'uncheck' : '']">Dommages électriques
-                    <strong></strong>
-                </li>
+                    <strong></strong></li>
                 <li>Capital mobilier Jusqu'à
                     <strong v-if="['ECO'].includes(props.tarif.formule)">5 000 € / pièce</strong>
                     <strong v-else>10 000 € / pièce</strong>
@@ -65,8 +36,7 @@
                     <strong v-if="['PREMIUM'].includes(props.tarif.formule)"> à 1 500 € / pièce</strong>
                 </li>
                 <li :class="[['ECO'].includes(props.tarif.formule) ? 'uncheck' : '']">3 mois d’assurance OFFERTS*
-                    <strong></strong>
-                </li>
+                    <strong></strong></li>
             </ul>
         </div>
         <div class="tarifActions">
@@ -87,11 +57,9 @@ import { useRouter } from 'vue-router';
 
 import moment from 'moment';
 
-const props = defineProps(['tarif', "dependecies",'dateEffet'])
+const props = defineProps(['tarif', 'dateEffet'])
 const formStore = useFormStore();
 const router = useRouter();
-
-
 // a computed ref
 
 const integerPart = computed(() => {
