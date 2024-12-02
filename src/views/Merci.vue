@@ -3,7 +3,7 @@
 
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
 
-    <img src='../assets/images/VectorValid.png' class="m-5" alt="" />
+    <img src='../assets/images/logo.png' class="m-5" alt="" />
     <!-- Titre -->
     <h1 class="text-3xl font-bold colorText mb-4">Merci pour votre confiance !</h1>
 
