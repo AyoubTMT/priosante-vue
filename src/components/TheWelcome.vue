@@ -33,10 +33,12 @@
       </nav>
     </header>
 
-    <section className='bg-[#DAF2FF] py-12'>
+    <section className='bg-[#b0e2fd] py-12'>
       <div className='py-6'>
         <h1 className='font-semibold text-4xl mobile:text-xl text-center mobile:leading-10'>Une assurance
-          simple, en <span className='bg-orange-500 py-1 px-3 rounded-xl text-white'>deux clics</span></h1>
+          simple, en <span className='bg-orange-500 py-1 px-3 rounded-xl text-white'>
+            <router-link :to="{ name: 'home' }" class="btnDeuxClics">deux clics</router-link></span>
+        </h1>
       </div>
       <div className='flex justify-center'>
         <img src='../assets/images/Frame.png' alt="" />
@@ -60,21 +62,21 @@
             className='underline decoration-orange-500 decoration-8 mobile:decoration-4 underline-offset-8'>Une
             protection </span>complète pour tous les budgets</h2>
         <div class="grid grid-cols-1 gap-3 py-12 sm:grid-cols-3 sm:gap-28">
-          <div class="py-8 px-6 rounded-md bg-[#DAF2FF] homeCards">
+          <div class="py-8 px-6 rounded-md bg-[#b0e2fd] homeCards">
             <div class="flex justify-center">
               <img src="../assets/images/VectorValid.png" alt="" />
             </div>
             <h3 class="font-semibold text-2xl py-3">Efficace</h3>
             <p class="text-lg">Couvertures efficace & adapté à vos besoins</p>
           </div>
-          <div class="py-8 px-6 rounded-md bg-[#DAF2FF] homeCards">
+          <div class="py-8 px-6 rounded-md bg-[#b0e2fd] homeCards">
             <div class="flex justify-center">
               <img src="../assets/images/VectorValid.png" alt="" />
             </div>
             <h3 class="font-semibold text-2xl py-3">Meilleurs prix</h3>
             <p class="text-lg">Assurez votre habitat au meilleur prix</p>
           </div>
-          <div class="py-8 px-6 rounded-md bg-[#DAF2FF] homeCards">
+          <div class="py-8 px-6 rounded-md bg-[#b0e2fd] homeCards">
             <div class="flex justify-center">
               <img src="../assets/images/VectorValid.png" alt="" />
             </div>
@@ -109,7 +111,7 @@
       </div>
     </section>
 
-    <section className='bg-[#DAF2FF]'>
+    <section className='bg-[#b0e2fd]'>
       <div className='py-6 container mx-auto rounded-lg'>
         <div className='grid sm:grid-cols-2 grid-cols-1 items-center'>
           <div className='px-4'>
@@ -180,7 +182,7 @@
           href="mailto:contact@assurmabarak.fr">contact@assurmabarak.fr</a>
       </div>
     </section>
-    <section className='bg-[#DAF2FF]'>
+    <section className='bg-[#b0e2fd]'>
       <div className='container mx-auto py-12'>
         <div className="grid sm:grid-cols-3 grid-cols-1 px-4">
           <div>
@@ -206,7 +208,7 @@
         </div>
       </div>
     </section>
-    <div className='bg-[#DAF2FF] text-center py-4 font-semibold'>lassurances-habitation.fr - 2024</div>
+    <div className='bg-[#b0e2fd] text-center py-4 font-semibold'>lassurances-habitation.fr - 2024</div>
   </div>
 </template>
 
@@ -445,6 +447,12 @@
     .navbar-link {
       width: max-content !important;
     }
+  }
+  .btnDeuxClics{
+    color:#fff;
+  }
+  .btnDeuxClics:hover{
+    color:var(--color5);
   }
 </style>
 
