@@ -14,6 +14,7 @@ export const useFormStore = defineStore('form', {
       step2: {
         qualiteAssure: 'LOCATAIRE_OCCUPANT',
         appartement_situe: '',
+        nbrEtageImmb: '',
         specification: '',
         zipcode: '',
         codePostal: '',
@@ -160,8 +161,8 @@ export const useFormStore = defineStore('form', {
       surfaceDependances : state.formData.step4.surfaceDependance,
       surfacePieces : state.formData.step3.surface_habitable,// à ajouter au ws savecontrat ECA
       nbEnfantMineur :  state.formData.step7.nbrEnfant,
-      nbrEtageImmb : "10",
-      etageBien : "1",
+      nbrEtageImmb : state.formData.step2.nbrEtageImmb,
+      etageBien : state.formData.step2.appartement_situe,
       capitalMobilier : state.formData.step6.valeur_bien,
       comporteInsert : state.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
       presenceVeranda :  state.formData.step4.selectedOptions.includes('veranda') ? 'OUI' : 'NON',
