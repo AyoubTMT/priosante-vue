@@ -1,12 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import Step1 from '../components/Step1.vue';
-import Step2 from '../components/Step2.vue';
-import Step3 from '../components/Step3.vue';
-import Step4 from '../components/Step4.vue';
-import Step5 from '../components/Step5.vue';
-import Step6 from '../components/Step6.vue';
-import Step7 from '../components/Step7.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +15,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/VosQuestions.vue'),
     },
     {
       path: '/devis',
@@ -62,12 +55,12 @@ const router = createRouter({
     {
       path: '/lassurance',
       name: 'lassurance',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/Lassurance.vue'),
     },
     {
       path: '/vosquestions',
       name: 'vosquestions',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/VosQuestions.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
