@@ -37,7 +37,7 @@
       <div className='py-6'>
         <h1 className='font-semibold text-4xl mobile:text-xl text-center mobile:leading-10'>Une assurance
           simple, en <span className='bg-orange-500 py-1 px-3 rounded-xl text-white'>
-            <router-link :to="{ name: 'home' }" class="btnDeuxClics">deux clics</router-link></span>
+            <router-link :to="{ name: 'devis' }" class="btnDeuxClics">deux clics</router-link></span>
         </h1>
       </div>
       <div className='flex justify-center'>

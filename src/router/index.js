@@ -19,6 +19,7 @@ const router = createRouter({
     },
     {
       path: '/devis',
+      name: 'devis',
       component: () => import('../views/Subscription.vue'), // Parent component for all steps
  
     },
