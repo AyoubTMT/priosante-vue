@@ -415,8 +415,13 @@
     const router = useRouter();
 
     const tarifs = formStore.getTarifs;
+
+    console.log( "tarifs")
+    console.log( tarifs)
     const dateEffet = formStore.getDateEffet;
     const dependecies = formStore.getDependecies;
+
+
 
     const itemsToShow = ref(3);
     const carouselKey = ref(0);

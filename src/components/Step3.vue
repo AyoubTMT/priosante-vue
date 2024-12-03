@@ -148,23 +148,32 @@ const showSurfaceError = computed(() => {
 
 async function submitStep() {
   validateNbrPieces();
+
+ 
   if(!showSurfaceError.value && !errors.nbr_pieces_principales){  
-    loading.value =true;
-    await axios.get(import.meta.env.VITE_BASE_URL+'/api/getDependecies/'+formData.nbr_pieces_principales)
-    .then(response => {
-        if (response.status === 200) {
-          formStore.updateStepData('dependecies', response.data);
-          formStore.updateStepData('step3', formData);
-          formStore.nextStep();
-        }
-    }).catch(({response}) => {
-        toast.error('une erreur est survenue merci de réessayer plus tard');
-        console.log(response);
-    }).finally(() => {
-        loading.value =false;
-    });
+    if (formData.nbr_pieces_principales > 1) {
+      loading.value =true;
+      await axios.get(import.meta.env.VITE_BASE_URL+'/api/getDependecies/'+formData.nbr_pieces_principales)
+      .then(response => {
+          if (response.status === 200) {
+            formStore.updateStepData('dependecies', response.data);
+            formStore.updateStepData('step3', formData);
+            formStore.nextStep();
+          }
+      }).catch(({response}) => {
+          toast.error('une erreur est survenue merci de réessayer plus tard');
+          console.log(response);
+      }).finally(() => {
+          loading.value =false;
+      });
+    }else{
+      formStore.updateStepData('step3', formData);
+      formStore.nextStep();
+    }
   }
   showErrorMsg.value = 'true';
+
+  
 }
 
 </script>

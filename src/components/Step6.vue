@@ -56,14 +56,17 @@
             </div>
 
             <!-- Capital mobilier -->
-            <div class="col-12 mt-3 mb-0">
+            <div class="col-12 mt-3 mb-0" v-if="nbrPieces == 1">
                 <label for="capital" class="formLabel mb-3">Capital mobilier à assurer</label>
                 <select class="form-select" name="valeur_bien" v-model="formData.valeur_bien">
-                    <option value="4000">Moins de 5 000€</option>
-                    <option value="8000">Entre 5 000€ de 10 000€</option>
-                    <option value="16000">Entre 10 000€ et 20 000€</option>
-                    <option value="24000">Entre 20 000€ et 30 000€</option>
-                    <option value="32000">Plus de 30 000€</option>
+                    <option value="5000">5 000€</option>
+                    <option value="10000">10 000€</option>
+                    <option value="15000">15 000€</option>
+                    <option value="20000">20 000€</option>
+                    <option value="25000">25 000€</option>
+                    <option value="30000">30 000€</option>
+                    <option value="35000">35 000€</option>
+                    <option value="40000">40 000€</option>
                 </select>
                 <div class="errorMsg" style="display: none;">
                     <div class="d-flex align-items-center">
@@ -92,7 +95,7 @@
                 </div>
             </div>
             
-            <section v-show="isMrhGenerali">
+            <section v-if="false">
                 <!-- Indemnisation Mobilier -->
                 <div class="col-12 mt-3 mb-0">
                     <label for="capital" class="formLabel mb-3">Indemnisation Mobilier</label>
@@ -226,21 +229,18 @@ import { useFormStore } from '@/stores/useFormStore';
 import { ref, reactive, computed } from 'vue'
 
 const formStore = useFormStore();
+const nbrPieces = formStore.getNbrPieces;
+const step6Data = formStore.getFormData.step6;
 
 const formData = reactive({
     type_mutuelle: 'ECONOMIQUE',
-    valeur_bien: '8000',
+    valeur_bien: step6Data.valeur_bien || 5000,
     indemnisation_mobilier: 'VALEUR_USAGE',
     niveau_franchise: 'TROISCENTS',
     objets_valeur: 'ZERO',
     produitType: 'MRH',
 });
-const nbr_pieces_principales = formStore.formData.step3.nbr_pieces_principales ;
-const isMrhGenerali = computed(() => {
-    formData.produitType = nbr_pieces_principales > 1 ? "MRH_GENERALI" : "MRH";
-    // return nbr_pieces_principales > 1;
-    return false;
-});
+
 function submitStep() {
     formStore.updateStepData('step6', formData);
     formStore.nextStep();
