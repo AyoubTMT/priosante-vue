@@ -402,11 +402,11 @@ import { toast } from 'vue3-toastify';
         formStore.updateStepData('step7', form);
 
         try {
-          await getTarifs();
-          //il doit verifier c'est tarifs OK or KO
-          formStore.updateStepData('tarifs', tarifs);
-          formStore.nextStep();
-        router.push('/devis/tarifs');
+            await getTarifs();
+            //il doit verifier c'est tarifs OK or KO
+            formStore.updateStepData('tarifs', tarifs);
+            formStore.nextStep();
+            router.push('/devis/tarifs');
         } catch (error) {
           console.error("Error during form submission:", error);
         }
@@ -416,11 +416,14 @@ import { toast } from 'vue3-toastify';
     };
 
     const getTarifs = async () => {
-        const formules = formStore.getDependecies;
-        for (const element of formules) {
+
+
+        if(nbrPieces > 1 ){
+            const formules = formStore.getDependecies;
+            for (const element of formules) {
                 const dataTarif = formStore.getDataForTarif;
                 const defaultDependecie = formStore.getDefaultDependecie(element.formule)
-          
+        
                 dataTarif.formuleGenerali = element.formule
                 dataTarif.capitalMobilier = defaultDependecie.capitals,
                 //dataTarif.niveauFranchise = Object.keys(element.franchise)[0] 
@@ -428,7 +431,7 @@ import { toast } from 'vue3-toastify';
                 dataTarif.indemnMobilier = defaultDependecie.indemnisationMobilier, 
                 dataTarif.niveauOJ = defaultDependecie.objetValeur,
                 console.log(JSON.stringify(dataTarif))
-                 loadingTarif.value =true;
+                loadingTarif.value =true;
                 await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
                 .then(response => {
                     if (response.status === 200) {
@@ -440,26 +443,22 @@ import { toast } from 'vue3-toastify';
                 }).finally(() => {
                     loadingTarif.value =false;
                 });
-        };
-        
-  
-     
-        
-        // const dataTarif = formStore.getDataForTarif;
-        // loadingTarif.value =true;
-        // await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
-        // .then(response => {
-        //     if (response.status === 200) {
-        //         formStore.updateStepData('tarifs', response.data.response);
-        //         formStore.nextStep();
-        //         router.push('/devis/tarifs');
-        //     }
-        // }).catch(({response}) => {
-        //     toast.error('une erreur est survenue merci de réessayer plus tard');
-        //     console.log(response);
-        // }).finally(() => {
-        //     loadingTarif.value =false;
-        // });
+            };
+        }else{
+            const dataTarif = formStore.getDataForTarif;
+            loadingTarif.value =true;
+            await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
+            .then(response => {
+                if (response.status === 200) {
+                    tarifs.value = response.data.response;
+                }
+            }).catch(({response}) => {
+                toast.error('une erreur est survenue merci de réessayer plus tard');
+                console.log(response);
+            }).finally(() => {
+                loadingTarif.value =false;
+            });
+        }
     };
 
 </script>

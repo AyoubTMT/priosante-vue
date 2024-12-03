@@ -151,15 +151,15 @@ export const useFormStore = defineStore('form', {
     }),
     getDefaultDependecie: (state) => {
       return (formule) => {
-
         const indexDepen = state.formData.selectedDependecies.findIndex((obj) => obj.formule ===  formule);
         let myDependecie =  state.formData.selectedDependecies[indexDepen]  
-        console.log("selectedDependecies")
-        console.log(state.formData.selectedDependecies)
         console.log("formule")
         console.log(formule)
-        console.log("myDependecie")
-        console.log(myDependecie)
+/*         console.log("selectedDependecies")
+        console.log(state.formData.selectedDependecies)
+    
+        console.log("myDependecie",myDependecie)
+        console.log("franchise",myDependecie.franchise) */
         if(myDependecie.franchise != ""){
           return  {
             formule:formule,
@@ -169,11 +169,16 @@ export const useFormStore = defineStore('form', {
             capitals:myDependecie.capitals,
           }
         }else{
-
           const indexDepen = state.formData.dependecies.findIndex((obj) => obj.formule ===  formule);
           let element =  state.formData.dependecies[indexDepen]
-
-
+          console.log("element")
+          console.log({
+            formule:formule,
+            franchise:'TROISCENTS',
+            indemnisationMobilier: Object.keys(element.indemnisationMobilier)[0],
+            objetValeur:Object.keys(element.objetValeur)[0],
+            capitals:Object.keys(element.capitals)[0] ,
+          })
           return  {
             formule:formule,
             franchise:'TROISCENTS',
@@ -182,10 +187,6 @@ export const useFormStore = defineStore('form', {
             capitals:Object.keys(element.capitals)[0] ,
           }
         }
-
-       return  id
-       return  state.items.find((item) => item.id === id)
-      
       };
     },
     getDataForSave: (state) => {
@@ -251,9 +252,9 @@ export const useFormStore = defineStore('form', {
        }else{
         obj = {
           capitalMobilier: state.formData.step6.valeur_bien,
-          franchise: state.formData.step6.niveau_franchise,
-          indemnisationMobilier: state.formData.step6.indemnisation_mobilier,
-          dontObjetsValeur: state.formData.step6.objets_valeur,
+          franchise: "",
+          indemnisationMobilier:"",
+          dontObjetsValeur:"",
         }
        }
 

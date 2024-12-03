@@ -23,7 +23,7 @@
                 <div class="price-rounded parmois">{{ integerPart }}</div>
                 <div class="price-decimal">, {{ decimalPart }} €</div>
             </div>
-            <ul class="text-start dependecies" style="padding: 0;margin: 32px;">
+            <ul class="text-start dependecies" v-if="nbrPieces > 1" style="padding: 0;margin: 32px;">
                 <li>
                     <label for="">Capital mobilier à assurer</label>
                     <select class="form-select" v-model="selectedDependecies.capitals" @change="getTarif">
@@ -98,16 +98,29 @@ import { toast } from 'vue3-toastify';
 const props = defineProps(['tarif', "dependecies",'dateEffet'])
 const formStore = useFormStore();
 const router = useRouter();
-
-const defaultDependecie = formStore.getDefaultDependecie(props.tarif.formule)
+const nbrPieces = formStore.getNbrPieces;
 const selectedDependecies = reactive({
     formule:props.tarif.formule,
-    franchise:defaultDependecie.franchise,
-    indemnisationMobilier:defaultDependecie.indemnisationMobilier,
-    objetValeur:defaultDependecie.objetValeur,
-    capitals:defaultDependecie.capitals,
-})
+    franchise:"",
+    indemnisationMobilier:"",
+    objetValeur: "",
+    capitals: "",
 
+});
+if(nbrPieces > 1 ){
+    console.log(props.tarif.formule)
+const defaultDependecie = formStore.getDefaultDependecie(props.tarif.formule)
+
+
+selectedDependecies.formule = props.tarif.formule;
+selectedDependecies.franchise = defaultDependecie.franchise;
+selectedDependecies.indemnisationMobilier = defaultDependecie.indemnisationMobilier;
+  selectedDependecies.objetValeur = defaultDependecie.objetValeur;
+  selectedDependecies.capitals = defaultDependecie.capitals;
+
+}
+
+console.log(selectedDependecies)
 const loader= ref(false)
 // a computed ref
 

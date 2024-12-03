@@ -173,7 +173,7 @@ const formData = reactive({
     appartement_situe: step2Data.step2.appartement_situe || "INTERMEDIAIRE",
     specification: step2Data.step2.specification || "NON",
     zipcode: step2Data.step2.zipcode || "",
-    nbrEtageImmb: step2Data.step2.nbrEtageImmb || "",
+    nbrEtageImmb: step2Data.step2.nbrEtageImmb || "0",
     codePostal: step2Data.step2.codePostal || "",
     ville: step2Data.step2.ville || "",
 })
