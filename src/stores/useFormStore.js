@@ -78,7 +78,7 @@ export const useFormStore = defineStore('form', {
           capitals:"",
         },
         {
-          formule:"COMPELETE",
+          formule:"COMPLETE",
           franchise:"",
           indemnisationMobilier:"",
           objetValeur:"",
@@ -154,9 +154,13 @@ export const useFormStore = defineStore('form', {
 
         const indexDepen = state.formData.selectedDependecies.findIndex((obj) => obj.formule ===  formule);
         let myDependecie =  state.formData.selectedDependecies[indexDepen]  
+        console.log("selectedDependecies")
+        console.log(state.formData.selectedDependecies)
+        console.log("formule")
+        console.log(formule)
         console.log("myDependecie")
         console.log(myDependecie)
-        if(typeof myDependecie !== 'undefined'){
+        if(myDependecie.franchise != ""){
           return  {
             formule:formule,
             franchise:myDependecie.franchise,
@@ -226,22 +230,30 @@ export const useFormStore = defineStore('form', {
           souscripteursituationFam: 'CELIBATAIRE',
           dateNaissance: state.formData.step7.birthDay,
           souscripteuribanPrelevemnt: state.formData.paiement.iban,
+          nbrEtage : state.formData.step2.nbrEtageImmb,
+
         }
+
+        console.log("here")
+
        if( state.formData.step3.nbr_pieces_principales > 1 ){
         const indexDepen = state.formData.selectedDependecies.findIndex((obj) => obj.formule ===  state.formData.selectedTarif.formule);
         let myDependecie =  state.formData.selectedDependecies[indexDepen]  
+
+        console.log("myDependecie")
+        console.log(myDependecie)
          obj = {
           capitalMobilier: myDependecie.capitals,
           franchise: myDependecie.franchise,
           indemnisationMobilier: myDependecie.indemnisationMobilier,
-          niveauGarantieObjVal: myDependecie.objetValeur,
+          dontObjetsValeur: myDependecie.objetValeur,
          }
        }else{
         obj = {
           capitalMobilier: state.formData.step6.valeur_bien,
           franchise: state.formData.step6.niveau_franchise,
           indemnisationMobilier: state.formData.step6.indemnisation_mobilier,
-          niveauGarantieObjVal: state.formData.step6.objets_valeur,
+          dontObjetsValeur: state.formData.step6.objets_valeur,
         }
        }
 

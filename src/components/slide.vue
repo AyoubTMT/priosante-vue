@@ -1,82 +1,92 @@
 <template>
 
-    <div class="tarifBox text-center slick-slide slick-active " :class="{ 'recommanded': tarif.formule == 'CONFORT' }" data-slick-index="1" aria-hidden="false"
+ 
+
+    <div class="tarifBox text-center slick-slide slick-active " :class="{ 'recommanded': tarif.formule == 'CONFORT','parent-loader': loader}" data-slick-index="1" aria-hidden="false"
         style="width: 394px;" tabindex="-1">
 
-        <div class="mb-0 tarifTitle " :class="{ 'recommandedBox': tarif.formule == 'CONFORT' }">{{ tarif.formule }}</div>
-        <div class="dateEffet mb-2 mt-2" data-bs-toggle="modal" data-bs-target="#dateEffet">A partir du : <span
-                class="effetDate mx-2">{{ formatDate(dateEffet) }}</span>
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="14.773" height="14.759" viewBox="0 0 14.773 14.759">
-                    <g id="edit" transform="translate(-0.02)">
-                        <path id="Tracé_231" data-name="Tracé 231" d="M12.947,14.759H1.867a1.779,1.779,0,0,1-1.306-.541A1.779,1.779,0,0,1,.02,12.912V1.832A1.756,1.756,0,0,1,.561.534,1.791,1.791,0,0,1,1.867,0h8.31L8.33,1.832H2.79a.88.88,0,0,0-.656.274.9.9,0,0,0-.267.649v9.233a.88.88,0,0,0,.274.656.9.9,0,0,0,.649.267h9.233a.912.912,0,0,0,.923-.923V6.449L14.793,4.6v8.31a1.847,1.847,0,0,1-1.847,1.847ZM4.637,8.065l2.077,2.077-3,.923Zm3,1.385L5.329,7.156,12.24.231a.855.855,0,0,1,1.169,0l1.14,1.154a.8.8,0,0,1,.238.57.773.773,0,0,1-.238.584Z" transform="translate(0)" fill="#a1c84e"></path>
-                    </g>
-                </svg>    -->
+        <div v-if="loader" class="" >
+        <vue-spinner size="30" color="red" />
         </div>
-        <div class="tarifPrice">
-            <div class="price-rounded parmois">{{ integerPart }}</div>
-            <div class="price-decimal">, {{ decimalPart }} €</div>
-        </div>
-        <ul class="text-start">
-            <li>Capital mobilier à assurer</li>
-            <li>
-                <select class="form-select" v-model="selectedDependecies.capitals" @change="getTarif">
-                    <option v-for="(item, index) in dependecies.capitals" :key="index" :value="index">{{ item }}</option>
-                </select>
-            </li>
-            <li>Indemnisation Mobilier</li>
-            <li>
-                <select class="form-select" v-model="selectedDependecies.indemnisationMobilier"  @change="getTarif">
-                    <option v-for="(item, index) in dependecies.indemnisationMobilier" :key="index" :value="index">
-                        {{ item }}</option>
-                </select>
-            </li>
-            <li>Objets de valeur</li>
-            <li>
-                <select class="form-select" v-model="selectedDependecies.objetValeur"  @change="getTarif">
-                    <option v-for="(item, index) in dependecies.objetValeur" :key="index" :value="index">{{ item }}
-                    </option>
-                </select>
-            </li>
-            <li>Franchise</li>
-            <li>
-                <select class="form-select" v-model="selectedDependecies.franchise"  @change="getTarif">
-                    <option v-for="(item, index) in dependecies.franchise" :selected="index == 'TROISCENTS'"  :key="index" :value="index">{{ item }}</option>
-                </select>
-            </li>
-        </ul>
-        <div class="composants">
-            <ul>
-                <li>Responsabilité civile <strong></strong></li>
-                <li>Défense Pénale et Recours <strong></strong></li>
-                <li>Incendie, risques annexes <strong></strong></li>
-                <li>Dégâts des eaux <strong></strong></li>
-                <li>Evènements climatiques <strong></strong></li>
-                <li>Bris de glace <strong></strong></li>
-                <li>Vol et vandalisme <strong></strong></li>
-                <li :class="[['ECO', 'CONFORT'].includes(props.tarif.formule) ? 'uncheck' : '']">Dommages électriques
-                    <strong></strong>
+        <div v-else >
+
+            <div class="mb-0 tarifTitle " :class="{ 'recommandedBox': tarif.formule == 'CONFORT' }">{{ tarif.formule }}</div>
+            <div class="dateEffet mb-2 mt-2" data-bs-toggle="modal" data-bs-target="#dateEffet">A partir du : <span
+                    class="effetDate mx-2">{{ formatDate(dateEffet) }}</span>
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="14.773" height="14.759" viewBox="0 0 14.773 14.759">
+                        <g id="edit" transform="translate(-0.02)">
+                            <path id="Tracé_231" data-name="Tracé 231" d="M12.947,14.759H1.867a1.779,1.779,0,0,1-1.306-.541A1.779,1.779,0,0,1,.02,12.912V1.832A1.756,1.756,0,0,1,.561.534,1.791,1.791,0,0,1,1.867,0h8.31L8.33,1.832H2.79a.88.88,0,0,0-.656.274.9.9,0,0,0-.267.649v9.233a.88.88,0,0,0,.274.656.9.9,0,0,0,.649.267h9.233a.912.912,0,0,0,.923-.923V6.449L14.793,4.6v8.31a1.847,1.847,0,0,1-1.847,1.847ZM4.637,8.065l2.077,2.077-3,.923Zm3,1.385L5.329,7.156,12.24.231a.855.855,0,0,1,1.169,0l1.14,1.154a.8.8,0,0,1,.238.57.773.773,0,0,1-.238.584Z" transform="translate(0)" fill="#a1c84e"></path>
+                        </g>
+                    </svg>    -->
+            </div>
+            <div class="tarifPrice">
+                <div class="price-rounded parmois">{{ integerPart }}</div>
+                <div class="price-decimal">, {{ decimalPart }} €</div>
+            </div>
+            <ul class="text-start dependecies" style="padding: 0;margin: 32px;">
+                <li>
+                    <label for="">Capital mobilier à assurer</label>
+                    <select class="form-select" v-model="selectedDependecies.capitals" @change="getTarif">
+                        <option v-for="(item, index) in dependecies.capitals" :key="index" :value="index">{{ item }}</option>
+                    </select>
                 </li>
-                <li>Capital mobilier Jusqu'à
-                    <strong v-if="['ECO'].includes(props.tarif.formule)">5 000 € / pièce</strong>
-                    <strong v-else>10 000 € / pièce</strong>
+                <li>
+                    <label for="">Indemnisation Mobilier</label>
+
+                    <select class="form-select" v-model="selectedDependecies.indemnisationMobilier"  @change="getTarif">
+                        <option v-for="(item, index) in dependecies.indemnisationMobilier" :key="index" :value="index">
+                            {{ item }}</option>
+                    </select>
                 </li>
-                <li :class="[['ECO'].includes(props.tarif.formule) ? 'uncheck' : '']">Objet de valeur
-                    <strong v-if="['OPTIMALE', 'CONFORT'].includes(props.tarif.formule)">à 1 000 € / pièce</strong>
-                    <strong v-if="['PREMIUM'].includes(props.tarif.formule)"> à 1 500 € / pièce</strong>
+                <li>
+                    <label for="">Objets de valeur</label>
+
+                    <select class="form-select" v-model="selectedDependecies.objetValeur"  @change="getTarif">
+                        <option v-for="(item, index) in dependecies.objetValeur" :key="index" :value="index">{{ item }}
+                        </option>
+                    </select>
+                </li>
+                <li>
+                    <label for="">Franchise</label>
+
+                    <select class="form-select" v-model="selectedDependecies.franchise"  @change="getTarif">
+                        <option v-for="(item, index) in dependecies.franchise" :selected="index == 'TROISCENTS'"  :key="index" :value="index">{{ item }}</option>
+                    </select>
                 </li>
             </ul>
-        </div>
-        <div class="tarifActions">
-            <a href="#" @click="defineTarifSelected(tarif)" tabindex="0"><button class="standardBtn"
-                    tabindex="0">Souscrire en ligne</button></a>
+            <div class="composants">
+                <ul>
+                    <li>Responsabilité civile <strong></strong></li>
+                    <li>Défense Pénale et Recours <strong></strong></li>
+                    <li>Incendie, risques annexes <strong></strong></li>
+                    <li>Dégâts des eaux <strong></strong></li>
+                    <li>Evènements climatiques <strong></strong></li>
+                    <li>Bris de glace <strong></strong></li>
+                    <li>Vol et vandalisme <strong></strong></li>
+                    <li :class="[['ECO', 'CONFORT'].includes(props.tarif.formule) ? 'uncheck' : '']">Dommages électriques
+                        <strong></strong>
+                    </li>
+                    <li>Capital mobilier Jusqu'à
+                        <strong v-if="['ECO'].includes(props.tarif.formule)">5 000 € / pièce</strong>
+                        <strong v-else>10 000 € / pièce</strong>
+                    </li>
+                    <li :class="[['ECO'].includes(props.tarif.formule) ? 'uncheck' : '']">Objet de valeur
+                        <strong v-if="['OPTIMALE', 'CONFORT'].includes(props.tarif.formule)">à 1 000 € / pièce</strong>
+                        <strong v-if="['PREMIUM'].includes(props.tarif.formule)"> à 1 500 € / pièce</strong>
+                    </li>
+                </ul>
+            </div>
+            <div class="tarifActions">
+                <a href="#" @click="defineTarifSelected(tarif)" tabindex="0"><button class="standardBtn"
+                        tabindex="0">Souscrire en ligne</button></a>
+            </div>
         </div>
     </div>
-
 </template>
 
 <script setup>
 // If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
-import { computed ,reactive} from 'vue'
+import { computed ,reactive, ref} from 'vue'
 
 
 import { useFormStore } from '@/stores/useFormStore';
@@ -90,7 +100,6 @@ const formStore = useFormStore();
 const router = useRouter();
 
 const defaultDependecie = formStore.getDefaultDependecie(props.tarif.formule)
-console.log(defaultDependecie)
 const selectedDependecies = reactive({
     formule:props.tarif.formule,
     franchise:defaultDependecie.franchise,
@@ -98,6 +107,8 @@ const selectedDependecies = reactive({
     objetValeur:defaultDependecie.objetValeur,
     capitals:defaultDependecie.capitals,
 })
+
+const loader= ref(false)
 // a computed ref
 
 const integerPart = computed(() => {
@@ -129,7 +140,7 @@ async function getTarif(){
         dataTarif.indemnMobilier = selectedDependecies.indemnisationMobilier  
         dataTarif.niveauOJ = selectedDependecies.objetValeur  
         console.log(JSON.stringify(dataTarif))
-        //  loadingTarif.value =true;
+        loader.value =true;
         await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
         .then(response => {
             if (response.status === 200) {
@@ -141,6 +152,7 @@ async function getTarif(){
             toast.error('une erreur est survenue merci de réessayer plus tard');
             console.log(response);
         }).finally(() => {
+            loader.value =false;
         });
 }
 
@@ -151,6 +163,19 @@ async function getTarif(){
 </script>
 
 <style scoped>
+.dependecies li{
+    margin: 10px;
+}
+.dependecies{
+    padding: 0px;
+    margin: 32px;
+}
+.parent-loader{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .composants li.uncheck:before {
     content: "";
     display: inline-block;

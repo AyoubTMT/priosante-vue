@@ -419,12 +419,14 @@ import { toast } from 'vue3-toastify';
         const formules = formStore.getDependecies;
         for (const element of formules) {
                 const dataTarif = formStore.getDataForTarif;
+                const defaultDependecie = formStore.getDefaultDependecie(element.formule)
+          
                 dataTarif.formuleGenerali = element.formule
-                dataTarif.capitalMobilier = Object.keys(element.capitals)[0] 
+                dataTarif.capitalMobilier = defaultDependecie.capitals,
                 //dataTarif.niveauFranchise = Object.keys(element.franchise)[0] 
-                dataTarif.niveauFranchise = Object.keys(element.franchise).includes('TROISCENTS') ? 'TROISCENTS' : Object.keys(element.franchise)[0] 
-                dataTarif.indemnMobilier = Object.keys(element.indemnisationMobilier)[0] 
-                dataTarif.niveauOJ = Object.keys(element.objetValeur)[0] 
+                dataTarif.niveauFranchise = defaultDependecie.franchise, 
+                dataTarif.indemnMobilier = defaultDependecie.indemnisationMobilier, 
+                dataTarif.niveauOJ = defaultDependecie.objetValeur,
                 console.log(JSON.stringify(dataTarif))
                  loadingTarif.value =true;
                 await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
