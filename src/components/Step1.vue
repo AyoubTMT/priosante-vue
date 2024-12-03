@@ -104,7 +104,7 @@
                 <div class="modal-content">
                     <div class="modal-body text-center p-4">
                         <div class="contenu">
-                            <img src="https://assurance-habitation.selfassurance.fr/devis/application/views/assets/media/supportbig.jpg"
+                            <img src="../assets/images/assistance.jpg"
                                 alt="assistante" class="img-fluid mb-4" />
                             <div class="formLabel mb-3">
                                 Votre habitation présente-t-elle une spécificité ?

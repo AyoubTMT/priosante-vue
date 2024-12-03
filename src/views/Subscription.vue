@@ -64,11 +64,6 @@
 </template>
 
 <script setup>
-    /**************** a voir apres ********************/
-    // import 'https://code.jquery.com/jquery-3.6.3.min.js';
-    // import * as customFunctions from '../custom-js/functions.js';
-    // import * as customJS from '../custom-js/custom.js';
-    /***********************************************/
     import { useFormStore } from '../stores/useFormStore';
     import Step1 from '../components/Step1.vue';
     import Step2 from '../components/Step2.vue';
