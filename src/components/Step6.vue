@@ -238,7 +238,6 @@ const formData = reactive({
     indemnisation_mobilier: 'VALEUR_USAGE',
     niveau_franchise: 'TROISCENTS',
     objets_valeur: 'ZERO',
-    produitType: 'MRH',
 });
 
 function submitStep() {

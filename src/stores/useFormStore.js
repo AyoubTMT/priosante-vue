@@ -43,7 +43,6 @@ export const useFormStore = defineStore('form', {
         indemnisation_mobilier: '',
         niveau_franchise: '',
         objets_valeur: '',
-        produitType: '',
       },
       step7: {
         civilite: "",
@@ -118,7 +117,7 @@ export const useFormStore = defineStore('form', {
     getDateEffet: (state) => state.formData.step7.dateEffet,
     getNbrPieces: (state) => state.formData.step3.nbr_pieces_principales,
     getDataForTarif: (state) => ({
-      produitType: state.formData.step6.produitType,
+      produitType: state.formData.step3.nbr_pieces_principales > 1 ? "MRH_GENERALI" : "MRH",
       codePostal : 75001,
       ville : 'paris',
       dateEffet : state.formData.step7.dateEffet,
@@ -153,13 +152,6 @@ export const useFormStore = defineStore('form', {
       return (formule) => {
         const indexDepen = state.formData.selectedDependecies.findIndex((obj) => obj.formule ===  formule);
         let myDependecie =  state.formData.selectedDependecies[indexDepen]  
-        console.log("formule")
-        console.log(formule)
-/*         console.log("selectedDependecies")
-        console.log(state.formData.selectedDependecies)
-    
-        console.log("myDependecie",myDependecie)
-        console.log("franchise",myDependecie.franchise) */
         if(myDependecie.franchise != ""){
           return  {
             formule:formule,
@@ -171,14 +163,6 @@ export const useFormStore = defineStore('form', {
         }else{
           const indexDepen = state.formData.dependecies.findIndex((obj) => obj.formule ===  formule);
           let element =  state.formData.dependecies[indexDepen]
-          console.log("element")
-          console.log({
-            formule:formule,
-            franchise:'TROISCENTS',
-            indemnisationMobilier: Object.keys(element.indemnisationMobilier)[0],
-            objetValeur:Object.keys(element.objetValeur)[0],
-            capitals:Object.keys(element.capitals)[0] ,
-          })
           return  {
             formule:formule,
             franchise:'TROISCENTS',
@@ -194,7 +178,7 @@ export const useFormStore = defineStore('form', {
 
        let result =  {
           flagType: state.formData.flagType,
-          produitType: state.formData.step6.produitType,
+          produitType: state.formData.step3.nbr_pieces_principales > 1 ? "MRH_GENERALI" : "MRH",
           habitationUsageProfessionel: 'NON',
           piscine: state.formData.step4.selectedOptions.includes('presencePicineOuTennis') ? 'OUI' : 'NON',
           dateEffet: state.formData.step7.dateEffet,
@@ -235,14 +219,11 @@ export const useFormStore = defineStore('form', {
 
         }
 
-        console.log("here")
 
        if( state.formData.step3.nbr_pieces_principales > 1 ){
         const indexDepen = state.formData.selectedDependecies.findIndex((obj) => obj.formule ===  state.formData.selectedTarif.formule);
         let myDependecie =  state.formData.selectedDependecies[indexDepen]  
 
-        console.log("myDependecie")
-        console.log(myDependecie)
          obj = {
           capitalMobilier: myDependecie.capitals,
           franchise: myDependecie.franchise,
@@ -271,7 +252,6 @@ export const useFormStore = defineStore('form', {
      // Find the index of the object with formule ESSENTIELLE
       const index = this.formData.tarifs.findIndex((obj) => obj.formule === selectedDependecies.formule);
       const indexDepen = this.formData.selectedDependecies.findIndex((obj) => obj.formule === selectedDependecies.formule);
-      console.log(index)
      // Replace the object if found
       if (index !== -1) {
         this.formData.tarifs[index] = data      

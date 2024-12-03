@@ -108,7 +108,6 @@ const selectedDependecies = reactive({
 
 });
 if(nbrPieces > 1 ){
-    console.log(props.tarif.formule)
 const defaultDependecie = formStore.getDefaultDependecie(props.tarif.formule)
 
 
@@ -120,7 +119,6 @@ selectedDependecies.indemnisationMobilier = defaultDependecie.indemnisationMobil
 
 }
 
-console.log(selectedDependecies)
 const loader= ref(false)
 // a computed ref
 
@@ -152,12 +150,10 @@ async function getTarif(){
         dataTarif.niveauFranchise = selectedDependecies.franchise  
         dataTarif.indemnMobilier = selectedDependecies.indemnisationMobilier  
         dataTarif.niveauOJ = selectedDependecies.objetValeur  
-        console.log(JSON.stringify(dataTarif))
         loader.value =true;
         await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
         .then(response => {
             if (response.status === 200) {
-                console.log(selectedDependecies.formule)
                 formStore.updateFormuleTarif(selectedDependecies, response.data.response[0]);
                 //tarifs.value.push( response.data.response[0]);
             }

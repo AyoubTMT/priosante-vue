@@ -398,12 +398,10 @@ import { toast } from 'vue3-toastify';
       validateDateEffet();
 
       if (Object.values(errors).every((error) => !error)) {
-        console.log("Form submitted:", form);
         formStore.updateStepData('step7', form);
 
         try {
             await getTarifs();
-            //il doit verifier c'est tarifs OK or KO
             formStore.updateStepData('tarifs', tarifs);
             formStore.nextStep();
             router.push('/devis/tarifs');
@@ -430,12 +428,11 @@ import { toast } from 'vue3-toastify';
                 dataTarif.niveauFranchise = defaultDependecie.franchise, 
                 dataTarif.indemnMobilier = defaultDependecie.indemnisationMobilier, 
                 dataTarif.niveauOJ = defaultDependecie.objetValeur,
-                console.log(JSON.stringify(dataTarif))
                 loadingTarif.value =true;
                 await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
                 .then(response => {
                     if (response.status === 200) {
-                        tarifs.value.push( response.data.response[0]);
+                        tarifs.value.push( response.data.response[0]);                        
                     }
                 }).catch(({response}) => {
                     toast.error('une erreur est survenue merci de réessayer plus tard');
