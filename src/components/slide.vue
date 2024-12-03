@@ -26,14 +26,14 @@
             <ul class="text-start dependecies" v-if="nbrPieces > 1" style="padding: 0;margin: 32px;">
                 <li>
                     <label for="">Capital mobilier à assurer</label>
-                    <select class="form-select" v-model="selectedDependecies.capitals" @change="getTarif">
+                    <select class="form-select" :class="tarif.formule + '_capital'" v-model="selectedDependecies.capitals" @change="getTarif">
                         <option v-for="(item, index) in dependecies.capitals" :key="index" :value="index">{{ item }}</option>
                     </select>
                 </li>
                 <li>
                     <label for="">Indemnisation Mobilier</label>
 
-                    <select class="form-select" v-model="selectedDependecies.indemnisationMobilier"  @change="getTarif">
+                    <select class="form-select" :class="tarif.formule + '_indemnisationMobilier'" v-model="selectedDependecies.indemnisationMobilier"  @change="getTarif">
                         <option v-for="(item, index) in dependecies.indemnisationMobilier" :key="index" :value="index">
                             {{ item }}</option>
                     </select>
@@ -41,7 +41,7 @@
                 <li>
                     <label for="">Objets de valeur</label>
 
-                    <select class="form-select" v-model="selectedDependecies.objetValeur"  @change="getTarif">
+                    <select class="form-select" :class="tarif.formule + '_objetValeur'" v-model="selectedDependecies.objetValeur"  @change="getTarif">
                         <option v-for="(item, index) in dependecies.objetValeur" :key="index" :value="index">{{ item }}
                         </option>
                     </select>
@@ -49,7 +49,7 @@
                 <li>
                     <label for="">Franchise</label>
 
-                    <select class="form-select" v-model="selectedDependecies.franchise"  @change="getTarif">
+                    <select class="form-select" :class="tarif.formule + '_franchise'" v-model="selectedDependecies.franchise"  @change="getTarif">
                         <option v-for="(item, index) in dependecies.franchise" :selected="index == 'TROISCENTS'"  :key="index" :value="index">{{ item }}</option>
                     </select>
                 </li>
@@ -131,6 +131,21 @@ const decimalPart = computed(() => {
 });
 
 function defineTarifSelected(selectedTarif) {
+    const capitalElement = document.getElementsByClassName(selectedTarif.formule + '_capital')[0];
+    const indemnisationMobilierElement = document.getElementsByClassName(selectedTarif.formule + '_indemnisationMobilier')[0];
+    const objetValeurElement = document.getElementsByClassName(selectedTarif.formule + '_objetValeur')[0];
+    const franchiseElement = document.getElementsByClassName(selectedTarif.formule + '_franchise')[0];
+
+    const selectedCapital = capitalElement ? capitalElement.value : null;
+    const selectedIndemnisationMobilier = indemnisationMobilierElement ? indemnisationMobilierElement.value : null;
+    const selectedObjetValeur = objetValeurElement ? objetValeurElement.value : null;
+    const selectedFranchise = franchiseElement ? franchiseElement.value : null;
+
+    selectedTarif.capital = selectedCapital;
+    selectedTarif.indemnisationMobilier = selectedIndemnisationMobilier;
+    selectedTarif.objetValeur = selectedObjetValeur;
+    selectedTarif.franchise = selectedFranchise;
+
     formStore.updateStepData('selectedTarif', selectedTarif);
     formStore.nextStep();
     router.push('/devis/options');

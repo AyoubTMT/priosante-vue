@@ -221,14 +221,11 @@ export const useFormStore = defineStore('form', {
 
 
        if( state.formData.step3.nbr_pieces_principales > 1 ){
-        const indexDepen = state.formData.selectedDependecies.findIndex((obj) => obj.formule ===  state.formData.selectedTarif.formule);
-        let myDependecie =  state.formData.selectedDependecies[indexDepen]  
-
          obj = {
-          capitalMobilier: myDependecie.capitals,
-          franchise: myDependecie.franchise,
-          indemnisationMobilier: myDependecie.indemnisationMobilier,
-          dontObjetsValeur: myDependecie.objetValeur,
+          capitalMobilier: state.formData.selectedTarif.capital,
+          franchise: state.formData.selectedTarif.franchise,
+          indemnisationMobilier: state.formData.selectedTarif.indemnisationMobilier,
+          dontObjetsValeur: state.formData.selectedTarif.objetValeur,
          }
        }else{
         obj = {
