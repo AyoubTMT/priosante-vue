@@ -279,7 +279,7 @@ const showChemSup = computed(() => {
     return formData.selectedOptions.includes('chemine');
 });
 const isAppartement = computed(() => {
-    return formStore.formData.step1.type_habitation == "APPARTEMENT";
+    return formStore.formData.step1.type_habitation == "APPARTEMENT" && formStore.getNbrPieces == 1;
 });
 function submitStep() {
     if(showErrorMsg.value == false){
