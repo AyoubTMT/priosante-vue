@@ -2,7 +2,7 @@
 
  
 
-    <div class="tarifBox text-center slick-slide slick-active " :class="{ 'recommanded': tarif.formule == 'CONFORT','parent-loader': loader}" data-slick-index="1" aria-hidden="false"
+    <div class="tarifBox text-center slick-slide slick-active "  :class="{ 'recommanded': tarif.formule == 'CONFORT','parent-loader': loader}" data-slick-index="1" aria-hidden="false"
         style="width: 394px;" tabindex="-1">
 
         <div v-if="loader" class="" >
@@ -61,19 +61,42 @@
                     <li>Incendie, risques annexes <strong></strong></li>
                     <li>Dégâts des eaux <strong></strong></li>
                     <li>Evènements climatiques <strong></strong></li>
-                    <li>Bris de glace <strong></strong></li>
-                    <li>Vol et vandalisme <strong></strong></li>
-                    <li :class="[['ECO', 'CONFORT'].includes(props.tarif.formule) ? 'uncheck' : '']">Dommages électriques
-                        <strong></strong>
-                    </li>
-                    <li>Capital mobilier Jusqu'à
+                    <li v-if="produit == 'AR'">Capital mobilier Jusqu'à
                         <strong v-if="['ECO'].includes(props.tarif.formule)">5 000 € / pièce</strong>
                         <strong v-else>10 000 € / pièce</strong>
                     </li>
-                    <li :class="[['ECO'].includes(props.tarif.formule) ? 'uncheck' : '']">Objet de valeur
+                    <li v-if="produit == 'AR'" :class="[['ECO'].includes(props.tarif.formule) ? 'uncheck' : '']">Objet de valeur
                         <strong v-if="['OPTIMALE', 'CONFORT'].includes(props.tarif.formule)">à 1 000 € / pièce</strong>
                         <strong v-if="['PREMIUM'].includes(props.tarif.formule)"> à 1 500 € / pièce</strong>
                     </li>
+                    <li v-if="produit == 'AR'">Vétusté remboursée mobilier
+                        <strong v-if="['ECO', 'CONFORT'].includes(props.tarif.formule)">Jusqu’à 25 %</strong>
+                        <strong v-if="['OPTIMALE'].includes(props.tarif.formule)">Jusqu’à 35 %</strong>
+                        <strong v-if="['PREMIUM'].includes(props.tarif.formule)">Jusqu’à 50 %</strong>
+                    </li>
+                    <li v-if="produit == 'AR'">Vétusté remboursée Immobilier
+                        <strong v-if="['ECO', 'CONFORT'].includes(props.tarif.formule)">Jusqu’à 25 %</strong>
+                        <strong v-if="['OPTIMALE'].includes(props.tarif.formule)">Jusqu’à 50 %</strong>
+                        <strong v-if="['PREMIUM'].includes(props.tarif.formule)">Sans limite</strong>
+                    </li>                    
+                    <li v-if="produit == 'GEN'">Capital mobilier / pièce
+                        <strong v-if="['ESSENTIELLE'].includes(props.tarif.formule)" style="font-size:13px">2 000€, 3 000 € ou 4 000€</strong>
+                        <strong v-else-if="['CONFORT'].includes(props.tarif.formule)" style="font-size:13px">4 000 €, 8 000€ ou 12 000 €</strong>
+                        <strong v-else-if="['COMPLETE'].includes(props.tarif.formule)" style="font-size:13px">8 000 €, 12 000 € ou 16 000 €</strong>
+                        <strong v-else-if="['OPTIMUM'].includes(props.tarif.formule)" style="font-size:13px">8 000 €, 12 000 € ou 16 000 €</strong>
+                    </li>                   
+                    <li v-if="produit == 'GEN'">Part des objets de valeur
+                        <strong v-if="['ESSENTIELLE'].includes(props.tarif.formule)">0%</strong>
+                        <strong v-else-if="['CONFORT'].includes(props.tarif.formule)">10%</strong>
+                        <strong v-else-if="['COMPLETE'].includes(props.tarif.formule)">15%</strong>
+                        <strong v-else-if="['OPTIMUM'].includes(props.tarif.formule)">20% ou 30%</strong>
+                    </li> 
+                    <li :class="[(['ESSENTIELLE'].includes(props.tarif.formule) && (produit == 'GEN')) ? 'uncheck' : '']">Bris de glace <strong></strong></li>
+                    <li :class="[(['ESSENTIELLE'].includes(props.tarif.formule) && (produit == 'GEN')) ? 'uncheck' : '']">Vol et vandalisme <strong></strong></li>
+                    <li :class="[(['ESSENTIELLE'].includes(props.tarif.formule) && (produit == 'GEN')) || ['ECO'].includes(props.tarif.formule) ? 'uncheck' : '']">Dommages électriques
+                        <strong></strong>
+                    </li>
+                    <li v-if="produit == 'GEN'" :class="[(['ESSENTIELLE','CONFORT','OPTIMALE','PREMIUM'].includes(props.tarif.formule) && (produit == 'GEN')) ? 'uncheck' : '']">Responsabilité civile piscine-tennis <strong></strong></li>
                 </ul>
             </div>
             <div class="tarifActions">
@@ -95,7 +118,7 @@ import axios from 'axios';
 import moment from 'moment';
 import {VueSpinner} from 'vue3-spinners';
 import { toast } from 'vue3-toastify';
-const props = defineProps(['tarif', "dependecies",'dateEffet'])
+const props = defineProps(['tarif', "dependecies",'dateEffet','produit'])
 const formStore = useFormStore();
 const router = useRouter();
 const nbrPieces = formStore.getNbrPieces;
@@ -109,7 +132,6 @@ const selectedDependecies = reactive({
 });
 if(nbrPieces > 1 ){
 const defaultDependecie = formStore.getDefaultDependecie(props.tarif.formule)
-
 
 selectedDependecies.formule = props.tarif.formule;
 selectedDependecies.franchise = defaultDependecie.franchise;

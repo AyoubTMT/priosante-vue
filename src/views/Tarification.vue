@@ -27,7 +27,7 @@
                 <div class="my-4">
                     <carousel :key="carouselKey" :items-to-show="itemsToShow" :wrap-around="false" >
                         <slide v-for="tarif in tarifs" :key="tarif.formule">
-                            <my-slide :tarif="tarif" :dateEffet="dateEffet" :dependecies="dependecies.filter(element => element.formule == tarif.formule)[0]" />
+                            <my-slide :tarif="tarif" :dateEffet="dateEffet" :produit="produit" :dependecies="dependecies.filter(element => element.formule == tarif.formule)[0]" />
                         </slide>
                         <template #addons>
                             <navigation />
@@ -40,13 +40,13 @@
                         <div class="separ"></div>
                     </div>
                     <div class="col-10 col-md-4 mb-3 mb-md-0 text-md-center text-center">
-                        <a href="https://self-assurance.fr/mimenteSelf/downloadFile?parameters=cHJvZHVpdD1GT1JNVUxFX01SSF9BUkVBU19TRUxGX0lOVEVSTkVUJmRvY3VtZW50VHlwZT1DT05ESVRJT05TX0dFTkVSQUxFUw%3D%3D" class="fileDownload" target="_blank"><img src="../assets/icons/pdffile.svg" alt="downloadFile">Conditions Générales</a>
+                        <a :href="`../docs/CG_${produit}.pdf`" class="fileDownload" target="_blank"><img src="../assets/icons/pdffile.svg" alt="downloadFile">Conditions Générales</a>
                     </div>
                     <div class="col-10 col-md-4 mb-3 mb-md-0 text-md-center text-center">
-                        <a href="https://assurance-habitation.self-assurance.fr/devis/docs/IPID-MRH-AREAS-072020.pdf" class="fileDownload" target="_blank"><img src="../assets/icons/pdffile.svg" alt="downloadFile"> Document d'information IPID</a>
+                        <a :href="`../docs/IPID_${produit}.pdf`" class="fileDownload" target="_blank"><img src="../assets/icons/pdffile.svg" alt="downloadFile"> Document d'information IPID</a>
                     </div>
                     <div class="col-10 col-md-4 mb-3 mb-md-0 text-md-center text-center">
-                        <a href="https://self-assurance.fr/mimenteSelf/downloadFile?parameters=cHJvZHVpdD1GT1JNVUxFX01SSF9BUkVBU19TRUxGX0lOVEVSTkVUJmRvY3VtZW50VHlwZT1UQUJMRUFVX0dBUkFOVElF" class="fileDownload" target="_blank"><img src="../assets/icons/pdffile.svg" alt="downloadFile"> Tableau des garanties</a>
+                        <a :href="`../docs/TG_${produit}.pdf`" class="fileDownload" target="_blank"><img src="../assets/icons/pdffile.svg" alt="downloadFile"> Tableau des garanties</a>
                     </div>
                 </div>
 
@@ -420,12 +420,11 @@
     console.log( tarifs)
     const dateEffet = formStore.getDateEffet;
     const dependecies = formStore.getDependecies;
-
+    const produit = formStore.getNbrPieces > 1 ? 'GEN' : 'AR';
 
 
     const itemsToShow = ref(3);
     const carouselKey = ref(0);
-
     const updateItemsToShow = () => {
         const width = window.innerWidth;
       if (width <= 480) {
