@@ -37,15 +37,15 @@
                 <label for="nbrEtageImmb" class="formLabel mb-2">Nombre d’étage dans l’immeuble : </label>
 
                 <input type="number" class="form-control " :class="{ 'inputError': showErrorMsg }" 
-                    autocomplete="off" id="nbrEtageImmb" placeholder="Nombre d’étage dans l’immeuble " v-model="formData.nbrEtageImmb">
+                    autocomplete="off" id="nbrEtageImmb" placeholder="Nombre d’étage dans l’immeuble " v-model="formData.nbrEtageImmb" @input="updateOptions">
             </div>
 
             <div class="col-12 appartementcondition">
                 <label for="etages" class="formLabel mb-3">Cet appartement est situé</label>
                 <select name="appartement_situe" id="etages" class="form-select" v-model="formData.appartement_situe">
-                    <option value="RDC">Au rez-de-chaussée</option>
-                    <option value="INTERMEDIAIRE">À un étage intermédiaire</option>
-                    <option value="DERNIER">Au dernier étage</option>
+                    <option v-for="(libelle, valeur) in options" :key="valeur" :value="valeur">
+                        {{ libelle }}
+                    </option>
                 </select>
                 <div class="errorMsg d-none">
                     <div class="d-flex align-items-center">
@@ -163,14 +163,14 @@
 <script setup>
 import BonASavoir from '../components/BonASavoir.vue';
 import { useFormStore } from '@/stores/useFormStore';
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 const formStore = useFormStore();
 const step2Data = formStore.getFormData;
 
 const formData = reactive({
     qualiteAssure: step2Data.step2.qualiteAssure || "LOCATAIRE_OCCUPANT",
-    appartement_situe: step2Data.step2.appartement_situe || "INTERMEDIAIRE",
+    appartement_situe: step2Data.step2.appartement_situe || "RDC",
     specification: step2Data.step2.specification || "NON",
     zipcode: step2Data.step2.zipcode || "",
     nbrEtageImmb: step2Data.step2.nbrEtageImmb || "0",
@@ -183,7 +183,28 @@ const filteredCities = ref([])
 const showVillesCp = ref(false)
 const showErrorMsg = ref(false)
 
+const toutesOptions = {
+    RDC: "Au rez-de-chaussée",
+    INTERMEDIAIRE: "À un étage intermédiaire",
+    DERNIER: "Au dernier étage",
+};
 
+const options = computed(() => {
+    if (formData.nbrEtageImmb === 0) {
+    return { RDC: toutesOptions.RDC, DERNIER: toutesOptions.DERNIER };
+    } else if (formData.nbrEtageImmb > 1) {
+    return toutesOptions;
+    } else {
+    return { RDC: toutesOptions.RDC, DERNIER: toutesOptions.DERNIER };
+    }
+});
+
+const updateOptions = () => {
+    if (!Object.keys(options.value).includes(formData.appartement_situe)) {
+    formData.appartement_situe = Object.keys(options.value)[0];
+    }
+};
+    
 function submitStep() {
     if(showErrorMsg.value == false && String(formData.codePostal).length == 5){
         formStore.updateStepData('step2', formData);
