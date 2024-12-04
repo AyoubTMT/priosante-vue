@@ -96,10 +96,8 @@
         <div class="container-fluid p-0">
           <div class="row align-items-center">
             <div class="col-12">
-              <button v-if="loading" type="button" class="navBtn nextBtn mt-4 flex justify-center align-items-center">
-                  <vue-spinner size="30" color="white" />
-              </button>
-              <button v-else type="submit" class="navBtn nextBtn mt-4 flex justify-center align-items-center">Étape suivante
+            
+              <button type="submit" class="navBtn nextBtn mt-4 flex justify-center align-items-center">Étape suivante
                 <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid"></button>
             </div>
           </div>
@@ -152,25 +150,8 @@ async function submitStep() {
 
  
   if(!showSurfaceError.value && !errors.nbr_pieces_principales){  
-    if (formData.nbr_pieces_principales > 1) {
-      loading.value =true;
-      await axios.get(import.meta.env.VITE_BASE_URL+'/api/getDependecies/'+formData.nbr_pieces_principales)
-      .then(response => {
-          if (response.status === 200) {
-            formStore.updateStepData('dependecies', response.data);
-            formStore.updateStepData('step3', formData);
-            formStore.nextStep();
-          }
-      }).catch(({response}) => {
-          toast.error('une erreur est survenue merci de réessayer plus tard');
-          console.log(response);
-      }).finally(() => {
-          loading.value =false;
-      });
-    }else{
       formStore.updateStepData('step3', formData);
       formStore.nextStep();
-    }
   }
   showErrorMsg.value = 'true';
 

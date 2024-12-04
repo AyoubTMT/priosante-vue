@@ -27,7 +27,7 @@
                 <label for="nbr_pieces_principales_sup30" class="formLabel mb-3">Nombre de pièces de plus de 30
                     m²</label>
                 <div class="sufpiece">
-                    <input type="number" class="form-control" id="nbr_pieces_principales_sup30" placeholder="Ex : 5"
+                    <input @input="updateNbrPieces" type="number" class="form-control" id="nbr_pieces_principales_sup30" placeholder="Ex : 5"
                         v-model="formData.nbrPiecePrincipalePlus30m" />
                 </div>
                 <div class="errorMsg d-none">
@@ -59,7 +59,7 @@
             <div v-if="showDepSup" class="col-12 mt-3 depSup">
                 <label for="nbr_dependances_sup30" class="formLabel mb-3">Nombre de dépendances de plus de 30 m²</label>
                 <div class="sufdep">
-                    <input type="number" class="form-control" id="nbr_dependances_sup30" placeholder="Ex : 5"
+                    <input @input="updateNbrPieces" type="number" class="form-control" id="nbr_dependances_sup30" placeholder="Ex : 5"
                         v-model="formData.dependenceCount" />
                 </div>
                 <div class="errorMsg d-none">
@@ -179,7 +179,10 @@
                 <div class="container-fluid p-0">
                     <div class="row align-items-center">
                         <div class="col-12">
-                            <button type="submit" class="navBtn nextBtn mt-4 flex justify-center align-items-center">
+                            <button v-if="loading" type="button" class="navBtn nextBtn mt-4 flex justify-center align-items-center">
+                                <vue-spinner size="30" color="white" />
+                            </button>
+                            <button v-else type="submit" class="navBtn nextBtn mt-4 flex justify-center align-items-center">
                                 <span :class="{ 'equippedOrNot': !isAnyOptionSelected }">{{ isAnyOptionSelected ? 'Étape suivante' : 'Aucun de ces équipements' }}</span>
                                 <img src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid">
                             </button>
@@ -203,16 +206,18 @@ import garageIcon from '../assets/icons/garage.svg';
 import alarmeIcon from '../assets/icons/alarme.svg';
 import pieceIcon from '../assets/icons/piece.svg';
 import piscineIcon from '../assets/icons/piscine.svg';
-
+import {VueSpinner} from 'vue3-spinners';
+import axios from 'axios';
 import { ref, reactive, computed } from 'vue'
 const formStore = useFormStore();
-
+const nbrPieces = ref(formStore.getNbrPieces);
+const loading =ref(false)
 const formData = reactive({
-    selectedOptions: [],
-    nbrPiecePrincipalePlus30m: 0,
-    dependenceCount: 0,
-    surfaceDependance: 0,
-    cheminepro: 'OUI',
+    selectedOptions: formStore.formData.step4.selectedOptions,
+    nbrPiecePrincipalePlus30m: formStore.formData.step4.nbrPiecePrincipalePlus30m,
+    dependenceCount: formStore.formData.step4.dependenceCount,
+    surfaceDependance: formStore.formData.step4.surfaceDependance,
+    cheminepro: formStore.formData.step4.surfaceDependance || 'OUI',
 })
 const options = reactive([
     {
@@ -279,12 +284,35 @@ const showChemSup = computed(() => {
     return formData.selectedOptions.includes('chemine');
 });
 const isAppartement = computed(() => {
-    return formStore.formData.step1.type_habitation == "APPARTEMENT" && formStore.getNbrPieces == 1;
+    return formStore.formData.step1.type_habitation == "APPARTEMENT";
 });
-function submitStep() {
+
+function updateNbrPieces() {
+    formStore.updateStepData('step4', formData);
+    nbrPieces.value = formStore.getNbrPieces;
+    console.log(nbrPieces.value)
+}
+async function submitStep() {
     if(showErrorMsg.value == false){
-        formStore.updateStepData('step4', formData);
-        formStore.nextStep();
+        if (nbrPieces.value > 1) {
+            loading.value =true;
+            await axios.get(import.meta.env.VITE_BASE_URL+'/api/getDependecies/'+nbrPieces.value)
+            .then(response => {
+                if (response.status === 200) {
+                    formStore.updateStepData('dependecies', response.data);
+                    formStore.updateStepData('step4', formData);
+                    formStore.nextStep();
+                }
+            }).catch(({response}) => {
+                toast.error('une erreur est survenue merci de réessayer plus tard');
+                console.log(response);
+            }).finally(() => {
+                loading.value =false;
+            });
+        }else{
+            formStore.updateStepData('step4', formData);
+            formStore.nextStep();
+        }
     }
 }
 </script>

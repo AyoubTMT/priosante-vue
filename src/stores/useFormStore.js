@@ -27,8 +27,8 @@ export const useFormStore = defineStore('form', {
       },
       step4: {
         selectedOptions: [],
-        nbrPiecePrincipalePlus30m: '',
-        dependenceCount: '',
+        nbrPiecePrincipalePlus30m: 0,
+        dependenceCount: 0,
         surfaceDependance: '',
         cheminepro: '',
       },
@@ -115,9 +115,10 @@ export const useFormStore = defineStore('form', {
     getSelectedTarif: (state) => state.formData.selectedTarif,
     getSelectedTarifOptions: (state) => state.formData.selectedTarifOptions,
     getDateEffet: (state) => state.formData.step7.dateEffet,
-    getNbrPieces: (state) => state.formData.step3.nbr_pieces_principales,
+
+    getNbrPieces: (state) => state.formData.step3.nbr_pieces_principales+state.formData.step4.nbrPiecePrincipalePlus30m+state.formData.step4.dependenceCount,
     getDataForTarif: (state) => ({
-      produitType: state.formData.step3.nbr_pieces_principales > 1 ? "MRH_GENERALI" : "MRH",
+      produitType: state.getNbrPieces > 1 ? "MRH_GENERALI" : "MRH",
       codePostal : 75001,
       ville : 'paris',
       dateEffet : state.formData.step7.dateEffet,
@@ -137,7 +138,7 @@ export const useFormStore = defineStore('form', {
       surfacePieces : state.formData.step3.surface_habitable,// à ajouter au ws savecontrat ECA
       nbEnfantMineur :  state.formData.step7.nbrEnfant,
       nbrEtageImmb : state.formData.step2.nbrEtageImmb,
-      etageBien : state.formData.step2.appartement_situe,
+      etageBien : (state.formData.step1.type_habitation =="MAISON_INDIVIDUELLE") ? "" :state.formData.step2.appartement_situe,
       comporteInsert : state.formData.step4.selectedOptions.includes('chemine') ? 'OUI' : 'NON',
       presenceVeranda :  state.formData.step4.selectedOptions.includes('veranda') ? 'OUI' : 'NON',
       presencePicineOuTennis :  state.formData.step4.selectedOptions.includes('presencePicineOuTennis') ? 'OUI' : 'NON',
@@ -178,7 +179,7 @@ export const useFormStore = defineStore('form', {
 
        let result =  {
           flagType: state.formData.flagType,
-          produitType: state.formData.step3.nbr_pieces_principales > 1 ? "MRH_GENERALI" : "MRH",
+          produitType: state.getNbrPieces > 1 ? "MRH_GENERALI" : "MRH",
           habitationUsageProfessionel: 'NON',
           piscine: state.formData.step4.selectedOptions.includes('presencePicineOuTennis') ? 'OUI' : 'NON',
           dateEffet: state.formData.step7.dateEffet,
@@ -220,7 +221,7 @@ export const useFormStore = defineStore('form', {
         }
 
 
-       if( state.formData.step3.nbr_pieces_principales > 1 ){
+       if(state.getNbrPieces > 1 ){
         const indexDepen = state.formData.selectedDependecies.findIndex((obj) => obj.formule ===  state.formData.selectedTarif.formule);
         let myDependecie =  state.formData.selectedDependecies[indexDepen]  
 
