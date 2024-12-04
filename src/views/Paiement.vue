@@ -150,9 +150,18 @@
                 color="#f97316"
                 ></vue-spinner>
 
+                <div  v-else-if="isMobile && !loadingDevis2 && pdfFileSource">
+                    <a    :href="pdfFileSource" download="Devis.pdf">
+                        <div class="btnImg"><img src="../assets/icons/download.svg" width="45" alt="appartement"></div>
+                        Download Devis</a>
+
+                </div>
+
+
+
                 <!--PDF-->
                 <iframe
-                v-if="!loadingDevis2 && pdfFileSource"
+                v-else-if="!loadingDevis2 && pdfFileSource"
                 :src="pdfFileSource"
                 style="width: 100%; height: 700px;"
                 frameborder="0"
@@ -188,6 +197,12 @@
         declaration: false
     });
     const pdfFileSource = ref('');
+
+    const isMobile = computed(() => window.innerWidth <= 768);
+
+    console.log("isMobile")
+    console.log(isMobile.value)
+    console.log(navigator.userAgent)
     // calcul total tarif
     function updateTarifWithOptions() {
         let tarif = parseFloat(selectedTarif.tarif);
@@ -309,7 +324,24 @@
             const response = await saveDevis();
             const base64PDF = formStore.formData.devisComplet?.document || '';
             if (response?.status === 200 && base64PDF) {
-                pdfFileSource.value = `data:application/pdf;base64,${base64PDF}`;
+                // Decode base64 into binary data
+                const binaryString = atob(base64PDF);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+
+                // Create a Blob from the binary data
+                const pdfBlob = new Blob([bytes], { type: 'application/pdf' });
+
+                // Create a URL for the Blob
+                pdfFileSource.value = URL.createObjectURL(pdfBlob);
+
+
+
+                //pdfFileSource.value = `data:application/pdf;base64,${base64PDF}`;
             } else {
                 console.error('Failed to load PDF: Invalid response or data');
             }
