@@ -114,8 +114,8 @@ const defaultDependecie = formStore.getDefaultDependecie(props.tarif.formule)
 selectedDependecies.formule = props.tarif.formule;
 selectedDependecies.franchise = defaultDependecie.franchise;
 selectedDependecies.indemnisationMobilier = defaultDependecie.indemnisationMobilier;
-  selectedDependecies.objetValeur = defaultDependecie.objetValeur;
-  selectedDependecies.capitals = defaultDependecie.capitals;
+selectedDependecies.objetValeur = defaultDependecie.objetValeur;
+selectedDependecies.capitals = defaultDependecie.capitals;
 
 }
 
@@ -131,21 +131,7 @@ const decimalPart = computed(() => {
 });
 
 function defineTarifSelected(selectedTarif) {
-    const capitalElement = document.getElementsByClassName(selectedTarif.formule + '_capital')[0];
-    const indemnisationMobilierElement = document.getElementsByClassName(selectedTarif.formule + '_indemnisationMobilier')[0];
-    const objetValeurElement = document.getElementsByClassName(selectedTarif.formule + '_objetValeur')[0];
-    const franchiseElement = document.getElementsByClassName(selectedTarif.formule + '_franchise')[0];
-
-    const selectedCapital = capitalElement ? capitalElement.value : null;
-    const selectedIndemnisationMobilier = indemnisationMobilierElement ? indemnisationMobilierElement.value : null;
-    const selectedObjetValeur = objetValeurElement ? objetValeurElement.value : null;
-    const selectedFranchise = franchiseElement ? franchiseElement.value : null;
-
-    selectedTarif.capital = selectedCapital;
-    selectedTarif.indemnisationMobilier = selectedIndemnisationMobilier;
-    selectedTarif.objetValeur = selectedObjetValeur;
-    selectedTarif.franchise = selectedFranchise;
-
+    formStore.updateSelectedDependecies(selectedDependecies);
     formStore.updateStepData('selectedTarif', selectedTarif);
     formStore.nextStep();
     router.push('/devis/options');
@@ -169,7 +155,8 @@ async function getTarif(){
         await axios.post(import.meta.env.VITE_BASE_URL+'/api/tarificateur', dataTarif)
         .then(response => {
             if (response.status === 200) {
-                formStore.updateFormuleTarif(selectedDependecies, response.data.response[0]);
+                formStore.updateSelectedDependecies(selectedDependecies);
+                formStore.updateFormuleTarif(selectedDependecies.formule, response.data.response[0]);
                 //tarifs.value.push( response.data.response[0]);
             }
         }).catch(({response}) => {

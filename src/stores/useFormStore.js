@@ -221,11 +221,14 @@ export const useFormStore = defineStore('form', {
 
 
        if( state.formData.step3.nbr_pieces_principales > 1 ){
+        const indexDepen = state.formData.selectedDependecies.findIndex((obj) => obj.formule ===  state.formData.selectedTarif.formule);
+        let myDependecie =  state.formData.selectedDependecies[indexDepen]  
+
          obj = {
-          capitalMobilier: state.formData.selectedTarif.capital,
-          franchise: state.formData.selectedTarif.franchise,
-          indemnisationMobilier: state.formData.selectedTarif.indemnisationMobilier,
-          dontObjetsValeur: state.formData.selectedTarif.objetValeur,
+          capitalMobilier: myDependecie.capitals,
+          franchise: myDependecie.franchise,
+          indemnisationMobilier: myDependecie.indemnisationMobilier,
+          dontObjetsValeur: myDependecie.objetValeur,
          }
        }else{
         obj = {
@@ -245,17 +248,20 @@ export const useFormStore = defineStore('form', {
   },
 
   actions: {
-    updateFormuleTarif(selectedDependecies, data) {
+    updateSelectedDependecies (selectedDependecies) {
+       const indexDepen = this.formData.selectedDependecies.findIndex((obj) => obj.formule === selectedDependecies.formule);
+       console.log("indexDepen")
+       console.log(indexDepen)
+       if (indexDepen !== -1) {
+         this.formData.selectedDependecies[indexDepen] = selectedDependecies      
+       }
+    },
+    updateFormuleTarif(formule, data) {
      // Find the index of the object with formule ESSENTIELLE
-      const index = this.formData.tarifs.findIndex((obj) => obj.formule === selectedDependecies.formule);
-      const indexDepen = this.formData.selectedDependecies.findIndex((obj) => obj.formule === selectedDependecies.formule);
+      const index = this.formData.tarifs.findIndex((obj) => obj.formule === formule);
      // Replace the object if found
       if (index !== -1) {
         this.formData.tarifs[index] = data      
-      }
-
-      if (index !== -1) {
-        this.formData.selectedDependecies[indexDepen] = selectedDependecies      
       }
     },
     updateStepData(step, data) {
