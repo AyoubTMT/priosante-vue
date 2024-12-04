@@ -116,6 +116,7 @@ import BonASavoir from '../components/BonASavoir.vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { ref, reactive, computed } from 'vue';
 import {VueSpinner} from 'vue3-spinners';
+import { toast } from 'vue3-toastify';
 import axios from 'axios';
 
 const formStore = useFormStore();
