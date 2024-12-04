@@ -33,14 +33,14 @@
                 </div>
             </div>
 
-            <div class="col-12 ">
+            <div class="col-12 " v-if="!isMaison">
                 <label for="nbrEtageImmb" class="formLabel mb-2">Nombre d’étage dans l’immeuble : </label>
 
                 <input type="number" class="form-control " :class="{ 'inputError': showErrorMsg }" 
                     autocomplete="off" id="nbrEtageImmb" placeholder="Nombre d’étage dans l’immeuble " v-model="formData.nbrEtageImmb" @input="updateOptions">
             </div>
 
-            <div class="col-12 appartementcondition">
+            <div class="col-12 appartementcondition" v-if="!isMaison">
                 <label for="etages" class="formLabel mb-3">Cet appartement est situé</label>
                 <select name="appartement_situe" id="etages" class="form-select" v-model="formData.appartement_situe">
                     <option v-for="(libelle, valeur) in options" :key="valeur" :value="valeur">
@@ -197,6 +197,10 @@ const options = computed(() => {
     } else {
     return { RDC: toutesOptions.RDC, DERNIER: toutesOptions.DERNIER };
     }
+});
+
+const isMaison = computed(() => {
+    return formStore.formData.step1.type_habitation == "MAISON_INDIVIDUELLE";
 });
 
 const updateOptions = () => {
