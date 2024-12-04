@@ -887,7 +887,7 @@
             </div>
           </div>
           <div>
-            <h4 className='font-semibold py-3 mobile:text-sm'>Mentions légales</h4>
+            <h4 className='font-semibold py-3 mobile:text-sm'><router-link to="/mentions-legales"  style="font-weight: 600 !important;">Mentions légales</router-link></h4>
             <div>
               <p className='py-1'>Politique de confidentialité</p>
               <p className='py-1'>Conditions générales de vente</p>

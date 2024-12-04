@@ -1,123 +1,135 @@
 <template>
-  <header id="navbar">
-    <nav class="navbar-container container">
-      <a href="/" class="home-link">
-        <div class="navbar-logo">
-          <router-link :to="{ name: 'home' }"><img className='' src='../assets/images/logo.png'
-              alt="" /></router-link>
-        </div>
-      </a>
-      <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu"
-        :aria-expanded="isNavbarExpanded.toString()" @click="toggleNavbarVisibility">
-        <i class="fa fa-bars"></i>
+  <div>
+    <header id="navbar">
+      <nav class="navbar-container container">
+        <a href="/" class="home-link">
+          <div class="navbar-logo">
+            <router-link :to="{ name: 'home' }"><img className='' src='../assets/images/logo.png'
+                alt="" /></router-link>
+          </div>
+        </a>
+        <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu"
+          :aria-expanded="isNavbarExpanded.toString()" @click="toggleNavbarVisibility">
+          <i class="fa fa-bars"></i>
 
-      </button>
-      <div id="navbar-menu" aria-labelledby="navbar-toggle" @click="toggleNavbarVisibility">
-        <ul class="navbar-links" @click.stop>
-          <li class="navbar-item">
-            <router-link :to="{ name: 'lassurance' }" class="navbar-link">L'assurance</router-link>
-          </li>
-          <li class="navbar-item">
-            <router-link :to="{ name: 'vosquestions' }" class="navbar-link">Vos questions</router-link>
-          </li>
-          <li class="navbar-item">
-            <router-link to="/devis">
-              <button @click="clearLocalStorage"
-                class="bg-orange-500 buttonLimouni text-white font-semibold rounded-md rounded-lg rounded-xl navbar-link">
-                Devis en ligne
-              </button>
-            </router-link>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-  <div class="container my-5">
+        </button>
+        <div id="navbar-menu" aria-labelledby="navbar-toggle" @click="toggleNavbarVisibility">
+          <ul class="navbar-links" @click.stop>
+            <li class="navbar-item">
+              <router-link :to="{ name: 'lassurance' }" class="navbar-link">L'assurance</router-link>
+            </li>
+            <li class="navbar-item">
+              <router-link :to="{ name: 'vosquestions' }" class="navbar-link">Vos questions</router-link>
+            </li>
+            <li class="navbar-item">
+              <router-link to="/devis">
+                <button @click="clearLocalStorage"
+                  class="bg-orange-500 buttonLimouni text-white font-semibold rounded-md rounded-lg rounded-xl navbar-link">
+                  Devis en ligne
+                </button>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
     <div class="Hero__Section">
       <div class="Hero__inner main-wrapper d-flex justify-content-between flex-col flex-md-row">
         <div class="Hero__desc">
-          <h1 class="pre-field-tarif font-weight-bold pb-3">Obligation du locataire : assurance habitation</h1>
-          <p class="text-muted">Vérifié le 29 septembre 2022 - Direction de l'information légale et administrative (Premier ministre)</p>
+          <h1 class="pre-field-tarif font-weight-bold pb-3">Mentions légales</h1>
+          <p class="pb_home">Assurmabarak est un site de GLS LAssurances en partenariat avec ECA Assurances</p>
+          <p class="pb_home">Dernière mise à jour : 04/12/2024</p>
           <div class="buttons__Home pt-4">
               <router-link to="/devis" class="LkButton" @click="clearLocalStorage">
                 Obtenir mon tarif
               </router-link>
           </div>
         </div>
-        <div class="Hero__img"><img src="../assets/images/produitAssurance.png" height="449" width="640"
+        <div class="Hero__img"><img src="../assets/images/mentions.png" height="449" width="640"
             alt="Une assurance animaux en ligne et pas cher"></div>
       </div>
     </div>
 
-    <main class="text-justify">
-        <p class="fs-5">
-            Le locataire d'un logement vide ou meublé avec un bail d'habitation (y compris un bail mobilité) doit prendre une assurance habitation. 
-            L'assurance doit au minimum couvrir les risques incendie, dégât des eaux, explosion. 
-            Si le locataire n'assure pas le logement, le propriétaire peut choisir de résilier le bail ou de prendre une assurance pour le compte du locataire (et se faire rembourser). 
-            Nous vous présentons les informations à retenir si vous êtes locataire ou propriétaire du logement loué.
-        </p>
-        <div class="alert alert-warning" role="alert">
-            <strong>Attention :</strong> les règles sont différentes pour un meublé de tourisme ou un logement de fonction.
-        </div>
+    <div class="container my-5">
+      <main class="text-justify">
+        <section class="mb-4">
+            <h2 class="h4 text-secondary">Informations générales</h2>
+            <p>
+                Assurmabarak est une marque de <strong>Gls Lassurances</strong>, une société intermédiaire en assurance (courtier) régie par le Code des Assurances.
+            </p>
+            <p>
+                Le site Internet accessible à l’adresse <a href="http://www.assurmabarak.fr" target="_blank">www.assurmabarak.fr</a> est conçu et édité par la société Gls Lassurances en partenariat avec ECA Assurances.
+            </p>
+        </section>
 
         <section class="mb-4">
-            <h2 class="h2 text-secondary">Locataire</h2>
-            <article>
-                <h3 class="h3 mt-3 fw-bold">Êtes-vous obligé de prendre une assurance habitation ?</h3>
-                <p>Si vous êtes locataire d'un logement loué avec un bail d'habitation (y compris un bail mobilité), vous devez prendre une assurance habitation. Cette obligation s'applique, quelle que soit votre nationalité et quelle que soit la durée de votre séjour en France.</p>
-            </article>
-
-            <article>
-                <h3 class="h3 mt-3 fw-bold">Quelle est l'assurance à prendre ?</h3>
-                <p>L'assurance doit couvrir au minimum les risques locatifs.</p>
-                <p>L'assurance "risques locatifs" couvre les dommages causés au logement par un incendie, une explosion ou un dégât des eaux.</p>
-                <p>Mais la couverture de cette assurance concerne uniquement le logement loué lui-même. Les dommages qui seraient causés aux voisins ne sont pas couverts par cette assurance. Ils doivent faire l'objet d'une autre garantie, appelée recours des voisins et des tiers, qui est facultative.</p>
-                <p>L'assurance des risques locatifs ne couvre pas non plus vos biens personnels, qui pourraient être endommagés lors d'un sinistre. L'assurance ne vous les remboursera donc pas. Pour garantir vos biens, vous devez souscrire une assurance complémentaire, couramment nommée multirisques habitation.</p>
-            </article>
-
-            <article>
-                <h3 class="h3 mt-3 fw-bold">Comment en apporter la preuve au propriétaire du logement ?</h3>
-                <p>Vous devez prouver au propriétaire du logement que vous avez pris une assurance pour les risques locatifs.</p>
-                <ul>
-                    <li>Lorsque le propriétaire vous remet les clefs du logement</li>
-                    <li>Une fois par an, à sa demande</li>
-                </ul>
-            </article>
-            
-            <article>
-              <h3 class="h3 mt-3 fw-bold">Quelles conséquences si vous n'avez pas d'assurance habitation ?</h3>
-              <p>Si vous ne fournissez pas au propriétaire une attestation d'assurance "risques locatifs", alors il peut choisir soit de résilier le bail, soit de prendre une assurance "risques locatifs" pour votre compte.</p>
-            </article>
-            <article>
-              <h3 class="h3 mt-3 fw-bold">Résiliation du bail</h3>
-              <p>Votre bail peut ou non contenir une clause résolutoire prévoyant la résiliation du bail en cas de manquement du locataire à ses obligations (loyer ou charges impayés, dépôt de garantie non versé, absence d'assurance des risques locatifs, troubles de voisinage constatés par un juge). Le juge prononce la résiliation du bail après constat de la faute du locataire, sans pouvoir apprécier l'importance de cette faute. pour absence d'assurance couvrant les risques locatifs (dommages causés au logement par un incendie, une explosion ou un dégât des eaux).</p>
-            </article>
-            <article>
-              <h3 class="h3 mt-3 fw-bold">Souscription d'une assurance "risques locatifs" pour votre compte</h3>
-                <p>Le propriétaire doit vous envoyer un courrier recommandé avec avis de réception vous indiquant son intention de prendre une assurance "risques locatifs", pour votre compte.</p>
-            </article>
-            <article>
-              <h3 class="h3 mt-3 fw-bold">À savoir</h3>
-                <p>Lorsque le propriétaire envoie ce courrier, il ne peut plus demander la résipation du bail pour absence d'assurance, même si votre bail contient une clause résolutoire dans un bail commercial, acte par lequel le bailleur fait connaître au locataire les infractions reprochées et l'informe de sa volonté d'utipser la clause résolutoire si le locataire n'exécute pas ses obpgations.</p>
-                <p>Après avoir reçu ce courrier, vous avez 1 mois pour prendre une assurance "risques locatifs".</p>
-                <p>Après ce délai d'un mois, si vous n'avez pris d'assurance, le propriétaire peut en prendre une pour votre compte.</p>
-                <p>Le propriétaire doit alors vous remettre une copie du contrat d'assurance lors de sa souscription et à chaque renouvellement.</p>
-                <p>Le propriétaire paie la prime d'assurance annuelle facturée par l'assureur. Mais vous devez le rembourser de cette somme, que le propriétaire peut augmenter d'au maximum 10 %. Vous devez lui rembourser le total par 1/12e à chaque paiement du loyer mensuel.</p>
-                <h5><u>Exemple :</u></h5>
-                <ul>
-                    <li>Le propriétaire a payé une prime d'assurance annuelle de 200 €</li>
-                    <li>Le propriétaire majore cette somme de 10 %</li>
-                    <li>Vous lui devez au total : 200 € x 1,10 = 220 €</li>
-                    <li>Chaque mois, vous devez lui rembourser : <span class="text-nowrap">220 €/12 = 18,33 €</span></li>
-                    <li>Le montant total à rembourser doit être inscrit sur l'avis d'échéance et sur la quittance de loyerDocument qui atteste du paiement intégral du loyer et des charges par le locataire. Le locataire doit en faire la demande au propriétaire. Le propriétaire doit alors lui remettre gratuitement.</li>
-                </ul>
-                <p>Vous pouvez mettre fin à l'assurance prise par le propriétaire pour votre compte. Pour cela, vous devez prendre une assurance "risques locatifs" et lui remettre l'attestation d'assurance. Le propriétaire doit résilier son assurance le plus rapidement possible. Vous devez lui rembourser la fraction de la prime exigée par l'assureur jusqu'à la résiliation.</p>
-                <p>Lorsque vous quittez définitivement le logement avant la fin du contrat d'assurance, le propriétaire doit le résilier le plus rapidement possible. Vous devez lui rembourser la fraction de la prime exigée par l'assureur jusqu'à la résiliation du contrat.</p>
-            </article>
+            <h2 class="h4 text-secondary">Gls Lassurances</h2>
+            <p>Société à responsabilité limité (SARL) au capital de 8000 €, dotée d’une assurance responsabilité civile professionnelle et d’une garantie financière en application des articles L.530.1 et L.530.2 du Code des Assurances auprès de + SIMPLE, Société d’assurance régie par le Code des Assurances et soumise au contrôle de l’ACPR.</p>
+            <p>Immatriculée au Registre du Commerce et des Sociétés de Paris sous le numéro 483 666 137 et son siège social est situé au 45, rue de Boulainvilliers 75016 Paris.</p>
+            <p>Placée sous l'autorité de l'ACPR (Autorité de contrôle prudentiel et de résolution), 4 place de Budapest, 75436 Paris Cedex 09.</p>
         </section>
-    </main>
-  </div>
+
+        <section class="mb-4">
+            <h2 class="h4 text-secondary">Nous contacter</h2>
+            <ul class="px-0">
+                <li><strong>Par téléphone :</strong> +33 1 46 59 22 28</li>
+                <li><strong>Par e-mail :</strong> <a href="mailto:contact@lassurances.fr">contact@lassurances.fr</a></li>
+                <li><strong>Par courrier :</strong> 45, rue de Boulainvilliers, 75016 Paris</li>
+            </ul>
+        </section>
+
+        <section class="mb-4">
+            <h2 class="h4 text-secondary">Informations légales sur Gls Lassurances</h2>
+            <ul class="px-0">
+                <li><strong>Code APE :</strong> 6622Z (Activités des agents et courtiers d’assurances)</li>
+                <li><strong>SIRET :</strong> 483 666 137 000 37 RCS PARIS</li>
+                <li><strong>Numéro TVA :</strong> FR61483666137</li>
+                <li>
+                    <strong>Numéro Orias :</strong> 07005515. Pour plus d'informations, consultez le site de l'Orias : 
+                    <a href="http://www.orias.fr" target="_blank">www.orias.fr</a>, ou contactez l'Orias : 
+                    1 rue Jules Lefebvre, 75731 Paris Cedex 09 – Téléphone : 01 53 21 51 70 – Fax : 01 53 21 51 95.
+                </li>
+            </ul>
+        </section>
+
+        <section class="mb-4">
+            <h2 class="h4 text-secondary">Hébergement</h2>
+            <p>
+                Le site ASSURMABARAK est hébergé par la société IONOS 1&1 Internet SARL :
+            </p>
+            <address>
+                7, place de la Gare<br>
+                BP 70109<br>
+                57200 Sarreguemines Cedex<br>
+                Téléphone : 0970 808 911<br>
+                E-mail : <a href="mailto:info@ionos.fr">info@ionos.fr</a>
+            </address>
+            <p>
+                1&1 IONOS est un membre du groupe United Internet.
+            </p>
+        </section>
+
+        <section class="mb-4">
+            <h2 class="h4 text-secondary">Réclamation</h2>
+            <p>
+                Vous pouvez adresser toutes vos réclamations :
+            </p>
+            <ul class="px-0">
+                <li>Par courriel : <a href="mailto:reclamations@lassurances.fr">reclamations@lassurances.fr</a></li>
+                <li>Par courrier : Services Réclamations Lassurances, 45, rue de Boulainvilliers, 75016 Paris</li>
+            </ul>
+            <p>
+                Si vous n'êtes pas satisfait(e) du traitement de votre réclamation, vous pouvez saisir le Médiateur de l'Assurance :
+            </p>
+            <ul class="px-0">
+                <li>En ligne : <a href="http://www.mediation-assurance.org" target="_blank">www.mediation-assurance.org</a></li>
+                <li>Par courrier : La Médiation de l’Assurance, TSA 50 110 – 75441 Paris Cedex 09</li>
+            </ul>
+        </section>
+      </main>
+    </div>
+
     <section className='bg-[#b0e2fd]'>
       <div className='container mx-auto py-12'>
         <div className="grid sm:grid-cols-3 grid-cols-1 px-4">
@@ -145,28 +157,13 @@
       </div>
     </section>
     <div className='bg-[#b0e2fd] text-center py-4 font-semibold'>lassurances-habitation.fr - 2024</div>
+  </div>
 </template>
-<script setup>
-  import 'bootstrap/dist/css/bootstrap.min.css';
-  import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-  import { ref } from 'vue';
-  const clearLocalStorage = () => {
-    localStorage.clear();
-    console.log("LocalStorage cleared, starting a new devis.");
-  };
 
-  const isNavbarExpanded = ref(false);
-
-  const toggleNavbarVisibility = () => {
-    isNavbarExpanded.value = !isNavbarExpanded.value;
-    const navbarToggle = document.querySelector("#navbar-toggle");
-    navbarToggle.setAttribute("aria-expanded", isNavbarExpanded.value.toString());
-  };
-</script>
 <style scoped>
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+ @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
   
-  /********************** FAQ *************************/
+ /********************** FAQ *************************/
   @media (max-width: 853px) {
     .Hero__desc {
       width: auto;
@@ -269,17 +266,17 @@
     padding-bottom: 9px;
     margin-bottom: 30px;
   }
-  .collapse{
+ .collapse{
   visibility: visible;
-  }
-  img {
+ }
+ img {
     height: auto;
   }
  .LkButton:hover {
     color:var(--color1);
     background-color: var(--color5);
-  }
-  .LkButton {
+ }
+ .LkButton {
     padding: 16px 20px;
     border: 1px solid var(--color1);
     -webkit-border-radius: 6px;
@@ -630,3 +627,22 @@
     color:var(--color5);
   }
 </style>
+
+
+<script setup>
+  import 'bootstrap/dist/css/bootstrap.min.css';
+  import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+  import { ref } from 'vue';
+  const clearLocalStorage = () => {
+    localStorage.clear();
+    console.log("LocalStorage cleared, starting a new devis.");
+  };
+
+  const isNavbarExpanded = ref(false);
+
+  const toggleNavbarVisibility = () => {
+    isNavbarExpanded.value = !isNavbarExpanded.value;
+    const navbarToggle = document.querySelector("#navbar-toggle");
+    navbarToggle.setAttribute("aria-expanded", isNavbarExpanded.value.toString());
+  };
+</script>
