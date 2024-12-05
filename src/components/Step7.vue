@@ -283,6 +283,41 @@
             <BonASavoir
                 remarque="La protection de vos données est l'une de nos priorités. Toutes vos données personnelles, notamment relatives à des infractions et condamnations pénales, sont 100% sécurisées." />
         </div>
+
+
+        <div class="modal fade show in " id="testt" tabindex="-1" aria-labelledby="aideLabel" :style="{ 'display': reslieModal  }" :class="{ show: true }"  aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-sm" >
+        <div class="modal-content" >
+            <div class="modal-header border-0 px-4 pb-0" >
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="reslieModal ='none'"></button>
+            </div>
+            <div class="modal-body text-center px-4" >
+                <img src="../assets/images/assistance.jpg" class="assistanceImg img-fluid" style="max-width: 150px; margin: auto;">
+                <p class="text-center">
+                    
+                <h5 class="mt-2">Souscription impossible</h5>
+                Vous allez être contacté par nos conseillés .
+            </p>
+                <div class="divider" ></div>
+                <div class="text-center" >
+                    <div class="social-buttons">
+                        <a href="https://wa.me/33767779822" target="_blank" class="social-button" aria-label="whatsapp">
+                            <i class='fa fa-whatsapp' style='font-size:36px;color:green'></i>
+                        </a>
+                        <a href="tel:0146592228" class="social-button" aria-label="phone">
+                            <i class="fa fa-phone" style='font-size:36px'></i>
+                        </a>
+                        <a href="mailto:contact@assurmabarak.fr" class="social-button" aria-label="envelope">
+                            <i class="fa fa-envelope" style='font-size:36px'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     </form>
 </template>
 
@@ -299,8 +334,9 @@ import { toast } from 'vue3-toastify';
     const router = useRouter();
     const step7Data = formStore.getFormData;
     const loadingTarif = ref(false);
-
+    const isNotificationMailSent = ref(step7Data.isNotificationMailSent);
     const nbrPieces = formStore.getNbrPieces;
+    const reslieModal =ref("none");
     const tarifs =ref([]);
     const form = reactive({
       civilite: step7Data.step7.civilite || "MR",
@@ -399,19 +435,47 @@ import { toast } from 'vue3-toastify';
 
       if (Object.values(errors).every((error) => !error)) {
         formStore.updateStepData('step7', form);
+        //check if already sent the notifaction.
+        if(!isNotificationMailSent){
+            await sendNotificationOfSubscription();
+            formStore.updateStepData('isNotificationMailSent', true);
 
-        try {
-            await getTarifs();
-            formStore.updateStepData('tarifs', tarifs);
-            formStore.nextStep();
-            router.push('/devis/tarifs');
-        } catch (error) {
-          console.error("Error during form submission:", error);
+        }
+
+        if(step7Data.step5.resilie_par_assureur3ans == "OUI"){
+            //show model
+            reslieModal.value ="block"
+        }else{
+            try {
+                await getTarifs();
+                //il faut verifier si le tarif est bien rempli avant de passe a l'etape suivant
+                formStore.updateStepData('tarifs', tarifs);
+                formStore.nextStep();
+                router.push('/devis/tarifs');
+            } catch (error) {
+                console.error("Error during form submission:", error);
+            }
         }
       } else {
         console.log("Validation failed.");
       }
     };
+
+    const sendNotificationOfSubscription = async () => {
+
+        const dataSouscripteur = formStore.getDataOfSouscripteur;
+        loadingTarif.value =true;
+        await axios.post(import.meta.env.VITE_BASE_URL+'/api/sendNotificationSubscription', dataSouscripteur)
+                    .then(response => {
+                        console.log(response)
+                    }).catch(({response}) => {
+                      //  toast.error('une erreur est survenue merci de réessayer plus tard');
+                        console.log(response);
+                    }).finally(() => {
+                        loadingTarif.value =false;
+                    });
+    }
+
 
     const getTarifs = async () => {
 

@@ -197,16 +197,16 @@ const formStore = useFormStore();
 
 const formData = reactive({
     declare_sinistre2ans: 'NON',
-    resilie_par_assureur3ans: 'NON',
+    resilie_par_assureur3ans: formStore.getFormData.step5.resilie_par_assureur3ans || 'NON',
     utilisations_professionnelles: 'NON',
 });
 
 const showSinistresError = computed(() => formData.declare_sinistre2ans === 'OUI');
-const showResiliationError = computed(() => formData.resilie_par_assureur3ans === 'OUI');
+//const showResiliationError = computed(() => formData.resilie_par_assureur3ans === 'OUI');
 const showProError = computed(() => formData.utilisations_professionnelles === 'OUI');
 
 function submitStep() {
-    if (!showSinistresError.value && !showResiliationError.value && !showProError.value) {
+    if (!showSinistresError.value && !showProError.value) {
         formStore.updateStepData('step5', formData);
         formStore.nextStep();
     }

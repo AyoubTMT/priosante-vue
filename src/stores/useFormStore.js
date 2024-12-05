@@ -54,6 +54,7 @@ export const useFormStore = defineStore('form', {
         dateEffet: new Date(),
         nbrEnfant: "0",
       },
+      isNotificationMailSent : false,
       //tarifs:null,
       dependecies:[],
       tarifs:[],
@@ -119,8 +120,8 @@ export const useFormStore = defineStore('form', {
     getNbrPieces: (state) => state.formData.step3.nbr_pieces_principales+state.formData.step4.nbrPiecePrincipalePlus30m+state.formData.step4.dependenceCount,
     getDataForTarif: (state) => ({
       produitType: state.getNbrPieces > 1 ? "MRH_GENERALI" : "MRH",
-      codePostal : 75001,
-      ville : 'paris',
+      codePostal: state.formData.step2.codePostal,
+      ville: state.formData.step2.ville,
       dateEffet : state.formData.step7.dateEffet,
       typeResidence : state.formData.step3.type_residence,
       typeHabitation : state.formData.step1.type_habitation,
@@ -148,6 +149,18 @@ export const useFormStore = defineStore('form', {
       niveauFranchise : state.formData.step6.niveau_franchise,
       indemnMobilier: state.formData.step6.indemnisation_mobilier,
       niveauOJ: state.formData.step6.objets_valeur
+    }),
+    getDataOfSouscripteur: (state) => ({
+      civilite:  state.formData.step7.civilite,
+      nom: state.formData.step7.nom,
+      prenom: state.formData.step7.prenom,
+      telephone: state.formData.step7.telephone,
+      email: state.formData.step7.email,
+      dateNaissance: state.formData.step7.birthDay,
+      dateEffet: state.formData.step7.dateEffet,
+      resilieAutreAssureur: state.formData.step5.resilie_par_assureur3ans,
+      codePostal: state.formData.step2.codePostal,
+      ville: state.formData.step2.ville,
     }),
     getDefaultDependecie: (state) => {
       return (formule) => {
