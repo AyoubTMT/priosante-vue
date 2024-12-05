@@ -110,7 +110,7 @@
                     <li>Le propriétaire majore cette somme de 10 %</li>
                     <li>Vous lui devez au total : 200 € x 1,10 = 220 €</li>
                     <li>Chaque mois, vous devez lui rembourser : <span class="text-nowrap">220 €/12 = 18,33 €</span></li>
-                    <li>Le montant total à rembourser doit être inscrit sur l'avis d'échéance et sur la quittance de loyerDocument qui atteste du paiement intégral du loyer et des charges par le locataire. Le locataire doit en faire la demande au propriétaire. Le propriétaire doit alors lui remettre gratuitement.</li>
+                    <li>Le montant total à rembourser doit être inscrit sur l'avis d'échéance et sur la quittance de loyer, document qui atteste du paiement intégral du loyer et des charges par le locataire. Le locataire doit en faire la demande au propriétaire. Le propriétaire doit alors lui remettre gratuitement.</li>
                 </ul>
                 <p>Vous pouvez mettre fin à l'assurance prise par le propriétaire pour votre compte. Pour cela, vous devez prendre une assurance "risques locatifs" et lui remettre l'attestation d'assurance. Le propriétaire doit résilier son assurance le plus rapidement possible. Vous devez lui rembourser la fraction de la prime exigée par l'assureur jusqu'à la résiliation.</p>
                 <p>Lorsque vous quittez définitivement le logement avant la fin du contrat d'assurance, le propriétaire doit le résilier le plus rapidement possible. Vous devez lui rembourser la fraction de la prime exigée par l'assureur jusqu'à la résiliation du contrat.</p>
