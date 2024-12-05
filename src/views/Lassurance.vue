@@ -35,9 +35,9 @@
   <div class="container my-5">
 
     <div class="Hero__Section">
-      <div class="Hero__inner main-wrapper d-flex justify-content-between flex-col flex-md-row">
+      <div class="Hero__inner main-wrapper d-flex justify-content-between flex-col flex-md-row ps-0">
         <div class="Hero__desc">
-          <h1 class="pre-field-tarif font-weight-bold pb-3">Obligation du locataire : assurance habitation</h1>
+          <h1 class="pre-field-tarif font-weight-bold py-3">Obligation du locataire : assurance habitation</h1>
           <p class="text-muted">Vérifié le 29 septembre 2022 - Direction de l'information légale et administrative (Premier ministre)</p>
           <div class="buttons__Home pt-4">
               <router-link to="/devis" class="LkButton" @click="clearLocalStorage">

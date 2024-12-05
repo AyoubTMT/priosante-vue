@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="container my-5">
+    <div class="container my-5 px-0">
       <main class="text-justify">
         <section class="mb-4">
             <h2 class="h4 text-secondary">Informations générales</h2>
