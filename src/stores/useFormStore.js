@@ -264,8 +264,6 @@ export const useFormStore = defineStore('form', {
   actions: {
     updateSelectedDependecies (selectedDependecies) {
        const indexDepen = this.formData.selectedDependecies.findIndex((obj) => obj.formule === selectedDependecies.formule);
-       console.log("indexDepen")
-       console.log(indexDepen)
        if (indexDepen !== -1) {
          this.formData.selectedDependecies[indexDepen] = selectedDependecies      
        }

@@ -200,14 +200,9 @@
 
     const isMobile = computed(() => window.innerWidth <= 768);
 
-    console.log("isMobile")
-    console.log(isMobile.value)
-    console.log(navigator.userAgent)
     // calcul total tarif
     function updateTarifWithOptions() {
         let tarif = parseFloat(selectedTarif.tarif);
-        console.log(selectedOptions);
-        console.log(Object.values(selectedOptions));
         if (selectedOptions) {
             for (const option of Object.values(selectedOptions)) {
                 if (selectedTarif.optionsCompatibles[option]) {
@@ -361,8 +356,6 @@
             lien: devisCompletAvecLien.signature,
             reference: devisComplet.reference,
         };
-
-        console.log('Sending signature data:', data);
 
         return await handleApiRequest(
             `${import.meta.env.VITE_BASE_URL}/api/send-email`,

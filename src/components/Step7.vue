@@ -436,7 +436,6 @@ import { toast } from 'vue3-toastify';
       if (Object.values(errors).every((error) => !error)) {
         formStore.updateStepData('step7', form);
         //check if already sent the notifaction.
-        console.log(isNotificationMailSent.value)
         if(!isNotificationMailSent.value){
             await sendNotificationOfSubscription();
             formStore.updateStepData('isNotificationMailSent', true);

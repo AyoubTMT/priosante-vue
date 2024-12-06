@@ -71,7 +71,6 @@ const sendLienSignature = async () => {
     lien: devisCompletAvecLien.signature,
     reference: devisComplet.reference,
   };
-  console.log('Sending signature data:', data);
   const response = await sendPostRequest(import.meta.env.VITE_BASE_URL+'/api/send-email', data);
   if (response && response.status === 200) {
     loadingSouscrire.value=true;
@@ -85,7 +84,6 @@ const saveDevis = async () => {
     loadingSouscrire.value = true;
     formStore.updateStepData('flagType', 'LIEN');
     const dataSave = formStore.getDataForSave;
-    console.log('Saving devis data:', dataSave);
     await axios.post(import.meta.env.VITE_BASE_URL+'/api/save', dataSave)
         .then(async response => {
             if (response.status === 200) {

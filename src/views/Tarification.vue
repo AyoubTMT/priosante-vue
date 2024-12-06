@@ -416,8 +416,6 @@
 
     const tarifs = formStore.getTarifs;
 
-    console.log( "tarifs")
-    console.log( tarifs)
     const dateEffet = formStore.getDateEffet;
     const dependecies = formStore.getDependecies;
     const produit = formStore.getNbrPieces > 1 ? 'GEN' : 'AR';
@@ -443,12 +441,10 @@
     onMounted(() => {
       updateItemsToShow();
       window.addEventListener('resize', updateItemsToShow);
-        console.log(itemsToShow.value);
     });
 
     onUnmounted(() => {
       window.removeEventListener('resize', updateItemsToShow);
-        console.log(itemsToShow.value);
     });
 
     function prevStep() { 

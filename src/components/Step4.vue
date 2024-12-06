@@ -290,7 +290,6 @@ const isAppartement = computed(() => {
 function updateNbrPieces() {
     formStore.updateStepData('step4', formData);
     nbrPieces.value = formStore.getNbrPieces;
-    console.log(nbrPieces.value)
 }
 async function submitStep() {
     if(showErrorMsg.value == false){
