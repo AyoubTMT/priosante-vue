@@ -4,7 +4,7 @@
       <nav class="navbar-container container">
         <a href="/" class="home-link">
           <div class="navbar-logo">
-            <router-link :to="{ name: 'home' }"><img className='' src='../assets/images/logo.png'
+            <router-link :to="{ name: 'home' }"><img className='' src='../assets/images/logo.png' style="width: 250px; height: 97px;"
                 alt="" /></router-link>
           </div>
         </a>
