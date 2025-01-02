@@ -608,3 +608,9 @@ img, svg {
 .progressdiv{
   margin-bottom: 50px !important;
 }
+
+.footer-copyright {
+  color: #000;
+  font-size: .75rem;
+  line-height: 1rem
+}

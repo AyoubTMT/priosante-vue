@@ -208,7 +208,9 @@
         </div>
       </div>
     </section>
-    <div className='bg-[#b0e2fd] text-center py-4 font-semibold'>lassurances-habitation.fr - 2024</div>
+    <div className='bg-[#b0e2fd] text-center py-4 font-semibold'>
+        <p class="footer-copyright m-0">© 2025 ASSURMABARAK tous droits réservés.</p>
+      </div>
   </div>
 </template>
 
