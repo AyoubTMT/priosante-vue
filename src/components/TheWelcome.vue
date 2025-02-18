@@ -4,7 +4,7 @@
       <nav class="navbar-container container">
         <a href="/" class="home-link">
           <div class="navbar-logo">
-            <router-link :to="{ name: 'home' }"><img className='' src='../assets/images/logo.png' style="width: 250px; height: 97px;"
+            <router-link :to="{ name: 'home' }"><img className='' src='../assets/images/AssurLogo.png' style="width: 250px; height: 93.8px;"
                 alt="" /></router-link>
           </div>
         </a>
@@ -208,7 +208,9 @@
         </div>
       </div>
     </section>
-    <div className='bg-[#b0e2fd] text-center py-4 font-semibold'>lassurances-habitation.fr - 2024</div>
+    <div className='bg-[#b0e2fd] text-center py-4 font-semibold'>
+        <p class="footer-copyright m-0">© 2025 ASSURMABARAK tous droits réservés.</p>
+      </div>
   </div>
 </template>
 

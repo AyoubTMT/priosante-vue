@@ -3,12 +3,12 @@
 
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
 
-    <img src='../assets/images/logo.png' class="m-5" alt="" />
+    <img src='../assets/images/AssurLogo.png' class="m-5" width="300" height="35" alt="Assurmabarak"  />
     <!-- Titre -->
     <h1 class="text-3xl font-bold colorText mb-4">Merci pour votre confiance !</h1>
 
     <!-- Sous-titre -->
-    <p class="text-lg mb-6 text-center">
+    <p class="text-lg mb-6 text-center px-1">
       Votre souscription à notre offre d’assurance habitation a bien été enregistrée.<br>
       Nous sommes ravis de vous compter parmi nos assurés.
     </p>
