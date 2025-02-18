@@ -163,6 +163,83 @@
             </div>
 
             <div class="col-12 mt-0 mb-3">
+                <label class="formLabel mb-2" for="numero">Adresse</label>
+                <div class="row g-3">
+                    <!-- Champ pour le numéro -->
+                    <div class="col-3">
+                        <input type="text" id="numero" class="form-control" :class="{ 'inputError': errors.numero }"
+                            placeholder="Numéro" v-model="form.numero" @input="validateNumero" />
+                        <div v-if="errors.numero" class="errorMsg">
+                            <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
+                                    viewBox="0 0 10.497 10.008">
+                                    <!-- Icône d'erreur (identique à celle utilisée pour les autres champs) -->
+                                </svg>
+                                <p class="m-0 ms-2">{{ errors.numero }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Champ pour le type de voie -->
+                    <div class="col-3">
+                        <select id="typeVoie" class="form-select" :class="{ 'inputError': errors.typeVoie }"
+                            v-model="form.typeVoie" @change="validateTypeVoie">
+                            <option value="" disabled selected>Type de voie</option>
+                            <option value="RUE">rue</option>
+                            <option value="ALLEE">allée</option>
+                            <option value="AVENUE">avenue</option>
+                            <option value="BOULEVARD">boulevard</option>
+                            <option value="BOURG">bourg</option>
+                            <option value="CHEMIN">chemin</option>
+                            <option value="COURS">cours</option>
+                            <option value="CLOS">clos</option>
+                            <option value="CARREFOUR">carrefour</option>
+                            <option value="DIGUE">digue</option>
+                            <option value="FAUBOURG">faubourg</option>
+                            <option value="IMPASSE">impasse</option>
+                            <option value="PASSAGE">passage</option>
+                            <option value="PARC">parc</option>
+                            <option value="PLACE">place</option>
+                            <option value="PROMENADE">promenade</option>
+                            <option value="QUAI">quai</option>
+                            <option value="ROND_POINT">rond-point</option>
+                            <option value="ROUTE">route</option>
+                            <option value="RUELLE">ruelle</option>
+                            <option value="SENTIER">sentier</option>
+                            <option value="SQUARE">square</option>
+                            <option value="TRAVERSE">traverse</option>
+                            <option value="VOIE">voie</option>
+                            <option value="LIEU_DIT">Lieu-dit</option>
+                        </select>
+                        <div v-if="errors.typeVoie" class="errorMsg">
+                            <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
+                                    viewBox="0 0 10.497 10.008">
+                                    <!-- Icône d'erreur -->
+                                </svg>
+                                <p class="m-0 ms-2">{{ errors.typeVoie }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Champ pour le complément -->
+                    <div class="col-6">
+                        <input type="text" id="complement" class="form-control" :class="{ 'inputError': errors.complement }"
+                            placeholder="Complément" v-model="form.complement" @input="validateComplement" />
+                        <div v-if="errors.complement" class="errorMsg">
+                            <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
+                                    viewBox="0 0 10.497 10.008">
+                                    <!-- Icône d'erreur -->
+                                </svg>
+                                <p class="m-0 ms-2">{{ errors.complement }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-0 mb-3">
                 <label for="datedenaissance"><b>Votre date de naissance</b></label>
                 <div class="date-input-container">
                     <input type="date" class="form-control" :class="{ 'inputError': errors.birthDay }" maxlength="10"
@@ -347,6 +424,9 @@ import { toast } from 'vue3-toastify';
       birthDay: step7Data.step7.birthDay,
       dateEffet: getDefaultDatePlusOne(),
       nbrEnfant: 0,//step7Data.step7.nbrEnfant,
+    numero: step7Data.step7.numero || "", // Numéro de rue
+    typeVoie: step7Data.step7.typeVoie || "", // Type de voie (Rue, Avenue, etc.)
+    complement: step7Data.step7.complement || "", // Complément d'adresse
     });
 
     const errors = reactive({
@@ -356,6 +436,9 @@ import { toast } from 'vue3-toastify';
       email: "",
       birthDay: "",
       dateEffet: "",
+  numero: "", // Erreur pour le numéro
+  typeVoie: "", // Erreur pour le type de voie
+  complement: "", // Erreur pour le complément
     });
 
     function getDefaultDatePlusOne() {
@@ -397,7 +480,18 @@ import { toast } from 'vue3-toastify';
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       errors.email = emailPattern.test(form.email) ? "" : "Veuillez renseigner un email valide.";
     };
+    const validateNumero = () => {
+        const numeroPattern = /^\d+$/; // Seuls les chiffres sont autorisés
+    errors.numero = numeroPattern.test(form.numero) ? "" : "Veuillez renseigner un numéro valide.";
+    };
 
+    const validateTypeVoie = () => {
+        errors.typeVoie = form.typeVoie ? "" : "Veuillez sélectionner un type de voie.";
+    };
+
+    const validateComplement = () => {
+        errors.complement = form.complement ? "" : "Veuillez renseigner le complément.";
+    };
     const validateAge = () => {
         const age = calculateAge(form.birthDay);
         errors.birthDay = age >= 18 ? "" : "L'âge ne peut être inférieur à 18 ans";
@@ -432,6 +526,9 @@ import { toast } from 'vue3-toastify';
       validateEmail();
       validateAge();
       validateDateEffet();
+        validateNumero(); // Validation du numéro
+        validateTypeVoie(); // Validation du type de voie
+        validateComplement(); // Validation du complément
 
       if (Object.values(errors).every((error) => !error)) {
         formStore.updateStepData('step7', form);
@@ -463,8 +560,8 @@ import { toast } from 'vue3-toastify';
     };
 
     const sendNotificationOfSubscription = async () => {
-
-        const dataSouscripteur = formStore.getDataOfSouscripteur;
+    const dataSouscripteur = { ...formStore.getDataOfSouscripteur };
+    dataSouscripteur.adresseComplete = `${form.numero} ${form.typeVoie} ${form.complement}`;
         loadingTarif.value =true;
         await axios.post(import.meta.env.VITE_BASE_URL+'/api/sendNotificationSubscription', dataSouscripteur)
                     .then(response => {

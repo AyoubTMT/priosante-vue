@@ -169,9 +169,9 @@ const formStore = useFormStore();
 const zipCode = formStore.getFormData.step2.zipcode;
 
 const infomations = reactive({
-    numeroVoie: "",
-    typeVoie: "RUE", 
-    adressePostale: "",
+    numeroVoie: formStore.formData.step7.numero || "",
+    typeVoie: formStore.formData.step7.typeVoie || "RUE", 
+    adressePostale: formStore.formData.step7.complement || "",
     tel: formStore.formData.step7.telephone,
 });
 
