@@ -164,6 +164,19 @@ export const useFormStore = defineStore('form', {
       resilieAutreAssureur: state.formData.step5.resilie_par_assureur3ans,
       codePostal: state.formData.step2.codePostal,
       ville: state.formData.step2.ville,
+
+      qualiteAssure: state.formData.step2.qualiteAssure,
+      appartement_situe: state.formData.step2.appartement_situe,
+      nbrEtageImmb: state.formData.step2.nbrEtageImmb,
+      type_residence: state.formData.step3.type_residence,
+      nbr_pieces_principales: state.formData.step3.nbr_pieces_principales,
+      surface_habitable: state.formData.step3.surface_habitable,
+
+      selectedOptions: state.formData.step4.selectedOptions,
+      nbrPiecePrincipalePlus30m: state.formData.step4.nbrPiecePrincipalePlus30m,
+      dependenceCount: state.formData.step4.dependenceCount,
+      surfaceDependance: state.formData.step4.surfaceDependance,
+      cheminepro: state.formData.step4.cheminepro,
     }),
     getDefaultDependecie: (state) => {
       return (formule) => {
