@@ -378,7 +378,7 @@
                 <div class="divider" ></div>
                 <div class="text-center" >
                     <div class="social-buttons">
-                        <a href="https://wa.me/33767779822" target="_blank" class="social-button" aria-label="whatsapp">
+                        <a href="https://wa.me/33146592228" target="_blank" class="social-button" aria-label="whatsapp">
                             <i class='fa fa-whatsapp' style='font-size:36px;color:green'></i>
                         </a>
                         <a href="tel:0146592228" class="social-button" aria-label="phone">

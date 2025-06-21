@@ -1,4 +1,4 @@
-/* color palette from <https://github.com/vuejs/theme> */
+/* OLD CSS */
 :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
@@ -21,17 +21,27 @@
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: #000;
 
-  --color1: #f97316;
-  --color2: #f9fafb;
-  --color3: #b0e2fd;
-  --color4: #707070;
-  --color5: #f9d9c3;
-  --color6: #f4627f;
+  --color1: #555555;
+  --color2: #FAF7F4;
+  --color3: #F0ECE7;
+  --color4: #467061;
+  --color5: #D99654;
+  --color6: #f9d9c3;
+  --color7: #f4627f;
   --green1: #a1c84e;
   --green2: #d0e1a4;
   --green3: #eef8d9;
   --font: "Poppins", sans-serif;
   --bs-btn-active-bg: #a1c84e;
+
+  
+  --e-global-color-primary: #555555;
+  --e-global-color-secondary: #FAF7F4;
+  --e-global-color-text: #555555;
+  --e-global-color-accent: #467061;
+  --e-global-color-02c5432: #D99654;
+  --e-global-color-c80aadd: #FFFFFF;
+  --e-global-color-76090da: #F0ECE7;
 }
 
 /* semantic color variables for this project */
@@ -160,7 +170,10 @@ span.underligned {
   font-weight: bold;
   font-size: 21px;
 }
-
+.stepTitle::after {
+  width: 11%;
+  border-bottom: 4px solid rgb(0, 93, 245);
+}
 #header-bar {
   padding: 6px 0;
 }
@@ -438,8 +451,8 @@ button.pusletooltip {
 }
 #formulaire .btn-check:checked + .btn, #formulaire .btn.active {
   background-color: var(--color5) !important;
-  border-color: var(--color1) !important;
-  color: #3e3e3e;
+  border: 1px solid var(--color4) !important;
+  color: #ffffff !important;
 }
 #formulaire .iconLabel {
   background-color: #fff;
@@ -464,6 +477,7 @@ button.pusletooltip {
 }
 #formulaire {
   padding: 0px;
+  background-image: linear-gradient(var(--color3), var(--color2) 25vh);
 }
 #header-bar {
   padding: 6px 0;
@@ -613,4 +627,7 @@ img, svg {
   color: #000;
   font-size: .75rem;
   line-height: 1rem
+}
+.icon-single-adult:before {
+    content: "";
 }

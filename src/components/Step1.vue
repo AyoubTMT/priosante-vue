@@ -2,12 +2,12 @@
     <form @submit.prevent="submitStep">
         <div class="row g-3 g-md-4">
             <div class="col-12 mt-0 mb-3">
-                <h2 class="stepTitle mb-3">Bonjour, je m'appelle Emma.</h2>
+                <h2 class="stepTitle mb-3">Devis mutuelle santé</h2>
                 <p class="stepDescription mb-3 mb-md-0">
                     Prenons quelques minutes pour définir ensemble la meilleure offre.
                 </p>
             </div>
-            <label for="maison" class="formLabel mb-3">Que souhaitez-vous assurer ?</label>
+            <label for="maison" class="formLabel mb-3">Qui souhaitez-vous assurer ?</label>
             <div class="col-6 mt-0">
                 <div class="btn-group formIconContainer" role="group" aria-label="Basic radio toggle button group">
                     <input type="radio" class="btn-check type_habitation" name="type_habitation" value="APPARTEMENT"
@@ -15,8 +15,8 @@
                     <label class="btn btn-outline-primary iconLabel" for="appartement">
                         <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
                                 height="15" alt="checked"></div>
-                        <div class="btnImg"><img src="../assets/icons/appartement.svg" alt="appartement"></div>
-                        <div>Appartement</div>
+                        <div class="btnImg"><img src="../assets/icons/personne.png" alt="appartement"></div>
+                        <div>Un adulte</div>
                     </label>
                 </div>
             </div>
@@ -27,8 +27,8 @@
                     <label class="btn btn-outline-primary iconLabel" for="maison">
                         <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
                                 height="15" alt="checked"></div>
-                        <div class="btnImg"><img src="../assets/icons/maison.svg" alt="maison"></div>
-                        <div>Maison</div>
+                        <div class="btnImg"><img src="../assets/icons/mere-et-fils.png" alt="maison"></div>
+                        <div>Un adulte + enfant(s)</div>
                     </label>
                 </div>
             </div>
@@ -39,8 +39,8 @@
                     <label class="btn btn-outline-primary iconLabel" for="studio">
                         <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
                                 height="15" alt="checked"></div>
-                        <div class="btnImg"><img src="../assets/icons/studio.svg" alt="studio"></div>
-                        <div>Studio</div>
+                        <div class="btnImg"><img src="../assets/icons/couple.png" alt="studio"></div>
+                        <div>Un couple</div>
                     </label>
                 </div>
             </div>
@@ -51,8 +51,8 @@
                     <label class="btn btn-outline-primary iconLabel" for="autre">
                         <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
                                 height="15" alt="checked"></div>
-                        <div class="btnImg"><img src="../assets/icons/autre.svg" alt="autre"></div>
-                        <div>Autre</div>
+                        <div class="btnImg"><img src="../assets/icons/famille.png" alt="autre"></div>
+                        <div>Un couple + enfant(s)</div>
                     </label>
                 </div>
             </div>
