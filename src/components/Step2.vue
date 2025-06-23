@@ -1,295 +1,399 @@
 <template>
-    <form @submit.prevent="submitStep">
-        <div class="row g-3 g-md-4">
-            <div class="col-12 mt-0 mb-3">
-                <h2 class="stepTitle mb-3">Commençons par votre logement </h2>
-                <p class="stepDescription mb-3 mb-md-0">
-                    Afin de bien évaluer votre demande, pourriez-vous m’en dire un peu plus ?
-                </p>
-            </div>
-            <label for="maison-b" class="formLabel mb-3">Qualité de l'assuré</label>
-            <div class="col-6 mt-0">
-                <div class="btn-group formIconContainer" role="group">
-                    <input type="radio" class="btn-check" name="qualiteAssure" value="LOCATAIRE_OCCUPANT"
-                        id="locataire" autocomplete="off" v-model="formData.qualiteAssure">
-                    <label class="btn btn-outline-primary iconLabel" for="locataire">
-                        <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
-                                height="15" alt="checked"></div>
-                        <div class="btnImg"><img src="../assets/icons/locataire.svg" alt="locataire"></div>
-                        <div>Locataire</div>
-                    </label>
-                </div>
-            </div>
-            <div class="col-6 mt-0">
-                <div class="btn-group formIconContainer" role="group">
-                    <input type="radio" class="btn-check" name="qualiteAssure" value="PROPRIETAIRE_OCCUPANT"
-                        id="proprietaire" autocomplete="off" v-model="formData.qualiteAssure">
-                    <label class="btn btn-outline-primary iconLabel" for="proprietaire">
-                        <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg" width="15"
-                                height="15" alt="checked"></div>
-                        <div class="btnImg"><img src="../assets/icons/occupant.svg" alt="proprietaire"></div>
-                        <div>Propriétaire</div>
-                    </label>
-                </div>
-            </div>
+  <form @submit.prevent="submitStep" class="step-form">
+    <div class="step-container">
+      <div class="step-header">
+        <h2 class="step-title">Devis mutuelle santé</h2>
+        <p class="step-description">
+          Prenons quelques minutes pour définir ensemble la meilleure offre.
+        </p>
+      </div>
 
-            <div class="col-12 " v-if="!isMaison">
-                <label for="nbrEtageImmb" class="formLabel mb-2">Nombre d’étage dans l’immeuble : </label>
-
-                <input type="number" class="form-control " :class="{ 'inputError': showErrorMsg }" 
-                    autocomplete="off" id="nbrEtageImmb" placeholder="Nombre d’étage dans l’immeuble " v-model="formData.nbrEtageImmb" @input="updateOptions">
+      <div class="step-section">
+        <div class="form-group">
+          <label class="form-label">Budget mensuel *</label>
+          <div class="option-row">
+            <div class="option-card" :class="{ 'selected': localData.budget === '20-50', error: errors.budget }" @click="selectOption('budget', '20-50')">
+              <div class="option-label">Entre 20 et 50 €</div>
             </div>
-
-            <div class="col-12 appartementcondition" v-if="!isMaison">
-                <label for="etages" class="formLabel mb-3">Cet appartement est situé</label>
-                <select name="appartement_situe" id="etages" class="form-select" v-model="formData.appartement_situe">
-                    <option v-for="(libelle, valeur) in options" :key="valeur" :value="valeur">
-                        {{ libelle }}
-                    </option>
-                </select>
-                <div class="errorMsg d-none">
-                    <div class="d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
-                            viewBox="0 0 10.497 10.008">
-                            <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
-                                <g id="Page-1" transform="translate(30 591)">
-                                    <g id="Alert" transform="translate(5 5)">
-                                        <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)"
-                                            fill="none"></rect>
-                                        <path id="Path"
-                                            d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
-                                            transform="translate(6.766 5.194)" fill="#f4627f"></path>
-                                        <path id="Path-2" data-name="Path"
-                                            d="M-.476.117A.524.524,0,0,1-1-.408V-.476A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v.068A.524.524,0,0,1-.476.117Z"
-                                            transform="translate(6.766 9.125)" fill="#f4627f"></path>
-                                        <path id="Path-3" data-name="Path"
-                                            d="M7.274,3a1.557,1.557,0,0,1,1.362.786l3.632,6.29a1.573,1.573,0,0,1-1.362,2.359H3.642A1.573,1.573,0,0,1,2.28,10.077l3.632-6.29A1.557,1.557,0,0,1,7.274,3Zm3.632,8.387a.524.524,0,0,0,.454-.786L7.728,4.31a.524.524,0,0,0-.908,0L3.188,10.6a.524.524,0,0,0,.454.786Z"
-                                            transform="translate(-0.983 -1.427)" fill="#f4627f"></path>
-                                    </g>
-                                </g>
-                            </g>
-                        </svg>
-                        <p class="m-0 ms-2">Ce champ est requis</p>
-                    </div>
-                </div>
+            <div class="option-card" :class="{ 'selected': localData.budget === '50-100', error: errors.budget }" @click="selectOption('budget', '50-100')">
+              <div class="option-label">Entre 50 et 100 €</div>
             </div>
-            <div class="col-12 maisoncondition" style="display: none;">
-                <label class="formLabel mb-3" for="resiliation">Votre habitation présente-t-elle une spécificité
-                    ?</label>
-                <div class="container-fluid p-0">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="btn-group formIconContainer" role="group">
-                                <input type="radio" class="btn-check" name="specification" value="NON" id="specNon"
-                                    autocomplete="off" v-model="formData.specification">
-                                <label class="btn btn-outline-primary iconLabel" for="specNon">
-                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
-                                            width="15" height="15" alt="checked"></div>
-                                    <div class="twoBtns">Non</div>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="btn-group formIconContainer" role="group">
-                                <input type="radio" class="btn-check" name="specification" value="OUI" id="specOui"
-                                    autocomplete="off" v-model="formData.specification">
-                                <label class="btn btn-outline-primary iconLabel" for="specOui">
-                                    <div class="text-end checkedLabel"><img src="../assets/icons/checkedicon.svg"
-                                            width="15" height="15" alt="checked"></div>
-                                    <div class="twoBtns">Oui</div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="option-card" :class="{ 'selected': localData.budget === '100-250', error: errors.budget }" @click="selectOption('budget', '100-250')">
+              <div class="option-label">Entre 100 et 250 €</div>
             </div>
-            <div class="col-12 mt-3 VotreCodepostale">
-                <label for="zipcode" class="formLabel mb-2">Code postal ou ville</label>
-                <input type="text" class="form-control villeCpSearch" :class="{ 'inputError': showErrorMsg }" autocomplete="off" id="zipcode"
-                    placeholder="Code postal ou ville" v-model="formData.zipcode" @keyup="onVilleCpSearchKeyup">
-                <div v-show="showErrorMsg" class="errorMsg">
-                    <div class="d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10.497" height="10.008"
-                            viewBox="0 0 10.497 10.008">
-                            <g id="Groupe_36" data-name="Groupe 36" transform="translate(-36 -597.573)">
-                                <g id="Page-1" transform="translate(30 591)">
-                                    <g id="Alert" transform="translate(5 5)">
-                                        <rect id="Rectangle" width="10" height="10" transform="translate(1 1.581)"
-                                            fill="none"></rect>
-                                        <path id="Path"
-                                            d="M-.476,2.145A.524.524,0,0,1-1,1.621v-2.1A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v2.1A.524.524,0,0,1-.476,2.145Z"
-                                            transform="translate(6.766 5.194)" fill="#f4627f"></path>
-                                        <path id="Path-2" data-name="Path"
-                                            d="M-.476.117A.524.524,0,0,1-1-.408V-.476A.524.524,0,0,1-.476-1a.524.524,0,0,1,.524.524v.068A.524.524,0,0,1-.476.117Z"
-                                            transform="translate(6.766 9.125)" fill="#f4627f"></path>
-                                        <path id="Path-3" data-name="Path"
-                                            d="M7.274,3a1.557,1.557,0,0,1,1.362.786l3.632,6.29a1.573,1.573,0,0,1-1.362,2.359H3.642A1.573,1.573,0,0,1,2.28,10.077l3.632-6.29A1.557,1.557,0,0,1,7.274,3Zm3.632,8.387a.524.524,0,0,0,.454-.786L7.728,4.31a.524.524,0,0,0-.908,0L3.188,10.6a.524.524,0,0,0,.454.786Z"
-                                            transform="translate(-0.983 -1.427)" fill="#f4627f"></path>
-                                    </g>
-                                </g>
-                            </g>
-                        </svg>
-                        <p class="m-0 ms-2">Une ville doit être sélectionnée.</p>
-                    </div>
-                </div>
-                <div class="villeSearchResult">
-                    <ul v-show="showVillesCp" id="villesCp">
-                        <li v-for="(city, index) in filteredCities" :key="index"
-                            @click="selectCpVille(city.code_postal, city.commune)">
-                            {{ city.code_postal }} {{ city.commune }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 mt-0">
-                <div class="container-fluid p-0">
-                    <div class="row align-items-center">
-                        <div class="col-12">
-                            <button type="submit"
-                                class="navBtn nextBtn mt-4 flex justify-center align-items-center">Étape suivante <img
-                                    src="../assets/icons/arrow-next.svg" alt="suivant" class="ms-3 img-fluid"></button>
-                        </div>
-                        <div class="col-12 text-center">
-                            <!-- <a class="backLink" onclick="goBack()"><img src="../assets/icons/back-arrow.svg" alt="back" class="img-fluid me-3"> Retour</a> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <BonASavoir remarque="Chaque adresse représente un niveau de risque différent" />
+          </div>
+          <div class="error-message" v-if="errors.budget">{{ errors.budget }}</div>
         </div>
-    </form>
+
+        <div class="form-group">
+          <label class="form-label">Soins courants *</label>
+          <div class="option-row">
+            <div class="option-card" :class="{ 'selected': localData.soinsCourants === 'Faible', error: errors.soinsCourants }" @click="selectOption('soinsCourants', 'Faible')">
+              <div class="option-label">Faible</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.soinsCourants === 'Moyen', error: errors.soinsCourants }" @click="selectOption('soinsCourants', 'Moyen')">
+              <div class="option-label">Moyen</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.soinsCourants === 'Élevé', error: errors.soinsCourants }" @click="selectOption('soinsCourants', 'Élevé')">
+              <div class="option-label">Élevé</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.soinsCourants">{{ errors.soinsCourants }}</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Hospitalisation *</label>
+          <div class="option-row">
+            <div class="option-card" :class="{ 'selected': localData.hospitalisation === 'Faible', error: errors.hospitalisation }" @click="selectOption('hospitalisation', 'Faible')">
+              <div class="option-label">Faible</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.hospitalisation === 'Moyen', error: errors.hospitalisation }" @click="selectOption('hospitalisation', 'Moyen')">
+              <div class="option-label">Moyen</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.hospitalisation === 'Élevé', error: errors.hospitalisation }" @click="selectOption('hospitalisation', 'Élevé')">
+              <div class="option-label">Élevé</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.hospitalisation">{{ errors.hospitalisation }}</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Optique *</label>
+          <div class="option-row">
+            <div class="option-card" :class="{ 'selected': localData.optique === 'Faible', error: errors.optique }" @click="selectOption('optique', 'Faible')">
+              <div class="option-label">Faible</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.optique === 'Moyen', error: errors.optique }" @click="selectOption('optique', 'Moyen')">
+              <div class="option-label">Moyen</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.optique === 'Élevé', error: errors.optique }" @click="selectOption('optique', 'Élevé')">
+              <div class="option-label">Élevé</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.optique">{{ errors.optique }}</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Dentaire *</label>
+          <div class="option-row">
+            <div class="option-card" :class="{ 'selected': localData.dentaire === 'Faible', error: errors.dentaire }" @click="selectOption('dentaire', 'Faible')">
+              <div class="option-label">Faible</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.dentaire === 'Moyen', error: errors.dentaire }" @click="selectOption('dentaire', 'Moyen')">
+              <div class="option-label">Moyen</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.dentaire === 'Élevé', error: errors.dentaire }" @click="selectOption('dentaire', 'Élevé')">
+              <div class="option-label">Élevé</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.dentaire">{{ errors.dentaire }}</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Appareil auditif *</label>
+          <div class="option-row">
+            <div class="option-card" :class="{ 'selected': localData.appareilAuditif === 'Faible', error: errors.appareilAuditif }" @click="selectOption('appareilAuditif', 'Faible')">
+              <div class="option-label">Faible</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.appareilAuditif === 'Moyen', error: errors.appareilAuditif }" @click="selectOption('appareilAuditif', 'Moyen')">
+              <div class="option-label">Moyen</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.appareilAuditif === 'Élevé', error: errors.appareilAuditif }" @click="selectOption('appareilAuditif', 'Élevé')">
+              <div class="option-label">Élevé</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.appareilAuditif">{{ errors.appareilAuditif }}</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Médecines douces *</label>
+          <div class="option-row">
+            <div class="option-card" :class="{ 'selected': localData.medecinesDouces === 'Non', error: errors.medecinesDouces }" @click="selectOption('medecinesDouces', 'Non')">
+              <div class="option-label">Non</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': localData.medecinesDouces === 'Oui', error: errors.medecinesDouces }" @click="selectOption('medecinesDouces', 'Oui')">
+              <div class="option-label">Oui</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.medecinesDouces">{{ errors.medecinesDouces }}</div>
+        </div>
+      </div>
+
+      <div class="step-footer">
+        <button type="submit" class="submit-button">Votre devis en 2 minutes</button>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script setup>
-import BonASavoir from '../components/BonASavoir.vue';
+import { reactive, ref, watch, computed, nextTick } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
-import { ref, reactive, computed } from 'vue'
+import { useRouter } from 'vue-router';
 
 const formStore = useFormStore();
+const router = useRouter();
 const step2Data = formStore.getFormData;
 
-const formData = reactive({
-    qualiteAssure: step2Data.step2.qualiteAssure || "LOCATAIRE_OCCUPANT",
-    appartement_situe: step2Data.step2.appartement_situe || "RDC",
-    specification: step2Data.step2.specification || "NON",
-    zipcode: step2Data.step2.zipcode || "",
-    nbrEtageImmb: step2Data.step2.nbrEtageImmb || 1,
-    codePostal: step2Data.step2.codePostal || "",
-    ville: step2Data.step2.ville || "",
-})
-
-const allCities = ref([])
-const filteredCities = ref([])
-const showVillesCp = ref(false)
-const showErrorMsg = ref(false)
-
-const toutesOptions = {
-    RDC: "Au rez-de-chaussée",
-    INTERMEDIAIRE: "À un étage intermédiaire",
-    DERNIER: "Au dernier étage",
-};
-
-const options = computed(() => {
-    if (formData.nbrEtageImmb === 0) {
-    return { RDC: toutesOptions.RDC, DERNIER: toutesOptions.DERNIER };
-    } else if (formData.nbrEtageImmb > 1) {
-    return toutesOptions;
-    } else {
-    return { RDC: toutesOptions.RDC, DERNIER: toutesOptions.DERNIER };
-    }
+const localData = reactive({
+  budget: step2Data.step2.budget || '',
+  soinsCourants: step2Data.step2.soinsCourants || '',
+  hospitalisation: step2Data.step2.hospitalisation || '',
+  optique: step2Data.step2.optique || '',
+  dentaire: step2Data.step2.dentaire || '',
+  appareilAuditif: step2Data.step2.appareilAuditif || '',
+  medecinesDouces: step2Data.step2.medecinesDouces || '',
 });
 
-const isMaison = computed(() => {
-    return formStore.formData.step1.type_habitation == "MAISON_INDIVIDUELLE";
-});
+const errors = reactive({});
 
-const updateOptions = () => {
-    if (!Object.keys(options.value).includes(formData.appartement_situe)) {
-    formData.appartement_situe = Object.keys(options.value)[0];
-    }
+const clearErrorOnInput = (field) => {
+  if (errors[field]) {
+    errors[field] = '';
+  }
+
+  const input = document.querySelector(`#${field}`);
+  if (input) {
+    input.style.boxShadow = 'none';
+  }
 };
-    
-function submitStep() {
-    if(showErrorMsg.value == false && String(formData.codePostal).length == 5){
-        formStore.updateStepData('step2', formData);
-        formStore.nextStep();
-    }else {
-        showErrorMsg.value = true;
-        showVillesCp.value = false;
-    }
-}
 
-const onVilleCpSearchKeyup = async () => {
-    const pressedKey = formData.zipcode.trim();
-    if (pressedKey && pressedKey.length >= 3 ) {
-        await getVilleZip(pressedKey);
-        showErrorMsg.value = false;
-    }else {
-        showErrorMsg.value = pressedKey.length === 0 ? false : true;
-        showVillesCp.value = false;
-    }
+const selectOption = (field, option) => {
+  localData[field] = option;
+  clearErrorOnInput(field);
+};
 
-}
-function selectCpVille(cp, ville) {
-    formData.zipcode = `${cp} ${ville}`;
-    formData.codePostal = cp;
-    formData.ville = ville;
-    showVillesCp.value = false;
-}
-async function getVilleZip(query) {
-    try {
-        const response = await fetch('/Villes.json');
-        const data = await response.json();
-        allCities.value = data;
-        filteredCities.value = allCities.value.filter(city => String(city.code_postal).includes(query) || city.code_postal==query || city.commune.toLowerCase().includes(query.toLowerCase()) ); 
-        showVillesCp.value = filteredCities.value.length > 0; 
-        showErrorMsg.value = filteredCities.value.length === 0;
-    } catch (error) {
-        console.error("Error fetching city data:", error);
-        showErrorMsg.value = true;
-        showVillesCp.value = false;
-    }
-}
+const validateField = (field) => {
+  switch (field) {
+    case 'budget':
+      if (!localData.budget) {
+        errors.budget = 'Veuillez sélectionner un budget mensuel.';
+      } else {
+        clearErrorOnInput('budget');
+      }
+      break;
+    case 'soinsCourants':
+      if (!localData.soinsCourants) {
+        errors.soinsCourants = 'Veuillez sélectionner un niveau de soins courants.';
+      } else {
+        clearErrorOnInput('soinsCourants');
+      }
+      break;
+    case 'hospitalisation':
+      if (!localData.hospitalisation) {
+        errors.hospitalisation = 'Veuillez sélectionner un niveau d\'hospitalisation.';
+      } else {
+        clearErrorOnInput('hospitalisation');
+      }
+      break;
+    case 'optique':
+      if (!localData.optique) {
+        errors.optique = 'Veuillez sélectionner un niveau d\'optique.';
+      } else {
+        clearErrorOnInput('optique');
+      }
+      break;
+    case 'dentaire':
+      if (!localData.dentaire) {
+        errors.dentaire = 'Veuillez sélectionner un niveau de soins dentaires.';
+      } else {
+        clearErrorOnInput('dentaire');
+      }
+      break;
+    case 'appareilAuditif':
+      if (!localData.appareilAuditif) {
+        errors.appareilAuditif = 'Veuillez sélectionner un niveau d\'appareil auditif.';
+      } else {
+        clearErrorOnInput('appareilAuditif');
+      }
+      break;
+    case 'medecinesDouces':
+      if (!localData.medecinesDouces) {
+        errors.medecinesDouces = 'Veuillez sélectionner une option pour les médecines douces.';
+      } else {
+        clearErrorOnInput('medecinesDouces');
+      }
+      break;
+  }
+};
+
+const validateForm = async () => {
+  let isValid = true;
+
+  // Reset errors
+  Object.keys(errors).forEach(key => {
+    errors[key] = '';
+  });
+
+  // Validate fields
+  if (!localData.budget) {
+    errors.budget = 'Veuillez sélectionner un budget mensuel.';
+    isValid = false;
+  }
+
+  if (!localData.soinsCourants) {
+    errors.soinsCourants = 'Veuillez sélectionner un niveau de soins courants.';
+    isValid = false;
+  }
+
+  if (!localData.hospitalisation) {
+    errors.hospitalisation = 'Veuillez sélectionner un niveau d\'hospitalisation.';
+    isValid = false;
+  }
+
+  if (!localData.optique) {
+    errors.optique = 'Veuillez sélectionner un niveau d\'optique.';
+    isValid = false;
+  }
+
+  if (!localData.dentaire) {
+    errors.dentaire = 'Veuillez sélectionner un niveau de soins dentaires.';
+    isValid = false;
+  }
+
+  if (!localData.appareilAuditif) {
+    errors.appareilAuditif = 'Veuillez sélectionner un niveau d\'appareil auditif.';
+    isValid = false;
+  }
+
+  if (!localData.medecinesDouces) {
+    errors.medecinesDouces = 'Veuillez sélectionner une option pour les médecines douces.';
+    isValid = false;
+  }
+
+  return isValid;
+};
+
+const submitStep = async () => {
+  const isValid = await validateForm();
+
+  if (isValid) {
+    formStore.updateStepData('step2', localData);
+    formStore.nextStep();
+    router.push('/devis/options');
+  } else {
+    console.log("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");
+  }
+};
 </script>
+
 <style scoped>
-.villeSearchResult,
-.containerResult,
-.adressesResult {
-    height: 0px;
-    position: relative;
-    z-index: 2;
+.step-form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: var(--e-global-typography-primary-font-family);
 }
 
-#villesCp,
-.racesList,
-#adresses,
-#stationCp {
-    max-height: 176px;
-    overflow-y: auto;
-    background-color: rgb(255, 255, 255);
-    list-style: none;
-    padding: 0px 0px;
-    border-radius: 4px;
-    width: 100%;
-    border: 1px solid rgb(165, 165, 165);
-    margin-top: 8px;
+.step-container {
+  background-color: var(--e-global-color-secondary);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-ul#villesCp li,
-ul#stationCp li,
-#adresses li {
-    font-size: 16px;
-    padding: 5px 15px;
-    color: #303030;
-    cursor: pointer;
+.step-header {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-ul#villesCp li:hover,
-ul#stationCp li:hover,
-#adresses li:hover {
-    color: var(--color1);
-    transition: 0.3s;
-    background-color: var(--color3);
-    border-radius: 0;
+.step-title {
+  color: var(--e-global-color-primary);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.step-description {
+  color: var(--e-global-color-text);
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.step-section {
+  margin-bottom: 30px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--e-global-color-primary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.option-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.option-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option-card:hover {
+  background-color: var(--e-global-color-02c5432);
+  border-color: var(--e-global-color-accent);
+}
+
+.option-card.selected {
+  background-color: var(--e-global-color-accent);
+  border-color: var(--e-global-color-accent);
+  color: white;
+}
+
+.option-card.selected .option-label {
+  color: white;
+}
+
+.option-label {
+  color: var(--e-global-color-primary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.step-footer {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.submit-button {
+  width: 100%;
+  background-color: var(--color3);
+  color: #000;
+  height: 60px;
+  border-radius: 9px;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: var(--color1);
+  color: #fff;
+}
+
+.error-message {
+  color: #f4627f;
+  font-size: 14px;
+  margin-top: 5px;
 }
 </style>
