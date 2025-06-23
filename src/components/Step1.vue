@@ -12,13 +12,13 @@
         <label class="form-label">Qui souhaitez-vous assurer ?</label>
         <div class="step-options">
           <div class="option-row">
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte', error: errors.assure }" @click="selectOption('Un adulte')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte', error: errors.assure }" @click="selectOption('assure','Un adulte')">
               <div class="option-icon">
                 <img src="../assets/icons/personne.png" alt="Un adulte">
               </div>
               <div class="option-label">Un adulte</div>
             </div>
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte + enfant(s)', error: errors.assure }" @click="selectOption('Un adulte + enfant(s)')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte + enfant(s)', error: errors.assure }" @click="selectOption('assure','Un adulte + enfant(s)')">
               <div class="option-icon">
                 <img src="../assets/icons/mere-et-fils.png" alt="Un adulte + enfant(s)">
               </div>
@@ -26,13 +26,13 @@
             </div>
           </div>
           <div class="option-row">
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple', error: errors.assure }" @click="selectOption('Un couple')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple', error: errors.assure }" @click="selectOption('assure','Un couple')">
               <div class="option-icon">
                 <img src="../assets/icons/couple.png" alt="Un couple">
               </div>
               <div class="option-label">Un couple</div>
             </div>
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple + enfant(s)', error: errors.assure }" @click="selectOption('Un couple + enfant(s)')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple + enfant(s)', error: errors.assure }" @click="selectOption('assure','Un couple + enfant(s)')">
               <div class="option-icon">
                 <img src="../assets/icons/famille.png" alt="Un couple + enfant(s)">
               </div>
@@ -154,6 +154,22 @@
           />
           <div class="error-message" v-if="errors.codePostal">{{ errors.codePostal }}</div>
         </div>
+        
+        <div class="form-group" v-if="localData.codePostal">
+          <label class="form-label">Budget mensuel *</label>
+          <div class="option-row">
+            <div class="option-card-budget " :class="{ 'selected': localData.budget === '20-50', error: errors.budget }" @click="selectOption('budget', '20-50')">
+              <div class="option-label">Entre 20 et 50 €</div>
+            </div>
+            <div class="option-card-budget " :class="{ 'selected': localData.budget === '50-100', error: errors.budget }" @click="selectOption('budget', '50-100')">
+              <div class="option-label">Entre 50 et 100 €</div>
+            </div>
+            <div class="option-card-budget " :class="{ 'selected': localData.budget === '100-250', error: errors.budget }" @click="selectOption('budget', '100-250')">
+              <div class="option-label">Entre 100 et 250 €</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.budget">{{ errors.budget }}</div>
+        </div>
       </div>
 
       <div class="step-footer">
@@ -188,6 +204,7 @@ const localData = reactive({
   dateNaissanceEnfant6: step1Data.step1.dateNaissanceEnfant6 || '',
   dateNaissanceEnfant7: step1Data.step1.dateNaissanceEnfant7 || '',
   dateNaissanceEnfant8: step1Data.step1.dateNaissanceEnfant8 || '',
+  budget: step1Data.step1.budget || '',
 });
 
 const errors = reactive({});
@@ -203,9 +220,9 @@ const clearErrorOnInput = (field) => {
   }
 };
 
-const selectOption = (option) => {
-  localData.assure = option;
-  clearErrorOnInput('assure');
+const selectOption = (field, option) => {
+  localData[field] = option;
+  clearErrorOnInput(field);
 };
 
 
@@ -270,6 +287,13 @@ const formatDate = (dateString) => {
 
 const validateField = (field) => {
   switch (field) {
+    case 'budget':
+      if (!localData.budget) {
+        errors.budget = 'Veuillez sélectionner un budget mensuel.';
+      } else {
+        clearErrorOnInput('budget');
+      }
+      break;
     case 'dateNaissance':
       if (localData.dateNaissance && !isValidDate(localData.dateNaissance, minDateNaissance.value, maxDateNaissance.value)) {
         errors.dateNaissance = `Veuillez entrer une date de naissance valide.  L'âge doit être compris entre 18 ans et 100 ans.`;
@@ -417,6 +441,11 @@ const validateForm = async () => {
     document.getElementById('codePostal').style.boxShadow = '0 0 0 2px #f4627f';
   }
 
+  if (!localData.budget) {
+    errors.budget = 'Veuillez sélectionner un budget mensuel.';
+    isValid = false;
+  }
+
   return isValid;
 };
 
@@ -539,19 +568,33 @@ watch(() => localData.nbrEnfant, (newVal) => {
   height: 150px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.option-card-budget {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-.option-card:hover {
+.option-card:hover,.option-card-budget:hover {
   background-color: var(--e-global-color-02c5432);
   border-color: var(--e-global-color-accent);
 }
 
-.option-card.selected {
+.option-card.selected, .option-card-budget.selected {
   background-color: var(--e-global-color-accent);
   border-color: var(--e-global-color-accent);
   color: white;
 }
 
-.option-card.selected .option-label {
+.option-card.selected .option-label,.option-card-budget.selected .option-label {
   color: white;
 }
 
