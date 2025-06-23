@@ -9,6 +9,21 @@ export const useFormStore = defineStore('form', {
     currentStep: 1,
     formData: {
       step1: {
+        assure: '',
+        dateNaissance: '',
+        dateNaissanceConjoint: '',
+        nbrEnfant: 0,
+        dateEffet: '',
+        regime: '',
+        codePostal: '',
+        dateNaissanceEnfant1: '',
+        dateNaissanceEnfant2: '',
+        dateNaissanceEnfant3: '',
+        dateNaissanceEnfant4: '',
+        dateNaissanceEnfant5: '',
+        dateNaissanceEnfant6: '',
+        dateNaissanceEnfant7: '',
+        dateNaissanceEnfant8: '',
       },
       step2: {
       },

@@ -1,16 +1,29 @@
 <template>
   <my-header :progress="formStore.currentStep" :step="'subscription'" />
-  <section id="formulaire">
+
+  <section id="formulaire" class="pt-4 pb-5">
     <div class="container">
+      <!-- 💡 Mobile Progress Bar -->
       <div class="row justify-content-center mb-lg-4 d-block d-md-none progressdiv">
         <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6">
           <div class="progress Mobile">
-            <div class="progress-bar progressMobile" role="progressbar" style="width: 16%;" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100"></div>
+            <div
+              class="progress-bar progressMobile"
+              role="progressbar"
+              :style="{ width: `${(formStore.currentStep / 7) * 100}%` }"
+              :aria-valuenow="formStore.currentStep"
+              aria-valuemin="0"
+              aria-valuemax="7"
+            ></div>
           </div>
         </div>
       </div>
+
+      <!-- 💡 Step Content -->
       <div class="row justify-content-md-center justify-content-lg-center m-0">
-        <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
+        <div
+          class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow"
+        >
           <div class="container-fluid p-0">
             <Step1 v-if="formStore.currentStep === 1" />
             <Step2 v-if="formStore.currentStep === 2" />
@@ -23,30 +36,26 @@
         </div>
       </div>
     </div>
-    <div class="step-sidebar">
+
+    <!-- 💡 Sidebar -->
+    <div class="step-sidebar d-none d-xl-block">
       <div class="sidebar-title">Mes étapes</div>
       <div class="sidebar-description">Sélectionnez l’étape sur laquelle vous souhaitez revenir</div>
       <div class="sidebar-steps">
-        <div class="sidebar-step active">
+        <div
+          v-for="(step, index) in steps"
+          :key="index"
+          class="sidebar-step"
+          :class="{ active: formStore.currentStep === index + 1 }"
+        >
           <div class="step-indicator-circle"></div>
-          <div class="step-name">Informations de base</div>
-        </div>
-        <div class="sidebar-step">
-          <div class="step-indicator-circle"></div>
-          <div class="step-name">Recueil de besoins</div>
-        </div>
-        <div class="sidebar-step">
-          <div class="step-indicator-circle"></div>
-          <div class="step-name">Tarifs</div>
-        </div>
-        <div class="sidebar-step">
-          <div class="step-indicator-circle"></div>
-          <div class="step-name">Souscription</div>
+          <div class="step-name">{{ step }}</div>
         </div>
       </div>
     </div>
   </section>
 </template>
+
 
 <script setup>
 import { useFormStore } from '../stores/useFormStore';
@@ -58,14 +67,24 @@ import Step5 from '../components/Step5.vue';
 import Step6 from '../components/Step6.vue';
 import Step7 from '../components/Step7.vue';
 import MyHeader from '../components/header.vue';
-import { ref, onMounted } from 'vue';
 
 const formStore = useFormStore();
 
 if (formStore.currentStep > 7) {
   formStore.updateCurrentStep(7);
 }
+
+const steps = [
+  'Informations de base',
+  'Recueil de besoins',
+  'Tarifs',
+  'Souscription',
+  'Documents',
+  'Paiement',
+  'Confirmation',
+];
 </script>
+
 
 <style scoped>
 .step-sidebar {
@@ -73,37 +92,45 @@ if (formStore.currentStep > 7) {
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  width: 250px;
+  width: 240px;
   background-color: var(--e-global-color-secondary);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 7px 1px #467061;
+  z-index: 10;
 }
 
 .sidebar-title {
   color: var(--e-global-color-primary);
-  font-size: var(--e-global-typography-accent-font-size);
-  font-weight: var(--e-global-typography-accent-font-weight);
-  line-height: var(--e-global-typography-accent-line-height);
+  font-size: 16px;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
 .sidebar-description {
   color: var(--e-global-color-text);
   font-size: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  line-height: 1.4;
 }
 
 .sidebar-steps {
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
 .sidebar-step {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  padding: 6px 0;
   cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 6px;
+}
+
+.sidebar-step:hover {
+  background-color: #f0ece7;
 }
 
 .step-indicator-circle {
@@ -113,6 +140,7 @@ if (formStore.currentStep > 7) {
   background-color: var(--e-global-color-secondary);
   margin-right: 10px;
   border: 2px solid var(--e-global-color-accent);
+  transition: background-color 0.3s;
 }
 
 .sidebar-step.active .step-indicator-circle {
@@ -121,8 +149,7 @@ if (formStore.currentStep > 7) {
 
 .step-name {
   color: var(--e-global-color-text);
-  font-size: var(--e-global-typography-accent-font-size);
-  font-weight: var(--e-global-typography-accent-font-weight);
-  line-height: var(--e-global-typography-accent-line-height);
+  font-size: 13px;
+  font-weight: 500;
 }
 </style>

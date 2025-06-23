@@ -12,13 +12,13 @@
         <label class="form-label">Qui souhaitez-vous assurer ?</label>
         <div class="step-options">
           <div class="option-row">
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte' }" @click="selectOption('Un adulte')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte', error: errors.assure }" @click="selectOption('Un adulte')">
               <div class="option-icon">
                 <img src="../assets/icons/personne.png" alt="Un adulte">
               </div>
               <div class="option-label">Un adulte</div>
             </div>
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte + enfant(s)' }" @click="selectOption('Un adulte + enfant(s)')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte + enfant(s)', error: errors.assure }" @click="selectOption('Un adulte + enfant(s)')">
               <div class="option-icon">
                 <img src="../assets/icons/mere-et-fils.png" alt="Un adulte + enfant(s)">
               </div>
@@ -26,13 +26,13 @@
             </div>
           </div>
           <div class="option-row">
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple' }" @click="selectOption('Un couple')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple', error: errors.assure }" @click="selectOption('Un couple')">
               <div class="option-icon">
                 <img src="../assets/icons/couple.png" alt="Un couple">
               </div>
               <div class="option-label">Un couple</div>
             </div>
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple + enfant(s)' }" @click="selectOption('Un couple + enfant(s)')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple + enfant(s)', error: errors.assure }" @click="selectOption('Un couple + enfant(s)')">
               <div class="option-icon">
                 <img src="../assets/icons/famille.png" alt="Un couple + enfant(s)">
               </div>
@@ -40,53 +40,96 @@
             </div>
           </div>
         </div>
+        <div class="error-message" v-if="errors.assure">{{ errors.assure }}</div>
       </div>
 
       <div class="step-section">
         <div class="form-group" v-if="localData.assure">
           <label for="dateNaissance" class="form-label">Date de naissance</label>
-          <input type="date" id="dateNaissance" class="form-control" v-model="localData.dateNaissance" :max="maxDateNaissance" :min="minDateNaissance" required>
+          <input
+            type="date"
+            id="dateNaissance"
+            class="form-control"
+            v-model="localData.dateNaissance"
+            :class="{ error: errors.dateNaissance }"
+            @focus="clearErrorOnInput('dateNaissance')"
+            @input="validateField('dateNaissance')"
+          />
           <div class="error-message" v-if="errors.dateNaissance">{{ errors.dateNaissance }}</div>
         </div>
 
         <div class="form-group" v-if="localData.dateNaissance && (localData.assure === 'Un couple' || localData.assure === 'Un couple + enfant(s)')">
           <label for="dateNaissanceConjoint" class="form-label">Date de naissance du conjoint</label>
-          <input type="date" id="dateNaissanceConjoint" class="form-control" v-model="localData.dateNaissanceConjoint" :max="maxDateNaissance" :min="minDateNaissance" required>
+          <input
+            type="date"
+            id="dateNaissanceConjoint"
+            class="form-control"
+            v-model="localData.dateNaissanceConjoint"
+            :class="{ error: errors.dateNaissanceConjoint }"
+            @focus="clearErrorOnInput('dateNaissanceConjoint')"
+            @input="validateField('dateNaissanceConjoint')"
+          />
           <div class="error-message" v-if="errors.dateNaissanceConjoint">{{ errors.dateNaissanceConjoint }}</div>
         </div>
 
         <div class="form-group" v-if="localData.dateNaissance && (localData.assure === 'Un adulte + enfant(s)' || localData.assure === 'Un couple + enfant(s)')">
           <label for="nbrEnfant" class="form-label">Nombre d'enfants</label>
-          <input type="number" id="nbrEnfant" class="form-control" v-model="localData.nbrEnfant" min="0" max="8" required>
+          <input
+            type="number"
+            id="nbrEnfant"
+            class="form-control"
+            v-model="localData.nbrEnfant"
+            min="0"
+            max="8"
+            :class="{ error: errors.nbrEnfant }"
+            @focus="clearErrorOnInput('nbrEnfant')"
+            @input="validateField('nbrEnfant')"
+          />
           <div class="error-message" v-if="errors.nbrEnfant">{{ errors.nbrEnfant }}</div>
         </div>
 
         <div class="form-group" v-if="localData.nbrEnfant > 0">
           <div v-for="n in parseInt(localData.nbrEnfant)" :key="n" class="child-section">
             <label class="form-label">Date de naissance de l'enfant {{ n }}</label>
-            <input type="date" class="form-control" v-model="localData[`dateNaissanceEnfant${n}`]" :max="maxDateNaissanceEnfant" :min="minDateNaissance" required>
-            <div class="error-message" v-if="errors[`dateNaissanceEnfant${n}`]">{{ errors[`dateNaissanceEnfant${n}`] }}</div>
-            <label class="form-label">Je déclare que l'enfant {{ n }} poursuit des études et qu'il est couvert par le régime du souscripteur ou par un régime étudiant</label>
-            <div class="radio-group">
-              <label>
-                <input type="radio" v-model="localData[`poursuiteEtudeEnfant${n}`]" value="OUI" required> Oui
-              </label>
-              <label>
-                <input type="radio" v-model="localData[`poursuiteEtudeEnfant${n}`]" value="NON"> Non
-              </label>
+            <input
+              type="date"
+              class="form-control"
+              v-model="localData[`dateNaissanceEnfant${n}`]"
+              :class="{ error: errors[`dateNaissanceEnfant${n}`] }"
+              @focus="clearErrorOnInput(`dateNaissanceEnfant${n}`)"
+              @input="validateField(`dateNaissanceEnfant${n}`)"
+            />
+            <div class="error-message" v-if="errors[`dateNaissanceEnfant${n}`]">
+              {{ errors[`dateNaissanceEnfant${n}`] }}
             </div>
           </div>
         </div>
 
         <div class="form-group" v-if="localData.dateNaissance">
           <label for="dateEffet" class="form-label">Date d'effet</label>
-          <input type="date" id="dateEffet" class="form-control" v-model="localData.dateEffet" :min="minDateEffet" :max="maxDateEffet" required>
+          <input
+            type="date"
+            id="dateEffet"
+            class="form-control"
+            v-model="localData.dateEffet"
+            :class="{ error: errors.dateEffet }"
+            @focus="clearErrorOnInput('dateEffet')"
+            @input="validateField('dateEffet')"
+          />
           <div class="error-message" v-if="errors.dateEffet">{{ errors.dateEffet }}</div>
         </div>
 
         <div class="form-group" v-if="localData.dateEffet">
           <label for="regime" class="form-label">Régime</label>
-          <select name="regime" id="regime" class="form-select" v-model="localData.regime" required>
+          <select
+            id="regime"
+            class="form-select"
+            v-model="localData.regime"
+            :class="{ error: errors.regime }"
+            @focus="clearErrorOnInput('regime')"
+            @change="validateField('regime')"
+          >
+            <option value="">-- Sélectionnez --</option>
             <option value="SECURITE_SOCIALE">Sécurité Sociale</option>
             <option value="INDEPENDANT">Indépendant</option>
             <option value="ALSACE_MOSELLE">Alsace Moselle</option>
@@ -100,38 +143,71 @@
 
         <div class="form-group" v-if="localData.regime">
           <label for="codePostal" class="form-label">Code Postal</label>
-          <input type="text" id="codePostal" class="form-control" v-model="localData.codePostal" pattern="\d{5}" required>
+          <input
+            type="text"
+            id="codePostal"
+            class="form-control"
+            v-model="localData.codePostal"
+            :class="{ error: errors.codePostal }"
+            @focus="clearErrorOnInput('codePostal')"
+            @input="validateField('codePostal')"
+          />
           <div class="error-message" v-if="errors.codePostal">{{ errors.codePostal }}</div>
         </div>
       </div>
 
       <div class="step-footer">
-        <img src="../assets/icons/googlereviews.svg" width="222" height="22" alt="google reviews">
-        <button type="submit" class="submit-button">Votre devis en 2 minutes</button>
+        <button type="submit" class="submit-button" v-if="localData.codePostal">Votre devis en 2 minutes</button>
       </div>
     </div>
   </form>
 </template>
 
 <script setup>
-import { reactive, ref, watch, computed } from 'vue';
+import { reactive, ref, watch, computed, nextTick } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { useRouter } from 'vue-router';
 
 const formStore = useFormStore();
 const router = useRouter();
+const step1Data = formStore.getFormData;
 
 const localData = reactive({
-  assure: formStore.formData.step1.assure || "",
-  dateNaissance: "",
-  dateNaissanceConjoint: "",
-  nbrEnfant: 0,
-  dateEffet: "",
-  regime: "",
-  codePostal: "",
+  assure: step1Data.step1.assure || '',
+  dateNaissance: step1Data.step1.dateNaissance || '',
+  dateNaissanceConjoint: step1Data.step1.dateNaissanceConjoint || '',
+  nbrEnfant: step1Data.step1.nbrEnfant || 0,
+  dateEffet: step1Data.step1.dateEffet || '',
+  regime: step1Data.step1.regime || '',
+  codePostal: step1Data.step1.codePostal || '',
+  dateNaissanceEnfant1: step1Data.step1.dateNaissanceEnfant1 || '',
+  dateNaissanceEnfant2: step1Data.step1.dateNaissanceEnfant2 || '',
+  dateNaissanceEnfant3: step1Data.step1.dateNaissanceEnfant3 || '',
+  dateNaissanceEnfant4: step1Data.step1.dateNaissanceEnfant4 || '',
+  dateNaissanceEnfant5: step1Data.step1.dateNaissanceEnfant5 || '',
+  dateNaissanceEnfant6: step1Data.step1.dateNaissanceEnfant6 || '',
+  dateNaissanceEnfant7: step1Data.step1.dateNaissanceEnfant7 || '',
+  dateNaissanceEnfant8: step1Data.step1.dateNaissanceEnfant8 || '',
 });
 
 const errors = reactive({});
+
+const clearErrorOnInput = (field) => {
+  if (errors[field]) {
+    errors[field] = '';
+  }
+  
+  const input = document.querySelector(`#${field}`);
+  if (input) {
+    input.style.boxShadow = 'none';
+  }
+};
+
+const selectOption = (option) => {
+  localData.assure = option;
+  clearErrorOnInput('assure');
+};
+
 
 const showModal = ref(false);
 const modalTrigger = ref(null);
@@ -155,81 +231,98 @@ const maxDateNaissance = computed(() => {
 
 const maxDateNaissanceEnfant = computed(() => {
   const maxDate = new Date();
-  maxDate.setFullYear(currentYear - 30);
   return maxDate.toISOString().split('T')[0];
+});
+
+const minDateNaissanceEnfant = computed(() => {
+  const minDate = new Date();
+  minDate.setFullYear(currentYear - 30);
+  return minDate.toISOString().split('T')[0];
 });
 
 const minDateEffet = computed(() => {
   let begin = new Date();
   if (currentDay > 15) {
-    begin = new Date(currentYear, currentMonth + 1, 1);
-  } else {
-    begin = new Date(currentYear, currentMonth, 1);
+    begin = new Date(currentYear, currentMonth + 1, 2);
   }
   return begin.toISOString().split('T')[0];
 });
 
 const maxDateEffet = computed(() => {
   let endDate = new Date();
-  endDate.setFullYear(currentYear + 1);
+  endDate.setFullYear(2026);
   let end;
-  console.log(today);
-  console.log(endDate);
   if (currentMonth >= 10) {
-    end = new Date(currentYear + 1, 4, 1);
+    end = new Date(currentYear +1, 0, 1);
   } else {
-    end = new Date(currentYear + 1, 0, 1);
+    end = new Date(currentYear, 12, 2);
   }
-  console.log(end);
   return end.toISOString().split('T')[0];
 });
 
-const selectOption = (option) => {
-  localData.assure = option;
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
 };
 
-const validateForm = () => {
-  let isValid = true;
-
-  // Reset errors
-  Object.keys(errors).forEach(key => {
-    errors[key] = '';
-  });
-
-  // Validate dateNaissance
-  if (localData.dateNaissance && !isValidDate(localData.dateNaissance, minDateNaissance.value, maxDateNaissance.value)) {
-    errors.dateNaissance = 'La date de naissance doit être valide.';
-    isValid = false;
+const validateField = (field) => {
+  switch (field) {
+    case 'dateNaissance':
+      if (localData.dateNaissance && !isValidDate(localData.dateNaissance, minDateNaissance.value, maxDateNaissance.value)) {
+        errors.dateNaissance = `Veuillez entrer une date de naissance valide.  L'âge doit être compris entre 18 ans et 100 ans.`;
+      } else {
+        clearErrorOnInput('dateNaissance');
+      }
+      break;
+    case 'dateNaissanceConjoint':
+      if (localData.dateNaissanceConjoint && !isValidDate(localData.dateNaissanceConjoint, minDateNaissance.value, maxDateNaissance.value)) {
+        errors.dateNaissanceConjoint = 'Veuillez entrer une date de naissance valide pour le conjoint.';
+      } else {
+        clearErrorOnInput('dateNaissanceConjoint');
+      }
+      break;
+    case 'nbrEnfant':
+      if (localData.nbrEnfant && (localData.nbrEnfant < 0 || localData.nbrEnfant > 8)) {
+        errors.nbrEnfant = 'Le nombre d\'enfants doit être compris entre 0 et 8. Veuillez entrer un nombre valide.';
+      } else {
+        clearErrorOnInput('nbrEnfant');
+      }
+      break;
+    case 'dateEffet':
+      if (localData.dateEffet && !isValidDate(localData.dateEffet, minDateEffet.value, maxDateEffet.value)) {
+        errors.dateEffet = 'Veuillez entrer une date d\'effet valide. La date doit être comprise entre le ' + formatDate(minDateEffet.value) + ' et le ' + formatDate(maxDateEffet.value) + '.';
+      } else {
+        clearErrorOnInput('dateEffet');
+      }
+      break;
+    case 'regime':
+      if (!localData.regime) {
+        errors.regime = 'Veuillez sélectionner un régime dans la liste déroulante.';
+      } else {
+        clearErrorOnInput('regime');
+      }
+      break;
+    case 'codePostal':
+      if (localData.codePostal && !/^\d{5}$/.test(localData.codePostal)) {
+        errors.codePostal = 'Le code postal doit être composé de 5 chiffres. Veuillez entrer un code postal valide.';
+      } else {
+        clearErrorOnInput('codePostal');
+      }
+      break;
+    default:
+      if (field.startsWith('dateNaissanceEnfant')) {
+        const n = field.replace('dateNaissanceEnfant', '');
+        if (localData[field] && !isValidDate(localData[field], minDateNaissanceEnfant.value, maxDateNaissanceEnfant.value)) {
+          errors[field] = `Veuillez entrer une date de naissance valide pour l'enfant ${n}. L'âge doit être inférieur à 30 ans.`;
+        } else {
+          clearErrorOnInput(field);
+        }
+      }
+      break;
   }
-
-  // Validate dateNaissanceConjoint
-  if (localData.dateNaissanceConjoint && !isValidDate(localData.dateNaissanceConjoint, minDateNaissance.value, maxDateNaissance.value)) {
-    errors.dateNaissanceConjoint = 'La date de naissance du conjoint doit être valide.';
-    isValid = false;
-  }
-
-  // Validate dateEffet
-  if (localData.dateEffet && !isValidDate(localData.dateEffet, minDateEffet.value, maxDateEffet.value)) {
-    errors.dateEffet = 'La date d\'effet doit être valide.';
-    isValid = false;
-  }
-
-  // Validate codePostal
-  if (localData.codePostal && !/^\d{5}$/.test(localData.codePostal)) {
-    errors.codePostal = 'Le code postal doit être composé de 5 chiffres.';
-    isValid = false;
-  }
-
-  // Validate enfants dates
-  for (let i = 1; i <= localData.nbrEnfant; i++) {
-    const dateField = `dateNaissanceEnfant${i}`;
-    if (localData[dateField] && !isValidDate(localData[dateField], minDateNaissance.value, maxDateNaissanceEnfant.value)) {
-      errors[dateField] = `La date de naissance de l'enfant ${i} doit être valide.`;
-      isValid = false;
-    }
-  }
-
-  return isValid;
 };
 
 const isValidDate = (dateStr, minDateStr, maxDateStr) => {
@@ -239,11 +332,104 @@ const isValidDate = (dateStr, minDateStr, maxDateStr) => {
   return date >= minDate && date <= maxDate;
 };
 
-const submitStep = () => {
-  if (validateForm()) {
+const validateForm = async () => {
+  let isValid = true;
+
+  // Reset errors
+  Object.keys(errors).forEach(key => {
+    errors[key] = '';
+  });
+
+  // Validate assure
+  if (!localData.assure) {
+    errors.assure = 'Veuillez sélectionner une option.';
+    isValid = false;
+    await nextTick();
+    const assureElement = document.querySelector('.option-card');
+    if (assureElement) {
+      assureElement.style.boxShadow = '0 0 0 2px #f4627f';
+    }
+  }
+
+  // Validate dateNaissance
+  if (localData.dateNaissance == '' && !isValidDate(localData.dateNaissance, minDateNaissance.value, maxDateNaissance.value)) {
+    errors.dateNaissance = "La date de naissance doit être valide. L'âge doit être compris entre 18 ans et 100 ans.";
+    isValid = false;
+    await nextTick();
+    document.getElementById('dateNaissance').focus();
+    document.getElementById('dateNaissance').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate dateNaissanceConjoint
+  if (localData.dateNaissanceConjoint && !isValidDate(localData.dateNaissanceConjoint, minDateNaissance.value, maxDateNaissance.value)) {
+    errors.dateNaissanceConjoint = "La date de naissance du conjoint doit être valide. L'âge doit être compris entre 18 ans et 100 ans.";
+    isValid = false;
+    await nextTick();
+    document.getElementById('dateNaissanceConjoint').focus();
+    document.getElementById('dateNaissanceConjoint').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate nbrEnfant
+  if (localData.nbrEnfant && (localData.nbrEnfant < 0 || localData.nbrEnfant > 8)) {
+    errors.nbrEnfant = 'Le nombre d\'enfants doit être compris entre 0 et 8.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('nbrEnfant').focus();
+    document.getElementById('nbrEnfant').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate enfants dates
+  for (let i = 1; i <= localData.nbrEnfant; i++) {
+    const dateField = `dateNaissanceEnfant${i}`;
+    if (localData[dateField] && !isValidDate(localData[dateField], minDateNaissance.value, maxDateNaissanceEnfant.value)) {
+      errors[dateField] = `La date de naissance de l'enfant ${i} doit être valide.`;
+      isValid = false;
+      await nextTick();
+      document.querySelector(`input[class*="dateNaissanceEnfant${i}"]`).focus();
+      document.querySelector(`input[class*="dateNaissanceEnfant${i}"]`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+  }
+
+  // Validate dateEffet
+  if (localData.dateEffet && !isValidDate(localData.dateEffet, minDateEffet.value, maxDateEffet.value)) {
+    errors.dateEffet = 'La date d\'effet doit être valide.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('dateEffet').focus();
+    document.getElementById('dateEffet').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate regime
+  if (!localData.regime && localData.dateEffet) {
+    errors.regime = 'Veuillez sélectionner un régime.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('regime').focus();
+    document.getElementById('regime').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate codePostal
+  if (localData.codePostal && !/^\d{5}$/.test(localData.codePostal)) {
+    errors.codePostal = 'Le code postal doit être composé de 5 chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('codePostal').focus();
+    document.getElementById('codePostal').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  return isValid;
+};
+
+const submitStep = async () => {
+  const isValid = await validateForm(); // Valider le formulaire et obtenir le statut de validation
+
+
+  if (isValid) {
     formStore.updateStepData('step1', localData);
     formStore.nextStep();
-    router.push('/devis/options');
+    console.log('Form data submitted:', localData);
+    // router.push('/devis/options');
+  } else {
   }
 };
 
@@ -266,13 +452,6 @@ watch(() => localData.nbrEnfant, (newVal) => {
   margin: 0 auto;
   padding: 20px;
   font-family: var(--e-global-typography-primary-font-family);
-}
-
-.step-container {
-  background-color: var(--e-global-color-secondary);
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .step-header {
@@ -322,8 +501,12 @@ watch(() => localData.nbrEnfant, (newVal) => {
   outline: none;
 }
 
+.form-control.error, .form-select.error {
+  box-shadow: 0 0 0 2px #f4627f;
+}
+
 .error-message {
-  color: var(--color6);
+  color: #f4627f;
   font-size: 14px;
   margin-top: 5px;
 }
@@ -389,7 +572,7 @@ watch(() => localData.nbrEnfant, (newVal) => {
 
 .submit-button {
   width: 100%;
-  background-color: var(--color3);
+  background-color: var(--color5);
   color: #000;
   height: 60px;
   border-radius: 9px;
@@ -401,7 +584,7 @@ watch(() => localData.nbrEnfant, (newVal) => {
 }
 
 .submit-button:hover {
-  background-color: var(--color1);
+  background-color: var(--color4);
   color: #fff;
 }
 
