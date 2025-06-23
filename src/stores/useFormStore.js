@@ -9,14 +9,14 @@ export const useFormStore = defineStore('form', {
     currentStep: 1,
     formData: {
       step1: {
-        assure: '',
-        dateNaissance: '',
-        dateNaissanceConjoint: '',
-        nbrEnfant: 0,
-        dateEffet: '',
-        regime: '',
-        codePostal: '',
-        dateNaissanceEnfant1: '',
+        assure: 'Un couple',
+        dateNaissance: '1990-01-01',
+        dateNaissanceConjoint: '1980-01-01',
+        nbrEnfant: 1,
+        dateEffet: '2025-07-01',
+        regime: 'MONACO',
+        codePostal: '75001',
+        dateNaissanceEnfant1: '2015-01-01',
         dateNaissanceEnfant2: '',
         dateNaissanceEnfant3: '',
         dateNaissanceEnfant4: '',
@@ -24,7 +24,7 @@ export const useFormStore = defineStore('form', {
         dateNaissanceEnfant6: '',
         dateNaissanceEnfant7: '',
         dateNaissanceEnfant8: '',
-        budget: '',
+        budget: '50-100',
       },
       step2: {
       },
@@ -90,8 +90,11 @@ export const useFormStore = defineStore('form', {
   },
 
   actions: {
+    updateTarifs(tarifs) {
+      this.tarifs = tarifs;
+    },
     updateStepData(step, data) {
-      if(step == "tarifs" || step == "selectedTarifOptions" || step == "dependecies" ){
+      if(step == "tarifs" ){
         this.formData[step]=[];
       }
       this.formData[step] = data;

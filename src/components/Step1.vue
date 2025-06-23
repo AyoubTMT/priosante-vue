@@ -183,6 +183,8 @@
 import { reactive, ref, watch, computed, nextTick } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
+import axios from 'axios';
 
 const formStore = useFormStore();
 const router = useRouter();
@@ -449,18 +451,39 @@ const validateForm = async () => {
   return isValid;
 };
 
-const submitStep = async () => {
-  const isValid = await validateForm(); // Valider le formulaire et obtenir le statut de validation
+const fetchTarifs = async (formData) => {
+  try {
+    const response = await axios.post(import.meta.env.VITE_BASE_URL + 'api/tarificateur', formData);
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    toast.error('Une erreur est survenue, merci de réessayer plus tard');
+    console.error('Error fetching tarifs:', error);
+    throw error;
+  }
+};
 
+const submitStep = async () => {
+  const isValid = await validateForm();
 
   if (isValid) {
     formStore.updateStepData('step1', localData);
-    formStore.nextStep();
-    console.log('Form data submitted:', localData);
-    // router.push('/devis/options');
+
+    try {
+      const tarifs = await fetchTarifs(localData);
+      formStore.updateTarifs(tarifs);
+      console.log('Tarifs reçus:', tarifs);
+      formStore.nextStep();
+      //router.push('/devis/tarifs');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   } else {
+    console.log("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");
   }
 };
+
 
 // Watch for changes in nbrEnfant to update the form
 watch(() => localData.nbrEnfant, (newVal) => {
