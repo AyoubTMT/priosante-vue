@@ -474,8 +474,8 @@ const submitStep = async () => {
       const tarifs = await fetchTarifs(localData);
       formStore.updateTarifs(tarifs);
       console.log('Tarifs reçus:', tarifs);
-      formStore.nextStep();
-      //router.push('/devis/tarifs');
+      //formStore.nextStep();
+      router.push('/devis/tarifs');
     } catch (error) {
       console.error('Error submitting form:', error);
     }
