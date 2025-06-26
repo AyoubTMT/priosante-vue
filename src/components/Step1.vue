@@ -158,13 +158,13 @@
         <div class="form-group" v-if="localData.codePostal">
           <label class="form-label">Budget mensuel *</label>
           <div class="option-row">
-            <div class="option-card-budget " :class="{ 'selected': localData.budget === '20-50', error: errors.budget }" @click="selectOption('budget', '20-50')">
+            <div class="option-card-budget " :class="{ 'selected': localData.budget === 'ENTRE_20_ET_50', error: errors.budget }" @click="selectOption('budget', 'ENTRE_20_ET_50')">
               <div class="option-label">Entre 20 et 50 €</div>
             </div>
-            <div class="option-card-budget " :class="{ 'selected': localData.budget === '50-100', error: errors.budget }" @click="selectOption('budget', '50-100')">
+            <div class="option-card-budget " :class="{ 'selected': localData.budget === 'ENTRE_50_ET_100', error: errors.budget }" @click="selectOption('budget', 'ENTRE_50_ET_100')">
               <div class="option-label">Entre 50 et 100 €</div>
             </div>
-            <div class="option-card-budget " :class="{ 'selected': localData.budget === '100-250', error: errors.budget }" @click="selectOption('budget', '100-250')">
+            <div class="option-card-budget " :class="{ 'selected': localData.budget === 'ENTRE_100_ET_250', error: errors.budget }" @click="selectOption('budget', 'ENTRE_100_ET_250')">
               <div class="option-label">Entre 100 et 250 €</div>
             </div>
           </div>
@@ -451,34 +451,12 @@ const validateForm = async () => {
   return isValid;
 };
 
-const fetchTarifs = async (formData) => {
-  try {
-    const response = await axios.post(import.meta.env.VITE_BASE_URL + 'api/tarificateur', formData);
-    if (response.status === 200) {
-      return response.data;
-    }
-  } catch (error) {
-    toast.error('Une erreur est survenue, merci de réessayer plus tard');
-    console.error('Error fetching tarifs:', error);
-    throw error;
-  }
-};
-
 const submitStep = async () => {
   const isValid = await validateForm();
 
   if (isValid) {
     formStore.updateStepData('step1', localData);
-
-    try {
-      const tarifs = await fetchTarifs(localData);
-      formStore.updateTarifs(tarifs);
-      console.log('Tarifs reçus:', tarifs);
-      //formStore.nextStep();
-      router.push('/devis/tarifs');
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
+    router.push('/devis/tarifs');
   } else {
     console.log("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");
   }

@@ -24,7 +24,7 @@ export const useFormStore = defineStore('form', {
         dateNaissanceEnfant6: '',
         dateNaissanceEnfant7: '',
         dateNaissanceEnfant8: '',
-        budget: '50-100',
+        budget: 'ENTRE_100_ET_250',
       },
       step2: {
       },

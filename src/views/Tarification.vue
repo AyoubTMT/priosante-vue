@@ -21,20 +21,24 @@
                 </p>
               </div>
             </div>
+            <div v-if="error" class="alert alert-danger">
+              {{ error }}
+            </div>
             <div class="row row-cols-1 row-cols-md-3 g-4">
-              <div class="col" v-for="(plan, index) in plans" :key="index">
+              <div class="col" v-for="(plan, index) in displayedPlans" :key="index">
                 <div class="card h-100 pricing-card shadow-sm position-relative">
-                  <span v-if="plan.popular" class="badge gradient-custom text-white popular-badge px-4 py-2">Populaire</span>
+                  <span v-if="plan.popular" class="badge gradient-custom text-white popular-badge px-4 py-2">Recommandé</span>
                   <div class="card-body p-5">
                     <h5 :class="['card-title', plan.popular ? 'text-primary' : 'text-muted', 'text-uppercase', 'mb-4']">
-                      {{ plan.title }}
+                      {{ plan.produit.replace(/_/g, ' ') }} - {{ plan.formule.replace(/_/g, ' ') || '-' }}
                     </h5>
                     <h1 class="display-6 mb-4">
                       {{ plan.price }}<small class="text-muted fw-light">/mo</small>
                     </h1>
                     <ul class="list-unstyled feature-list">
-                      <li v-for="(feature, idx) in plan.features" :key="idx">
-                        <i class="bi bi-check2 text-primary me-2"></i>{{ feature }}
+                      <li v-for="(feature, key) in plan.garanties" :key="key" class="d-flex justify-content-between">
+                        <span><i class="bi bi-check2 text-primary me-2"></i>{{ key }}</span>
+                        <span>{{ feature }}</span>
                       </li>
                     </ul>
                     <button :class="['btn', plan.popular ? 'gradient-custom text-white' : 'btn-outline-primary', 'btn-lg', 'w-100', 'mt-4']">
@@ -42,6 +46,13 @@
                     </button>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+              <div class="col-auto">
+                <button type="button" class="btn btn-primary" @click="toggleShowAllPlans">
+                  {{ showAllPlans ? 'Afficher moins' : 'Afficher plus' }}
+                </button>
               </div>
             </div>
           </div>
@@ -55,58 +66,86 @@
 import { useFormStore } from '../stores/useFormStore';
 import { useRouter } from 'vue-router';
 import MyHeader from '../components/header.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { toast } from 'vue3-toastify';
 
 const formStore = useFormStore();
 const router = useRouter();
-const plans = ref([]);
+const plans = ref({
+  top3_compatible_formules: [],
+  all_tariffs: []
+});
+const showAllPlans = ref(false);
+const error = ref(null);
+
+const toggleShowAllPlans = () => {
+  showAllPlans.value = !showAllPlans.value;
+};
+
+const displayedPlans = computed(() => {
+  return showAllPlans.value ? plans.value.all_tariffs : plans.value.top3_compatible_formules;
+});
 
 const fetchTarifs = async (formData) => {
   try {
     const response = await axios.post(import.meta.env.VITE_BASE_URL + 'api/tarificateur', formData);
     if (response.status === 200) {
-      return Array.isArray(response.data) ? response.data : [response.data];
+      return response.data;
     }
-  } catch (error) {
-    toast.error('Une erreur est survenue, merci de réessayer plus tard');
-    console.error('Error fetching tarifs:', error);
-    throw error;
+  } catch (err) {
+    error.value = 'Une erreur est survenue, merci de réessayer plus tard';
+    toast.error(error.value);
+    console.error('Error fetching tarifs:', err);
+    throw err;
   }
 };
 
 onMounted(async () => {
-  const localData = formStore.getFormData;
-  const tarifs = await fetchTarifs(localData);
+  try {
+    const localData = formStore.getFormData.step1 || {};
+    console.log('localData:', localData);
+    const tarifs = await fetchTarifs(localData);
+    console.log('Tarifs reçus:', tarifs);
 
-  // Assurez-vous que tarifs est un tableau
-  if (Array.isArray(tarifs)) {
-    formStore.updateTarifs(tarifs);
+    if (tarifs) {
+      formStore.updateTarifs(tarifs);
 
-    // Transformer les données de tarification pour le template
-    plans.value = tarifs.map(tarif => ({
-      title: tarif.formule || 'Basic',
-      price: tarif.tarif ? `${tarif.tarif}€` : '0€',
-      features: [
-        '5 Projets',
-        '10GB de stockage',
-        'Support basique'
-      ],
-      popular: false
-    }));
+      // Transform the data for the template
+      if (tarifs.top3_compatible_formules) {
+        plans.value.top3_compatible_formules = tarifs.top3_compatible_formules.map(plan => ({
+          produit: plan.produit || '-',
+          formule: plan.formule || '-',
+          price: plan.tarif ? `${plan.tarif}€` : '0€',
+          garanties: plan.garanties || {},
+          popular: false
+        }));
+      }
 
-    // Mettre à jour le plan populaire si nécessaire
-    if (plans.value.length > 1) {
-      plans.value[1].popular = true;
+      if (tarifs.all_tariffs) {
+        plans.value.all_tariffs = tarifs.all_tariffs.map(plan => ({
+          produit: plan.produit || '-',
+          formule: plan.formule || '-',
+          price: plan.tarif ? `${plan.tarif}€` : '0€',
+          garanties: plan.garanties || {},
+          popular: false
+        }));
+      }
+
+      // Set the popular plan if necessary
+      if (plans.value.top3_compatible_formules.length > 1) {
+        plans.value.top3_compatible_formules[1].popular = true;
+      }
+    } else {
+      console.error('Les données de tarification ne sont pas valides:', tarifs);
     }
-  } else {
-    console.error('Les données de tarification ne sont pas un tableau:', tarifs);
+  } catch (err) {
+    error.value = 'Une erreur est survenue lors du chargement des données';
+    toast.error(error.value);
+    console.error('Error:', err);
   }
 });
 </script>
-
-
 
 <style scoped>
 .pricing-card {
@@ -123,6 +162,8 @@ onMounted(async () => {
 .feature-list li {
   margin-bottom: 0.8rem;
   color: #6c757d;
+  display: flex;
+  justify-content: space-between;
 }
 
 .popular-badge {
@@ -133,6 +174,49 @@ onMounted(async () => {
 }
 
 .gradient-custom {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #467061 0%, #D99654 100%);
+  transition: background 0.3s ease;
+}
+
+.gradient-custom:hover {
+  background: linear-gradient(135deg, #3a5a4f 0%, #b88646 100%);
+}
+
+.btn-primary {
+  background-color: #467061;
+  border-color: #467061;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #3a5a4f;
+  border-color: #3a5a4f;
+}
+
+.text-primary {
+  color: #467061 !important;
+}
+
+.btn-outline-primary {
+  color: #467061;
+  border-color: #467061;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: #467061;
+  border-color: #467061;
+}
+
+#show-all-plans {
+  background-color: #D99654;
+  border-color: #D99654;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#show-all-plans:hover {
+  background-color: #b88646;
+  border-color: #b88646;
 }
 </style>
