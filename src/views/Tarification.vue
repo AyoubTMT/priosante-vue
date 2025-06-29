@@ -24,35 +24,42 @@
             <div v-if="error" class="alert alert-danger">
               {{ error }}
             </div>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-              <div class="col" v-for="(plan, index) in displayedPlans" :key="index">
-                <div class="card h-100 pricing-card shadow-sm position-relative">
-                  <span v-if="plan.popular" class="badge gradient-custom text-white popular-badge px-4 py-2">Recommandé</span>
-                  <div class="card-body p-5">
-                    <h5 :class="['card-title', plan.popular ? 'text-primary' : 'text-muted', 'text-uppercase', 'mb-4']">
-                      {{ plan.produit.replace(/_/g, ' ') }} - {{ plan.formule.replace(/_/g, ' ') || '-' }}
-                    </h5>
-                    <h1 class="display-6 mb-4">
-                      {{ plan.price }}<small class="text-muted fw-light">/mo</small>
-                    </h1>
-                    <ul class="list-unstyled feature-list">
-                      <li v-for="(feature, key) in plan.garanties" :key="key" class="d-flex justify-content-between">
-                        <span><i class="bi bi-check2 text-primary me-2"></i>{{ key }}</span>
-                        <span>{{ feature }}</span>
-                      </li>
-                    </ul>
-                    <button :class="['btn', plan.popular ? 'gradient-custom text-white' : 'btn-outline-primary', 'btn-lg', 'w-100', 'mt-4']">
-                      Sélectionner
-                    </button>
+            <div v-if="loading" class="text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div v-else>
+              <div class="row justify-content-center row-cols-1 row-cols-md-3 g-4">
+                <div class="col" v-for="(plan, index) in displayedPlans" :key="index">
+                  <div class="card h-100 pricing-card shadow-sm position-relative">
+                    <span v-if="plan.popular" class="badge gradient-custom text-white popular-badge px-4 py-2">Recommandé</span>
+                    <div class="card-body p-5">
+                      <h5 :class="['card-title', plan.popular ? 'text-primary' : 'text-muted', 'text-uppercase', 'mb-4']">
+                        {{ plan.produit.replace(/_/g, ' ') }} - {{ plan.formule.replace(/_/g, ' ') || '-' }}
+                      </h5>
+                      <h1 class="display-6 mb-4">
+                        {{ plan.price }}<small class="text-muted fw-light">/mo</small>
+                      </h1>
+                      <ul class="list-unstyled feature-list">
+                        <li v-for="(feature, key) in plan.garanties" :key="key" class="d-flex justify-content-between">
+                          <span><i class="bi bi-check2 text-primary me-2"></i>{{ key }}</span>
+                          <span>{{ feature }}</span>
+                        </li>
+                      </ul>
+                      <button :class="['btn', plan.popular ? 'gradient-custom text-white' : 'btn-outline-primary', 'btn-lg', 'w-100', 'mt-4']">
+                        Sélectionner
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row justify-content-center mt-4">
-              <div class="col-auto">
-                <button type="button" class="btn btn-primary" @click="toggleShowAllPlans">
-                  {{ showAllPlans ? 'Afficher moins' : 'Afficher plus' }}
-                </button>
+              <div class="row justify-content-center mt-4">
+                <div class="col-auto">
+                  <button type="button" class="btn btn-primary" @click="toggleShowAllPlans">
+                    {{ showAllPlans ? 'Afficher moins' : 'Afficher plus' }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -78,6 +85,7 @@ const plans = ref({
 });
 const showAllPlans = ref(false);
 const error = ref(null);
+const loading = ref(true);
 
 const toggleShowAllPlans = () => {
   showAllPlans.value = !showAllPlans.value;
@@ -98,6 +106,8 @@ const fetchTarifs = async (formData) => {
     toast.error(error.value);
     console.error('Error fetching tarifs:', err);
     throw err;
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -141,8 +151,9 @@ onMounted(async () => {
     }
   } catch (err) {
     error.value = 'Une erreur est survenue lors du chargement des données';
-    toast.error(error.value);
     console.error('Error:', err);
+  } finally {
+    loading.value = false;
   }
 });
 </script>
