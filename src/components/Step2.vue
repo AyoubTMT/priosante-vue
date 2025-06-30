@@ -155,7 +155,7 @@ onMounted(() => {
 
 const submitStep = () => {
   formStore.updateStepData('souscripteurInfo', souscripteurInfo);
-  formStore.updateCurrentStep(4); 
+  formStore.updateCurrentStep(3); 
 };
 </script>
 

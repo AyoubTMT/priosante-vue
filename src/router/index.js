@@ -24,6 +24,11 @@ const router = createRouter({
  
     },
     {
+      path: '/devis/recapitulatif',
+      name: 'recapitulatif',
+      component: () => import('../views/Recapitulatif.vue'),
+    },
+    {
       path: '/devis/tarifs',
       name: 'tarifs',
       component: () => import('../views/Tarification.vue'),

@@ -1,181 +1,228 @@
 <template>
-  <form @submit.prevent="submitStep" class="step-form">
     <div class="step-container">
       <div class="step-header">
-        <h2 class="step-title">Informations de l'Assuré</h2>
+        <h2 class="step-title">Votre devis personnalisé</h2>
         <p class="step-description">
-          Veuillez fournir les informations de l'assuré.
+          Les offres qui se rapprochent le plus de vos besoins et de votre budget.
         </p>
       </div>
-
+  
       <div class="step-section">
-        <div class="form-group">
-          <label for="cv" class="form-label">Civilité</label>
-          <select id="cv" class="form-select" v-model="assureInfo.cv" required>
-            <option value="MR">Monsieur</option>
-            <option value="MME">Madame</option>
-          </select>
+        <div v-if="loading" class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
-
-        <div class="form-group">
-          <label for="nom" class="form-label">Nom</label>
-          <input type="text" id="nom" class="form-control" v-model="assureInfo.nom" required>
+        <div v-else>
+          <div class="row justify-content-center row-cols-1 row-cols-md-3 g-4">
+            <div class="col" v-for="(plan, index) in displayedPlans" :key="index">
+              <div class="card h-100 pricing-card shadow-sm position-relative">
+                <span v-if="plan.popular" class="badge gradient-custom text-white popular-badge px-4 py-2">Recommandé</span>
+                <div class="card-body p-5">
+                  <h5 :class="['card-title', plan.popular ? 'text-primary' : 'text-muted', 'text-uppercase', 'mb-4']">
+                    {{ plan.produit.replace(/_/g, ' ') }} - {{ plan.formule.replace(/_/g, ' ') || '-' }}
+                  </h5>
+                  <h1 class="display-6 mb-4">
+                    {{ plan.price }}<small class="text-muted fw-light">/mo</small>
+                  </h1>
+                  <ul class="list-unstyled feature-list">
+                    <li v-for="(feature, key) in plan.garanties" :key="key" class="d-flex justify-content-between">
+                      <span><i class="bi bi-check2 text-primary me-2"></i>{{ key }}</span>
+                      <span>{{ feature }}</span>
+                    </li>
+                  </ul>
+                  <button
+                    :class="['btn', plan.popular ? 'gradient-custom text-white' : 'btn-outline-primary', 'btn-lg', 'w-100', 'mt-4']"
+                    @click="selectPlan(plan)"
+                  >
+                    Sélectionner
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="form-group">
-          <label for="prenom" class="form-label">Prénom</label>
-          <input type="text" id="prenom" class="form-control" v-model="assureInfo.prenom" required>
-        </div>
-
-        <div class="form-group">
-          <label for="dateNaissance" class="form-label">Date de Naissance</label>
-          <input type="date" id="dateNaissance" class="form-control" v-model="assureInfo.dateNaissance" required>
-        </div>
-
-        <div class="form-group">
-          <label for="ayantDroitDe" class="form-label">Ayant Droit De</label>
-          <select id="ayantDroitDe" class="form-select" v-model="assureInfo.ayantDroitDe" required>
-            <option value="AUTRE">Autre</option>
-            <option value="AUCUN">Aucun</option>
-          </select>
-        </div>
-
-        <div class="form-group" v-if="assureInfo.ayantDroitDe === 'AUCUN'">
-          <label for="numeroSS" class="form-label">Numéro SS</label>
-          <input type="text" id="numeroSS" class="form-control" v-model="assureInfo.numeroSS" required>
-        </div>
-
-        <div class="form-group" v-if="assureInfo.ayantDroitDe === 'AUCUN'">
-          <label for="codeOrga" class="form-label">Code Orga</label>
-          <input type="text" id="codeOrga" class="form-control" v-model="assureInfo.codeOrga" required>
-        </div>
-
-        <div class="form-group" v-if="assureInfo.ayantDroitDe === 'AUTRE'">
-          <label for="ayantDroit" class="form-label">Ayant Droit</label>
-          <input type="text" id="ayantDroit" class="form-control" v-model="assureInfo.ayantDroit" required>
-        </div>
-      </div>
-
-      <div class="step-footer">
-        <button type="submit" class="submit-button">Étape suivante</button>
       </div>
     </div>
-  </form>
 </template>
 
 <script setup>
 import { useFormStore } from '@/stores/useFormStore';
-import { reactive, onMounted } from 'vue';
+import { reactive, ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { toast } from 'vue3-toastify';
 
 const formStore = useFormStore();
+const router = useRouter();
 
-const assureInfo = reactive({
-  cv: 'MR',
-  nom: '',
-  prenom: '',
-  dateNaissance: '',
-  ayantDroitDe: 'AUCUN',
-  numeroSS: '',
-  codeOrga: '',
-  ayantDroit: ''
+const plans = ref({
+top3_compatible_formules: [],
+all_tariffs: []
+});
+const showAllPlans = ref(false);
+const loading = ref(true);
+
+const displayedPlans = computed(() => {
+return showAllPlans.value ? plans.value.all_tariffs : plans.value.top3_compatible_formules;
 });
 
-onMounted(() => {
-  const storedData = formStore.getFormData.assureInfo;
-  if (storedData) {
-    Object.assign(assureInfo, storedData);
-  }
-});
+const fetchTarifs = async (formData) => {
+try {
+    const response = await axios.post(import.meta.env.VITE_BASE_URL + 'api/tarificateur', formData);
+    if (response.status === 200) {
+    return response.data;
+    }
+} catch (err) {
+    toast.error('Une erreur est survenue, merci de réessayer plus tard');
+    console.error('Error fetching tarifs:', err);
+    throw err;
+} finally {
+    loading.value = false;
+}
+};
 
-const submitStep = () => {
-  formStore.updateStepData('assureInfo', assureInfo);
-  if (formStore.getFormData.baseInfo.assure.includes('couple')) {
-    formStore.updateCurrentStep(5);
-  } else if (formStore.getFormData.baseInfo.nbrEnfant > 0) {
-    formStore.updateCurrentStep(6);
+const selectPlan = (plan) => {
+formStore.updateSelectedTarif(plan);
+const souscripteurInfo = formStore.getFormData.souscripteurInfo || {};
+  if (souscripteurInfo.souscripteurIsAssure === 'OUI') {
+    formStore.updateCurrentStep(4); // Directly set the current step to 4 (Tarifs)
+  }else if (formStore.getFormData.baseInfo.assure.includes('couple')) {
+    formStore.updateCurrentStep(5); // Directly set the current step to 5
+  }else if ((formStore.getFormData.baseInfo.assure.includes('enfant(s)')) && formStore.getFormData.baseInfo.nbrEnfant > 0) {
+    formStore.updateCurrentStep(6); // Directly set the current step to 6
   } else {
-    formStore.updateCurrentStep(7);
+    formStore.updateCurrentStep(7); // Directly set the current step to 7
   }
 };
+
+onMounted(async () => {
+try {
+    const localData = formStore.getFormData.baseInfo || {};
+    const tarifs = await fetchTarifs(localData);
+
+    if (tarifs) {
+    formStore.updateTarifs(tarifs);
+
+    if (tarifs.top3_compatible_formules) {
+        plans.value.top3_compatible_formules = tarifs.top3_compatible_formules.map(plan => ({
+        produit: plan.produit || '-',
+        formule: plan.formule || '-',
+        price: plan.tarif ? `${plan.tarif}€` : '0€',
+        garanties: plan.garanties || {},
+        popular: false
+        }));
+    }
+
+    if (tarifs.all_tariffs) {
+        plans.value.all_tariffs = tarifs.all_tariffs.map(plan => ({
+        produit: plan.produit || '-',
+        formule: plan.formule || '-',
+        price: plan.tarif ? `${plan.tarif}€` : '0€',
+        garanties: plan.garanties || {},
+        popular: false
+        }));
+    }
+
+    if (plans.value.top3_compatible_formules.length > 1) {
+        plans.value.top3_compatible_formules[1].popular = true;
+    }
+    }
+} catch (err) {
+    console.error('Error:', err);
+}
+});
 </script>
 
-
-
 <style scoped>
-.step-form {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: var(--e-global-typography-primary-font-family);
+.step-container {
+max-width: 800px;
+margin: 0 auto;
+padding: 20px;
+font-family: var(--e-global-typography-primary-font-family);
 }
 
 .step-header {
-  text-align: center;
-  margin-bottom: 30px;
+text-align: center;
+margin-bottom: 30px;
 }
 
 .step-title {
-  color: var(--e-global-color-primary);
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 10px;
+color: var(--e-global-color-primary);
+font-size: 28px;
+font-weight: 700;
+margin-bottom: 10px;
 }
 
 .step-description {
-  color: var(--e-global-color-text);
-  font-size: 16px;
-  margin-bottom: 20px;
+color: var(--e-global-color-text);
+font-size: 16px;
+margin-bottom: 20px;
 }
 
 .step-section {
-  margin-bottom: 30px;
+margin-bottom: 30px;
 }
 
-.form-group {
-  margin-bottom: 20px;
+.pricing-card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+border: none;
+border-radius: 15px;
 }
 
-.form-label {
-  display: block;
-  margin-bottom: 10px;
-  color: var(--e-global-color-primary);
-  font-size: 16px;
-  font-weight: 600;
+.pricing-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
-.form-control, .form-select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+.feature-list li {
+margin-bottom: 0.8rem;
+color: #6c757d;
+display: flex;
+justify-content: space-between;
 }
 
-.form-control:focus, .form-select:focus {
-  border-color: var(--e-global-color-accent);
-  outline: none;
+.popular-badge {
+position: absolute;
+top: -12px;
+right: 20px;
+border-radius: 20px;
 }
 
-.step-footer {
-  text-align: center;
-  margin-top: 30px;
+.gradient-custom {
+background: linear-gradient(135deg, #467061 0%, #D99654 100%);
+transition: background 0.3s ease;
 }
 
-.submit-button {
-  width: 100%;
-  background-color: var(--color5);
-  color: #000;
-  height: 60px;
-  border-radius: 9px;
-  border: none;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 20px;
+.gradient-custom:hover {
+background: linear-gradient(135deg, #3a5a4f 0%, #b88646 100%);
 }
 
-.submit-button:hover {
-  background-color: var(--color4);
-  color: #fff;
+.btn-primary {
+background-color: #467061;
+border-color: #467061;
+transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+background-color: #3a5a4f;
+border-color: #3a5a4f;
+}
+
+.text-primary {
+color: #467061 !important;
+}
+
+.btn-outline-primary {
+color: #467061;
+border-color: #467061;
+transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+color: #fff;
+background-color: #467061;
+border-color: #467061;
 }
 </style>
+  

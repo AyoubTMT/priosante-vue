@@ -102,19 +102,22 @@
     } else if (currentStep - 1 === 4) {
       if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'OUI') {
       console.log('Step 4 3');
-      formStore.updateCurrentStep(3);
+      formStore.updateCurrentStep(4);
       }else  {
-        console.log('Step 4');
-        formStore.updateCurrentStep(4);
+        console.log('Step 4 3');
+        formStore.updateCurrentStep(3);
       }
     } else if (currentStep - 1 === 5) {
       // Check if there is a conjoint
       if (formStore.getFormData.baseInfo.assure.includes('couple')) {        
       console.log('Step 5 5');
       formStore.updateCurrentStep(5);
-      } else {        
+      } else  if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'OUI'){        
       console.log('Step 5 4');
       formStore.updateCurrentStep(4);
+      }else {
+        console.log('Step 5 3');
+        formStore.updateCurrentStep(3);
       }
     } else if (currentStep - 1 === 6) {
       // Check if there are enfants
@@ -124,9 +127,12 @@
       }else if (formStore.getFormData.baseInfo.assure.includes('couple')) {
         console.log('Step 6 5');
       formStore.updateCurrentStep(5);
-      } else {
+      } else if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'OUI'){
       console.log('Step 6 4');
       formStore.updateCurrentStep(4);
+      }else {
+        console.log('Step 6 3');
+        formStore.updateCurrentStep(3);
       }
     } else if (currentStep - 1 === 7) {
       console.log('Step 7');

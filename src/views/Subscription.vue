@@ -25,8 +25,8 @@
         <div class="container-fluid p-0">
           <Step1 v-if="formStore.currentStep === 1" />
           <Step2 v-if="formStore.currentStep === 2" />
-          <Step3 v-if="formStore.currentStep === 3 && filteredSteps.includes('Assuré')" />
-          <Step4 v-if="formStore.currentStep === 4" />
+          <Step3 v-if="formStore.currentStep === 3" />
+          <Step4 v-if="formStore.currentStep === 4 && filteredSteps.includes('Assuré')" />
           <Step5 v-if="formStore.currentStep === 5 && filteredSteps.includes('Conjoint')" />
           <Step6 v-if="formStore.currentStep === 6 && filteredSteps.includes('Enfants')" />
           <Step7 v-if="formStore.currentStep === 7" />
@@ -71,7 +71,7 @@ const formStore = useFormStore();
 const filteredSteps = computed(() => {
   const steps = [
     'Informations de base',
-    'Souscription',
+    'Souscripteur',
     'Tarifs'
   ];
 
