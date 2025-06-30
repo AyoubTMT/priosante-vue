@@ -70,11 +70,8 @@
   import { ref, onMounted } from 'vue';
 
   const router = useRouter();
-
-  const props = defineProps(["step"])
-
+  const props = defineProps(["step", "progress"]);
   const formStore = useFormStore();
-
   const showModal = ref(false);
 
   onMounted(() => {
@@ -85,23 +82,44 @@
   });
 
   function prevStep() {
-    formStore.prevStep(router);
-    if(props.step =="tarification"){
-      router.push('/devis')
+  const currentStep = formStore.currentStep;
+  if (currentStep > 1) {
+    if (currentStep - 1 === 1) {
+      formStore.updateCurrentStep(1);
+    } else if (currentStep - 1 === 2) {
+      formStore.updateCurrentStep(2);
+    } else if (currentStep - 1 === 3) {
+      // Check if there is an assuré
+      if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'OUI') {
+      formStore.updateCurrentStep(3);
+      } else {
+      formStore.updateCurrentStep(2);
+      }
+    } else if (currentStep - 1 === 4) {
+      formStore.updateCurrentStep(4);
+    } else if (currentStep - 1 === 5) {
+      // Check if there is a conjoint
+      if (formStore.getFormData.baseInfo.assure.includes('couple')) {
+      formStore.updateCurrentStep(5);
+      } else {
+      formStore.updateCurrentStep(4);
+      }
+    } else if (currentStep - 1 === 6) {
+      // Check if there are enfants
+      if (formStore.getFormData.baseInfo.nbrEnfant > 0) {
+      formStore.updateCurrentStep(6);
+      }else if (formStore.getFormData.baseInfo.assure.includes('couple')) {
+      formStore.updateCurrentStep(5);
+      } else {
+      formStore.updateCurrentStep(4);
+      }
+    } else if (currentStep - 1 === 7) {
+      formStore.updateCurrentStep(6);
     }
-    else if(props.step =="options"){
-      router.push('/devis/tarifs')
-    }
-    else if(props.step =="informations"){
-      router.push('/devis/options')
-    }
-    else if(props.step =="document"){
-      router.push('/devis/paiement')
-    }
-    else if(props.step =="paiement"){
-      router.push('/devis/informations')
-    }
+  } else {
+    router.push('/');
   }
+}
 </script>
 
 <style scoped>

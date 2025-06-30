@@ -124,43 +124,40 @@
 
 <script setup>
 import { useFormStore } from '@/stores/useFormStore';
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 
 const formStore = useFormStore();
 
 const souscripteurInfo = reactive({
   cv: 'MR',
-  nom: formStore.getFormData.souscripteurInfo.nom || '',
-  prenom: formStore.getFormData.souscripteurInfo.prenom || '',
-  dateNaissance: formStore.getFormData.baseInfo.dateNaissance || '',
-  tel: formStore.getFormData.souscripteurInfo.tel || '',
-  email: formStore.getFormData.souscripteurInfo.email || '',
-  situationFam: formStore.getFormData.souscripteurInfo.situationFam || '',
+  nom: '',
+  prenom: '',
+  dateNaissance: '',
+  tel: '',
+  email: '',
+  situationFam: '',
   souscripteurIsAssure: 'OUI',
-  profession: formStore.getFormData.souscripteurInfo.profession || '',
-  revenuMensuel: formStore.getFormData.souscripteurInfo.revenuMensuel || '',
-  voie: formStore.getFormData.souscripteurInfo.voie || '',
-  ville: formStore.getFormData.souscripteurInfo.ville || '',
-  codePostal: formStore.getFormData.baseInfo.codePostal || '',
+  profession: '',
+  revenuMensuel: '',
+  voie: '',
+  ville: '',
+  codePostal: '',
   typeSouscripteur: 'PERSONNE_PHYSIQUE'
+});
+
+onMounted(() => {
+  // Load data from the store
+  const storedData = formStore.getFormData.souscripteurInfo;
+  if (storedData) {
+    Object.assign(souscripteurInfo, storedData);
+  }
 });
 
 const submitStep = () => {
   formStore.updateStepData('souscripteurInfo', souscripteurInfo);
-
-  if (souscripteurInfo.souscripteurIsAssure === 'OUI') {
-    formStore.updateCurrentStep(3); // Directly set the current step to 3
-  } else if (formStore.getFormData.step1.assure.includes('couple')) {
-    formStore.updateCurrentStep(5); // Directly set the current step to 5
-  } else if ((formStore.getFormData.step1.assure.includes('enfant(s)')) && formStore.getFormData.step1.nbrEnfant > 0) {
-    formStore.updateCurrentStep(4); // Directly set the current step to 4
-  } else {
-    formStore.updateCurrentStep(6); // Directly set the current step to 6
-  }
+  formStore.updateCurrentStep(4); 
 };
 </script>
-
-
 
 <style scoped>
 .step-form {

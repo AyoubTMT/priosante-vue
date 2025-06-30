@@ -65,7 +65,7 @@
 
 <script setup>
 import { useFormStore } from '@/stores/useFormStore';
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 
 const formStore = useFormStore();
 
@@ -73,25 +73,32 @@ const assureInfo = reactive({
   cv: 'MR',
   nom: '',
   prenom: '',
-  dateNaissance: formStore.getFormData.step1.dateNaissance || '',
+  dateNaissance: '',
   ayantDroitDe: 'AUCUN',
   numeroSS: '',
   codeOrga: '',
   ayantDroit: ''
 });
 
+onMounted(() => {
+  const storedData = formStore.getFormData.assureInfo;
+  if (storedData) {
+    Object.assign(assureInfo, storedData);
+  }
+});
+
 const submitStep = () => {
   formStore.updateStepData('assureInfo', assureInfo);
-
-  if (formStore.getFormData.step1.assure.includes('couple')) {
-    formStore.updateCurrentStep(5); // Directly set the current step to 5
-  } else if (formStore.getFormData.step1.nbrEnfant > 0) {
-    formStore.updateCurrentStep(4); // Directly set the current step to 4
+  if (formStore.getFormData.baseInfo.assure.includes('couple')) {
+    formStore.updateCurrentStep(5);
+  } else if (formStore.getFormData.baseInfo.nbrEnfant > 0) {
+    formStore.updateCurrentStep(6);
   } else {
-    formStore.updateCurrentStep(6); // Directly set the current step to 6
+    formStore.updateCurrentStep(7);
   }
 };
 </script>
+
 
 
 <style scoped>

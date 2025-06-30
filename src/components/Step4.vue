@@ -84,12 +84,21 @@ try {
 
 const selectPlan = (plan) => {
 formStore.updateSelectedTarif(plan);
-formStore.updateCurrentStep(5); // Directly set the current step to 5
+const souscripteurInfo = formStore.getFormData.souscripteurInfo || {};
+  if (souscripteurInfo.souscripteurIsAssure === 'OUI') {
+    formStore.updateCurrentStep(3); // Directly set the current step to 4 (Tarifs)
+  }else if (formStore.getFormData.baseInfo.assure.includes('couple')) {
+    formStore.updateCurrentStep(5); // Directly set the current step to 5
+  }else if ((formStore.getFormData.baseInfo.assure.includes('enfant(s)')) && formStore.getFormData.baseInfo.nbrEnfant > 0) {
+    formStore.updateCurrentStep(6); // Directly set the current step to 6
+  } else {
+    formStore.updateCurrentStep(7); // Directly set the current step to 7
+  }
 };
 
 onMounted(async () => {
 try {
-    const localData = formStore.getFormData.step1 || {};
+    const localData = formStore.getFormData.baseInfo || {};
     const tarifs = await fetchTarifs(localData);
 
     if (tarifs) {
