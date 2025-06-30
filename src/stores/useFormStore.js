@@ -68,12 +68,12 @@ export const useFormStore = defineStore('form', {
     getDependecies: (state) => state.formData.dependecies,
     getSelectedTarif: (state) => state.formData.selectedTarif,
     getSelectedTarifOptions: (state) => state.formData.selectedTarifOptions,
-    getDateEffet: (state) => state.formData.step1.dateEffet,
+    getDateEffet: (state) => state.formData.baseInfo.dateEffet,
     getDataForTarif: (state) => ({
       produitType: "SANTE",
-      codePostal: state.formData.step1.codePostal,
+      codePostal: state.formData.baseInfo.codePostal,
       ville: state.formData.step2.ville,
-      dateEffet: state.formData.step1.dateEffet
+      dateEffet: state.formData.baseInfo.dateEffet
     }),
     getSouscripteurInfo: (state) => ({
       civilite: state.formData.souscripteurInfo.civilite,
@@ -82,8 +82,8 @@ export const useFormStore = defineStore('form', {
       telephone: state.formData.souscripteurInfo.telephone,
       email: state.formData.souscripteurInfo.email,
       dateNaissance: state.formData.souscripteurInfo.birthDay,
-      dateEffet: state.formData.step1.dateEffet,
-      codePostal: state.formData.step1.codePostal,
+      dateEffet: state.formData.baseInfo.dateEffet,
+      codePostal: state.formData.baseInfo.codePostal,
       ville: state.formData.souscripteurInfo.ville,
       situationFam : state.formData.souscripteurInfo.situationFam,
       souscripteurIsAssure : state.formData.souscripteurInfo.souscripteurIsAssure,

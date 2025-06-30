@@ -84,37 +84,53 @@
   function prevStep() {
   const currentStep = formStore.currentStep;
   if (currentStep > 1) {
-    if (currentStep - 1 === 1) {
+    if (currentStep - 1 === 1) {        
+      console.log('Step 1');
       formStore.updateCurrentStep(1);
-    } else if (currentStep - 1 === 2) {
+    } else if (currentStep - 1 === 2) {        
+      console.log('Step 2');
       formStore.updateCurrentStep(2);
     } else if (currentStep - 1 === 3) {
       // Check if there is an assuré
-      if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'OUI') {
+      if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'OUI') {        
+      console.log('Step 3 3');
       formStore.updateCurrentStep(3);
-      } else {
+      } else {        
+      console.log('Step 3 2');
       formStore.updateCurrentStep(2);
       }
     } else if (currentStep - 1 === 4) {
-      formStore.updateCurrentStep(4);
+      if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'OUI') {
+      console.log('Step 4 3');
+      formStore.updateCurrentStep(3);
+      }else  {
+        console.log('Step 4');
+        formStore.updateCurrentStep(4);
+      }
     } else if (currentStep - 1 === 5) {
       // Check if there is a conjoint
-      if (formStore.getFormData.baseInfo.assure.includes('couple')) {
+      if (formStore.getFormData.baseInfo.assure.includes('couple')) {        
+      console.log('Step 5 5');
       formStore.updateCurrentStep(5);
-      } else {
+      } else {        
+      console.log('Step 5 4');
       formStore.updateCurrentStep(4);
       }
     } else if (currentStep - 1 === 6) {
       // Check if there are enfants
-      if (formStore.getFormData.baseInfo.nbrEnfant > 0) {
+      if (formStore.getFormData.baseInfo.assure.includes('enfant(s)') && formStore.getFormData.baseInfo.nbrEnfant > 0) {        
+      console.log('Step 6 6');
       formStore.updateCurrentStep(6);
       }else if (formStore.getFormData.baseInfo.assure.includes('couple')) {
+        console.log('Step 6 5');
       formStore.updateCurrentStep(5);
       } else {
+      console.log('Step 6 4');
       formStore.updateCurrentStep(4);
       }
     } else if (currentStep - 1 === 7) {
-      formStore.updateCurrentStep(6);
+      console.log('Step 7');
+      formStore.updateCurrentStep(7);
     }
   } else {
     router.push('/');

@@ -9,10 +9,10 @@
             <div
               class="progress-bar progressMobile"
               role="progressbar"
-              :style="{ width: `${(formStore.currentStep / 8) * 100}%` }"
+              :style="{ width: `${(formStore.currentStep / filteredSteps.length) * 100}%` }"
               :aria-valuenow="formStore.currentStep"
               aria-valuemin="0"
-              aria-valuemax="8"
+              :aria-valuemax="filteredSteps.length"
             ></div>
           </div>
         </div>
@@ -25,10 +25,10 @@
         <div class="container-fluid p-0">
           <Step1 v-if="formStore.currentStep === 1" />
           <Step2 v-if="formStore.currentStep === 2" />
-          <Step3 v-if="formStore.currentStep === 3" />
+          <Step3 v-if="formStore.currentStep === 3 && filteredSteps.includes('Assuré')" />
           <Step4 v-if="formStore.currentStep === 4" />
-          <Step5 v-if="formStore.currentStep === 5" />
-          <Step6 v-if="formStore.currentStep === 6" />
+          <Step5 v-if="formStore.currentStep === 5 && filteredSteps.includes('Conjoint')" />
+          <Step6 v-if="formStore.currentStep === 6 && filteredSteps.includes('Enfants')" />
           <Step7 v-if="formStore.currentStep === 7" />
         </div>
       </div>
@@ -40,7 +40,7 @@
       <div class="sidebar-description">Sélectionnez l’étape sur laquelle vous souhaitez revenir</div>
       <div class="sidebar-steps">
         <div
-          v-for="(step, index) in steps"
+          v-for="(step, index) in filteredSteps"
           :key="index"
           class="sidebar-step"
           :class="{ active: formStore.currentStep === index + 1 }"
@@ -64,23 +64,38 @@ import Step5 from '../components/Step5.vue';
 import Step6 from '../components/Step6.vue';
 import Step7 from '../components/Step7.vue';
 import MyHeader from '../components/header.vue';
+import { computed } from 'vue';
 
 const formStore = useFormStore();
 
-if (formStore.currentStep > 8) {
-  formStore.updateCurrentStep(8);
-}
+const filteredSteps = computed(() => {
+  const steps = [
+    'Informations de base',
+    'Souscription',
+    'Tarifs'
+  ];
 
-const steps = [
-  'Informations de base',
-  'Souscription',
-  'Assuré',
-  'Tarifs',
-  'Conjoint',
-  'Enfants',
-  'Payeur',
-  'Récapitulatif'
-];
+  if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'OUI') {
+    steps.push('Assuré');
+  }
+
+  if (formStore.getFormData.baseInfo && formStore.getFormData.baseInfo.assure.includes('couple')) {
+    steps.push('Conjoint');
+  }
+
+  if (formStore.getFormData.baseInfo && formStore.getFormData.baseInfo.assure.includes('enfant(s)') && formStore.getFormData.baseInfo.nbrEnfant > 0) {
+    steps.push('Enfants');
+  }
+
+  steps.push('Payeur');
+  steps.push('Récapitulatif');
+
+  return steps;
+});
+
+if (formStore.currentStep > filteredSteps.value.length) {
+  formStore.updateCurrentStep(filteredSteps.value.length);
+}
 </script>
 
 <style scoped>
