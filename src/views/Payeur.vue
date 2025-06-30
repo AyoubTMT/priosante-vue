@@ -155,10 +155,9 @@ const payeurInfo = reactive({
 
 const submitStep = () => {
   formStore.updateStepData('payeurInfo', payeurInfo);
-  formStore.nextStep();
+  router.push('/devis/recapitulatif');
 };
 </script>
-
 
 <style scoped>
 .step-form {

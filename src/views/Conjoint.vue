@@ -2,16 +2,16 @@
   <form @submit.prevent="submitStep" class="step-form">
     <div class="step-container">
       <div class="step-header">
-        <h2 class="step-title">Informations de l'Assuré</h2>
+        <h2 class="step-title">Informations du Conjoint</h2>
         <p class="step-description">
-          Veuillez fournir les informations de l'assuré.
+          Veuillez fournir les informations du conjoint.
         </p>
       </div>
 
       <div class="step-section">
         <div class="form-group">
           <label for="cv" class="form-label">Civilité</label>
-          <select id="cv" class="form-select" v-model="assureInfo.cv" required>
+          <select id="cv" class="form-select" v-model="conjointInfo.cv" required>
             <option value="MR">Monsieur</option>
             <option value="MME">Madame</option>
           </select>
@@ -19,40 +19,40 @@
 
         <div class="form-group">
           <label for="nom" class="form-label">Nom</label>
-          <input type="text" id="nom" class="form-control" v-model="assureInfo.nom" required>
+          <input type="text" id="nom" class="form-control" v-model="conjointInfo.nom" required>
         </div>
 
         <div class="form-group">
           <label for="prenom" class="form-label">Prénom</label>
-          <input type="text" id="prenom" class="form-control" v-model="assureInfo.prenom" required>
+          <input type="text" id="prenom" class="form-control" v-model="conjointInfo.prenom" required>
         </div>
 
         <div class="form-group">
           <label for="dateNaissance" class="form-label">Date de Naissance</label>
-          <input type="date" id="dateNaissance" class="form-control" v-model="assureInfo.dateNaissance" required>
+          <input type="date" id="dateNaissance" class="form-control" v-model="conjointInfo.dateNaissance" required>
         </div>
 
         <div class="form-group">
           <label for="ayantDroitDe" class="form-label">Ayant Droit De</label>
-          <select id="ayantDroitDe" class="form-select" v-model="assureInfo.ayantDroitDe" required>
+          <select id="ayantDroitDe" class="form-select" v-model="conjointInfo.ayantDroitDe" required>
             <option value="AUTRE">Autre</option>
             <option value="AUCUN">Aucun</option>
           </select>
         </div>
 
-        <div class="form-group" v-if="assureInfo.ayantDroitDe === 'AUCUN'">
+        <div class="form-group" v-if="conjointInfo.ayantDroitDe === 'AUCUN'">
           <label for="numeroSS" class="form-label">Numéro SS</label>
-          <input type="text" id="numeroSS" class="form-control" v-model="assureInfo.numeroSS" required>
+          <input type="text" id="numeroSS" class="form-control" v-model="conjointInfo.numeroSS" required>
         </div>
 
-        <div class="form-group" v-if="assureInfo.ayantDroitDe === 'AUCUN'">
+        <div class="form-group" v-if="conjointInfo.ayantDroitDe === 'AUCUN'">
           <label for="codeOrga" class="form-label">Code Orga</label>
-          <input type="text" id="codeOrga" class="form-control" v-model="assureInfo.codeOrga" required>
+          <input type="text" id="codeOrga" class="form-control" v-model="conjointInfo.codeOrga" required>
         </div>
 
-        <div class="form-group" v-if="assureInfo.ayantDroitDe === 'AUTRE'">
+        <div class="form-group" v-if="conjointInfo.ayantDroitDe === 'AUTRE'">
           <label for="ayantDroit" class="form-label">Ayant Droit</label>
-          <input type="text" id="ayantDroit" class="form-control" v-model="assureInfo.ayantDroit" required>
+          <input type="text" id="ayantDroit" class="form-control" v-model="conjointInfo.ayantDroit" required>
         </div>
       </div>
 
@@ -71,11 +71,11 @@ import { useRouter } from 'vue-router';
 const formStore = useFormStore();
 const router = useRouter();
 
-const assureInfo = reactive({
+const conjointInfo = reactive({
   cv: 'MR',
   nom: '',
   prenom: '',
-  dateNaissance: formStore.getFormData.step1.dateNaissance || '',
+  dateNaissance: formStore.getFormData.step1.dateNaissanceConjoint || '',
   ayantDroitDe: 'AUCUN',
   numeroSS: '',
   codeOrga: '',
@@ -83,13 +83,11 @@ const assureInfo = reactive({
 });
 
 const submitStep = () => {
-  formStore.updateStepData('assureInfo', assureInfo);
-  if (formStore.getFormData.step1.assure.includes('couple')) {
-    formStore.nextStep();
-  } else if (formStore.getFormData.step1.nbrEnfant > 0) {
-    formStore.nextStep();
+  formStore.updateStepData('conjointInfo', conjointInfo);
+  if (formStore.getFormData.step1.nbrEnfant > 0) {
+    router.push('/devis/enfants');
   } else {
-    formStore.nextStep();
+    router.push('/devis/payeur');
   }
 };
 </script>

@@ -71,10 +71,13 @@ const enfantsInfo = reactive(
 
 const submitStep = () => {
   formStore.updateStepData('enfantsInfo', enfantsInfo);
-  formStore.nextStep();
+  if (formStore.getFormData.step1.assure.includes('couple')) {
+    router.push('/devis/conjoint');
+  } else {
+    router.push('/devis/payeur');
+  }
 };
 </script>
-
 
 <style scoped>
 .step-form {

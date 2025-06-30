@@ -85,11 +85,11 @@ const assureInfo = reactive({
 const submitStep = () => {
   formStore.updateStepData('assureInfo', assureInfo);
   if (formStore.getFormData.step1.assure.includes('couple')) {
-    formStore.nextStep();
+    router.push('/devis/conjoint');
   } else if (formStore.getFormData.step1.nbrEnfant > 0) {
-    formStore.nextStep();
+    router.push('/devis/enfants');
   } else {
-    formStore.nextStep();
+    router.push('/devis/payeur');
   }
 };
 </script>

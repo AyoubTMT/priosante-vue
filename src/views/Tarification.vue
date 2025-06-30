@@ -47,7 +47,10 @@
                           <span>{{ feature }}</span>
                         </li>
                       </ul>
-                      <button :class="['btn', plan.popular ? 'gradient-custom text-white' : 'btn-outline-primary', 'btn-lg', 'w-100', 'mt-4']">
+                      <button
+                        :class="['btn', plan.popular ? 'gradient-custom text-white' : 'btn-outline-primary', 'btn-lg', 'w-100', 'mt-4']"
+                        @click="selectPlan(plan)"
+                      >
                         Sélectionner
                       </button>
                     </div>
@@ -111,6 +114,11 @@ const fetchTarifs = async (formData) => {
   }
 };
 
+const selectPlan = (plan) => {
+  formStore.updateSelectedTarif(plan);
+  router.push('/devis/produit');
+};
+
 onMounted(async () => {
   try {
     const localData = formStore.getFormData.step1 || {};
@@ -151,6 +159,7 @@ onMounted(async () => {
     }
   } catch (err) {
     error.value = 'Une erreur est survenue lors du chargement des données';
+    toast.error(error.value);
     console.error('Error:', err);
   } finally {
     loading.value = false;

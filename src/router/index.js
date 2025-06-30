@@ -29,6 +29,41 @@ const router = createRouter({
       component: () => import('../views/Tarification.vue'),
     },
     {
+      path: '/devis/produit',
+      name: 'produit',
+      component: () => import('../views/Produit.vue'),
+    },
+    {
+      path: '/devis/enfant',
+      name: 'enfant',
+      component: () => import('../views/Enfant.vue'),
+    },
+    {
+      path: '/devis/conjoint',
+      name: 'conjoint',
+      component: () => import('../views/Conjoint.vue'),
+    },
+    {
+      path: '/devis/assure',
+      name: 'assure',
+      component: () => import('../views/Assure.vue'),
+    },
+    {
+      path: '/devis/souscripteur',
+      name: 'souscripteur',
+      component: () => import('../views/Souscripteur.vue'),
+    },
+    {
+      path: '/devis/payeur',
+      name: 'payeur',
+      component: () => import('../views/Payeur.vue'),
+    },
+    {
+      path: '/devis/recapitulatif',
+      name: 'recapitulatif',
+      component: () => import('../views/Recapitulatif.vue'),
+    },
+    {
       path: '/devis/options',
       name: 'options',
       component: () => import('../views/Options.vue'),

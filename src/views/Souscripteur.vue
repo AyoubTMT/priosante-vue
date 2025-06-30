@@ -1,4 +1,5 @@
 <template>
+  <my-header :progress="formStore.currentStep" :step="'souscripteurInfo'" />
   <form @submit.prevent="submitStep" class="step-form">
     <div class="step-container">
       <div class="step-header">
@@ -52,14 +53,6 @@
             <option value="MARIE">Marié</option>
             <option value="SEPARE">Séparé</option>
             <option value="PACSE">Pacsé</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="souscripteurIsAssure" class="form-label">Souscripteur est Assuré</label>
-          <select id="souscripteurIsAssure" class="form-select" v-model="souscripteurInfo.souscripteurIsAssure" required>
-            <option value="OUI">Oui</option>
-            <option value="NON">Non</option>
           </select>
         </div>
 
@@ -138,29 +131,29 @@ const souscripteurInfo = reactive({
   tel: '',
   email: '',
   situationFam: '',
-  souscripteurIsAssure: 'OUI',
   profession: '',
   revenuMensuel: '',
   voie: '',
   ville: '',
   codePostal: formStore.getFormData.step1.codePostal || '',
-  typeSouscripteur: 'PERSONNE_PHYSIQUE'
+  typeSouscripteur: 'PERSONNE_PHYSIQUE',
+  souscripteurIsAssure: 'OUI',
+  assurerConjoint: formStore.getFormData.step1.assure.includes('couple') ? 'OUI' : 'NON'
 });
 
 const submitStep = () => {
   formStore.updateStepData('souscripteurInfo', souscripteurInfo);
   if (souscripteurInfo.souscripteurIsAssure === 'NON') {
-    formStore.nextStep();
-  } else if (formStore.getFormData.step1.assure.includes('couple')) {
-    formStore.nextStep();
+    router.push('/devis/assure');
+  } else if (souscripteurInfo.assurerConjoint === 'OUI') {
+    router.push('/devis/conjoint');
   } else if (formStore.getFormData.step1.nbrEnfant > 0) {
-    formStore.nextStep();
+    router.push('/devis/enfants');
   } else {
-    formStore.nextStep();
+    router.push('/devis/payeur');
   }
 };
 </script>
-
 
 <style scoped>
 .step-form {

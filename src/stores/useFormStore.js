@@ -1,8 +1,4 @@
-
 import { defineStore } from 'pinia';
-
-
-import axios from 'axios';
 
 export const useFormStore = defineStore('form', {
   state: () => ({
@@ -26,37 +22,27 @@ export const useFormStore = defineStore('form', {
         dateNaissanceEnfant8: '',
         budget: 'ENTRE_100_ET_250',
       },
-      step2: {
+      step2: {},
+      step3: {},
+      step4: {},
+      step5: {},
+      step6: {},
+      isNotificationMailSent: false,
+      dependecies: [],
+      tarifs: [],
+      selectedTarif: {},
+      devisComplet: {},
+      devisCompletAvecLien: {},
+      finalTarif: 0,
+      flagType: 'DOCUMENT',
+      modePaiement: 'CHEQUE',
+      paiement: {
+        titulaire_compte: '',
+        iban: ''
       },
-      step3: {
-      },
-      step4: {
-      },
-      step5: {
-      },
-      step6: {
-      },
-      step7: {
-      },
-      isNotificationMailSent : false,
-      dependecies:[],
-      tarifs:[],
-      selectedTarif:{},
-      devisComplet:{},
-      devisCompletAvecLien:{},
-      finalTarif:0,
-      flagType:'DOCUMENT',
-      modePaiement:'CHEQUE',
-      paiement:{
-        titulaire_compte:'',
-        iban:''
-      },
-      informations : {},
-      lienSignature:'',
-
-
+      informations: {},
+      lienSignature: '',
     },
-    
     responseData: null,
     responseError: null,
   }),
@@ -66,36 +52,36 @@ export const useFormStore = defineStore('form', {
     getDependecies: (state) => state.formData.dependecies,
     getSelectedTarif: (state) => state.formData.selectedTarif,
     getSelectedTarifOptions: (state) => state.formData.selectedTarifOptions,
-    getDateEffet: (state) => state.formData.step7.dateEffet,
-
+    getDateEffet: (state) => state.formData.step1.dateEffet,
     getDataForTarif: (state) => ({
       produitType: "SANTE",
-      codePostal: state.formData.step2.codePostal,
+      codePostal: state.formData.step1.codePostal,
       ville: state.formData.step2.ville,
-      dateEffet : state.formData.step7.dateEffet
+      dateEffet: state.formData.step1.dateEffet
     }),
     getDataOfSouscripteur: (state) => ({
-      civilite:  state.formData.step7.civilite,
-      nom: state.formData.step7.nom,
-      prenom: state.formData.step7.prenom,
-      telephone: state.formData.step7.telephone,
-      email: state.formData.step7.email,
-      dateNaissance: state.formData.step7.birthDay,
-      dateEffet: state.formData.step7.dateEffet,
+      civilite: state.formData.step2.civilite,
+      nom: state.formData.step2.nom,
+      prenom: state.formData.step2.prenom,
+      telephone: state.formData.step2.telephone,
+      email: state.formData.step2.email,
+      dateNaissance: state.formData.step2.birthDay,
+      dateEffet: state.formData.step1.dateEffet,
       resilieAutreAssureur: state.formData.step5.resilie_par_assureur3ans,
-      codePostal: state.formData.step2.codePostal,
+      codePostal: state.formData.step1.codePostal,
       ville: state.formData.step2.ville
     })
-
   },
-
   actions: {
+    updateSelectedTarif(plan) {
+      this.selectedTarif = plan;
+    },
     updateTarifs(tarifs) {
       this.tarifs = tarifs;
     },
     updateStepData(step, data) {
-      if(step == "tarifs" ){
-        this.formData[step]=[];
+      if (step == "tarifs") {
+        this.formData[step] = [];
       }
       this.formData[step] = data;
     },
@@ -113,11 +99,11 @@ export const useFormStore = defineStore('form', {
       }
     },
     async submitForm() {
-     
+      // Handle form submission logic here
     },
   },
   persist: {
     enabled: true,
-    storage: localStorage // or sessionStorage
+    storage: localStorage
   },
 });
