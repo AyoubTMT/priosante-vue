@@ -21,14 +21,12 @@
 
     <!-- 💡 Step Content -->
     <div class="row justify-content-md-center justify-content-lg-center m-0">
-      <div
-        class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow"
-      >
+      <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
         <div class="container-fluid p-0">
           <Step1 v-if="formStore.currentStep === 1" />
           <Step2 v-if="formStore.currentStep === 2" />
           <Step3 v-if="formStore.currentStep === 3" />
-          <Step4 v-if="formStore.currentStep === 4" />
+          <Step4 v-if="formStore.currentStep === 4" /> <!-- New step for tariffs -->
           <Step5 v-if="formStore.currentStep === 5" />
           <Step6 v-if="formStore.currentStep === 6" />
         </div>
@@ -60,27 +58,28 @@ import { useFormStore } from '../stores/useFormStore';
 import Step1 from '../components/Step1.vue';
 import Step2 from '../components/Step2.vue';
 import Step3 from '../components/Step3.vue';
-import Step4 from '../components/Step4.vue';
+import Step4 from '../components/Step4.vue'; // New step for tariffs
 import Step5 from '../components/Step5.vue';
 import Step6 from '../components/Step6.vue';
 import MyHeader from '../components/header.vue';
 
 const formStore = useFormStore();
 
-if (formStore.currentStep > 6) {
-  formStore.updateCurrentStep(6);
+if (formStore.currentStep > 7) {
+  formStore.updateCurrentStep(7);
 }
 
 const steps = [
   'Informations de base',
   'Souscription',
   'Assuré',
-  'Enfants',
+  'Tarifs', // New step for tariffs
   'Conjoint',
+  'Enfants',
   'Payeur',
+  'Récapitulatif'
 ];
 </script>
-
 
 <style scoped>
 .step-sidebar {

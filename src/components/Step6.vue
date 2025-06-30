@@ -130,10 +130,8 @@
 <script setup>
 import { useFormStore } from '@/stores/useFormStore';
 import { reactive } from 'vue';
-import { useRouter } from 'vue-router';
 
 const formStore = useFormStore();
-const router = useRouter();
 
 const payeurInfo = reactive({
   ibanPrelevemnt: '',
@@ -155,7 +153,7 @@ const payeurInfo = reactive({
 
 const submitStep = () => {
   formStore.updateStepData('payeurInfo', payeurInfo);
-  formStore.nextStep();
+  formStore.updateCurrentStep(7); // Directly set the current step to 7
 };
 </script>
 

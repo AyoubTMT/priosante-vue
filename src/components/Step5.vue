@@ -66,10 +66,8 @@
 <script setup>
 import { useFormStore } from '@/stores/useFormStore';
 import { reactive } from 'vue';
-import { useRouter } from 'vue-router';
 
 const formStore = useFormStore();
-const router = useRouter();
 
 const conjointInfo = reactive({
   cv: 'MR',
@@ -84,9 +82,14 @@ const conjointInfo = reactive({
 
 const submitStep = () => {
   formStore.updateStepData('conjointInfo', conjointInfo);
-  formStore.nextStep();
+  if (formStore.getFormData.step1.nbrEnfant > 0) {
+    formStore.updateCurrentStep(4); // Directly set the current step to 4
+  } else {
+    formStore.updateCurrentStep(6); // Directly set the current step to 6
+  }
 };
 </script>
+
 
 
 <style scoped>

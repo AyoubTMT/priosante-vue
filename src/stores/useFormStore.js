@@ -4,8 +4,8 @@ export const useFormStore = defineStore('form', {
   state: () => ({
     currentStep: 1,
     formData: {
-      step1: {
-        assure: 'Un couple',
+      baseInfo: {
+        assure: 'Un couple + enfant(s)',
         dateNaissance: '1990-01-01',
         dateNaissanceConjoint: '1980-01-01',
         nbrEnfant: 1,
@@ -22,11 +22,27 @@ export const useFormStore = defineStore('form', {
         dateNaissanceEnfant8: '',
         budget: 'ENTRE_100_ET_250',
       },
-      step2: {},
+      souscripteurInfo: {
+        cv: 'MR',
+        nom: '',
+        prenom: '',
+        dateNaissance: '',
+        tel: '',
+        email: '',
+        situationFam: '',
+        souscripteurIsAssure: 'OUI',
+        profession: '',
+        revenuMensuel: '',
+        voie: '',
+        ville: '',
+        codePostal: '',
+        typeSouscripteur: 'PERSONNE_PHYSIQUE'
+      },
       step3: {},
       step4: {},
       step5: {},
       step6: {},
+      step7: {},
       isNotificationMailSent: false,
       dependecies: [],
       tarifs: [],
@@ -59,17 +75,23 @@ export const useFormStore = defineStore('form', {
       ville: state.formData.step2.ville,
       dateEffet: state.formData.step1.dateEffet
     }),
-    getDataOfSouscripteur: (state) => ({
-      civilite: state.formData.step2.civilite,
-      nom: state.formData.step2.nom,
-      prenom: state.formData.step2.prenom,
-      telephone: state.formData.step2.telephone,
-      email: state.formData.step2.email,
-      dateNaissance: state.formData.step2.birthDay,
+    getSouscripteurInfo: (state) => ({
+      civilite: state.formData.souscripteurInfo.civilite,
+      nom: state.formData.souscripteurInfo.nom,
+      prenom: state.formData.souscripteurInfo.prenom,
+      telephone: state.formData.souscripteurInfo.telephone,
+      email: state.formData.souscripteurInfo.email,
+      dateNaissance: state.formData.souscripteurInfo.birthDay,
       dateEffet: state.formData.step1.dateEffet,
-      resilieAutreAssureur: state.formData.step5.resilie_par_assureur3ans,
       codePostal: state.formData.step1.codePostal,
-      ville: state.formData.step2.ville
+      ville: state.formData.souscripteurInfo.ville,
+      situationFam : state.formData.souscripteurInfo.situationFam,
+      souscripteurIsAssure : state.formData.souscripteurInfo.souscripteurIsAssure,
+      profession : state.formData.souscripteurInfo.profession,
+      revenuMensuel : state.formData.souscripteurInfo.revenuMensuel,
+      voie : state.formData.souscripteurInfo.voie,
+      ville : state.formData.souscripteurInfo.ville,
+      typeSouscripteur : state.formData.souscripteurInfo.typeSouscripteur,
     })
   },
   actions: {
@@ -85,14 +107,8 @@ export const useFormStore = defineStore('form', {
       }
       this.formData[step] = data;
     },
-    nextStep() {
-      this.currentStep++;
-    },
     updateCurrentStep(step) {
       this.currentStep = step;
-    },
-    prevStep(router) {
-      this.currentStep--;
       if (this.currentStep === 0) {
         this.currentStep = 1;
         router.push('/home');

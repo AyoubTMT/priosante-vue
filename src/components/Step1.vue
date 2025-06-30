@@ -182,31 +182,29 @@
 <script setup>
 import { reactive, ref, watch, computed, nextTick } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
-import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
 
 const formStore = useFormStore();
-const router = useRouter();
 const step1Data = formStore.getFormData;
 
 const localData = reactive({
-  assure: step1Data.step1.assure || '',
-  dateNaissance: step1Data.step1.dateNaissance || '',
-  dateNaissanceConjoint: step1Data.step1.dateNaissanceConjoint || '',
-  nbrEnfant: step1Data.step1.nbrEnfant || 0,
-  dateEffet: step1Data.step1.dateEffet || '',
-  regime: step1Data.step1.regime || '',
-  codePostal: step1Data.step1.codePostal || '',
-  dateNaissanceEnfant1: step1Data.step1.dateNaissanceEnfant1 || '',
-  dateNaissanceEnfant2: step1Data.step1.dateNaissanceEnfant2 || '',
-  dateNaissanceEnfant3: step1Data.step1.dateNaissanceEnfant3 || '',
-  dateNaissanceEnfant4: step1Data.step1.dateNaissanceEnfant4 || '',
-  dateNaissanceEnfant5: step1Data.step1.dateNaissanceEnfant5 || '',
-  dateNaissanceEnfant6: step1Data.step1.dateNaissanceEnfant6 || '',
-  dateNaissanceEnfant7: step1Data.step1.dateNaissanceEnfant7 || '',
-  dateNaissanceEnfant8: step1Data.step1.dateNaissanceEnfant8 || '',
-  budget: step1Data.step1.budget || '',
+  assure: step1Data.baseInfo.assure || '',
+  dateNaissance: step1Data.baseInfo.dateNaissance || '',
+  dateNaissanceConjoint: step1Data.baseInfo.dateNaissanceConjoint || '',
+  nbrEnfant: step1Data.baseInfo.nbrEnfant || 0,
+  dateEffet: step1Data.baseInfo.dateEffet || '',
+  regime: step1Data.baseInfo.regime || '',
+  codePostal: step1Data.baseInfo.codePostal || '',
+  dateNaissanceEnfant1: step1Data.baseInfo.dateNaissanceEnfant1 || '',
+  dateNaissanceEnfant2: step1Data.baseInfo.dateNaissanceEnfant2 || '',
+  dateNaissanceEnfant3: step1Data.baseInfo.dateNaissanceEnfant3 || '',
+  dateNaissanceEnfant4: step1Data.baseInfo.dateNaissanceEnfant4 || '',
+  dateNaissanceEnfant5: step1Data.baseInfo.dateNaissanceEnfant5 || '',
+  dateNaissanceEnfant6: step1Data.baseInfo.dateNaissanceEnfant6 || '',
+  dateNaissanceEnfant7: step1Data.baseInfo.dateNaissanceEnfant7 || '',
+  dateNaissanceEnfant8: step1Data.baseInfo.dateNaissanceEnfant8 || '',
+  budget: step1Data.baseInfo.budget || '',
 });
 
 const errors = reactive({});
@@ -215,8 +213,8 @@ const submitStep = async () => {
   const isValid = await validateForm();
 
   if (isValid) {
-    formStore.updateStepData('step1', localData);
-    formStore.nextStep();
+    formStore.updateStepData('baseInfo', localData);
+    formStore.updateCurrentStep(2); // Directly set the current step to 2
   } else {
     console.log("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");
   }

@@ -66,10 +66,8 @@
 <script setup>
 import { useFormStore } from '@/stores/useFormStore';
 import { reactive } from 'vue';
-import { useRouter } from 'vue-router';
 
 const formStore = useFormStore();
-const router = useRouter();
 
 const assureInfo = reactive({
   cv: 'MR',
@@ -84,15 +82,17 @@ const assureInfo = reactive({
 
 const submitStep = () => {
   formStore.updateStepData('assureInfo', assureInfo);
+
   if (formStore.getFormData.step1.assure.includes('couple')) {
-    formStore.nextStep();
+    formStore.updateCurrentStep(5); // Directly set the current step to 5
   } else if (formStore.getFormData.step1.nbrEnfant > 0) {
-    formStore.nextStep();
+    formStore.updateCurrentStep(4); // Directly set the current step to 4
   } else {
-    formStore.nextStep();
+    formStore.updateCurrentStep(6); // Directly set the current step to 6
   }
 };
 </script>
+
 
 <style scoped>
 .step-form {
