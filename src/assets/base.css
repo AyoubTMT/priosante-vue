@@ -222,7 +222,7 @@ span.underligned {
   --bs-progress-border-radius: var(--bs-border-radius);
   --bs-progress-box-shadow: var(--bs-box-shadow-inset);
   --bs-progress-bar-color: #fff;
-  --bs-progress-bar-bg: #0d6efd;
+  --bs-progress-bar-bg: var(--color4);
   --bs-progress-bar-transition: width 0.6s ease;
   display: flex;
   height: var(--bs-progress-height);
@@ -249,13 +249,13 @@ span.underligned {
   color: var(--bs-progress-bar-color);
   text-align: center;
   white-space: nowrap;
-  background-color: var(--bs-progress-bar-bg);
+  background-color: var(--color4);
   transition: var(--bs-progress-bar-transition);
 }
 
 .progressMobile {
   border-radius: 50px;
-  background: var(--color-limouni) !important;
+  background: var(--color4) !important;
 }
 
 .progressMobile,
@@ -504,7 +504,7 @@ button.pusletooltip {
   height: var(--bs-progress-height);
   overflow: hidden;
   font-size: var(--bs-progress-font-size);
-  background-color: var(--bs-progress-bg);
+  background-color: var(--color5);
   border-radius: var(--bs-progress-border-radius);
 }
 .progress {
@@ -521,12 +521,12 @@ button.pusletooltip {
   color: var(--bs-progress-bar-color);
   text-align: center;
   white-space: nowrap;
-  background-color: var(--bs-progress-bar-bg);
+  background-color: var(--color4);
   transition: var(--bs-progress-bar-transition);
 }
 .progressMobile {
   border-radius: 50px;
-  background: var(--color-limouni) !important;
+  background: var(--color4) !important;
 }
 .progressMobile, .progress {
   height: 4px !important;
