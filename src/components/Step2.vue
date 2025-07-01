@@ -2,49 +2,78 @@
   <form @submit.prevent="submitStep" class="step-form">
     <div class="step-container">
       <div class="step-header">
-        <h2 class="step-title">Informations du Souscripteur</h2>
+        <h2 class="step-title">Parfait ! Continuons avec vos informations personnelles.</h2>
         <p class="step-description">
-          Veuillez fournir les informations du souscripteur.
+          Pour mieux vous connaître et vous proposer la meilleure offre, j'ai besoin de quelques informations supplémentaires.
         </p>
       </div>
 
       <div class="step-section">
-        <div class="form-group">
-          <label for="cv" class="form-label">Civilité</label>
-          <select id="cv" class="form-select" v-model="souscripteurInfo.cv" required>
-            <option value="MR">Monsieur</option>
-            <option value="MME">Madame</option>
-          </select>
+        <label class="form-label">Pourriez-vous me donner votre civilité ?</label>
+        <div class="step-options">
+          <div class="option-row">
+            <div class="option-card" :class="{ 'selected': souscripteurInfo.cv === 'MR', 'error': errors.cv }" @click="selectOption('cv', 'MR')">
+              <div class="option-icon">
+                <img src="../assets/icons/homme.svg" alt="Monsieur">
+              </div>
+              <div class="option-label">Monsieur</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': souscripteurInfo.cv === 'MME', 'error': errors.cv }" @click="selectOption('cv', 'MME')">
+              <div class="option-icon">
+                <img src="../assets/icons/femme.svg" alt="Madame">
+              </div>
+              <div class="option-label">Madame</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.cv">{{ errors.cv }}</div>
         </div>
+      </div>
 
+      <div class="step-section" v-if="souscripteurInfo.cv">
         <div class="form-group">
-          <label for="nom" class="form-label">Nom</label>
-          <input type="text" id="nom" class="form-control" v-model="souscripteurInfo.nom" required>
+          <label for="nom" class="form-label">Quel est votre nom ?</label>
+          <input type="text" id="nom" class="form-control" v-model="souscripteurInfo.nom" :class="{ 'error': errors.nom }" @focus="clearErrorOnInput('nom')" @input="validateField('nom')" required>
+          <div class="error-message" v-if="errors.nom">{{ errors.nom }}</div>
         </div>
+      </div>
 
+      <div class="step-section" v-if="souscripteurInfo.nom">
         <div class="form-group">
-          <label for="prenom" class="form-label">Prénom</label>
-          <input type="text" id="prenom" class="form-control" v-model="souscripteurInfo.prenom" required>
+          <label for="prenom" class="form-label">Quel est votre prénom ?</label>
+          <input type="text" id="prenom" class="form-control" v-model="souscripteurInfo.prenom" :class="{ 'error': errors.prenom }" @focus="clearErrorOnInput('prenom')" @input="validateField('prenom')" required>
+          <div class="error-message" v-if="errors.prenom">{{ errors.prenom }}</div>
         </div>
+      </div>
 
+      <div class="step-section" v-if="souscripteurInfo.prenom">
         <div class="form-group">
-          <label for="dateNaissance" class="form-label">Date de Naissance</label>
-          <input type="date" id="dateNaissance" class="form-control" v-model="souscripteurInfo.dateNaissance" required>
+          <label for="dateNaissance" class="form-label">Pourriez-vous me donner votre date de naissance ?</label>
+          <input type="date" id="dateNaissance" class="form-control" v-model="souscripteurInfo.dateNaissance" :class="{ 'error': errors.dateNaissance }" @focus="clearErrorOnInput('dateNaissance')" @input="validateField('dateNaissance')" required disabled>
+          <div class="error-message" v-if="errors.dateNaissance">{{ errors.dateNaissance }}</div>
         </div>
+      </div>
 
+      <div class="step-section" v-if="souscripteurInfo.prenom">
         <div class="form-group">
-          <label for="tel" class="form-label">Téléphone</label>
-          <input type="tel" id="tel" class="form-control" v-model="souscripteurInfo.tel" required>
+          <label for="tel" class="form-label">Quel est votre numéro de téléphone ?</label>
+          <input type="tel" id="tel" class="form-control" v-model="souscripteurInfo.tel" :class="{ 'error': errors.tel }" @focus="clearErrorOnInput('tel')" @input="validateField('tel')" required>
+          <div class="error-message" v-if="errors.tel">{{ errors.tel }}</div>
         </div>
+      </div>
 
+      <div class="step-section" v-if="souscripteurInfo.tel">
         <div class="form-group">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" id="email" class="form-control" v-model="souscripteurInfo.email" required>
+          <label for="email" class="form-label">Quel est votre email ?</label>
+          <input type="email" id="email" class="form-control" v-model="souscripteurInfo.email" :class="{ 'error': errors.email }" @focus="clearErrorOnInput('email')" @input="validateField('email')" required>
+          <div class="error-message" v-if="errors.email">{{ errors.email }}</div>
         </div>
+      </div>
 
+      <div class="step-section" v-if="souscripteurInfo.email">
         <div class="form-group">
-          <label for="situationFam" class="form-label">Situation Familiale</label>
-          <select id="situationFam" class="form-select" v-model="souscripteurInfo.situationFam" required>
+          <label for="situationFam" class="form-label">Quelle est votre situation familiale ?</label>
+          <select id="situationFam" class="form-select" v-model="souscripteurInfo.situationFam" :class="{ 'error': errors.situationFam }" @focus="clearErrorOnInput('situationFam')" @change="validateField('situationFam')" required>
+            <option value="">-- Sélectionnez --</option>
             <option value="CONCUBIN">Concubin</option>
             <option value="VEUF">Veuf</option>
             <option value="CELIBATAIRE">Célibataire</option>
@@ -53,19 +82,26 @@
             <option value="SEPARE">Séparé</option>
             <option value="PACSE">Pacsé</option>
           </select>
+          <div class="error-message" v-if="errors.situationFam">{{ errors.situationFam }}</div>
         </div>
+      </div>
 
+      <div class="step-section" v-if="souscripteurInfo.situationFam">
         <div class="form-group">
-          <label for="souscripteurIsAssure" class="form-label">Souscripteur est Assuré</label>
-          <select id="souscripteurIsAssure" class="form-select" v-model="souscripteurInfo.souscripteurIsAssure" required>
+          <label for="souscripteurIsAssure" class="form-label">Êtes-vous l'assuré principal ?</label>
+          <select id="souscripteurIsAssure" class="form-select" v-model="souscripteurInfo.souscripteurIsAssure" :class="{ 'error': errors.souscripteurIsAssure }" @focus="clearErrorOnInput('souscripteurIsAssure')" @change="validateField('souscripteurIsAssure')" required>
             <option value="OUI">Oui</option>
             <option value="NON">Non</option>
           </select>
+          <div class="error-message" v-if="errors.souscripteurIsAssure">{{ errors.souscripteurIsAssure }}</div>
         </div>
+      </div>
 
+      <div class="step-section" v-if="souscripteurInfo.situationFam">
         <div class="form-group">
-          <label for="profession" class="form-label">Profession</label>
-          <select id="profession" class="form-select" v-model="souscripteurInfo.profession" required>
+          <label for="profession" class="form-label">Quelle est votre profession ?</label>
+          <select id="profession" class="form-select" v-model="souscripteurInfo.profession" :class="{ 'error': errors.profession }" @focus="clearErrorOnInput('profession')" @change="validateField('profession')" required>
+            <option value="">-- Sélectionnez --</option>
             <option value="AGRICULTEUR">Agriculteur</option>
             <option value="ARTISAN_COMMERCANT">Artisan/Commerçant</option>
             <option value="CADRE">Cadre</option>
@@ -87,49 +123,71 @@
             <option value="INACTIF">Inactif</option>
             <option value="AUTRE">Autre</option>
           </select>
-        </div>
-
-        <div class="form-group">
-          <label for="revenuMensuel" class="form-label">Revenu Mensuel</label>
-          <select id="revenuMensuel" class="form-select" v-model="souscripteurInfo.revenuMensuel" required>
-            <option value="PLUS_3001">Plus de 3001 €</option>
-            <option value="DE_1501_A_3000">De 1501 à 3000 €</option>
-            <option value="DE_801_A_1500">De 801 à 1500 €</option>
-            <option value="MOINS_801">Moins de 801 €</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="voie" class="form-label">Voie</label>
-          <input type="text" id="voie" class="form-control" v-model="souscripteurInfo.voie" required>
-        </div>
-
-        <div class="form-group">
-          <label for="ville" class="form-label">Ville</label>
-          <input type="text" id="ville" class="form-control" v-model="souscripteurInfo.ville" required>
-        </div>
-
-        <div class="form-group">
-          <label for="codePostal" class="form-label">Code Postal</label>
-          <input type="text" id="codePostal" class="form-control" v-model="souscripteurInfo.codePostal" required>
+          <div class="error-message" v-if="errors.profession">{{ errors.profession }}</div>
         </div>
       </div>
 
-      <div class="step-footer">
-        <button type="submit" class="submit-button">Étape suivante</button>
+      <div class="step-section" v-if="souscripteurInfo.profession">
+        <div class="form-group">
+          <label class="form-label">Quel est votre revenu mensuel ?</label>
+          <div class="option-row">
+            <div class="option-card-budget" :class="{ 'selected': souscripteurInfo.revenuMensuel === 'PLUS_3001', 'error': errors.revenuMensuel }" @click="selectOption('revenuMensuel', 'PLUS_3001')">
+              <div class="option-label">Plus de 3001 €</div>
+            </div>
+            <div class="option-card-budget" :class="{ 'selected': souscripteurInfo.revenuMensuel === 'DE_1501_A_3000', 'error': errors.revenuMensuel }" @click="selectOption('revenuMensuel', 'DE_1501_A_3000')">
+              <div class="option-label">De 1501 à 3000 €</div>
+            </div>
+            <div class="option-card-budget" :class="{ 'selected': souscripteurInfo.revenuMensuel === 'DE_801_A_1500', 'error': errors.revenuMensuel }" @click="selectOption('revenuMensuel', 'DE_801_A_1500')">
+              <div class="option-label">De 801 à 1500 €</div>
+            </div>
+            <div class="option-card-budget" :class="{ 'selected': souscripteurInfo.revenuMensuel === 'MOINS_801', 'error': errors.revenuMensuel }" @click="selectOption('revenuMensuel', 'MOINS_801')">
+              <div class="option-label">Moins de 801 €</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.revenuMensuel">{{ errors.revenuMensuel }}</div>
+        </div>
+      </div>
+
+      <div class="step-section" v-if="souscripteurInfo.revenuMensuel">
+        <div class="form-group">
+          <label for="voie" class="form-label">Quelle est votre voie ?</label>
+          <input type="text" id="voie" class="form-control" v-model="souscripteurInfo.voie" :class="{ 'error': errors.voie }" @focus="clearErrorOnInput('voie')" @input="validateField('voie')" required>
+          <div class="error-message" v-if="errors.voie">{{ errors.voie }}</div>
+        </div>
+      </div>
+
+      <div class="step-section" v-if="souscripteurInfo.voie">
+        <div class="form-group">
+          <label for="ville" class="form-label">Dans quelle ville habitez-vous ?</label>
+          <input type="text" id="ville" class="form-control" v-model="souscripteurInfo.ville" :class="{ 'error': errors.ville }" @focus="clearErrorOnInput('ville')" @input="validateField('ville')" required>
+          <div class="error-message" v-if="errors.ville">{{ errors.ville }}</div>
+        </div>
+      </div>
+
+      <div class="step-section" v-if="souscripteurInfo.ville">
+        <div class="form-group">
+          <label for="codePostal" class="form-label">Quel est votre code postal ?</label>
+          <input type="text" id="codePostal" class="form-control" v-model="souscripteurInfo.codePostal" :class="{ 'error': errors.codePostal }" @focus="clearErrorOnInput('codePostal')" @input="validateField('codePostal')" required>
+          <div class="error-message" v-if="errors.codePostal">{{ errors.codePostal }}</div>
+        </div>
+      </div>
+
+      <div class="step-footer" v-if="souscripteurInfo.codePostal">
+        <button type="submit" class="submit-button">Continuer</button>
       </div>
     </div>
   </form>
 </template>
 
 <script setup>
+import { reactive, onMounted, nextTick } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
-import { reactive, onMounted } from 'vue';
+import { toast } from 'vue3-toastify';
 
 const formStore = useFormStore();
 
 const souscripteurInfo = reactive({
-  cv: 'MR',
+  cv: '',
   nom: '',
   prenom: '',
   dateNaissance: '',
@@ -145,17 +203,321 @@ const souscripteurInfo = reactive({
   typeSouscripteur: 'PERSONNE_PHYSIQUE'
 });
 
+const errors = reactive({});
+
 onMounted(() => {
-  // Load data from the store
   const storedData = formStore.getFormData.souscripteurInfo;
   if (storedData) {
     Object.assign(souscripteurInfo, storedData);
   }
+  // Load dateNaissance from baseInfo
+  const step1Data = formStore.getFormData.baseInfo;
+  if (step1Data && step1Data.dateNaissance) {
+    souscripteurInfo.dateNaissance = step1Data.dateNaissance;
+  }
 });
 
-const submitStep = () => {
-  formStore.updateStepData('souscripteurInfo', souscripteurInfo);
-  formStore.updateCurrentStep(3); 
+const clearErrorOnInput = (field) => {
+  if (errors[field]) {
+    errors[field] = '';
+  }
+  const input = document.querySelector(`#${field}`);
+  if (input) {
+    input.style.boxShadow = 'none';
+  }
+};
+
+const selectOption = (field, option) => {
+  souscripteurInfo[field] = option;
+  clearErrorOnInput(field);
+};
+
+const validateField = (field) => {
+  switch (field) {
+    case 'nom':
+      if (!souscripteurInfo.nom) {
+        errors.nom = 'Veuillez entrer votre nom.';
+      } else if (souscripteurInfo.nom.length < 3) {
+        errors.nom = 'Le nom doit contenir au moins 3 lettres.';
+      } else if (/\d/.test(souscripteurInfo.nom)) {
+        errors.nom = 'Le nom ne doit pas contenir de chiffres.';
+      } else {
+        clearErrorOnInput('nom');
+      }
+      break;
+    case 'prenom':
+      if (!souscripteurInfo.prenom) {
+        errors.prenom = 'Veuillez entrer votre prénom.';
+      } else if (souscripteurInfo.prenom.length < 3) {
+        errors.prenom = 'Le prénom doit contenir au moins 3 lettres.';
+      } else if (/\d/.test(souscripteurInfo.prenom)) {
+        errors.prenom = 'Le prénom ne doit pas contenir de chiffres.';
+      } else {
+        clearErrorOnInput('prenom');
+      }
+      break;
+    case 'dateNaissance':
+      if (!souscripteurInfo.dateNaissance) {
+        errors.dateNaissance = 'Veuillez entrer votre date de naissance.';
+      } else {
+        clearErrorOnInput('dateNaissance');
+      }
+      break;
+    case 'tel':
+      if (!souscripteurInfo.tel) {
+        errors.tel = 'Veuillez entrer votre numéro de téléphone.';
+      } else if (!/^\d{1,14}$/.test(souscripteurInfo.tel)) {
+        errors.tel = 'Le numéro de téléphone doit contenir au maximum 14 chiffres.';
+      } else {
+        clearErrorOnInput('tel');
+      }
+      break;
+    case 'email':
+      if (!souscripteurInfo.email) {
+        errors.email = 'Veuillez entrer votre email.';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(souscripteurInfo.email)) {
+        errors.email = 'Veuillez entrer un email valide.';
+      } else {
+        clearErrorOnInput('email');
+      }
+      break;
+    case 'situationFam':
+      if (!souscripteurInfo.situationFam) {
+        errors.situationFam = 'Veuillez sélectionner votre situation familiale.';
+      } else {
+        clearErrorOnInput('situationFam');
+      }
+      break;
+    case 'souscripteurIsAssure':
+      if (!souscripteurInfo.souscripteurIsAssure) {
+        errors.souscripteurIsAssure = 'Veuillez indiquer si vous êtes l\'assuré principal.';
+      } else {
+        clearErrorOnInput('souscripteurIsAssure');
+      }
+      break;
+    case 'profession':
+      if (!souscripteurInfo.profession) {
+        errors.profession = 'Veuillez sélectionner votre profession.';
+      } else {
+        clearErrorOnInput('profession');
+      }
+      break;
+    case 'revenuMensuel':
+      if (!souscripteurInfo.revenuMensuel) {
+        errors.revenuMensuel = 'Veuillez sélectionner votre revenu mensuel.';
+      } else {
+        clearErrorOnInput('revenuMensuel');
+      }
+      break;
+    case 'voie':
+      if (!souscripteurInfo.voie) {
+        errors.voie = 'Veuillez entrer votre voie.';
+      } else {
+        clearErrorOnInput('voie');
+      }
+      break;
+    case 'ville':
+      if (!souscripteurInfo.ville) {
+        errors.ville = 'Veuillez entrer votre ville.';
+      } else {
+        clearErrorOnInput('ville');
+      }
+      break;
+    case 'codePostal':
+      if (!souscripteurInfo.codePostal) {
+        errors.codePostal = 'Veuillez entrer votre code postal.';
+      } else if (!/^\d{5}$/.test(souscripteurInfo.codePostal)) {
+        errors.codePostal = 'Le code postal doit être composé de 5 chiffres.';
+      } else {
+        clearErrorOnInput('codePostal');
+      }
+      break;
+  }
+};
+
+const validateForm = async () => {
+  let isValid = true;
+
+  // Reset errors
+  Object.keys(errors).forEach(key => {
+    errors[key] = '';
+  });
+
+  // Validate cv
+  if (!souscripteurInfo.cv) {
+    errors.cv = 'Veuillez sélectionner votre civilité.';
+    isValid = false;
+    await nextTick();
+    const cvElement = document.querySelector('.option-card');
+    if (cvElement) {
+      cvElement.style.boxShadow = '0 0 0 2px #f4627f';
+    }
+  }
+
+  // Validate nom
+  if (!souscripteurInfo.nom) {
+    errors.nom = 'Veuillez entrer votre nom.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('nom').focus();
+    document.getElementById('nom').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (souscripteurInfo.nom.length < 3) {
+    errors.nom = 'Le nom doit contenir au moins 3 lettres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('nom').focus();
+    document.getElementById('nom').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (/\d/.test(souscripteurInfo.nom)) {
+    errors.nom = 'Le nom ne doit pas contenir de chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('nom').focus();
+    document.getElementById('nom').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate prenom
+  if (!souscripteurInfo.prenom) {
+    errors.prenom = 'Veuillez entrer votre prénom.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('prenom').focus();
+    document.getElementById('prenom').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (souscripteurInfo.prenom.length < 3) {
+    errors.prenom = 'Le prénom doit contenir au moins 3 lettres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('prenom').focus();
+    document.getElementById('prenom').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (/\d/.test(souscripteurInfo.prenom)) {
+    errors.prenom = 'Le prénom ne doit pas contenir de chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('prenom').focus();
+    document.getElementById('prenom').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate dateNaissance
+  if (!souscripteurInfo.dateNaissance) {
+    errors.dateNaissance = 'Veuillez entrer votre date de naissance.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('dateNaissance').focus();
+    document.getElementById('dateNaissance').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate tel
+  if (!souscripteurInfo.tel) {
+    errors.tel = 'Veuillez entrer votre numéro de téléphone.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('tel').focus();
+    document.getElementById('tel').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (!/^\d{1,14}$/.test(souscripteurInfo.tel)) {
+    errors.tel = 'Le numéro de téléphone doit contenir au maximum 14 chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('tel').focus();
+    document.getElementById('tel').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate email
+  if (!souscripteurInfo.email) {
+    errors.email = 'Veuillez entrer votre email.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('email').focus();
+    document.getElementById('email').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(souscripteurInfo.email)) {
+    errors.email = 'Veuillez entrer un email valide.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('email').focus();
+    document.getElementById('email').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate situationFam
+  if (!souscripteurInfo.situationFam) {
+    errors.situationFam = 'Veuillez sélectionner votre situation familiale.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('situationFam').focus();
+    document.getElementById('situationFam').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate souscripteurIsAssure
+  if (!souscripteurInfo.souscripteurIsAssure) {
+    errors.souscripteurIsAssure = 'Veuillez indiquer si vous êtes l\'assuré principal.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('souscripteurIsAssure').focus();
+    document.getElementById('souscripteurIsAssure').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate profession
+  if (!souscripteurInfo.profession) {
+    errors.profession = 'Veuillez sélectionner votre profession.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('profession').focus();
+    document.getElementById('profession').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate revenuMensuel
+  if (!souscripteurInfo.revenuMensuel) {
+    errors.revenuMensuel = 'Veuillez sélectionner votre revenu mensuel.';
+    isValid = false;
+    await nextTick();
+    const revenuMensuelElement = document.querySelector('.option-card-budget');
+    if (revenuMensuelElement) {
+      revenuMensuelElement.style.boxShadow = '0 0 0 2px #f4627f';
+    }
+  }
+
+  // Validate voie
+  if (!souscripteurInfo.voie) {
+    errors.voie = 'Veuillez entrer votre voie.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('voie').focus();
+    document.getElementById('voie').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate ville
+  if (!souscripteurInfo.ville) {
+    errors.ville = 'Veuillez entrer votre ville.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('ville').focus();
+    document.getElementById('ville').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate codePostal
+  if (!souscripteurInfo.codePostal) {
+    errors.codePostal = 'Veuillez entrer votre code postal.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('codePostal').focus();
+    document.getElementById('codePostal').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (!/^\d{5}$/.test(souscripteurInfo.codePostal)) {
+    errors.codePostal = 'Le code postal doit être composé de 5 chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('codePostal').focus();
+    document.getElementById('codePostal').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  return isValid;
+};
+
+const submitStep = async () => {
+  const isValid = await validateForm();
+
+  if (isValid) {
+    formStore.updateStepData('souscripteurInfo', souscripteurInfo);
+    formStore.updateCurrentStep(3);
+  } else {
+    toast.error("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");
+  }
 };
 </script>
 
@@ -189,16 +551,16 @@ const submitStep = () => {
   margin-bottom: 30px;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
 .form-label {
   display: block;
   margin-bottom: 10px;
   color: var(--e-global-color-primary);
   font-size: 16px;
   font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 20px;
 }
 
 .form-control, .form-select {
@@ -212,6 +574,85 @@ const submitStep = () => {
 .form-control:focus, .form-select:focus {
   border-color: var(--e-global-color-accent);
   outline: none;
+}
+
+.form-control.error, .form-select.error {
+  box-shadow: 0 0 0 2px #f4627f;
+}
+
+.error-message {
+  color: #f4627f;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.step-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.option-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.option-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  width: 180px;
+  height: 150px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option-card-budget {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option-card:hover, .option-card-budget:hover {
+  background-color: var(--e-global-color-02c5432);
+  border-color: var(--e-global-color-accent);
+}
+
+.option-card.selected, .option-card-budget.selected {
+  background-color: var(--e-global-color-accent);
+  border-color: var(--e-global-color-accent);
+  color: white;
+}
+
+.option-card.selected .option-label, .option-card-budget.selected .option-label {
+  color: white;
+}
+
+.option-icon {
+  margin-bottom: 10px;
+}
+
+.option-label {
+  color: var(--e-global-color-primary);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .step-footer {

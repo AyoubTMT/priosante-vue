@@ -2,102 +2,381 @@
   <form @submit.prevent="submitStep" class="step-form">
     <div class="step-container">
       <div class="step-header">
-        <h2 class="step-title">Informations du Conjoint</h2>
+        <h2 class="step-title">Parfait ! Continuons avec les informations du conjoint.</h2>
         <p class="step-description">
-          Veuillez fournir les informations du conjoint.
+          Pour finaliser votre devis, j'ai besoin de quelques informations supplémentaires sur le conjoint.
         </p>
       </div>
 
       <div class="step-section">
-        <div class="form-group">
-          <label for="cv" class="form-label">Civilité</label>
-          <select id="cv" class="form-select" v-model="conjointInfo.cv" required>
-            <option value="MR">Monsieur</option>
-            <option value="MME">Madame</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="nom" class="form-label">Nom</label>
-          <input type="text" id="nom" class="form-control" v-model="conjointInfo.nom" required>
-        </div>
-
-        <div class="form-group">
-          <label for="prenom" class="form-label">Prénom</label>
-          <input type="text" id="prenom" class="form-control" v-model="conjointInfo.prenom" required>
-        </div>
-
-        <div class="form-group">
-          <label for="dateNaissance" class="form-label">Date de Naissance</label>
-          <input type="date" id="dateNaissance" class="form-control" v-model="conjointInfo.dateNaissance" required>
-        </div>
-
-        <div class="form-group">
-          <label for="ayantDroitDe" class="form-label">Ayant Droit De</label>
-          <select id="ayantDroitDe" class="form-select" v-model="conjointInfo.ayantDroitDe" required>
-            <option value="AUTRE">Autre</option>
-            <option value="AUCUN">Aucun</option>
-          </select>
-        </div>
-
-        <div class="form-group" v-if="conjointInfo.ayantDroitDe === 'AUCUN'">
-          <label for="numeroSS" class="form-label">Numéro SS</label>
-          <input type="text" id="numeroSS" class="form-control" v-model="conjointInfo.numeroSS" required>
-        </div>
-
-        <div class="form-group" v-if="conjointInfo.ayantDroitDe === 'AUCUN'">
-          <label for="codeOrga" class="form-label">Code Orga</label>
-          <input type="text" id="codeOrga" class="form-control" v-model="conjointInfo.codeOrga" required>
-        </div>
-
-        <div class="form-group" v-if="conjointInfo.ayantDroitDe === 'AUTRE'">
-          <label for="ayantDroit" class="form-label">Ayant Droit</label>
-          <input type="text" id="ayantDroit" class="form-control" v-model="conjointInfo.ayantDroit" required>
+        <label class="form-label">Pourriez-vous me donner la civilité du conjoint ?</label>
+        <div class="step-options">
+          <div class="option-row">
+            <div class="option-card" :class="{ 'selected': conjointInfo.cv === 'MR', 'error': errors.cv }" @click="selectOption('cv', 'MR')">
+              <div class="option-icon">
+                <img src="../assets/icons/homme.svg" alt="Monsieur">
+              </div>
+              <div class="option-label">Monsieur</div>
+            </div>
+            <div class="option-card" :class="{ 'selected': conjointInfo.cv === 'MME', 'error': errors.cv }" @click="selectOption('cv', 'MME')">
+              <div class="option-icon">
+                <img src="../assets/icons/femme.svg" alt="Madame">
+              </div>
+              <div class="option-label">Madame</div>
+            </div>
+          </div>
+          <div class="error-message" v-if="errors.cv">{{ errors.cv }}</div>
         </div>
       </div>
 
-      <div class="step-footer">
-        <button type="submit" class="submit-button">Étape suivante</button>
+      <div class="step-section" v-if="conjointInfo.cv">
+        <div class="form-group">
+          <label for="nom" class="form-label">Quel est le nom du conjoint ?</label>
+          <input type="text" id="nom" class="form-control" v-model="conjointInfo.nom" :class="{ 'error': errors.nom }" @focus="clearErrorOnInput('nom')" @input="validateField('nom')" required>
+          <div class="error-message" v-if="errors.nom">{{ errors.nom }}</div>
+        </div>
+      </div>
+
+      <div class="step-section" v-if="conjointInfo.nom">
+        <div class="form-group">
+          <label for="prenom" class="form-label">Quel est le prénom du conjoint ?</label>
+          <input type="text" id="prenom" class="form-control" v-model="conjointInfo.prenom" :class="{ 'error': errors.prenom }" @focus="clearErrorOnInput('prenom')" @input="validateField('prenom')" required>
+          <div class="error-message" v-if="errors.prenom">{{ errors.prenom }}</div>
+        </div>
+      </div>
+
+      <div class="step-section" v-if="conjointInfo.prenom">
+        <div class="form-group">
+          <label for="dateNaissance" class="form-label">Pourriez-vous me donner la date de naissance du conjoint ?</label>
+          <input type="date" id="dateNaissance" class="form-control" v-model="conjointInfo.dateNaissance" :class="{ 'error': errors.dateNaissance }" @focus="clearErrorOnInput('dateNaissance')" @input="validateField('dateNaissance')" required>
+          <div class="error-message" v-if="errors.dateNaissance">{{ errors.dateNaissance }}</div>
+        </div>
+      </div>
+
+      <div class="step-section" v-if="conjointInfo.prenom">
+        <div class="form-group">
+          <label for="ayantDroitDe" class="form-label">Le conjoint est-il ayant droit de quelqu'un ?</label>
+          <select id="ayantDroitDe" class="form-select" v-model="conjointInfo.ayantDroitDe" :class="{ 'error': errors.ayantDroitDe }" @focus="clearErrorOnInput('ayantDroitDe')" @change="validateField('ayantDroitDe')" required>
+            <option value="">-- Sélectionnez --</option>
+            <option value="AUTRE">Autre</option>
+            <option value="AUCUN">Aucun</option>
+          </select>
+          <div class="error-message" v-if="errors.ayantDroitDe">{{ errors.ayantDroitDe }}</div>
+        </div>
+      </div>
+
+      <div class="step-section" v-if="conjointInfo.ayantDroitDe === 'AUCUN'">
+        <div class="form-group">
+          <label for="numeroSS" class="form-label">Quel est le numéro de sécurité sociale du conjoint ?</label>
+          <input type="text" id="numeroSS" class="form-control" v-model="conjointInfo.numeroSS" :class="{ 'error': errors.numeroSS }" @focus="clearErrorOnInput('numeroSS')" @input="validateField('numeroSS')" required>
+          <div class="error-message" v-if="errors.numeroSS">{{ errors.numeroSS }}</div>
+        </div>
+      </div>
+
+      <div class="step-section" v-if="conjointInfo.ayantDroitDe === 'AUCUN'">
+        <div class="form-group">
+          <label for="codeOrga" class="form-label">Quel est le code organisme du conjoint ?</label>
+          <input type="text" id="codeOrga" class="form-control" v-model="conjointInfo.codeOrga" :class="{ 'error': errors.codeOrga }" @focus="clearErrorOnInput('codeOrga')" @input="validateField('codeOrga')" required>
+          <div class="error-message" v-if="errors.codeOrga">{{ errors.codeOrga }}</div>
+        </div>
+      </div>
+
+      <div class="step-section" v-if="conjointInfo.ayantDroitDe === 'AUTRE'">
+        <div class="form-group">
+          <label for="ayantDroit" class="form-label">Qui est l'ayant droit du conjoint ?</label>
+          <input type="text" id="ayantDroit" class="form-control" v-model="conjointInfo.ayantDroit" :class="{ 'error': errors.ayantDroit }" @focus="clearErrorOnInput('ayantDroit')" @input="validateField('ayantDroit')" required>
+          <div class="error-message" v-if="errors.ayantDroit">{{ errors.ayantDroit }}</div>
+        </div>
+      </div>
+
+      <div class="step-footer" v-if="conjointInfo.ayantDroitDe">
+        <button type="submit" class="submit-button">Continuer</button>
       </div>
     </div>
   </form>
 </template>
 
 <script setup>
+import { reactive, onMounted, nextTick } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
-import { reactive, onMounted } from 'vue';
+import { toast } from 'vue3-toastify';
 
 const formStore = useFormStore();
 
 const conjointInfo = reactive({
-  cv: 'MR',
+  cv: '',
   nom: '',
   prenom: '',
   dateNaissance: formStore.getFormData.baseInfo.dateNaissanceConjoint || '',
-  ayantDroitDe: 'AUCUN',
+  ayantDroitDe: '',
   numeroSS: '',
   codeOrga: '',
   ayantDroit: ''
 });
+
+const errors = reactive({});
 
 onMounted(() => {
   const storedData = formStore.getFormData.conjointInfo;
   if (storedData) {
     Object.assign(conjointInfo, storedData);
   }
+  // Load dateNaissance from step1
+  const step1Data = formStore.getFormData.baseInfo;
+  if (step1Data && step1Data.dateNaissanceConjoint) {
+    conjointInfo.dateNaissance = step1Data.dateNaissanceConjoint;
+  }
 });
 
-const submitStep = () => {
-  formStore.updateStepData('conjointInfo', conjointInfo);
-  if ((formStore.getFormData.baseInfo.assure.includes('enfant(s)')) && formStore.getFormData.baseInfo.nbrEnfant > 0) {
-    formStore.updateCurrentStep(6);
+const clearErrorOnInput = (field) => {
+  if (errors[field]) {
+    errors[field] = '';
+  }
+  const input = document.querySelector(`#${field}`);
+  if (input) {
+    input.style.boxShadow = 'none';
+  }
+};
+
+const selectOption = (field, option) => {
+  conjointInfo[field] = option;
+  clearErrorOnInput(field);
+};
+
+const calculateAge = (dateString) => {
+  const birthDate = new Date(dateString);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+};
+
+const validateField = (field) => {
+  switch (field) {
+    case 'cv':
+      if (!conjointInfo.cv) {
+        errors.cv = 'Veuillez sélectionner la civilité.';
+      } else {
+        clearErrorOnInput('cv');
+      }
+      break;
+    case 'nom':
+      if (!conjointInfo.nom) {
+        errors.nom = 'Veuillez entrer le nom.';
+      } else if (conjointInfo.nom.length < 3) {
+        errors.nom = 'Le nom doit contenir au moins 3 lettres.';
+      } else if (/\d/.test(conjointInfo.nom)) {
+        errors.nom = 'Le nom ne doit pas contenir de chiffres.';
+      } else {
+        clearErrorOnInput('nom');
+      }
+      break;
+    case 'prenom':
+      if (!conjointInfo.prenom) {
+        errors.prenom = 'Veuillez entrer le prénom.';
+      } else if (conjointInfo.prenom.length < 3) {
+        errors.prenom = 'Le prénom doit contenir au moins 3 lettres.';
+      } else if (/\d/.test(conjointInfo.prenom)) {
+        errors.prenom = 'Le prénom ne doit pas contenir de chiffres.';
+      } else {
+        clearErrorOnInput('prenom');
+      }
+      break;
+    case 'dateNaissance':
+      if (!conjointInfo.dateNaissance) {
+        errors.dateNaissance = 'Veuillez entrer la date de naissance.';
+      } else {
+        const age = calculateAge(conjointInfo.dateNaissance);
+        if (age < 18 || age > 100) {
+          errors.dateNaissance = 'L\'âge doit être compris entre 18 et 100 ans.';
+        } else {
+          clearErrorOnInput('dateNaissance');
+        }
+      }
+      break;
+    case 'ayantDroitDe':
+      if (!conjointInfo.ayantDroitDe) {
+        errors.ayantDroitDe = 'Veuillez sélectionner si le conjoint est ayant droit.';
+      } else {
+        clearErrorOnInput('ayantDroitDe');
+      }
+      break;
+    case 'numeroSS':
+      if (!conjointInfo.numeroSS) {
+        errors.numeroSS = 'Veuillez entrer le numéro de sécurité sociale.';
+      } else if (!/^\d{15}$/.test(conjointInfo.numeroSS)) {
+        errors.numeroSS = 'Le numéro de sécurité sociale doit contenir exactement 15 chiffres.';
+      } else {
+        clearErrorOnInput('numeroSS');
+      }
+      break;
+    case 'codeOrga':
+      if (!conjointInfo.codeOrga) {
+        errors.codeOrga = 'Veuillez entrer le code organisme.';
+      } else if (!/^\d+$/.test(conjointInfo.codeOrga)) {
+        errors.codeOrga = 'Le code organisme doit être composé uniquement de chiffres.';
+      } else {
+        clearErrorOnInput('codeOrga');
+      }
+      break;
+    case 'ayantDroit':
+      if (!conjointInfo.ayantDroit) {
+        errors.ayantDroit = 'Veuillez entrer l\'ayant droit.';
+      } else {
+        clearErrorOnInput('ayantDroit');
+      }
+      break;
+  }
+};
+
+const validateForm = async () => {
+  let isValid = true;
+
+  // Reset errors
+  Object.keys(errors).forEach(key => {
+    errors[key] = '';
+  });
+
+  // Validate cv
+  if (!conjointInfo.cv) {
+    errors.cv = 'Veuillez sélectionner la civilité.';
+    isValid = false;
+    await nextTick();
+    const cvElement = document.querySelector('.option-card');
+    if (cvElement) {
+      cvElement.style.boxShadow = '0 0 0 2px #f4627f';
+    }
+  }
+
+  // Validate nom
+  if (!conjointInfo.nom) {
+    errors.nom = 'Veuillez entrer le nom.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('nom').focus();
+    document.getElementById('nom').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (conjointInfo.nom.length < 3) {
+    errors.nom = 'Le nom doit contenir au moins 3 lettres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('nom').focus();
+    document.getElementById('nom').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (/\d/.test(conjointInfo.nom)) {
+    errors.nom = 'Le nom ne doit pas contenir de chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('nom').focus();
+    document.getElementById('nom').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate prenom
+  if (!conjointInfo.prenom) {
+    errors.prenom = 'Veuillez entrer le prénom.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('prenom').focus();
+    document.getElementById('prenom').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (conjointInfo.prenom.length < 3) {
+    errors.prenom = 'Le prénom doit contenir au moins 3 lettres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('prenom').focus();
+    document.getElementById('prenom').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (/\d/.test(conjointInfo.prenom)) {
+    errors.prenom = 'Le prénom ne doit pas contenir de chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('prenom').focus();
+    document.getElementById('prenom').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate dateNaissance
+  if (!conjointInfo.dateNaissance) {
+    errors.dateNaissance = 'Veuillez entrer la date de naissance.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('dateNaissance').focus();
+    document.getElementById('dateNaissance').style.boxShadow = '0 0 0 2px #f4627f';
   } else {
-    formStore.updateCurrentStep(7);
+    const age = calculateAge(conjointInfo.dateNaissance);
+    if (age < 18 || age > 100) {
+      errors.dateNaissance = 'L\'âge doit être compris entre 18 et 100 ans.';
+      isValid = false;
+      await nextTick();
+      document.getElementById('dateNaissance').focus();
+      document.getElementById('dateNaissance').style.boxShadow = '0 0 0 2px #f4627f';
+    }
+  }
+
+  // Validate ayantDroitDe
+  if (!conjointInfo.ayantDroitDe) {
+    errors.ayantDroitDe = 'Veuillez sélectionner si le conjoint est ayant droit.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('ayantDroitDe').focus();
+    document.getElementById('ayantDroitDe').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate numeroSS
+  if (conjointInfo.ayantDroitDe === 'AUCUN' && !conjointInfo.numeroSS) {
+    errors.numeroSS = 'Veuillez entrer le numéro de sécurité sociale.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('numeroSS').focus();
+    document.getElementById('numeroSS').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (conjointInfo.ayantDroitDe === 'AUCUN' && !/^\d{15}$/.test(conjointInfo.numeroSS)) {
+    errors.numeroSS = 'Le numéro de sécurité sociale doit contenir exactement 15 chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('numeroSS').focus();
+    document.getElementById('numeroSS').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate codeOrga
+  if (conjointInfo.ayantDroitDe === 'AUCUN' && !conjointInfo.codeOrga) {
+    errors.codeOrga = 'Veuillez entrer le code organisme.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('codeOrga').focus();
+    document.getElementById('codeOrga').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (conjointInfo.ayantDroitDe === 'AUCUN' && !/^\d+$/.test(conjointInfo.codeOrga)) {
+    errors.codeOrga = 'Le code organisme doit être composé uniquement de chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('codeOrga').focus();
+    document.getElementById('codeOrga').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate ayantDroit
+  if (conjointInfo.ayantDroitDe === 'AUTRE' && !conjointInfo.ayantDroit) {
+    errors.ayantDroit = 'Veuillez entrer l\'ayant droit.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('ayantDroit').focus();
+    document.getElementById('ayantDroit').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  return isValid;
+};
+
+const submitStep = async () => {
+  const isValid = await validateForm();
+
+  if (isValid) {
+    formStore.updateStepData('conjointInfo', conjointInfo);
+    if ((formStore.getFormData.baseInfo.assure.includes('enfant(s)')) && formStore.getFormData.baseInfo.nbrEnfant > 0) {
+      formStore.updateCurrentStep(6);
+    } else {
+      formStore.updateCurrentStep(7);
+    }
+  } else {
+    toast.error("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");
   }
 };
 </script>
-
-
 
 <style scoped>
 .step-form {
@@ -129,16 +408,16 @@ const submitStep = () => {
   margin-bottom: 30px;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
 .form-label {
   display: block;
   margin-bottom: 10px;
   color: var(--e-global-color-primary);
   font-size: 16px;
   font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 20px;
 }
 
 .form-control, .form-select {
@@ -152,6 +431,70 @@ const submitStep = () => {
 .form-control:focus, .form-select:focus {
   border-color: var(--e-global-color-accent);
   outline: none;
+}
+
+.form-control.error, .form-select.error {
+  box-shadow: 0 0 0 2px #f4627f;
+}
+
+.error-message {
+  color: #f4627f;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.step-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.option-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.option-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  width: 180px;
+  height: 150px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option-card:hover {
+  background-color: var(--e-global-color-02c5432);
+  border-color: var(--e-global-color-accent);
+}
+
+.option-card.selected {
+  background-color: var(--e-global-color-accent);
+  border-color: var(--e-global-color-accent);
+  color: white;
+}
+
+.option-card.selected .option-label {
+  color: white;
+}
+
+.option-icon {
+  margin-bottom: 10px;
+}
+
+.option-label {
+  color: var(--e-global-color-primary);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .step-footer {

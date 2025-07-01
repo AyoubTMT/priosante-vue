@@ -2,23 +2,23 @@
   <form @submit.prevent="submitStep" class="step-form">
     <div class="step-container">
       <div class="step-header">
-        <h2 class="step-title">Devis mutuelle santé</h2>
+        <h2 class="step-title">Bonjour ! Je suis votre assistant virtuel.</h2>
         <p class="step-description">
-          Prenons quelques minutes pour définir ensemble la meilleure offre.
+          Je vais vous aider à définir la meilleure offre pour votre mutuelle santé. Commençons par quelques informations de base.
         </p>
       </div>
 
       <div class="step-section">
-        <label class="form-label">Qui souhaitez-vous assurer ?</label>
+        <label class="form-label">Pour commencer, qui souhaitez-vous assurer ?</label>
         <div class="step-options">
           <div class="option-row">
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte', error: errors.assure }" @click="selectOption('assure', 'Un adulte')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte', 'error': errors.assure }" @click="selectOption('assure', 'Un adulte')">
               <div class="option-icon">
                 <img src="../assets/icons/personne.png" alt="Un adulte">
               </div>
               <div class="option-label">Un adulte</div>
             </div>
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte + enfant(s)', error: errors.assure }" @click="selectOption('assure', 'Un adulte + enfant(s)')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un adulte + enfant(s)', 'error': errors.assure }" @click="selectOption('assure', 'Un adulte + enfant(s)')">
               <div class="option-icon">
                 <img src="../assets/icons/mere-et-fils.png" alt="Un adulte + enfant(s)">
               </div>
@@ -26,13 +26,13 @@
             </div>
           </div>
           <div class="option-row">
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple', error: errors.assure }" @click="selectOption('assure', 'Un couple')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple', 'error': errors.assure }" @click="selectOption('assure', 'Un couple')">
               <div class="option-icon">
                 <img src="../assets/icons/couple.png" alt="Un couple">
               </div>
               <div class="option-label">Un couple</div>
             </div>
-            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple + enfant(s)', error: errors.assure }" @click="selectOption('assure', 'Un couple + enfant(s)')">
+            <div class="option-card" :class="{ 'selected': localData.assure === 'Un couple + enfant(s)', 'error': errors.assure }" @click="selectOption('assure', 'Un couple + enfant(s)')">
               <div class="option-icon">
                 <img src="../assets/icons/famille.png" alt="Un couple + enfant(s)">
               </div>
@@ -43,37 +43,39 @@
         <div class="error-message" v-if="errors.assure">{{ errors.assure }}</div>
       </div>
 
-      <div class="step-section">
-        <div class="form-group" v-if="localData.assure">
-          <label for="dateNaissance" class="form-label">Date de naissance</label>
+      <div class="step-section" v-if="localData.assure">
+        <div class="form-group">
+          <label for="dateNaissance" class="form-label">Pourriez-vous me donner votre date de naissance ?</label>
           <input
             type="date"
             id="dateNaissance"
             class="form-control"
             v-model="localData.dateNaissance"
-            :class="{ error: errors.dateNaissance }"
+            :class="{ 'error': errors.dateNaissance }"
             @focus="clearErrorOnInput('dateNaissance')"
             @input="validateField('dateNaissance')"
+            required
           />
           <div class="error-message" v-if="errors.dateNaissance">{{ errors.dateNaissance }}</div>
         </div>
 
         <div class="form-group" v-if="localData.dateNaissance && (localData.assure === 'Un couple' || localData.assure === 'Un couple + enfant(s)')">
-          <label for="dateNaissanceConjoint" class="form-label">Date de naissance du conjoint</label>
+          <label for="dateNaissanceConjoint" class="form-label">Quelle est la date de naissance de votre conjoint ?</label>
           <input
             type="date"
             id="dateNaissanceConjoint"
             class="form-control"
             v-model="localData.dateNaissanceConjoint"
-            :class="{ error: errors.dateNaissanceConjoint }"
+            :class="{ 'error': errors.dateNaissanceConjoint }"
             @focus="clearErrorOnInput('dateNaissanceConjoint')"
             @input="validateField('dateNaissanceConjoint')"
+            required
           />
           <div class="error-message" v-if="errors.dateNaissanceConjoint">{{ errors.dateNaissanceConjoint }}</div>
         </div>
 
         <div class="form-group" v-if="localData.dateNaissance && (localData.assure === 'Un adulte + enfant(s)' || localData.assure === 'Un couple + enfant(s)')">
-          <label for="nbrEnfant" class="form-label">Nombre d'enfants</label>
+          <label for="nbrEnfant" class="form-label">Combien d'enfants souhaitez-vous assurer ?</label>
           <input
             type="number"
             id="nbrEnfant"
@@ -81,53 +83,55 @@
             v-model="localData.nbrEnfant"
             min="0"
             max="8"
-            :class="{ error: errors.nbrEnfant }"
+            :class="{ 'error': errors.nbrEnfant }"
             @focus="clearErrorOnInput('nbrEnfant')"
             @input="validateField('nbrEnfant')"
+            required
           />
           <div class="error-message" v-if="errors.nbrEnfant">{{ errors.nbrEnfant }}</div>
         </div>
 
-        <div class="form-group" v-if="localData.nbrEnfant > 0  && (localData.assure === 'Un adulte + enfant(s)' || localData.assure === 'Un couple + enfant(s)')">
+        <div class="form-group" v-if="localData.nbrEnfant > 0">
           <div v-for="n in parseInt(localData.nbrEnfant)" :key="n" class="child-section">
-            <label class="form-label">Date de naissance de l'enfant {{ n }}</label>
+            <label class="form-label">Quelle est la date de naissance de l'enfant {{ n }} ?</label>
             <input
               type="date"
               class="form-control"
               v-model="localData[`dateNaissanceEnfant${n}`]"
-              :class="{ error: errors[`dateNaissanceEnfant${n}`] }"
+              :class="{ 'error': errors[`dateNaissanceEnfant${n}`] }"
               @focus="clearErrorOnInput(`dateNaissanceEnfant${n}`)"
               @input="validateField(`dateNaissanceEnfant${n}`)"
+              required
             />
-            <div class="error-message" v-if="errors[`dateNaissanceEnfant${n}`]">
-              {{ errors[`dateNaissanceEnfant${n}`] }}
-            </div>
+            <div class="error-message" v-if="errors[`dateNaissanceEnfant${n}`]">{{ errors[`dateNaissanceEnfant${n}`] }}</div>
           </div>
         </div>
 
         <div class="form-group" v-if="localData.dateNaissance">
-          <label for="dateEffet" class="form-label">Date d'effet</label>
+          <label for="dateEffet" class="form-label">Quand souhaitez-vous que la couverture commence ?</label>
           <input
             type="date"
             id="dateEffet"
             class="form-control"
             v-model="localData.dateEffet"
-            :class="{ error: errors.dateEffet }"
+            :class="{ 'error': errors.dateEffet }"
             @focus="clearErrorOnInput('dateEffet')"
             @input="validateField('dateEffet')"
+            required
           />
           <div class="error-message" v-if="errors.dateEffet">{{ errors.dateEffet }}</div>
         </div>
 
         <div class="form-group" v-if="localData.dateEffet">
-          <label for="regime" class="form-label">Régime</label>
+          <label for="regime" class="form-label">Quel est votre régime de sécurité sociale ?</label>
           <select
             id="regime"
             class="form-select"
             v-model="localData.regime"
-            :class="{ error: errors.regime }"
+            :class="{ 'error': errors.regime }"
             @focus="clearErrorOnInput('regime')"
             @change="validateField('regime')"
+            required
           >
             <option value="">-- Sélectionnez --</option>
             <option value="SECURITE_SOCIALE">Sécurité Sociale</option>
@@ -142,29 +146,30 @@
         </div>
 
         <div class="form-group" v-if="localData.regime">
-          <label for="codePostal" class="form-label">Code Postal</label>
+          <label for="codePostal" class="form-label">Quel est votre code postal ?</label>
           <input
             type="text"
             id="codePostal"
             class="form-control"
             v-model="localData.codePostal"
-            :class="{ error: errors.codePostal }"
+            :class="{ 'error': errors.codePostal }"
             @focus="clearErrorOnInput('codePostal')"
             @input="validateField('codePostal')"
+            required
           />
           <div class="error-message" v-if="errors.codePostal">{{ errors.codePostal }}</div>
         </div>
 
         <div class="form-group" v-if="localData.codePostal">
-          <label class="form-label">Budget mensuel *</label>
+          <label class="form-label">Quel est votre budget mensuel pour cette assurance ?</label>
           <div class="option-row">
-            <div class="option-card-budget" :class="{ 'selected': localData.budget === 'ENTRE_20_ET_50', error: errors.budget }" @click="selectOption('budget', 'ENTRE_20_ET_50')">
+            <div class="option-card-budget" :class="{ 'selected': localData.budget === 'ENTRE_20_ET_50', 'error': errors.budget }" @click="selectOption('budget', 'ENTRE_20_ET_50')">
               <div class="option-label">Entre 20 et 50 €</div>
             </div>
-            <div class="option-card-budget" :class="{ 'selected': localData.budget === 'ENTRE_50_ET_100', error: errors.budget }" @click="selectOption('budget', 'ENTRE_50_ET_100')">
+            <div class="option-card-budget" :class="{ 'selected': localData.budget === 'ENTRE_50_ET_100', 'error': errors.budget }" @click="selectOption('budget', 'ENTRE_50_ET_100')">
               <div class="option-label">Entre 50 et 100 €</div>
             </div>
-            <div class="option-card-budget" :class="{ 'selected': localData.budget === 'ENTRE_100_ET_250', error: errors.budget }" @click="selectOption('budget', 'ENTRE_100_ET_250')">
+            <div class="option-card-budget" :class="{ 'selected': localData.budget === 'ENTRE_100_ET_250', 'error': errors.budget }" @click="selectOption('budget', 'ENTRE_100_ET_250')">
               <div class="option-label">Entre 100 et 250 €</div>
             </div>
           </div>
@@ -173,53 +178,39 @@
       </div>
 
       <div class="step-footer">
-        <button type="submit" class="submit-button" v-if="localData.codePostal">Votre devis en 2 minutes</button>
+        <button type="submit" class="submit-button"  v-if="localData.codePostal">Obtenir mon devis</button>
       </div>
     </div>
   </form>
 </template>
 
 <script setup>
-import { reactive, ref, watch, computed, nextTick } from 'vue';
+import { reactive, ref, watch, computed, nextTick, onMounted } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { toast } from 'vue3-toastify';
-import axios from 'axios';
 
 const formStore = useFormStore();
-const step1Data = formStore.getFormData;
 
 const localData = reactive({
-  assure: step1Data.baseInfo.assure || '',
-  dateNaissance: step1Data.baseInfo.dateNaissance || '',
-  dateNaissanceConjoint: step1Data.baseInfo.dateNaissanceConjoint || '',
-  nbrEnfant: step1Data.baseInfo.nbrEnfant || 0,
-  dateEffet: step1Data.baseInfo.dateEffet || '',
-  regime: step1Data.baseInfo.regime || '',
-  codePostal: step1Data.baseInfo.codePostal || '',
-  dateNaissanceEnfant1: step1Data.baseInfo.dateNaissanceEnfant1 || '',
-  dateNaissanceEnfant2: step1Data.baseInfo.dateNaissanceEnfant2 || '',
-  dateNaissanceEnfant3: step1Data.baseInfo.dateNaissanceEnfant3 || '',
-  dateNaissanceEnfant4: step1Data.baseInfo.dateNaissanceEnfant4 || '',
-  dateNaissanceEnfant5: step1Data.baseInfo.dateNaissanceEnfant5 || '',
-  dateNaissanceEnfant6: step1Data.baseInfo.dateNaissanceEnfant6 || '',
-  dateNaissanceEnfant7: step1Data.baseInfo.dateNaissanceEnfant7 || '',
-  dateNaissanceEnfant8: step1Data.baseInfo.dateNaissanceEnfant8 || '',
-  budget: step1Data.baseInfo.budget || '',
+  assure: '',
+  dateNaissance: '',
+  dateNaissanceConjoint: '',
+  nbrEnfant: 0,
+  dateEffet: '',
+  regime: '',
+  codePostal: '',
+  dateNaissanceEnfant1: '',
+  dateNaissanceEnfant2: '',
+  dateNaissanceEnfant3: '',
+  dateNaissanceEnfant4: '',
+  dateNaissanceEnfant5: '',
+  dateNaissanceEnfant6: '',
+  dateNaissanceEnfant7: '',
+  dateNaissanceEnfant8: '',
+  budget: '',
 });
 
 const errors = reactive({});
-
-const submitStep = async () => {
-  const isValid = await validateForm();
-
-  if (isValid) {
-    formStore.updateStepData('baseInfo', localData);
-    formStore.updateCurrentStep(2); // Directly set the current step to 2
-  } else {
-    console.log("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");
-  }
-};
-
 
 const clearErrorOnInput = (field) => {
   if (errors[field]) {
@@ -232,13 +223,17 @@ const clearErrorOnInput = (field) => {
   }
 };
 
+onMounted(() => {
+  const storedData = formStore.getFormData.baseInfo;
+  if (storedData) {
+    Object.assign(localData, storedData);
+  }
+});
+
 const selectOption = (field, option) => {
   localData[field] = option;
   clearErrorOnInput(field);
 };
-
-const showModal = ref(false);
-const modalTrigger = ref(null);
 
 const today = new Date();
 const currentYear = today.getFullYear();
@@ -387,8 +382,8 @@ const validateForm = async () => {
   }
 
   // Validate dateNaissance
-  if (localData.dateNaissance == '' && !isValidDate(localData.dateNaissance, minDateNaissance.value, maxDateNaissance.value)) {
-    errors.dateNaissance = "La date de naissance doit être valide. L'âge doit être compris entre 18 ans et 100 ans.";
+  if (!localData.dateNaissance || !isValidDate(localData.dateNaissance, minDateNaissance.value, maxDateNaissance.value)) {
+    errors.dateNaissance = "Veuillez entrer une date de naissance valide. L'âge doit être compris entre 18 ans et 100 ans.";
     isValid = false;
     await nextTick();
     document.getElementById('dateNaissance').focus();
@@ -396,8 +391,8 @@ const validateForm = async () => {
   }
 
   // Validate dateNaissanceConjoint
-  if (localData.dateNaissanceConjoint && !isValidDate(localData.dateNaissanceConjoint, minDateNaissance.value, maxDateNaissance.value)) {
-    errors.dateNaissanceConjoint = "La date de naissance du conjoint doit être valide. L'âge doit être compris entre 18 ans et 100 ans.";
+  if (localData.assure.includes('couple') && (!localData.dateNaissanceConjoint || !isValidDate(localData.dateNaissanceConjoint, minDateNaissance.value, maxDateNaissance.value))) {
+    errors.dateNaissanceConjoint = "Veuillez entrer une date de naissance valide pour le conjoint. L'âge doit être compris entre 18 ans et 100 ans.";
     isValid = false;
     await nextTick();
     document.getElementById('dateNaissanceConjoint').focus();
@@ -405,7 +400,7 @@ const validateForm = async () => {
   }
 
   // Validate nbrEnfant
-  if (localData.nbrEnfant && (localData.nbrEnfant < 0 || localData.nbrEnfant > 8)) {
+  if ((localData.assure.includes('enfant(s)')) && (!localData.nbrEnfant || localData.nbrEnfant < 0 || localData.nbrEnfant > 8)) {
     errors.nbrEnfant = 'Le nombre d\'enfants doit être compris entre 0 et 8.';
     isValid = false;
     await nextTick();
@@ -416,8 +411,8 @@ const validateForm = async () => {
   // Validate enfants dates
   for (let i = 1; i <= localData.nbrEnfant; i++) {
     const dateField = `dateNaissanceEnfant${i}`;
-    if (localData[dateField] && !isValidDate(localData[dateField], minDateNaissance.value, maxDateNaissanceEnfant.value)) {
-      errors[dateField] = `La date de naissance de l'enfant ${i} doit être valide.`;
+    if (localData[dateField] && !isValidDate(localData[dateField], minDateNaissanceEnfant.value, maxDateNaissanceEnfant.value)) {
+      errors[dateField] = `Veuillez entrer une date de naissance valide pour l'enfant ${i}.`;
       isValid = false;
       await nextTick();
       document.querySelector(`input[class*="dateNaissanceEnfant${i}"]`).focus();
@@ -426,8 +421,8 @@ const validateForm = async () => {
   }
 
   // Validate dateEffet
-  if (localData.dateEffet && !isValidDate(localData.dateEffet, minDateEffet.value, maxDateEffet.value)) {
-    errors.dateEffet = 'La date d\'effet doit être valide.';
+  if (!localData.dateEffet || !isValidDate(localData.dateEffet, minDateEffet.value, maxDateEffet.value)) {
+    errors.dateEffet = 'Veuillez entrer une date d\'effet valide.';
     isValid = false;
     await nextTick();
     document.getElementById('dateEffet').focus();
@@ -435,7 +430,7 @@ const validateForm = async () => {
   }
 
   // Validate regime
-  if (!localData.regime && localData.dateEffet) {
+  if (!localData.regime) {
     errors.regime = 'Veuillez sélectionner un régime.';
     isValid = false;
     await nextTick();
@@ -444,7 +439,7 @@ const validateForm = async () => {
   }
 
   // Validate codePostal
-  if (localData.codePostal && !/^\d{5}$/.test(localData.codePostal)) {
+  if (!localData.codePostal || !/^\d{5}$/.test(localData.codePostal)) {
     errors.codePostal = 'Le code postal doit être composé de 5 chiffres.';
     isValid = false;
     await nextTick();
@@ -452,14 +447,30 @@ const validateForm = async () => {
     document.getElementById('codePostal').style.boxShadow = '0 0 0 2px #f4627f';
   }
 
+  // Validate budget
   if (!localData.budget) {
     errors.budget = 'Veuillez sélectionner un budget mensuel.';
     isValid = false;
+    await nextTick();
+    const budgetElement = document.querySelector('.option-card-budget');
+    if (budgetElement) {
+      budgetElement.style.boxShadow = '0 0 0 2px #f4627f';
+    }
   }
 
   return isValid;
 };
 
+const submitStep = async () => {
+  const isValid = await validateForm();
+
+  if (isValid) {
+    formStore.updateStepData('baseInfo', localData);
+    formStore.updateCurrentStep(2);
+  } else {
+    toast.error("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");
+  }
+};
 
 // Watch for changes in nbrEnfant to update the form
 watch(() => localData.nbrEnfant, (newVal) => {
@@ -636,18 +647,5 @@ watch(() => localData.nbrEnfant, (newVal) => {
   padding: 15px;
   background-color: var(--e-global-color-secondary);
   border-radius: 8px;
-}
-
-.radio-group {
-  display: flex;
-  gap: 20px;
-  margin-top: 10px;
-}
-
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
 }
 </style>

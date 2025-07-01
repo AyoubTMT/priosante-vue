@@ -596,6 +596,14 @@ img, svg {
 .colorText{
   color: var(--color1);
 }
+.colorFormuleSelected{
+  color: var(--color5) !important;
+  font-weight: 600 !important;
+}
+.colorFormule{
+  color: var(--color4) !important;
+  font-weight: 600 !important;
+}
 
 .progressdiv{
   margin-bottom: 50px !important;
