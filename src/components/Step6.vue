@@ -50,7 +50,7 @@
             <div class="error-message" v-if="errors[`dateNaissance${n}`]">{{ errors[`dateNaissance${n}`] }}</div>
           </div>
 
-          <div class="form-group" v-if="enfantsInfo[n - 1].dateNaissance">
+          <div class="form-group" v-if="enfantsInfo[n - 1].prenom">
             <label :for="'poursuiteEtude' + n" class="form-label">L'enfant poursuit-il ses études ?</label>
             <select :id="'poursuiteEtude' + n" class="form-select" v-model="enfantsInfo[n - 1].poursuiteEtude" :class="{ 'error': errors[`poursuiteEtude${n}`] }" @focus="clearErrorOnInput(`poursuiteEtude${n}`)" @change="validateField(n - 1, 'poursuiteEtude')" required>
               <option value="OUI">Oui</option>
@@ -59,7 +59,7 @@
             <div class="error-message" v-if="errors[`poursuiteEtude${n}`]">{{ errors[`poursuiteEtude${n}`] }}</div>
           </div>
 
-          <div class="form-group" v-if="enfantsInfo[n - 1].dateNaissance">
+          <div class="form-group" v-if="enfantsInfo[n - 1].prenom">
             <label :for="'ayantDroitDe' + n" class="form-label">Quel est l'ayant droit de l'enfant ?</label>
             <div class="option-row">
               <div class="option-card-budget" :class="{ 'selected': enfantsInfo[n - 1].ayantDroitDe === 'ASSURE_1', 'error': errors[`ayantDroitDe${n}`] }" @click="selectOption(n - 1, 'ayantDroitDe', 'ASSURE_1')">

@@ -707,23 +707,34 @@ const saveDevis = async () => {
   await axios.post(import.meta.env.VITE_BASE_URL + 'api/saveDevis', dataSave)
     .then(async response => {
       if (response.status === 200) {
-        console.log('response.data');
+        console.log('response.data200');
         console.log(response.data);
         if (dataSave.flagType != 'DOCUMENT') {
           formStore.updateStepData('devisCompletAvecLien', response.data.response);
           formStore.updateStepData('lienSignature', response.data.response.signature);
+          router.push('/devis/recapitulatif');
         } else {
           formStore.updateStepData('devisComplet', response.data.response);
         }
         //await sendLienSignature();
       } else if (response.status === 400) {
+        console.log('response.data400');
+        console.log(response.data);
         if (response.data.errors) {
           backendErrors.value = response.data.errors;
         }
       }
     }).catch(({ response }) => {
-      if (response.data.errors) {
-        backendErrors.value = response.data.errors;
+      if (response.data.error) {
+        try {
+          const errorData = JSON.parse(response.data.error);
+          if (errorData.errors) {
+            backendErrors.value = errorData.errors;
+          }
+        } catch (parseError) {
+          console.error('Failed to parse error JSON:', parseError);
+          toast.error('Une erreur est survenue, merci de réessayer plus tard');
+        }
       } else {
         toast.error('Une erreur est survenue, merci de réessayer plus tard');
       }

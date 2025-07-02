@@ -75,7 +75,7 @@ const filteredSteps = computed(() => {
     'Tarifs'
   ];
 
-  if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'OUI') {
+  if (formStore.getFormData.souscripteurInfo && formStore.getFormData.souscripteurInfo.souscripteurIsAssure === 'NON') {
     steps.push('Assuré');
   }
 
