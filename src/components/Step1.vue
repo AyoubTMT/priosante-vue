@@ -2,7 +2,7 @@
   <form @submit.prevent="submitStep" class="step-form">
     <div class="step-container">
       <div class="step-header">
-        <h2 class="step-title">Bonjour ! Je suis votre assistant virtuel.</h2>
+        <h2 class="step-title">Bonjour ! Je suis Emma.</h2>
         <p class="step-description">
           Je vais vous aider à définir la meilleure offre pour votre mutuelle santé. Commençons par quelques informations de base.
         </p>
