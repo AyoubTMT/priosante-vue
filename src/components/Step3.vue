@@ -101,7 +101,7 @@ const fetchTarifs = async (formData) => {
 const selectPlan = (plan) => {
   formStore.updateSelectedTarif(plan);
   const souscripteurInfo = formStore.getFormData.souscripteurInfo || {};
-  if (souscripteurInfo.souscripteurIsAssure === 'OUI') {
+  if (souscripteurInfo.souscripteurIsAssure === 'NON') {
     formStore.updateCurrentStep(4); // Directly set the current step to 4 (Tarifs)
   } else if (formStore.getFormData.baseInfo.assure.includes('couple')) {
     formStore.updateCurrentStep(5); // Directly set the current step to 5
@@ -141,14 +141,18 @@ onMounted(async () => {
         if (plans.value.all_tariffs.length > 1) {
           plans.value.all_tariffs[1].popular = true;
         }else{
-          plans.value.all_tariffs[0].popular = true;
+          if (plans.value.all_tariffs[0]) {
+            plans.value.all_tariffs[0].popular = true;
+          }
         }
       }
-
+      console.log(plans.value);
       if (plans.value.top3_compatible_formules.length > 1) {
         plans.value.top3_compatible_formules[1].popular = true;
-      }else{
-        plans.value.top3_compatible_formules[0].popular = true;
+      } else {
+        if (plans.value.top3_compatible_formules[0]) {
+          plans.value.top3_compatible_formules[0].popular = true;
+        }
       }
     }
   } catch (err) {

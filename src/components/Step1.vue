@@ -178,7 +178,7 @@
       </div>
 
       <div class="step-footer">
-        <button type="submit" class="submit-button"  v-if="localData.codePostal">Obtenir mon devis</button>
+        <button type="submit" class="submit-button" v-if="localData.codePostal">Obtenir mon devis</button>
       </div>
     </div>
   </form>
@@ -233,6 +233,13 @@ onMounted(() => {
 const selectOption = (field, option) => {
   localData[field] = option;
   clearErrorOnInput(field);
+  updateNbrEnfant();
+};
+
+const updateNbrEnfant = () => {
+  if (localData.assure === 'Un adulte' || localData.assure === 'Un couple') {
+    localData.nbrEnfant = 0;
+  }
 };
 
 const today = new Date();
@@ -400,7 +407,7 @@ const validateForm = async () => {
   }
 
   // Validate nbrEnfant
-  if ((localData.assure.includes('enfant(s)')) && (!localData.nbrEnfant || localData.nbrEnfant < 0 || localData.nbrEnfant > 8)) {
+  if ((localData.assure.includes('enfant(s)')) && (localData.nbrEnfant < 0 || localData.nbrEnfant > 8)) {
     errors.nbrEnfant = 'Le nombre d\'enfants doit être compris entre 0 et 8.';
     isValid = false;
     await nextTick();

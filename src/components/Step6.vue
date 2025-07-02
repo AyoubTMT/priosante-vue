@@ -58,6 +58,90 @@
             </select>
             <div class="error-message" v-if="errors[`poursuiteEtude${n}`]">{{ errors[`poursuiteEtude${n}`] }}</div>
           </div>
+
+          <div class="form-group" v-if="enfantsInfo[n - 1].dateNaissance">
+            <label :for="'ayantDroitDe' + n" class="form-label">Quel est l'ayant droit de l'enfant ?</label>
+            <div class="option-row">
+              <div class="option-card-budget" :class="{ 'selected': enfantsInfo[n - 1].ayantDroitDe === 'ASSURE_1', 'error': errors[`ayantDroitDe${n}`] }" @click="selectOption(n - 1, 'ayantDroitDe', 'ASSURE_1')">
+                <div class="option-label">Assuré 1</div>
+              </div>
+              <div class="option-card-budget" :class="{ 'selected': enfantsInfo[n - 1].ayantDroitDe === 'ASSURE_2', 'error': errors[`ayantDroitDe${n}`] }" @click="selectOption(n - 1, 'ayantDroitDe', 'ASSURE_2')">
+                <div class="option-label">Assuré 2</div>
+              </div>
+              <div class="option-card-budget" :class="{ 'selected': enfantsInfo[n - 1].ayantDroitDe === 'AUCUN', 'error': errors[`ayantDroitDe${n}`] }" @click="selectOption(n - 1, 'ayantDroitDe', 'AUCUN')">
+                <div class="option-label">Aucun</div>
+              </div>
+              <div class="option-card-budget" :class="{ 'selected': enfantsInfo[n - 1].ayantDroitDe === 'AUTRE', 'error': errors[`ayantDroitDe${n}`] }" @click="selectOption(n - 1, 'ayantDroitDe', 'AUTRE')">
+                <div class="option-label">Autre</div>
+              </div>
+            </div>
+            <div class="error-message" v-if="errors[`ayantDroitDe${n}`]">{{ errors[`ayantDroitDe${n}`] }}</div>
+          </div>
+
+          <div v-if="enfantsInfo[n - 1].ayantDroitDe === 'AUCUN'">
+            <div class="form-group">
+              <label :for="'numeroSS' + n" class="form-label">Quel est le numéro de sécurité sociale de l'enfant ?</label>
+              <input type="text" :id="'numeroSS' + n" class="form-control" v-model="enfantsInfo[n - 1].numeroSS" :class="{ 'error': errors[`numeroSS${n}`] }" @focus="clearErrorOnInput(`numeroSS${n}`)" @input="validateField(n - 1, 'numeroSS')" required>
+              <div class="error-message" v-if="errors[`numeroSS${n}`]">{{ errors[`numeroSS${n}`] }}</div>
+            </div>
+
+            <div class="form-group">
+              <label :for="'codeOrga' + n" class="form-label">Quel est le code organisme de l'enfant ?</label>
+              <input type="text" :id="'codeOrga' + n" class="form-control" v-model="enfantsInfo[n - 1].codeOrga" :class="{ 'error': errors[`codeOrga${n}`] }" @focus="clearErrorOnInput(`codeOrga${n}`)" @input="validateField(n - 1, 'codeOrga')" required>
+              <div class="error-message" v-if="errors[`codeOrga${n}`]">{{ errors[`codeOrga${n}`] }}</div>
+            </div>
+          </div>
+
+          <div v-if="enfantsInfo[n - 1].ayantDroitDe === 'AUTRE'">
+            <div class="form-group">
+              <label :for="'cvAyantDroit' + n" class="form-label">Civilité de l'ayant droit</label>
+              <div class="option-row">
+                <div class="option-card" :class="{ 'selected': enfantsInfo[n - 1].cvAyantDroit === 'MR', 'error': errors[`cvAyantDroit${n}`] }" @click="selectOption(n - 1, 'cvAyantDroit', 'MR')">
+                  <div class="option-icon">
+                    <img src="../assets/icons/homme.svg" alt="Monsieur">
+                  </div>
+                  <div class="option-label">Monsieur</div>
+                </div>
+                <div class="option-card" :class="{ 'selected': enfantsInfo[n - 1].cvAyantDroit === 'MME', 'error': errors[`cvAyantDroit${n}`] }" @click="selectOption(n - 1, 'cvAyantDroit', 'MME')">
+                  <div class="option-icon">
+                    <img src="../assets/icons/femme.svg" alt="Madame">
+                  </div>
+                  <div class="option-label">Madame</div>
+                </div>
+              </div>
+              <div class="error-message" v-if="errors[`cvAyantDroit${n}`]">{{ errors[`cvAyantDroit${n}`] }}</div>
+            </div>
+
+            <div class="form-group" v-if="enfantsInfo[n - 1].cvAyantDroit">
+              <label :for="'nomAyantDroit' + n" class="form-label">Nom de l'ayant droit</label>
+              <input type="text" :id="'nomAyantDroit' + n" class="form-control" v-model="enfantsInfo[n - 1].nomAyantDroit" :class="{ 'error': errors[`nomAyantDroit${n}`] }" @focus="clearErrorOnInput(`nomAyantDroit${n}`)" @input="validateField(n - 1, 'nomAyantDroit')" required>
+              <div class="error-message" v-if="errors[`nomAyantDroit${n}`]">{{ errors[`nomAyantDroit${n}`] }}</div>
+            </div>
+
+            <div class="form-group" v-if="enfantsInfo[n - 1].nomAyantDroit">
+              <label :for="'prenomAyantDroit' + n" class="form-label">Prénom de l'ayant droit</label>
+              <input type="text" :id="'prenomAyantDroit' + n" class="form-control" v-model="enfantsInfo[n - 1].prenomAyantDroit" :class="{ 'error': errors[`prenomAyantDroit${n}`] }" @focus="clearErrorOnInput(`prenomAyantDroit${n}`)" @input="validateField(n - 1, 'prenomAyantDroit')" required>
+              <div class="error-message" v-if="errors[`prenomAyantDroit${n}`]">{{ errors[`prenomAyantDroit${n}`] }}</div>
+            </div>
+
+            <div class="form-group" v-if="enfantsInfo[n - 1].prenomAyantDroit">
+              <label :for="'dateNaissanceAyantDroit' + n" class="form-label">Date de naissance de l'ayant droit</label>
+              <input type="date" :id="'dateNaissanceAyantDroit' + n" class="form-control" v-model="enfantsInfo[n - 1].dateNaissanceAyantDroit" :class="{ 'error': errors[`dateNaissanceAyantDroit${n}`] }" @focus="clearErrorOnInput(`dateNaissanceAyantDroit${n}`)" @input="validateField(n - 1, 'dateNaissanceAyantDroit')" required>
+              <div class="error-message" v-if="errors[`dateNaissanceAyantDroit${n}`]">{{ errors[`dateNaissanceAyantDroit${n}`] }}</div>
+            </div>
+
+            <div class="form-group" v-if="enfantsInfo[n - 1].dateNaissanceAyantDroit">
+              <label :for="'numeroSSAyantDroit' + n" class="form-label">Numéro de sécurité sociale de l'ayant droit</label>
+              <input type="text" :id="'numeroSSAyantDroit' + n" class="form-control" v-model="enfantsInfo[n - 1].numeroSSAyantDroit" :class="{ 'error': errors[`numeroSSAyantDroit${n}`] }" @focus="clearErrorOnInput(`numeroSSAyantDroit${n}`)" @input="validateField(n - 1, 'numeroSSAyantDroit')" required>
+              <div class="error-message" v-if="errors[`numeroSSAyantDroit${n}`]">{{ errors[`numeroSSAyantDroit${n}`] }}</div>
+            </div>
+
+            <div class="form-group" v-if="enfantsInfo[n - 1].numeroSSAyantDroit">
+              <label :for="'codeOrgaAyantDroit' + n" class="form-label">Code organisme de l'ayant droit</label>
+              <input type="text" :id="'codeOrgaAyantDroit' + n" class="form-control" v-model="enfantsInfo[n - 1].codeOrgaAyantDroit" :class="{ 'error': errors[`codeOrgaAyantDroit${n}`] }" @focus="clearErrorOnInput(`codeOrgaAyantDroit${n}`)" @input="validateField(n - 1, 'codeOrgaAyantDroit')" required>
+              <div class="error-message" v-if="errors[`codeOrgaAyantDroit${n}`]">{{ errors[`codeOrgaAyantDroit${n}`] }}</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -81,7 +165,16 @@ const enfantsInfo = reactive(
     nom: '',
     prenom: '',
     dateNaissance: formStore.getFormData.baseInfo[`dateNaissanceEnfant${index + 1}`] || '',
-    poursuiteEtude: 'NON'
+    poursuiteEtude: 'NON',
+    ayantDroitDe: '',
+    numeroSS: '',
+    codeOrga: '',
+    cvAyantDroit: '',
+    nomAyantDroit: '',
+    prenomAyantDroit: '',
+    dateNaissanceAyantDroit: '',
+    numeroSSAyantDroit: '',
+    codeOrgaAyantDroit: ''
   }))
 );
 
@@ -176,6 +269,85 @@ const validateField = (index, field) => {
         clearErrorOnInput(`poursuiteEtude${index + 1}`);
       }
       break;
+    case 'ayantDroitDe':
+      if (!enfantsInfo[index].ayantDroitDe) {
+        errors[`ayantDroitDe${index + 1}`] = 'Veuillez sélectionner l\'ayant droit.';
+      } else {
+        clearErrorOnInput(`ayantDroitDe${index + 1}`);
+      }
+      break;
+    case 'numeroSS':
+      if (enfantsInfo[index].ayantDroitDe === 'AUCUN' && !enfantsInfo[index].numeroSS) {
+        errors[`numeroSS${index + 1}`] = 'Veuillez entrer le numéro de sécurité sociale.';
+      } else if (enfantsInfo[index].ayantDroitDe === 'AUCUN' && !/^\d{15}$/.test(enfantsInfo[index].numeroSS)) {
+        errors[`numeroSS${index + 1}`] = 'Le numéro de sécurité sociale doit être composé de 15 chiffres.';
+      } else {
+        clearErrorOnInput(`numeroSS${index + 1}`);
+      }
+      break;
+    case 'codeOrga':
+      if (enfantsInfo[index].ayantDroitDe === 'AUCUN' && !enfantsInfo[index].codeOrga) {
+        errors[`codeOrga${index + 1}`] = 'Veuillez entrer le code organisme.';
+      } else if (enfantsInfo[index].ayantDroitDe === 'AUCUN' && !/^\d{9}$/.test(enfantsInfo[index].codeOrga)) {
+        errors[`codeOrga${index + 1}`] = 'Le code organisme doit être composé de 9 chiffres.';
+      } else {
+        clearErrorOnInput(`codeOrga${index + 1}`);
+      }
+      break;
+    case 'cvAyantDroit':
+      if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && !enfantsInfo[index].cvAyantDroit) {
+        errors[`cvAyantDroit${index + 1}`] = 'Veuillez sélectionner la civilité de l\'ayant droit.';
+      } else {
+        clearErrorOnInput(`cvAyantDroit${index + 1}`);
+      }
+      break;
+    case 'nomAyantDroit':
+      if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && !enfantsInfo[index].nomAyantDroit) {
+        errors[`nomAyantDroit${index + 1}`] = 'Veuillez entrer le nom de l\'ayant droit.';
+      } else if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && enfantsInfo[index].nomAyantDroit.length < 3) {
+        errors[`nomAyantDroit${index + 1}`] = 'Le nom doit contenir au moins 3 lettres.';
+      } else if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && /\d/.test(enfantsInfo[index].nomAyantDroit)) {
+        errors[`nomAyantDroit${index + 1}`] = 'Le nom ne doit pas contenir de chiffres.';
+      } else {
+        clearErrorOnInput(`nomAyantDroit${index + 1}`);
+      }
+      break;
+    case 'prenomAyantDroit':
+      if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && !enfantsInfo[index].prenomAyantDroit) {
+        errors[`prenomAyantDroit${index + 1}`] = 'Veuillez entrer le prénom de l\'ayant droit.';
+      } else if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && enfantsInfo[index].prenomAyantDroit.length < 3) {
+        errors[`prenomAyantDroit${index + 1}`] = 'Le prénom doit contenir au moins 3 lettres.';
+      } else if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && /\d/.test(enfantsInfo[index].prenomAyantDroit)) {
+        errors[`prenomAyantDroit${index + 1}`] = 'Le prénom ne doit pas contenir de chiffres.';
+      } else {
+        clearErrorOnInput(`prenomAyantDroit${index + 1}`);
+      }
+      break;
+    case 'dateNaissanceAyantDroit':
+      if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && !enfantsInfo[index].dateNaissanceAyantDroit) {
+        errors[`dateNaissanceAyantDroit${index + 1}`] = 'Veuillez entrer la date de naissance de l\'ayant droit.';
+      } else {
+        clearErrorOnInput(`dateNaissanceAyantDroit${index + 1}`);
+      }
+      break;
+    case 'numeroSSAyantDroit':
+      if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && !enfantsInfo[index].numeroSSAyantDroit) {
+        errors[`numeroSSAyantDroit${index + 1}`] = 'Veuillez entrer le numéro de sécurité sociale de l\'ayant droit.';
+      } else if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && !/^\d{15}$/.test(enfantsInfo[index].numeroSSAyantDroit)) {
+        errors[`numeroSSAyantDroit${index + 1}`] = 'Le numéro de sécurité sociale doit être composé de 15 chiffres.';
+      } else {
+        clearErrorOnInput(`numeroSSAyantDroit${index + 1}`);
+      }
+      break;
+    case 'codeOrgaAyantDroit':
+      if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && !enfantsInfo[index].codeOrgaAyantDroit) {
+        errors[`codeOrgaAyantDroit${index + 1}`] = 'Veuillez entrer le code organisme de l\'ayant droit.';
+      } else if (enfantsInfo[index].ayantDroitDe === 'AUTRE' && !/^\d{9}$/.test(enfantsInfo[index].codeOrgaAyantDroit)) {
+        errors[`codeOrgaAyantDroit${index + 1}`] = 'Le code organisme doit être composé de 9 chiffres.';
+      } else {
+        clearErrorOnInput(`codeOrgaAyantDroit${index + 1}`);
+      }
+      break;
   }
 };
 
@@ -256,6 +428,118 @@ const validateForm = async () => {
       isValid = false;
       document.getElementById(`poursuiteEtude${index + 1}`).focus();
       document.getElementById(`poursuiteEtude${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+
+    // Validate ayantDroitDe
+    if (!child.ayantDroitDe) {
+      errors[`ayantDroitDe${index + 1}`] = 'Veuillez sélectionner l\'ayant droit.';
+      isValid = false;
+      document.getElementById(`ayantDroitDe${index + 1}`).focus();
+      document.getElementById(`ayantDroitDe${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+
+    // Validate numeroSS
+    if (child.ayantDroitDe === 'AUCUN' && !child.numeroSS) {
+      errors[`numeroSS${index + 1}`] = 'Veuillez entrer le numéro de sécurité sociale.';
+      isValid = false;
+      document.getElementById(`numeroSS${index + 1}`).focus();
+      document.getElementById(`numeroSS${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    } else if (child.ayantDroitDe === 'AUCUN' && !/^\d{15}$/.test(child.numeroSS)) {
+      errors[`numeroSS${index + 1}`] = 'Le numéro de sécurité sociale doit être composé de 15 chiffres.';
+      isValid = false;
+      document.getElementById(`numeroSS${index + 1}`).focus();
+      document.getElementById(`numeroSS${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+
+    // Validate codeOrga
+    if (child.ayantDroitDe === 'AUCUN' && !child.codeOrga) {
+      errors[`codeOrga${index + 1}`] = 'Veuillez entrer le code organisme.';
+      isValid = false;
+      document.getElementById(`codeOrga${index + 1}`).focus();
+      document.getElementById(`codeOrga${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    } else if (child.ayantDroitDe === 'AUCUN' && !/^\d{9}$/.test(child.codeOrga)) {
+      errors[`codeOrga${index + 1}`] = 'Le code organisme doit être composé de 9 chiffres.';
+      isValid = false;
+      document.getElementById(`codeOrga${index + 1}`).focus();
+      document.getElementById(`codeOrga${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+
+    // Validate cvAyantDroit
+    if (child.ayantDroitDe === 'AUTRE' && !child.cvAyantDroit) {
+      errors[`cvAyantDroit${index + 1}`] = 'Veuillez sélectionner la civilité de l\'ayant droit.';
+      isValid = false;
+      document.getElementById(`cvAyantDroit${index + 1}`).focus();
+      document.getElementById(`cvAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+
+    // Validate nomAyantDroit
+    if (child.ayantDroitDe === 'AUTRE' && !child.nomAyantDroit) {
+      errors[`nomAyantDroit${index + 1}`] = 'Veuillez entrer le nom de l\'ayant droit.';
+      isValid = false;
+      document.getElementById(`nomAyantDroit${index + 1}`).focus();
+      document.getElementById(`nomAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    } else if (child.ayantDroitDe === 'AUTRE' && child.nomAyantDroit.length < 3) {
+      errors[`nomAyantDroit${index + 1}`] = 'Le nom doit contenir au moins 3 lettres.';
+      isValid = false;
+      document.getElementById(`nomAyantDroit${index + 1}`).focus();
+      document.getElementById(`nomAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    } else if (child.ayantDroitDe === 'AUTRE' && /\d/.test(child.nomAyantDroit)) {
+      errors[`nomAyantDroit${index + 1}`] = 'Le nom ne doit pas contenir de chiffres.';
+      isValid = false;
+      document.getElementById(`nomAyantDroit${index + 1}`).focus();
+      document.getElementById(`nomAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+
+    // Validate prenomAyantDroit
+    if (child.ayantDroitDe === 'AUTRE' && !child.prenomAyantDroit) {
+      errors[`prenomAyantDroit${index + 1}`] = 'Veuillez entrer le prénom de l\'ayant droit.';
+      isValid = false;
+      document.getElementById(`prenomAyantDroit${index + 1}`).focus();
+      document.getElementById(`prenomAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    } else if (child.ayantDroitDe === 'AUTRE' && child.prenomAyantDroit.length < 3) {
+      errors[`prenomAyantDroit${index + 1}`] = 'Le prénom doit contenir au moins 3 lettres.';
+      isValid = false;
+      document.getElementById(`prenomAyantDroit${index + 1}`).focus();
+      document.getElementById(`prenomAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    } else if (child.ayantDroitDe === 'AUTRE' && /\d/.test(child.prenomAyantDroit)) {
+      errors[`prenomAyantDroit${index + 1}`] = 'Le prénom ne doit pas contenir de chiffres.';
+      isValid = false;
+      document.getElementById(`prenomAyantDroit${index + 1}`).focus();
+      document.getElementById(`prenomAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+
+    // Validate dateNaissanceAyantDroit
+    if (child.ayantDroitDe === 'AUTRE' && !child.dateNaissanceAyantDroit) {
+      errors[`dateNaissanceAyantDroit${index + 1}`] = 'Veuillez entrer la date de naissance de l\'ayant droit.';
+      isValid = false;
+      document.getElementById(`dateNaissanceAyantDroit${index + 1}`).focus();
+      document.getElementById(`dateNaissanceAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+
+    // Validate numeroSSAyantDroit
+    if (child.ayantDroitDe === 'AUTRE' && !child.numeroSSAyantDroit) {
+      errors[`numeroSSAyantDroit${index + 1}`] = 'Veuillez entrer le numéro de sécurité sociale de l\'ayant droit.';
+      isValid = false;
+      document.getElementById(`numeroSSAyantDroit${index + 1}`).focus();
+      document.getElementById(`numeroSSAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    } else if (child.ayantDroitDe === 'AUTRE' && !/^\d{15}$/.test(child.numeroSSAyantDroit)) {
+      errors[`numeroSSAyantDroit${index + 1}`] = 'Le numéro de sécurité sociale doit être composé de 15 chiffres.';
+      isValid = false;
+      document.getElementById(`numeroSSAyantDroit${index + 1}`).focus();
+      document.getElementById(`numeroSSAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    }
+
+    // Validate codeOrgaAyantDroit
+    if (child.ayantDroitDe === 'AUTRE' && !child.codeOrgaAyantDroit) {
+      errors[`codeOrgaAyantDroit${index + 1}`] = 'Veuillez entrer le code organisme de l\'ayant droit.';
+      isValid = false;
+      document.getElementById(`codeOrgaAyantDroit${index + 1}`).focus();
+      document.getElementById(`codeOrgaAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
+    } else if (child.ayantDroitDe === 'AUTRE' && !/^\d{9}$/.test(child.codeOrgaAyantDroit)) {
+      errors[`codeOrgaAyantDroit${index + 1}`] = 'Le code organisme doit être composé de 9 chiffres.';
+      isValid = false;
+      document.getElementById(`codeOrgaAyantDroit${index + 1}`).focus();
+      document.getElementById(`codeOrgaAyantDroit${index + 1}`).style.boxShadow = '0 0 0 2px #f4627f';
     }
   });
 
@@ -375,18 +659,33 @@ const submitStep = async () => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.option-card:hover {
+.option-card-budget {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option-card:hover, .option-card-budget:hover {
   background-color: var(--e-global-color-02c5432);
   border-color: var(--e-global-color-accent);
 }
 
-.option-card.selected {
+.option-card.selected, .option-card-budget.selected {
   background-color: var(--e-global-color-accent);
   border-color: var(--e-global-color-accent);
   color: white;
 }
 
-.option-card.selected .option-label {
+.option-card.selected .option-label, .option-card-budget.selected .option-label {
   color: white;
 }
 

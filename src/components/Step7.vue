@@ -8,6 +8,36 @@
         </p>
       </div>
 
+      <!-- Ajoutez une section pour afficher les erreurs du backend -->
+      <div v-if="backendErrors.length > 0" class="backend-errors">
+        <div v-for="(error, index) in backendErrors" :key="index" class="error-message">
+          {{ error }}
+        </div>
+      </div>
+
+      <!-- Bouton pour voir le devis -->
+      <div class="step-section">
+        <button @click="showDevis" type="button" class="btn btn-secondary fw-bold mt-4" data-bs-toggle="modal" data-bs-target="#pdfModal">Voir mon devis</button>
+      </div>
+
+      <!-- Modale pour afficher le PDF -->
+      <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="pdfModalLabel">Mon Devis</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <iframe :src="pdfFileSource" width="100%" height="500px" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="step-section">
         <div class="form-group">
           <label for="ibanPrelevemnt" class="form-label">Quel est l'IBAN pour le prélèvement ?</label>
@@ -181,7 +211,7 @@
             <br><br>
             Je bénéficie d'un délai de rétractation de 14 jours calendaires révolus à compter du jour de la conclusion du contrat.
             <br><br>
-            J'autorise Selfassurance à prélever mes cotisations le 10 de chaque période fractionnée sur le compte bancaire ou postal indiqué dans l’autorisation de prélèvement.
+            J'autorise Priorité Santé Mutuelle à prélever mes cotisations le 10 de chaque période fractionnée sur le compte bancaire ou postal indiqué dans l’autorisation de prélèvement.
           </label>
         </div>
         <div v-show="formSubmitted && !payeurInfo.declaration" class="errorMsg">
@@ -204,14 +234,14 @@
       </div>
 
       <div class="step-footer" v-if="payeurInfo.ibanPrelevemnt.length >= 27">
-        <button type="submit" class="submit-button">Voir mon devis</button>
+        <button type="submit" class="submit-button">Souscrire</button>
       </div>
     </div>
   </form>
 </template>
 
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
+import { ref, reactive, nextTick, onMounted } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
@@ -221,7 +251,9 @@ const formStore = useFormStore();
 const router = useRouter();
 const loadingSouscrire = ref(false);
 const formSubmitted = ref(false);
-const declarationBlockClasses = ref();
+const backendErrors = ref([]);
+const loadingDevis2 = ref(false);
+const pdfFileSource = ref('');
 
 const payeurInfo = reactive({
   ibanPrelevemnt: '',
@@ -240,6 +272,13 @@ const payeurInfo = reactive({
   codePostalPayeur: '',
   villePayeur: '',
   declaration: false
+});
+
+onMounted(() => {
+  const storedData = formStore.getFormData.payeurInfo;
+  if (storedData) {
+    Object.assign(payeurInfo, storedData);
+  }
 });
 
 const errors = reactive({});
@@ -305,7 +344,6 @@ const isValidIBANNumber = (ibanValue) => {
 
     return mod97(NewString) === 1;
   }
-
   return false;
 };
 
@@ -632,6 +670,9 @@ const sendPostRequest = async (url, data) => {
   } catch (error) {
     if (error.response) {
       console.error('Error data:', error.response.data);
+      if (error.response.data.errors) {
+        backendErrors.value = error.response.data.errors;
+      }
     } else if (error.request) {
       console.error('No response:', error.request);
     } else {
@@ -661,22 +702,69 @@ const sendLienSignature = async () => {
 
 const saveDevis = async () => {
   loadingSouscrire.value = true;
-  formStore.updateStepData('flagType', 'LIEN');
   const dataSave = formStore.getDataForSave;
   console.log('Data to save:', dataSave);
   await axios.post(import.meta.env.VITE_BASE_URL + 'api/saveDevis', dataSave)
     .then(async response => {
       if (response.status === 200) {
-        formStore.updateStepData('devisCompletAvecLien', response.data.response);
-        formStore.updateStepData('lienSignature', response.data.response.signature);
-        await sendLienSignature();
+        console.log('response.data');
+        console.log(response.data);
+        if (dataSave.flagType != 'DOCUMENT') {
+          formStore.updateStepData('devisCompletAvecLien', response.data.response);
+          formStore.updateStepData('lienSignature', response.data.response.signature);
+        } else {
+          formStore.updateStepData('devisComplet', response.data.response);
+        }
+        //await sendLienSignature();
+      } else if (response.status === 400) {
+        if (response.data.errors) {
+          backendErrors.value = response.data.errors;
+        }
       }
     }).catch(({ response }) => {
-      toast.error('Une erreur est survenue, merci de réessayer plus tard');
+      if (response.data.errors) {
+        backendErrors.value = response.data.errors;
+      } else {
+        toast.error('Une erreur est survenue, merci de réessayer plus tard');
+      }
       console.log(response);
     }).finally(() => {
       loadingSouscrire.value = false;
     });
+};
+
+const showDevis = async () => {
+  loadingDevis2.value = true;
+  formStore.updateStepData('flagType', 'DOCUMENT');
+  formStore.updateStepData('modePaiement', 'CHEQUE');
+
+  try {
+    await saveDevis();
+    const base64PDF = formStore.formData.devisComplet?.document || '';
+    console.log(base64PDF);
+    if (base64PDF) {
+      // Decode base64 into binary data
+      const binaryString = atob(base64PDF);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // Create a Blob from the binary data
+      const pdfBlob = new Blob([bytes], { type: 'application/pdf' });
+
+      // Create a URL for the Blob
+      pdfFileSource.value = URL.createObjectURL(pdfBlob);
+    } else {
+      console.error('Failed to load PDF: Invalid response or data');
+    }
+  } catch (error) {
+    console.error('Error during show devis:', error);
+  } finally {
+    loadingDevis2.value = false;
+  }
 };
 
 const submitStep = async () => {
@@ -685,6 +773,8 @@ const submitStep = async () => {
 
   if (isValid) {
     formStore.updateStepData('payeurInfo', payeurInfo);
+    formStore.updateStepData('flagType', '');
+    formStore.updateStepData('modePaiement', 'PRELEVEMENT');
     await saveDevis();
   } else {
     toast.error("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");
@@ -842,5 +932,17 @@ const submitStep = async () => {
 .errorMsg {
   color: #f4627f;
   margin-top: 10px;
+}
+
+.backend-errors {
+  background-color: #ffebee;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.backend-errors .error-message {
+  color: #d32f2f;
+  margin-bottom: 10px;
 }
 </style>

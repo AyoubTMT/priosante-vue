@@ -172,6 +172,14 @@
         </div>
       </div>
 
+      <div class="step-section" v-if="souscripteurInfo.codePostal">
+        <div class="form-group">
+          <label for="numeroSS" class="form-label">Quel est votre numéro de sécurité sociale ?</label>
+          <input type="text" id="numeroSS" class="form-control" v-model="souscripteurInfo.numeroSS" :class="{ 'error': errors.numeroSS }" @focus="clearErrorOnInput('numeroSS')" @input="validateField('numeroSS')" required>
+          <div class="error-message" v-if="errors.numeroSS">{{ errors.numeroSS }}</div>
+        </div>
+      </div>
+
       <div class="step-footer" v-if="souscripteurInfo.codePostal">
         <button type="submit" class="submit-button">Continuer</button>
       </div>
@@ -200,6 +208,7 @@ const souscripteurInfo = reactive({
   voie: '',
   ville: '',
   codePostal: '',
+  numeroSS: '',
   typeSouscripteur: 'PERSONNE_PHYSIQUE'
 });
 
@@ -214,6 +223,10 @@ onMounted(() => {
   const step1Data = formStore.getFormData.baseInfo;
   if (step1Data && step1Data.dateNaissance) {
     souscripteurInfo.dateNaissance = step1Data.dateNaissance;
+  }
+  // Load codePostal from baseInfo
+  if (step1Data && step1Data.codePostal) {
+    souscripteurInfo.codePostal = step1Data.codePostal;
   }
 });
 
@@ -330,6 +343,15 @@ const validateField = (field) => {
         errors.codePostal = 'Le code postal doit être composé de 5 chiffres.';
       } else {
         clearErrorOnInput('codePostal');
+      }
+      break;
+    case 'numeroSS':
+      if (!souscripteurInfo.numeroSS) {
+        errors.numeroSS = 'Veuillez entrer votre numéro de sécurité sociale.';
+      } else if (!/^\d{15}$/.test(souscripteurInfo.numeroSS)) {
+        errors.numeroSS = 'Le numéro de sécurité sociale doit être composé de 15 chiffres.';
+      } else {
+        clearErrorOnInput('numeroSS');
       }
       break;
   }
@@ -504,6 +526,21 @@ const validateForm = async () => {
     await nextTick();
     document.getElementById('codePostal').focus();
     document.getElementById('codePostal').style.boxShadow = '0 0 0 2px #f4627f';
+  }
+
+  // Validate numeroSS
+  if (!souscripteurInfo.numeroSS) {
+    errors.numeroSS = 'Veuillez entrer votre numéro de sécurité sociale.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('numeroSS').focus();
+    document.getElementById('numeroSS').style.boxShadow = '0 0 0 2px #f4627f';
+  } else if (!/^\d{15}$/.test(souscripteurInfo.numeroSS)) {
+    errors.numeroSS = 'Le numéro de sécurité sociale doit être composé de 15 chiffres.';
+    isValid = false;
+    await nextTick();
+    document.getElementById('numeroSS').focus();
+    document.getElementById('numeroSS').style.boxShadow = '0 0 0 2px #f4627f';
   }
 
   return isValid;

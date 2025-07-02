@@ -21,7 +21,7 @@
 
     <!-- 💡 Step Content -->
     <div class="row justify-content-md-center justify-content-lg-center m-0">
-      <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-6 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
+      <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-8 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
         <div class="container-fluid p-0">
           <Step1 v-if="formStore.currentStep === 1" />
           <Step2 v-if="formStore.currentStep === 2" />
