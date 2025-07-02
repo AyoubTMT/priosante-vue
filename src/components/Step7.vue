@@ -221,6 +221,7 @@ const formStore = useFormStore();
 const router = useRouter();
 const loadingSouscrire = ref(false);
 const formSubmitted = ref(false);
+const declarationBlockClasses = ref();
 
 const payeurInfo = reactive({
   ibanPrelevemnt: '',
@@ -259,7 +260,7 @@ const selectOption = (field, option) => {
 };
 
 const validateIBAN = (iban) => {
-  return isValidIBANNumber(iban);
+  return !isValidIBANNumber(iban);
 };
 
 // Mod97 validation
@@ -304,6 +305,7 @@ const isValidIBANNumber = (ibanValue) => {
 
     return mod97(NewString) === 1;
   }
+
   return false;
 };
 
@@ -661,7 +663,8 @@ const saveDevis = async () => {
   loadingSouscrire.value = true;
   formStore.updateStepData('flagType', 'LIEN');
   const dataSave = formStore.getDataForSave;
-  await axios.post(import.meta.env.VITE_BASE_URL + '/api/save', dataSave)
+  console.log('Data to save:', dataSave);
+  await axios.post(import.meta.env.VITE_BASE_URL + 'api/saveDevis', dataSave)
     .then(async response => {
       if (response.status === 200) {
         formStore.updateStepData('devisCompletAvecLien', response.data.response);
