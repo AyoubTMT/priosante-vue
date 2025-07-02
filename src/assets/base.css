@@ -263,6 +263,10 @@ span.underligned {
   height: 4px !important;
 }
 
+.btnGreen {
+  background-color: var(--color4);
+}
+
 .questionLink {
   color: var(--color4);
 }
