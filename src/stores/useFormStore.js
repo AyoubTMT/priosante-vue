@@ -53,7 +53,7 @@ export const useFormStore = defineStore('form', {
         nom: '',
         prenom: '',
         dateNaissance: '',
-        ayantDroitDe: '',
+        ayantDroitDe: 'AUCUN',
         numeroSS: '',
         codeOrga: '',
         ayantDroit: ''
@@ -93,6 +93,7 @@ export const useFormStore = defineStore('form', {
       },
       informations: {},
       lienSignature: '',
+      reference: '',
     },
     responseData: null,
     responseError: null,

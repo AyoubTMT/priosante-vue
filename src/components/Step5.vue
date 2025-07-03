@@ -55,25 +55,13 @@
 
       <div class="step-section" v-if="conjointInfo.prenom">
         <div class="form-group">
-          <label for="ayantDroitDe" class="form-label">Le conjoint est-il ayant droit de quelqu'un ?</label>
-          <select id="ayantDroitDe" class="form-select" v-model="conjointInfo.ayantDroitDe" :class="{ 'error': errors.ayantDroitDe }" @focus="clearErrorOnInput('ayantDroitDe')" @change="validateField('ayantDroitDe')" required>
-            <option value="">-- Sélectionnez --</option>
-            <option value="AUTRE">Autre</option>
-            <option value="AUCUN">Aucun</option>
-          </select>
-          <div class="error-message" v-if="errors.ayantDroitDe">{{ errors.ayantDroitDe }}</div>
-        </div>
-      </div>
-
-      <div class="step-section" v-if="conjointInfo.ayantDroitDe === 'AUCUN'">
-        <div class="form-group">
           <label for="numeroSS" class="form-label">Quel est le numéro de sécurité sociale du conjoint ?</label>
           <input type="text" id="numeroSS" class="form-control" v-model="conjointInfo.numeroSS" :class="{ 'error': errors.numeroSS }" @focus="clearErrorOnInput('numeroSS')" @input="validateField('numeroSS')" required>
           <div class="error-message" v-if="errors.numeroSS">{{ errors.numeroSS }}</div>
         </div>
       </div>
 
-      <div class="step-section" v-if="conjointInfo.ayantDroitDe === 'AUCUN'">
+      <div class="step-section" v-if="conjointInfo.numeroSS">
         <div class="form-group">
           <label for="codeOrga" class="form-label">Quel est le code organisme du conjoint ?</label>
           <input type="text" id="codeOrga" class="form-control" v-model="conjointInfo.codeOrga" :class="{ 'error': errors.codeOrga }" @focus="clearErrorOnInput('codeOrga')" @input="validateField('codeOrga')" required>
@@ -81,15 +69,7 @@
         </div>
       </div>
 
-      <div class="step-section" v-if="conjointInfo.ayantDroitDe === 'AUTRE'">
-        <div class="form-group">
-          <label for="ayantDroit" class="form-label">Qui est l'ayant droit du conjoint ?</label>
-          <input type="text" id="ayantDroit" class="form-control" v-model="conjointInfo.ayantDroit" :class="{ 'error': errors.ayantDroit }" @focus="clearErrorOnInput('ayantDroit')" @input="validateField('ayantDroit')" required>
-          <div class="error-message" v-if="errors.ayantDroit">{{ errors.ayantDroit }}</div>
-        </div>
-      </div>
-
-      <div class="step-footer" v-if="conjointInfo.ayantDroitDe">
+      <div class="step-footer" v-if="conjointInfo.numeroSS">
         <button type="submit" class="submit-button">Continuer</button>
       </div>
     </div>
@@ -108,7 +88,7 @@ const conjointInfo = reactive({
   nom: '',
   prenom: '',
   dateNaissance: formStore.getFormData.baseInfo.dateNaissanceConjoint || '',
-  ayantDroitDe: '',
+  ayantDroitDe: 'AUCUN',
   numeroSS: '',
   codeOrga: '',
   ayantDroit: ''
@@ -195,13 +175,6 @@ const validateField = (field) => {
         } else {
           clearErrorOnInput('dateNaissance');
         }
-      }
-      break;
-    case 'ayantDroitDe':
-      if (!conjointInfo.ayantDroitDe) {
-        errors.ayantDroitDe = 'Veuillez sélectionner si le conjoint est ayant droit.';
-      } else {
-        clearErrorOnInput('ayantDroitDe');
       }
       break;
     case 'numeroSS':
@@ -311,23 +284,14 @@ const validateForm = async () => {
     }
   }
 
-  // Validate ayantDroitDe
-  if (!conjointInfo.ayantDroitDe) {
-    errors.ayantDroitDe = 'Veuillez sélectionner si le conjoint est ayant droit.';
-    isValid = false;
-    await nextTick();
-    document.getElementById('ayantDroitDe').focus();
-    document.getElementById('ayantDroitDe').style.boxShadow = '0 0 0 2px #f4627f';
-  }
-
   // Validate numeroSS
-  if (conjointInfo.ayantDroitDe === 'AUCUN' && !conjointInfo.numeroSS) {
+  if (!conjointInfo.numeroSS) {
     errors.numeroSS = 'Veuillez entrer le numéro de sécurité sociale.';
     isValid = false;
     await nextTick();
     document.getElementById('numeroSS').focus();
     document.getElementById('numeroSS').style.boxShadow = '0 0 0 2px #f4627f';
-  } else if (conjointInfo.ayantDroitDe === 'AUCUN' && !/^\d{15}$/.test(conjointInfo.numeroSS)) {
+  } else if (!/^\d{15}$/.test(conjointInfo.numeroSS)) {
     errors.numeroSS = 'Le numéro de sécurité sociale doit contenir exactement 15 chiffres.';
     isValid = false;
     await nextTick();
@@ -336,13 +300,13 @@ const validateForm = async () => {
   }
 
   // Validate codeOrga
-  if (conjointInfo.ayantDroitDe === 'AUCUN' && !conjointInfo.codeOrga) {
+  if (!conjointInfo.codeOrga) {
     errors.codeOrga = 'Veuillez entrer le code organisme.';
     isValid = false;
     await nextTick();
     document.getElementById('codeOrga').focus();
     document.getElementById('codeOrga').style.boxShadow = '0 0 0 2px #f4627f';
-  } else if (conjointInfo.ayantDroitDe === 'AUCUN' && !/^\d+$/.test(conjointInfo.codeOrga)) {
+  } else if (!/^\d+$/.test(conjointInfo.codeOrga)) {
     errors.codeOrga = 'Le code organisme doit être composé uniquement de chiffres.';
     isValid = false;
     await nextTick();
@@ -351,7 +315,7 @@ const validateForm = async () => {
   }
 
   // Validate ayantDroit
-  if (conjointInfo.ayantDroitDe === 'AUTRE' && !conjointInfo.ayantDroit) {
+  if (!conjointInfo.ayantDroit) {
     errors.ayantDroit = 'Veuillez entrer l\'ayant droit.';
     isValid = false;
     await nextTick();

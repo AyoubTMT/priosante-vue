@@ -684,22 +684,64 @@ const sendPostRequest = async (url, data) => {
 
 const sendLienSignature = async () => {
   const data = {
-    name: `${step7.nom} ${step7.prenom}`,
-    telephone: informations.tel,
-    email: step7.email,
-    lien: devisCompletAvecLien.signature,
-    reference: devisComplet.reference,
+    name: `${formStore.getSouscripteurInfo.nom} ${formStore.getSouscripteurInfo.prenom}`,
+    telephone: formStore.getSouscripteurInfo.telephone,
+    email: formStore.getSouscripteurInfo.email,
+    typeFormulaire: 'Souscription',
+    dateNaissance: formStore.getSouscripteurInfo.dateNaissance,
+    codePostal: formStore.getSouscripteurInfo.codePostal,
+    numeroSS: formStore.formData.souscripteurInfo.numeroSS,
+    situationFam: formStore.getSouscripteurInfo.situationFam,
+    profession: formStore.getSouscripteurInfo.profession,
+    revenuMensuel: formStore.getSouscripteurInfo.revenuMensuel,
+    voie: formStore.getSouscripteurInfo.voie,
+    ville: formStore.getSouscripteurInfo.ville,
+    cv: formStore.getSouscripteurInfo.civilite,
+    souscripteurIsAssure: formStore.getSouscripteurInfo.souscripteurIsAssure,
+    ibanPrelevemnt: formStore.formData.payeurInfo.ibanPrelevemnt,
+    ibanRembDifferent: formStore.formData.payeurInfo.ibanRembDifferent,
+    ibanRemboursement: formStore.formData.payeurInfo.ibanRemboursement,
+    mandatSepa: formStore.formData.payeurInfo.mandatSepa,
+    rum: formStore.formData.payeurInfo.rum,
+    payeurDifferent: formStore.formData.payeurInfo.payeurDifferent,
+    nomPayeur: formStore.formData.payeurInfo.nomPayeur,
+    prenomPayeur: formStore.formData.payeurInfo.prenomPayeur,
+    numeroPayeur: formStore.formData.payeurInfo.numeroPayeur,
+    typeVoiePayeur: formStore.formData.payeurInfo.typeVoiePayeur,
+    voiePayeur: formStore.formData.payeurInfo.voiePayeur,
+    batimentPayeur: formStore.formData.payeurInfo.batimentPayeur,
+    libellePayeur: formStore.formData.payeurInfo.libellePayeur,
+    codePostalPayeur: formStore.formData.payeurInfo.codePostalPayeur,
+    villePayeur: formStore.formData.payeurInfo.villePayeur,
+    lien: formStore.formData.lienSignature,
+    reference: formStore.formData.reference,
+    enfants: formData.enfantsInfo,
+    conjoint: formData.conjointInfo,
+    assure: formData.assureInfo
   };
-  const response = await sendPostRequest(import.meta.env.VITE_BASE_URL + '/api/send-email', data);
-  if (response && response.status === 200) {
-    loadingSouscrire.value = true;
-    formStore.updateStepData('step7Completed', true);
-    router.push('/confirmation');
-  } else {
-    toast.error('Une erreur est survenue lors de l\'envoi du lien de signature.');
+
+  try {
+    const response = await axios.post(import.meta.env.VITE_BASE_URL + '/api/send-email', data);
+    if (response.status === 200) {
+      console.log('E-mail envoyé avec succès!');
+    } else {
+      console.error('Une erreur est survenue lors de l\'envoi de l\'e-mail.');
+    }
+  } catch (error) {
+    console.error('Error during sending email:', error);
+    toast.error('Une erreur est survenue lors de l\'envoi de l\'e-mail.');
+  }
+};
+const scrollToErrorElements = async () => {
+  await nextTick(); 
+
+  const errorElements = document.querySelectorAll('.backend-errors .error-message');
+  if (errorElements.length > 0) {
+    errorElements[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 };
 
+// Dans la méthode saveDevis, après avoir rempli backendErrors.value
 const saveDevis = async () => {
   loadingSouscrire.value = true;
   const dataSave = formStore.getDataForSave;
@@ -709,27 +751,32 @@ const saveDevis = async () => {
       if (response.status === 200) {
         console.log('response.data200');
         console.log(response.data);
+        console.log(dataSave.flagType);
         if (dataSave.flagType != 'DOCUMENT') {
           formStore.updateStepData('devisCompletAvecLien', response.data.response);
           formStore.updateStepData('lienSignature', response.data.response.signature);
+          formStore.updateStepData('reference', response.data.response.reference);
+          await sendLienSignature();
           router.push('/devis/recapitulatif');
         } else {
           formStore.updateStepData('devisComplet', response.data.response);
         }
-        //await sendLienSignature();
       } else if (response.status === 400) {
         console.log('response.data400');
         console.log(response.data);
         if (response.data.errors) {
           backendErrors.value = response.data.errors;
+          scrollToErrorElements(); // Faites défiler jusqu'aux éléments d'erreur
         }
       }
     }).catch(({ response }) => {
-      if (response.data.error) {
+      console.error('Error during saveDevis:', response);
+      if (response) {
         try {
           const errorData = JSON.parse(response.data.error);
           if (errorData.errors) {
             backendErrors.value = errorData.errors;
+            scrollToErrorElements(); // Faites défiler jusqu'aux éléments d'erreur
           }
         } catch (parseError) {
           console.error('Failed to parse error JSON:', parseError);
@@ -775,6 +822,7 @@ const showDevis = async () => {
     console.error('Error during show devis:', error);
   } finally {
     loadingDevis2.value = false;
+    formStore.updateStepData('flagType', 'LIEN');
   }
 };
 
@@ -784,7 +832,7 @@ const submitStep = async () => {
 
   if (isValid) {
     formStore.updateStepData('payeurInfo', payeurInfo);
-    formStore.updateStepData('flagType', '');
+    formStore.updateStepData('flagType', 'LIEN');
     formStore.updateStepData('modePaiement', 'PRELEVEMENT');
     await saveDevis();
   } else {
