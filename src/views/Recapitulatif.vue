@@ -1,66 +1,41 @@
 <template>
-  <div class="recap-container">
-    <div class="recap-header">
-      <h2 class="recap-title">Récapitulatif de votre devis</h2>
-      <p class="recap-description">
-        Veuillez vérifier les informations ci-dessous et confirmer pour finaliser votre devis.
-      </p>
-    </div>
-
-    <div class="recap-section">
-      <h3>Informations Personnelles</h3>
-      <p><strong>Nom:</strong> {{ souscripteurInfo.nom }} {{ souscripteurInfo.prenom }}</p>
-      <p><strong>Date de Naissance:</strong> {{ souscripteurInfo.dateNaissance }}</p>
-      <p><strong>Email:</strong> {{ souscripteurInfo.email }}</p>
-      <p><strong>Téléphone:</strong> {{ souscripteurInfo.tel }}</p>
-    </div>
-
-    <div class="recap-section">
-      <h3>Informations Professionnelles</h3>
-      <p><strong>Profession:</strong> {{ souscripteurInfo.profession }}</p>
-      <p><strong>Revenu Mensuel:</strong> {{ souscripteurInfo.revenuMensuel }}</p>
-    </div>
-
-    <div class="recap-section">
-      <h3>Situation Familiale</h3>
-      <p><strong>Situation:</strong> {{ souscripteurInfo.situationFam }}</p>
-      <p><strong>Assuré Principal:</strong> {{ souscripteurInfo.souscripteurIsAssure }}</p>
-    </div>
-
-    <div class="recap-section" v-if="enfantsInfo.length > 0">
-      <h3>Informations des Enfants</h3>
-      <div v-for="(enfant, index) in enfantsInfo" :key="index" class="child-info">
-        <p><strong>Enfant {{ index + 1 }}:</strong> {{ enfant.nom }} {{ enfant.prenom }}</p>
-        <p><strong>Date de Naissance:</strong> {{ enfant.dateNaissance }}</p>
-        <p><strong>Poursuit ses études:</strong> {{ enfant.poursuiteEtude }}</p>
+  <div class="step-form">
+    <div class="step-container">
+      <div class="step-header">
+        <h2 class="step-title">Félicitations, {{ ucfirst(souscripteurInfo.cv) }} {{ ucfirst(souscripteurInfo.nom) }} !</h2>
+        <p class="step-description">
+          Vous êtes sur le point de finaliser votre souscription à une assurance santé. Nous vous remercions de votre confiance.
+        </p>
+        <p class="step-description">
+          Votre contrat est presque finalisé. Pour compléter le processus, vous devez signer votre contrat. Une fois cette étape terminée, vous recevrez une confirmation par e-mail.
+        </p>
       </div>
-    </div>
 
-    <div class="recap-section">
-      <h3>Informations de Paiement</h3>
-      <p><strong>IBAN pour le prélèvement:</strong> {{ payeurInfo.ibanPrelevemnt }}</p>
-      <p><strong>IBAN de remboursement différent:</strong> {{ payeurInfo.ibanRembDifferent }}</p>
-      <p v-if="payeurInfo.ibanRembDifferent === 'OUI'"><strong>IBAN de remboursement:</strong> {{ payeurInfo.ibanRemboursement }}</p>
-      <p><strong>Mandat SEPA:</strong> {{ payeurInfo.mandatSepa }}</p>
-      <p v-if="payeurInfo.mandatSepa === 'SAISIR_RUM'"><strong>RUM:</strong> {{ payeurInfo.rum }}</p>
-    </div>
-
-    <div class="recap-section">
-      <h3>Récapitulatif du Devis</h3>
-      <p><strong>Produit:</strong> {{ selectedTarif.produit }}</p>
-      <p><strong>Formule:</strong> {{ selectedTarif.formule }}</p>
-      <p><strong>Date d'effet:</strong> {{ baseInfo.dateEffet }}</p>
-      <p><strong>Coût:</strong> [Détails du coût]</p>
-    </div>
-
-    <div class="recap-footer">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="confirmation" v-model="confirmation">
-        <label class="form-check-label" for="confirmation">
-          Je confirme que toutes les informations fournies sont exactes et je suis d'accord avec les termes et conditions.
-        </label>
+      <div class="step-section">
+        <h3>Prochaines Étapes</h3>
+        <ul class="step-list">
+          <li>Votre souscription sera vérifiée et validée par nos équipes.</li>
+          <li>Vous recevrez un e-mail avec un lien pour signer votre contrat en ligne.</li>
+          <li>Une fois votre contrat signé, vous recevrez une confirmation finale par e-mail.</li>
+        </ul>
       </div>
-      <button type="button" class="btn btn-primary" @click="finalizeSubmission">Finaliser et Soumettre</button>
+
+      <div class="step-section">
+        <h3>Besoin d’aide ?</h3>
+        <p>Contactez notre service client au <a href="tel:0146592228">01 46 59 22 28</a></p>
+        <p>ou par e-mail à <a href="mailto:contact@prioritesantemutuelle.fr">contact@prioritesantemutuelle.fr</a>.</p>
+      </div>
+
+      <div class="step-footer">
+        <button @click="goToHome" class="submit-button">Retour à l'Accueil</button>
+      </div>
+
+      <footer class="step-footer">
+        <p>Votre sécurité et celle de votre famille sont notre priorité.<br>
+        Nous nous engageons à protéger vos données personnelles.<br>
+        Pour en savoir plus, consultez notre <a href="/politique-de-confidentialite">Politique de Confidentialité</a>.<br>
+        © 2025 Prioritesantemutuelle. Tous droits réservés.</p>
+      </footer>
     </div>
   </div>
 </template>
@@ -69,87 +44,90 @@
 import { ref } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { useRouter } from 'vue-router';
-import { toast } from 'vue3-toastify';
 
 const formStore = useFormStore();
 const router = useRouter();
 
 const souscripteurInfo = ref(formStore.getFormData.souscripteurInfo);
-const enfantsInfo = ref(formStore.getFormData.enfantsInfo);
-const payeurInfo = ref(formStore.getFormData.payeurInfo);
-const selectedTarif = ref(formStore.getFormData.selectedTarif);
-const baseInfo = ref(formStore.getFormData.baseInfo);
-const confirmation = ref(false);
 
-const finalizeSubmission = () => {
-  if (confirmation.value) {
-    // Logic to finalize and submit the form
-    toast.success("Votre devis a été soumis avec succès!");
-    router.push('/confirmation');
-  } else {
-    toast.error("Veuillez confirmer que toutes les informations sont correctes.");
-  }
+// Fonction pour mettre en majuscule la première lettre d'une chaîne
+const ucfirst = (str) => {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
+const goToHome = () => {
+  router.push('/');
 };
 </script>
 
 <style scoped>
-.recap-container {
+.step-form {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   font-family: var(--e-global-typography-primary-font-family);
 }
 
-.recap-header {
+.step-header {
   text-align: center;
   margin-bottom: 30px;
 }
 
-.recap-title {
+.step-title {
   color: var(--e-global-color-primary);
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 10px;
 }
 
-.recap-description {
+.step-description {
   color: var(--e-global-color-text);
   font-size: 16px;
   margin-bottom: 20px;
 }
 
-.recap-section {
+.step-section {
   margin-bottom: 30px;
   padding: 20px;
   background-color: var(--e-global-color-secondary);
   border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.recap-section h3 {
+.step-section h3 {
   color: var(--e-global-color-primary);
   margin-bottom: 15px;
+  border-bottom: 1px solid var(--e-global-color-primary);
+  padding-bottom: 10px;
 }
 
-.recap-section p {
+.step-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.step-list li {
   margin-bottom: 10px;
+  color: var(--e-global-color-text);
+  position: relative;
+  padding-left: 25px;
 }
 
-.child-info {
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #eee;
+.step-list li:before {
+  content: "✓";
+  color: var(--e-global-color-accent);
+  position: absolute;
+  left: 0;
 }
 
-.recap-footer {
+.step-footer {
   text-align: center;
   margin-top: 30px;
 }
 
-.form-check {
-  margin-bottom: 20px;
-}
-
-.btn-primary {
+.submit-button {
   width: 100%;
   background-color: var(--color5);
   color: #000;
@@ -159,10 +137,33 @@ const finalizeSubmission = () => {
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
 }
 
-.btn-primary:hover {
+.submit-button:hover {
   background-color: var(--color4);
   color: #fff;
+}
+
+.step-footer p {
+  color: var(--e-global-color-text);
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+a {
+  color: var(--e-global-color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--e-global-color-primary);
 }
 </style>
