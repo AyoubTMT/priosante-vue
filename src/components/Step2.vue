@@ -582,7 +582,7 @@ const sendLienSignature = async () => {
     ville: souscripteurInfo.ville,
     souscripteurIsAssure: souscripteurInfo.souscripteurIsAssure
   };
-  await sendPostRequest(import.meta.env.VITE_BASE_URL + '/api/send-tarification-email', data);
+  await sendPostRequest(import.meta.env.VITE_BASE_URL + 'api/send-tarification-email', data);
 };
 
 const submitStep = async () => {
