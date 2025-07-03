@@ -172,7 +172,7 @@
         </div>
       </div>
 
-      <div class="step-section" v-if="souscripteurInfo.ville">
+      <div class="step-section" v-if="souscripteurInfo.codePostal">
         <div class="form-group">
           <label for="numeroSS" class="form-label">Quel est votre numéro de sécurité sociale ?</label>
           <input type="text" id="numeroSS" class="form-control" v-model="souscripteurInfo.numeroSS" :class="{ 'error': errors.numeroSS }" @focus="clearErrorOnInput('numeroSS')" @input="validateField('numeroSS')" required>
@@ -191,6 +191,7 @@
 import { reactive, onMounted, nextTick } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { toast } from 'vue3-toastify';
+import axios from 'axios';
 
 const formStore = useFormStore();
 
@@ -215,7 +216,7 @@ const souscripteurInfo = reactive({
 const errors = reactive({});
 
 onMounted(() => {
-  const storedData = formStore.getSouscripteurInfo;
+  const storedData = formStore.getFormData.souscripteurInfo;
   if (storedData) {
     Object.assign(souscripteurInfo, storedData);
   }
@@ -546,11 +547,50 @@ const validateForm = async () => {
   return isValid;
 };
 
+const sendPostRequest = async (url, data) => {
+  try {
+    const response = await axios.post(url, data);
+    if (response.status === 200) {
+      console.log('Success:', response);
+    }
+    return response;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error data:', error.response.data);
+    } else if (error.request) {
+      console.error('No response:', error.request);
+    } else {
+      console.error('Error:', error.message);
+    }
+    throw error;
+  }
+};
+
+const sendLienSignature = async () => {
+  const data = {
+    name: `${souscripteurInfo.cv} ${souscripteurInfo.nom} ${souscripteurInfo.prenom}`,
+    telephone: souscripteurInfo.tel,
+    email: souscripteurInfo.email,
+    typeFormulaire: 'Tarification',
+    dateNaissance: souscripteurInfo.dateNaissance,
+    codePostal: souscripteurInfo.codePostal,
+    numeroSS: souscripteurInfo.numeroSS,
+    situationFam: souscripteurInfo.situationFam,
+    profession: souscripteurInfo.profession,
+    revenuMensuel: souscripteurInfo.revenuMensuel,
+    voie: souscripteurInfo.voie,
+    ville: souscripteurInfo.ville,
+    souscripteurIsAssure: souscripteurInfo.souscripteurIsAssure
+  };
+  await sendPostRequest(import.meta.env.VITE_BASE_URL + '/api/send-tarification-email', data);
+};
+
 const submitStep = async () => {
   const isValid = await validateForm();
 
   if (isValid) {
     formStore.updateStepData('souscripteurInfo', souscripteurInfo);
+    await sendLienSignature();
     formStore.updateCurrentStep(3);
   } else {
     toast.error("Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre.");

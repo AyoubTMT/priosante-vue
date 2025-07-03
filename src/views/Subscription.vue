@@ -87,8 +87,7 @@ const filteredSteps = computed(() => {
     steps.push('Enfants');
   }
 
-  steps.push('Payeur');
-  steps.push('Récapitulatif');
+  steps.push('Souscription');
 
   return steps;
 });
