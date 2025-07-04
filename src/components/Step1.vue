@@ -249,7 +249,9 @@ const currentDay = today.getDate();
 
 const minDateNaissance = computed(() => {
   const minDate = new Date();
-  minDate.setFullYear(currentYear - 100);
+  minDate.setFullYear(currentYear - 79);
+  console.log('minDate');
+  console.log(minDate);
   return minDate.toISOString().split('T')[0];
 });
 
@@ -309,7 +311,7 @@ const validateField = (field) => {
       break;
     case 'dateNaissance':
       if (localData.dateNaissance && !isValidDate(localData.dateNaissance, minDateNaissance.value, maxDateNaissance.value)) {
-        errors.dateNaissance = `Veuillez entrer une date de naissance valide. L'âge doit être compris entre 18 ans et 100 ans.`;
+        errors.dateNaissance = `Veuillez entrer une date de naissance valide. L'âge doit être compris entre 18 ans et 79 ans.`;
       } else {
         clearErrorOnInput('dateNaissance');
       }
@@ -390,7 +392,7 @@ const validateForm = async () => {
 
   // Validate dateNaissance
   if (!localData.dateNaissance || !isValidDate(localData.dateNaissance, minDateNaissance.value, maxDateNaissance.value)) {
-    errors.dateNaissance = "Veuillez entrer une date de naissance valide. L'âge doit être compris entre 18 ans et 100 ans.";
+    errors.dateNaissance = "Veuillez entrer une date de naissance valide. L'âge doit être compris entre 18 ans et 79 ans.";
     isValid = false;
     await nextTick();
     document.getElementById('dateNaissance').focus();
@@ -399,7 +401,7 @@ const validateForm = async () => {
 
   // Validate dateNaissanceConjoint
   if (localData.assure.includes('couple') && (!localData.dateNaissanceConjoint || !isValidDate(localData.dateNaissanceConjoint, minDateNaissance.value, maxDateNaissance.value))) {
-    errors.dateNaissanceConjoint = "Veuillez entrer une date de naissance valide pour le conjoint. L'âge doit être compris entre 18 ans et 100 ans.";
+    errors.dateNaissanceConjoint = "Veuillez entrer une date de naissance valide pour le conjoint. L'âge doit être compris entre 18 ans et 79 ans.";
     isValid = false;
     await nextTick();
     document.getElementById('dateNaissanceConjoint').focus();

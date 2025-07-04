@@ -246,6 +246,7 @@ import { useFormStore } from '@/stores/useFormStore';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
+import { Modal } from 'bootstrap';
 
 const formStore = useFormStore();
 const router = useRouter();
@@ -254,6 +255,7 @@ const formSubmitted = ref(false);
 const backendErrors = ref([]);
 const loadingDevis2 = ref(false);
 const pdfFileSource = ref('');
+const pdfModal = ref(null);
 
 const payeurInfo = reactive({
   ibanPrelevemnt: '',
@@ -279,6 +281,8 @@ onMounted(() => {
   if (storedData) {
     Object.assign(payeurInfo, storedData);
   }
+  // Initialize the modal after the DOM is fully loaded
+  pdfModal.value = new Modal(document.getElementById('pdfModal'));
 });
 
 const errors = reactive({});
@@ -318,30 +322,25 @@ const isValidIBANNumber = (ibanValue) => {
   if (!ibanValue || ibanValue.trim() === '') {
     return false; // No validation needed if the IBAN is empty
   }
-
   ibanValue = ibanValue.replace(/\s/g, "");
   const Countries = { al: 28, ad: 24, at: 20, az: 28, bh: 22, be: 16, ba: 20, br: 29, bg: 22, cr: 21, hr: 21, cy: 28, cz: 24, dk: 18, do: 28, ee: 20, fo: 18, fi: 18, fr: 27, ge: 22, de: 22, gi: 23, gr: 27, gl: 18, gt: 28, hu: 28, is: 26, ie: 22, il: 23, it: 27, jo: 30, kz: 20, kw: 30, lv: 21, lb: 28, li: 21, lt: 20, lu: 20, mk: 19, mt: 31, mr: 27, mu: 30, mc: 27, md: 24, me: 22, nl: 18, no: 15, pk: 24, ps: 29, pl: 28, pt: 25, qa: 29, ro: 24, sm: 27, sa: 24, rs: 22, sk: 24, si: 19, es: 24, se: 24, ch: 21, tn: 24, tr: 26, ae: 23, gb: 22, vg: 24};
   const Chars = { a: 10, b: 11, c: 12, d: 13, e: 14, f: 15, g: 16, h: 17, i: 18, j: 19, k: 20, l: 21, m: 22, n: 23, o: 24, p: 25, q: 26, r: 27, s: 28, t: 29, u: 30, v: 31, w: 32, x: 33, y: 34, z: 35};
   ibanValue = ibanValue.toLowerCase();
-
   const codeBanque = ibanValue.substr(4, 5);
   const codeGuichet = ibanValue.substr(9, 5);
   if (codeBanque === '16598' || (codeBanque === '10011' && codeGuichet === '00020')) {
     return false;
   }
-
   if (ibanValue.length === Countries[ibanValue.substr(0, 2)]) {
     let MovedChar = ibanValue.substr(4) + ibanValue.substr(0, 4);
     let MovedCharArray = MovedChar.split("");
     let NewString = "";
-
     for (let i = 0; i < MovedCharArray.length; i++) {
       if (!/^\d+$/.test(MovedCharArray[i])) {
         MovedCharArray[i] = Chars[MovedCharArray[i]];
       }
       NewString += MovedCharArray[i];
     }
-
     return mod97(NewString) === 1;
   }
   return false;
@@ -466,12 +465,10 @@ const validateField = (field) => {
 
 const validateForm = async () => {
   let isValid = true;
-
   // Reset errors
   Object.keys(errors).forEach(key => {
     errors[key] = '';
   });
-
   // Validate ibanPrelevemnt
   if (!payeurInfo.ibanPrelevemnt) {
     errors.ibanPrelevemnt = 'Veuillez entrer l\'IBAN pour le prélèvement.';
@@ -486,7 +483,6 @@ const validateForm = async () => {
     document.getElementById('ibanPrelevemnt').focus();
     document.getElementById('ibanPrelevemnt').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate ibanRembDifferent
   if (!payeurInfo.ibanRembDifferent) {
     errors.ibanRembDifferent = 'Veuillez sélectionner si l\'IBAN de remboursement est différent.';
@@ -497,7 +493,6 @@ const validateForm = async () => {
       ibanRembDifferentElement.style.boxShadow = '0 0 0 2px #f4627f';
     }
   }
-
   // Validate ibanRemboursement
   if (payeurInfo.ibanRembDifferent === 'OUI' && !payeurInfo.ibanRemboursement) {
     errors.ibanRemboursement = 'Veuillez entrer l\'IBAN pour le remboursement.';
@@ -512,7 +507,6 @@ const validateForm = async () => {
     document.getElementById('ibanRemboursement').focus();
     document.getElementById('ibanRemboursement').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate mandatSepa
   if (!payeurInfo.mandatSepa) {
     errors.mandatSepa = 'Veuillez sélectionner si vous souhaitez générer un mandat SEPA ou saisir un RUM.';
@@ -523,7 +517,6 @@ const validateForm = async () => {
       mandatSepaElement.style.boxShadow = '0 0 0 2px #f4627f';
     }
   }
-
   // Validate rum
   if (payeurInfo.mandatSepa === 'SAISIR_RUM' && !payeurInfo.rum) {
     errors.rum = 'Veuillez entrer le RUM.';
@@ -532,7 +525,6 @@ const validateForm = async () => {
     document.getElementById('rum').focus();
     document.getElementById('rum').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate payeurDifferent
   if (!payeurInfo.payeurDifferent) {
     errors.payeurDifferent = 'Veuillez sélectionner si le payeur est différent.';
@@ -543,7 +535,6 @@ const validateForm = async () => {
       payeurDifferentElement.style.boxShadow = '0 0 0 2px #f4627f';
     }
   }
-
   // Validate nomPayeur
   if (payeurInfo.payeurDifferent === 'OUI' && !payeurInfo.nomPayeur) {
     errors.nomPayeur = 'Veuillez entrer le nom du payeur.';
@@ -564,7 +555,6 @@ const validateForm = async () => {
     document.getElementById('nomPayeur').focus();
     document.getElementById('nomPayeur').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate prenomPayeur
   if (payeurInfo.payeurDifferent === 'OUI' && !payeurInfo.prenomPayeur) {
     errors.prenomPayeur = 'Veuillez entrer le prénom du payeur.';
@@ -585,7 +575,6 @@ const validateForm = async () => {
     document.getElementById('prenomPayeur').focus();
     document.getElementById('prenomPayeur').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate typeVoiePayeur
   if (payeurInfo.payeurDifferent === 'OUI' && !payeurInfo.typeVoiePayeur) {
     errors.typeVoiePayeur = 'Veuillez sélectionner le type de voie du payeur.';
@@ -594,7 +583,6 @@ const validateForm = async () => {
     document.getElementById('typeVoiePayeur').focus();
     document.getElementById('typeVoiePayeur').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate voiePayeur
   if (payeurInfo.payeurDifferent === 'OUI' && !payeurInfo.voiePayeur) {
     errors.voiePayeur = 'Veuillez entrer la voie du payeur.';
@@ -603,7 +591,6 @@ const validateForm = async () => {
     document.getElementById('voiePayeur').focus();
     document.getElementById('voiePayeur').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate batimentPayeur
   if (payeurInfo.payeurDifferent === 'OUI' && !payeurInfo.batimentPayeur) {
     errors.batimentPayeur = 'Veuillez entrer le bâtiment du payeur.';
@@ -612,7 +599,6 @@ const validateForm = async () => {
     document.getElementById('batimentPayeur').focus();
     document.getElementById('batimentPayeur').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate libellePayeur
   if (payeurInfo.payeurDifferent === 'OUI' && !payeurInfo.libellePayeur) {
     errors.libellePayeur = 'Veuillez entrer le libellé du payeur.';
@@ -621,7 +607,6 @@ const validateForm = async () => {
     document.getElementById('libellePayeur').focus();
     document.getElementById('libellePayeur').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate codePostalPayeur
   if (payeurInfo.payeurDifferent === 'OUI' && !payeurInfo.codePostalPayeur) {
     errors.codePostalPayeur = 'Veuillez entrer le code postal du payeur.';
@@ -636,7 +621,6 @@ const validateForm = async () => {
     document.getElementById('codePostalPayeur').focus();
     document.getElementById('codePostalPayeur').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate villePayeur
   if (payeurInfo.payeurDifferent === 'OUI' && !payeurInfo.villePayeur) {
     errors.villePayeur = 'Veuillez entrer la ville du payeur.';
@@ -645,7 +629,6 @@ const validateForm = async () => {
     document.getElementById('villePayeur').focus();
     document.getElementById('villePayeur').style.boxShadow = '0 0 0 2px #f4627f';
   }
-
   // Validate declaration
   if (!payeurInfo.declaration) {
     errors.declaration = 'Vous devez accepter les conditions générales.';
@@ -656,7 +639,6 @@ const validateForm = async () => {
       declarationElement.style.boxShadow = '0 0 0 2px #f4627f';
     }
   }
-
   return isValid;
 };
 
@@ -715,13 +697,12 @@ const sendLienSignature = async () => {
     villePayeur: formStore.formData.payeurInfo.villePayeur,
     lien: formStore.formData.lienSignature,
     reference: formStore.formData.reference,
-    enfants: formData.enfantsInfo,
-    conjoint: formData.conjointInfo,
-    assure: formData.assureInfo
+    enfants: formStore.formData.enfantsInfo,
+    conjoint: formStore.formData.conjointInfo,
+    assure: formStore.formData.assureInfo
   };
-
   try {
-    const response = await axios.post(import.meta.env.VITE_BASE_URL + '/api/send-email', data);
+    const response = await axios.post(import.meta.env.VITE_BASE_URL + 'api/send-souscription-email', data);
     if (response.status === 200) {
       console.log('E-mail envoyé avec succès!');
     } else {
@@ -732,22 +713,22 @@ const sendLienSignature = async () => {
     toast.error('Une erreur est survenue lors de l\'envoi de l\'e-mail.');
   }
 };
-const scrollToErrorElements = async () => {
-  await nextTick(); 
 
+const scrollToErrorElements = async () => {
+  await nextTick();
   const errorElements = document.querySelectorAll('.backend-errors .error-message');
   if (errorElements.length > 0) {
     errorElements[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 };
 
-// Dans la méthode saveDevis, après avoir rempli backendErrors.value
 const saveDevis = async () => {
   loadingSouscrire.value = true;
   const dataSave = formStore.getDataForSave;
   console.log('Data to save:', dataSave);
   await axios.post(import.meta.env.VITE_BASE_URL + 'api/saveDevis', dataSave)
     .then(async response => {
+      console.log(response);
       if (response.status === 200) {
         console.log('response.data200');
         console.log(response.data);
@@ -766,17 +747,17 @@ const saveDevis = async () => {
         console.log(response.data);
         if (response.data.errors) {
           backendErrors.value = response.data.errors;
-          scrollToErrorElements(); // Faites défiler jusqu'aux éléments d'erreur
+          scrollToErrorElements();
         }
       }
     }).catch(({ response }) => {
-      console.error('Error during saveDevis:', response);
       if (response) {
+        console.error('Error during saveDevis:', response);
         try {
           const errorData = JSON.parse(response.data.error);
           if (errorData.errors) {
             backendErrors.value = errorData.errors;
-            scrollToErrorElements(); // Faites défiler jusqu'aux éléments d'erreur
+            scrollToErrorElements();
           }
         } catch (parseError) {
           console.error('Failed to parse error JSON:', parseError);
@@ -785,7 +766,6 @@ const saveDevis = async () => {
       } else {
         toast.error('Une erreur est survenue, merci de réessayer plus tard');
       }
-      console.log(response);
     }).finally(() => {
       loadingSouscrire.value = false;
     });
@@ -795,7 +775,6 @@ const showDevis = async () => {
   loadingDevis2.value = true;
   formStore.updateStepData('flagType', 'DOCUMENT');
   formStore.updateStepData('modePaiement', 'CHEQUE');
-
   try {
     await saveDevis();
     const base64PDF = formStore.formData.devisComplet?.document || '';
@@ -805,21 +784,30 @@ const showDevis = async () => {
       const binaryString = atob(base64PDF);
       const len = binaryString.length;
       const bytes = new Uint8Array(len);
-
       for (let i = 0; i < len; i++) {
         bytes[i] = binaryString.charCodeAt(i);
       }
-
       // Create a Blob from the binary data
       const pdfBlob = new Blob([bytes], { type: 'application/pdf' });
-
       // Create a URL for the Blob
       pdfFileSource.value = URL.createObjectURL(pdfBlob);
+      // Show the modal
+      if (pdfModal.value) {
+        pdfModal.value.show();
+      }
     } else {
       console.error('Failed to load PDF: Invalid response or data');
+      // Hide the modal if there is an error
+      if (pdfModal.value) {
+        pdfModal.value.hide();
+      }
     }
   } catch (error) {
     console.error('Error during show devis:', error);
+    // Hide the modal if there is an error
+    if (pdfModal.value) {
+      pdfModal.value.hide();
+    }
   } finally {
     loadingDevis2.value = false;
     formStore.updateStepData('flagType', 'LIEN');
@@ -829,7 +817,6 @@ const showDevis = async () => {
 const submitStep = async () => {
   formSubmitted.value = true;
   const isValid = await validateForm();
-
   if (isValid) {
     formStore.updateStepData('payeurInfo', payeurInfo);
     formStore.updateStepData('flagType', 'LIEN');

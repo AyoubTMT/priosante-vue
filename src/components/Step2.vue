@@ -172,7 +172,7 @@
         </div>
       </div>
 
-      <div class="step-section" v-if="souscripteurInfo.codePostal">
+      <div class="step-section" v-if="souscripteurInfo.ville">
         <div class="form-group">
           <label for="numeroSS" class="form-label">Quel est votre numéro de sécurité sociale ?</label>
           <input type="text" id="numeroSS" class="form-control" v-model="souscripteurInfo.numeroSS" :class="{ 'error': errors.numeroSS }" @focus="clearErrorOnInput('numeroSS')" @input="validateField('numeroSS')" required>
