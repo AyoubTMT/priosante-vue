@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="heroImg d-flex align-items-center">
-        <img src="../assets/images/hero-web-sante.webp" class="d-none d-md-block img-fluid heroImg" alt="heroImg" width="640" height="449">
+        <img src="../assets/images/hero-web-sante.png" class="d-none d-md-block img-fluid heroImg" alt="heroImg" width="640" height="449">
       </div>
     </div>
   </section>
