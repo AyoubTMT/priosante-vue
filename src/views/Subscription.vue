@@ -98,6 +98,7 @@ if (formStore.currentStep > filteredSteps.value.length) {
 </script>
 
 <style scoped>
+
 .step-sidebar {
   position: fixed;
   right: 20px;
