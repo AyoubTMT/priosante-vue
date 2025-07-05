@@ -1,293 +1,240 @@
 <template>
-  <div>
-    <header id="navbar">
-      <nav class="navbar-container container">
-        <a href="/" class="home-link">
-          <div class="navbar-logo">
-            <router-link :to="{ name: 'home' }"><img className='' src='../assets/images/logo-priorite-sante.png' style="width: 250px; height: 93.8px;"
-                alt="" /></router-link>
-          </div>
-        </a>
-        <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu"
-          :aria-expanded="isNavbarExpanded.toString()" @click="toggleNavbarVisibility">
-          <i class="fa fa-bars"></i>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-lg container-md-fluid border-bottom p-0">
+      <a class="navbar-brand me-auto" href="https://www.prioritésantemutuelle.fr">
+        <img class="d-none d-md-none d-lg-inline-block"
+          src="../assets/images/logo-priorite-sante.png" alt="logo"
+          aria-label="logo home page" width="169" height="35">
+        <img class="d-inline-block d-md-inline-block d-lg-none"
+          src="../assets/images/logo-priorite-sante.png" width="44" height="36" alt="logo"
+          aria-label="logo home page">
+      </a>
 
+      <router-link to="/devis" class="d-inline-block d-md-inline-block d-lg-none me-3">
+        <button @click="clearLocalStorage" class="btn-tarif">
+            Devis en ligne
         </button>
-        <div id="navbar-menu" aria-labelledby="navbar-toggle" @click="toggleNavbarVisibility">
-          <ul class="navbar-links" @click.stop>
-            
-            <li class="navbar-item">
-              <router-link to="/devis" class="navbar-link">
-                <button @click="clearLocalStorage" class="btnGreen buttonLimouni text-white font-semibold rounded-md rounded-lg rounded-xl">
-                    Devis en ligne
-                </button>
-              </router-link>
-            </li>
-          </ul>
+      </router-link>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <router-link to="/devis" class="nav-link pe-0">
+              <button @click="clearLocalStorage" class="btn-tarif">
+                  Devis en ligne
+              </button>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <section id="heroscene" class="container-lg container-md-fluid">
+    <div class="d-flex mt-5 flex-wrap flex-md-nowrap align-items-center">
+      <div class="heroData align-items-center">
+        <div>
+          <h1 class="pageH1">Mutuelle Santé</h1>
+          <p class="pb_home">Chaque personne a des besoins uniques en matière de santé. Laissez-vous guider pour trouver la meilleure formule d'assurance santé qui vous convient.</p>
+          <p class="accroche">Calculez gratuitement votre tarif <span class="boxOffre">en moins de 2 minutes</span>.</p>
+          <router-link to="/devis">
+            <button @click="clearLocalStorage" class="LkButton">
+              Obtenir mon devis
+            </button>
+          </router-link>
+          <div class="TrustpilotWidget">
+            <img src="../assets/images/googlereviews.png" width="226" height="23" alt="trustpilot" class="img-fluid m-auto m-md-0">
+          </div>
         </div>
-      </nav>
-    </header>
-
+      </div>
+      <div class="heroImg d-flex align-items-center">
+        <img src="../assets/images/hero-web-sante.webp" class="d-none d-md-block img-fluid heroImg" alt="heroImg" width="640" height="449">
+      </div>
+    </div>
+  </section>
+  <div class="container-fluid bgblanc mt-5 pb-5">
+    <!-- Les plus -->
+    <section id="lesPlus" class="container-fluid container-lg">
+      <div class="row">
+        <div class="col-12 text-center">
+          <div class="sectionTitle my-5">Les avantages de votre mutuelle santé</div>
+        </div>
+      </div>
+      <div class="row g-4 g-md-1 g-lg-4">
+        <div class="col-12 col-md-4 col-lg-4">
+          <div class="item__Service">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/Prevoyance.svg" width="58" height="129" class="d-inline-block text-center pt-4 pb-5" alt="" title="icon"></object>
+            <strong class="mb-2 text-center">Une couverture immédiate</strong>
+            <p class="text-center">Aucun délai de carence n'est appliqué sur le contrat santé.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 col-lg-4">
+          <div class="item__Service">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/callcenter.svg" width="62" height="133" class="d-inline-block text-center pt-4 pb-5" alt="" title="icon"></object>
+            <strong class="mb-2 text-center">Une assistance santé</strong>
+            <p class="text-center">Un service d’assistance disponible 6 jours / 7 pour vous accompagner dans vos démarches.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 col-lg-4">
+          <div class="item__Service">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/Sort_arrow.svg" width="70" height="142" class="d-inline-block text-center pt-4 pb-5" alt="" title="icon"></object>
+            <strong class="mb-2 text-center">Un accompagnement personnalisé</strong>
+            <p class="text-center">Nous prenons en charge les démarches de résiliation de votre ancien contrat santé.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Les garanties -->
+    <section id="garanties" class="container-lg container-md-fluid">
+      <div class="row">
+        <div class="col-12 text-center">
+          <div class="sectionTitle mt-5">Les garanties de base</div>
+          <p class="mb-5">Voici les différents risques contre lesquels vous serez couvert.</p>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-6 col-lg-3">
+          <div class="item_list_garanties_inclu text-center text-lg-start">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/soins-courants.svg" width="40" height="40" alt="" class="mb-4 vectorImg" title="icon"></object>
+            <strong class="mb-3 title_item">Soins courants</strong>
+            <p>La prise en charge de tous les actes médicaux (consultations, analyses, radiologie...).</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="item_list_garanties_inclu text-center text-lg-start">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/dentaires.svg" width="40" height="40" alt="" class="mb-4 vectorImg" title="icon"></object>
+            <strong class="mb-3 title_item mx-auto mx-lg-0">Soins dentaires</strong>
+            <p>La prise en charge des soins, des prothèses, et de l'orthodontie, remboursés ou non par la sécurité sociale.</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="item_list_garanties_inclu text-center text-lg-start">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/optique.svg" width="40" height="40" alt="" class="mb-4 vectorImg" title="icon"></object>
+            <strong class="mb-3 title_item mx-auto mx-lg-0">Soins optiques</strong>
+            <p>Le remboursement des verres, montures, lentilles, et la chirurgie réfractive.</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="item_list_garanties_inclu text-center text-lg-start">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/hospitalisation.svg" width="40" height="40" alt="" class="mb-4 vectorImg" title="icon"></object>
+            <strong class="mb-3 title_item mx-auto mx-lg-0">Hospitalisation</strong>
+            <p>Le remboursement des frais de séjour, les honoraires (médecin, chirurgien, anesthésiste), le forfait hospitalier, le transport...</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="item_list_garanties_inclu text-center text-lg-start">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/auditive.svg" width="40" height="40" alt="" class="mb-4 vectorImg" title="icon"></object>
+            <strong class="mb-3 title_item mx-auto mx-lg-0">Aide auditive</strong>
+            <p>Vous bénéficiez d’un forfait annuel et par bénéficiaire pour l’achat de prothèses auditives.</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="item_list_garanties_inclu text-center text-lg-start">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/cures.svg" width="40" height="40" alt="" class="mb-4 vectorImg" title="icon"></object>
+            <strong class="mb-3 title_item mx-auto mx-lg-0">Cures thermales</strong>
+            <p>Vous bénéficiez d'un forfait annuel sur les cures prises en charge par la sécurité sociale.</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="item_list_garanties_inclu text-center text-lg-start">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/medcine-douce.svg" width="40" height="40" alt="" class="mb-4 vectorImg" title="icon"></object>
+            <strong class="mb-3 title_item mx-auto mx-lg-0">Médecine douce</strong>
+            <p>La prise en charge des médecines non-conventionnées (ostéopathie, chiropractie, acupuncture...).</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="item_list_garanties_inclu text-center text-lg-start">
+            <object type="image/svg+xml" data="https://www.selfassurance.fr/public/frontv2/media/pharmacie.svg" width="40" height="40" alt="" class="mb-4 vectorImg" title="icon"></object>
+            <strong class="mb-3 title_item">Pharmacie</strong>
+            <p>Tous les médicaments prescrits par un praticien sont remboursés, y compris ceux non couverts par le régime obligatoire.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
+  <footer class="container-fluid">
+    <div class="container-lg container-md-fluid">
+      <div class="row g-0">
+        <div class="col-6 col-lg-6">
+          <div class="container-fluid p-0">
+            <div class="row">
+              <div class="col-12">
+                <div class="fTitle">
+                  Information de contact
+                </div>
+              </div>
+              <div class="col-lg-6 col-12">
+                <div>
+                  <p>contact@prioritésantemutuelle.fr</p>
+                  <p>01 46 59 22 28</p>
+                  <p>45 RUE DE BOULAINVILLIERS 75016, Paris</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-6">
+          <div class="container-fluid p-0">
+            <div class="row">
+              <div class="col-12">
+                <div class="fTitle">
+                  Tout sur Priorité Santé Mutuelle
+                </div>
+              </div>
+              <div class="col-lg-6 col-12">
+                <div>
+                  <a href="https://assurmabarak.fr/">Assurance habitation</a>
+                </div>
+                <div>
+                  <a href="/devis">Mutuelle Santé</a>
+                </div>
+              </div>
+              <div class="col-lg-6 col-12">
+                <div><a href="#">
+                    Mentions légales
+                  </a></div>
+                <div><a href="#">
+                    Préférences des cookies
+                  </a></div>
+                <div><a href="#">
+                    Politique de confidentialité
+                  </a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 text-center copyright">
+          Copyright © 2025 Priorité Santé Mutuelle - Tous droits réservés
+        </div>
+      </div>
+    </div>
+  </footer>
 </template>
 
-<style scoped>
- @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
-  #app {
-    max-width: auto;
-    margin: 0 auto;
-    padding: 2rem;
-    font-weight: normal;
-  }
-
-  a,
-  .green {
-    text-decoration: none;
-    color: #000;
-    transition: 0.4s;
-    padding: 3px;
-  }
-  .buttonLimouni.demmarer{
-    height: 58px;
-  }
-  .buttonLimouni{
-    width: max-content;
-    height: 38px;
-    padding-left: 7px;
-    padding-right: 7px;
-  }
-  .buttonLimouni:hover{
-    background-color: var(--color5);
-    border-color: var(--color1);
-    color: var(--color1);
-  }
-  .homeCards{
-    text-align: center;
-    /* max-width: 325px;
-    max-height: 283px; */
-  }
-  .buttonSouscrire,.buttonDevis{
-    font-weight: 700;
-  }
-  .buttonSouscrire:hover,.buttonSouscrire2:hover{
-    background-color: var(--color1);
-    color: #fff;
-  }
-  .buttonDevis:hover{
-    background-color: var(--color5);
-    color: #fff;
-  }
-  @media (hover: hover) {
-    a:hover {
-      color: var(--color-limouni);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    body {
-      display: flex;
-      place-items: center;
-      min-height: 100vh;
-      align-items: center;
-    }
-      /* #app {
-        display: grid;
-        grid-template-columns: 1fr;
-        padding: 0 2rem;
-      } */
-  }
-
-  body {
-    margin: 0;
-  }
-
-  @media screen and (max-width: 600px) {
-    .navbar-link{
-      color: #fff;
-    }
-  }
-
- :root {
-    --navbar-bg-color: hsl(0, 0%, 15%);
-    --navbar-text-color: hsl(0, 0%, 85%);
-    --navbar-text-color-focus: white;
-    --navbar-bg-contrast: #000;
-  }
-  * {
-    box-sizing: border-box;
-  }
-  .container {
-    max-width: 1280px;
-    padding-left: 1.4rem;
-    padding-right: 1.4rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  #navbar {
-    --navbar-height: 90px;
-    height: var(--navbar-height);
-    background-color: var(--navbar-bg-color);
-    left: 0;
-    right: 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  }
-  .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    height: 100%;
-    align-items: center;
-  }
-  .navbar-item {
-    margin: 0.4em;
-    width: 100%;
-  }
-
-  .home-link,
-  .navbar-link {
-    text-decoration: none;
-    display: flex;
-    font-weight: 400;
-    align-items: center;
-  }
-
-  .home-link:is(:focus, :hover) {
-    color: var(--navbar-text-color-focus);
-  }
-
-  .navbar-link {
-    justify-content: center;
-    width: 100%;
-    padding: 0.4em 0.8em;
-    border-radius: 5px;
-  }
-
-  .navbar-link:is(:focus, :hover) {
-    color: var(--navbar-text-color-focus);
-    background-color: var(--navbar-bg-contrast);
-  }
-  .navbar-logo {
-    background-color: var(--navbar-text-color-focus);
-    border-radius: 50%;
-    width: 196px;
-    height: 136px;
-    margin-right: 0.5em;
-  }
-  #navbar-toggle {
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  .icon-bar {
-    display: block;
-    width: 25px;
-    height: 4px;
-    margin: 2px;
-    background-color: var(--navbar-text-color);
-  }
-  #navbar-toggle:is(:focus, :hover) .icon-bar {
-    background-color: var(--navbar-text-color-focus);
-  }
-  #navbar-toggle[aria-expanded="true"] .icon-bar:is(:first-child, :last-child) {
-    position: absolute;
-    margin: 0;
-    width: 30px;
-  }
-  #navbar-toggle[aria-expanded="true"] .icon-bar:first-child {
-    transform: rotate(45deg);
-  }
-  #navbar-toggle[aria-expanded="true"] .icon-bar:nth-child(2) {
-    opacity: 0;
-  }
-  #navbar-toggle[aria-expanded="true"] .icon-bar:last-child {
-    transform: rotate(-45deg);
-  }
-  #navbar-menu {
-    position: fixed;
-    top: var(--navbar-height);
-    bottom: 0;
-    opacity: 0;
-    visibility: hidden;
-    left: 0;
-    right: 0;
-  }
-  #navbar-toggle[aria-expanded="true"] + #navbar-menu {
-    background-color: rgba(0, 0, 0, 0.9);
-    opacity: 1;
-    visibility: visible;
-  }
-  .navbar-links {
-    list-style: none;
-    position: absolute;
-    background-color: var(--navbar-bg-color);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    left: 0;
-    right: 0;
-    margin: 1.4rem;
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  }
-
-  #navbar-toggle[aria-expanded="true"] + #navbar-menu .navbar-links {
-    padding: 1em;
-  }
-  @media screen and (min-width: 700px) {
-    #navbar-toggle,
-    #navbar-toggle[aria-expanded="true"] {
-      display: none;
-    }
-
-    #navbar-menu,
-    #navbar-toggle[aria-expanded="true"] #navbar-menu {
-      visibility: visible;
-      opacity: 1;
-      position: static;
-      display: block;
-      height: 100%;
-    }
-
-    .navbar-links,
-    #navbar-toggle[aria-expanded="true"] #navbar-menu .navbar-links {
-      margin: 0;
-      padding: 0;
-      box-shadow: none;
-      position: static;
-      flex-direction: row;
-      width: 100%;
-      height: 100%;
-    }
-    .navbar-link {
-      width: max-content !important;
-    }
-  }
-  .btnDeuxClics{
-    color:#fff;
-  }
-  .btnDeuxClics:hover{
-    color:var(--color5);
-  }
-</style>
-
 <script setup>
-  import { ref } from 'vue';
-  import "../assets/tailwind.css"; // Import Tailwind only for this page
-  const clearLocalStorage = () => {
-    localStorage.clear();
-    console.log("LocalStorage cleared, starting a new devis.");
-  };
+import { ref, onMounted } from 'vue';
+import "../assets/home.css";
 
-  const isNavbarExpanded = ref(false);
+const clearLocalStorage = () => {
+  localStorage.clear();
+  console.log("LocalStorage cleared, starting a new devis.");
+};
 
-  const toggleNavbarVisibility = () => {
-    isNavbarExpanded.value = !isNavbarExpanded.value;
-    const navbarToggle = document.querySelector("#navbar-toggle");
+const isNavbarExpanded = ref(false);
+const toggleNavbarVisibility = () => {
+  isNavbarExpanded.value = !isNavbarExpanded.value;
+  const navbarToggle = document.querySelector("#navbar-toggle");
+  if (navbarToggle) {
     navbarToggle.setAttribute("aria-expanded", isNavbarExpanded.value.toString());
-  };
+  }
+};
+
+onMounted(() => {
+  const myElement = document.querySelector('.navbar');
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 70) {
+      myElement?.classList.add('stickMenu');
+    } else {
+      myElement?.classList.remove('stickMenu');
+    }
+  });
+});
 </script>
