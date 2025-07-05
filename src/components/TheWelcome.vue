@@ -163,8 +163,8 @@
               </div>
               <div class="col-lg-6 col-12">
                 <div>
-                  <p>contact@prioritésantemutuelle.fr</p>
-                  <p>01 46 59 22 28</p>
+                  <p><a href="mailto:contact@prioritesantemutuelle.fr">contact@prioritesantemutuelle.fr</a></p>
+                  <p><a href="tel:+33146592228">01 46 59 22 28</a></p>
                   <p>45 RUE DE BOULAINVILLIERS 75016, Paris</p>
                 </div>
               </div>
