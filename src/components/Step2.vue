@@ -181,15 +181,20 @@
       </div>
 
       <div class="step-footer" v-if="souscripteurInfo.codePostal">
-        <button type="submit" class="submit-button">Continuer</button>
+        <button type="submit" class="submit-button">Afficher votre tarif</button>
       </div>
     </div>
+    <BonASavoir remarque1="Chaque adresse représente un niveau de risque différent."
+    remarque2="La protection de vos données est l'une de nos priorités. Toutes vos données personnelles, notamment relatives à des infractions et condamnations pénales, sont 100% sécurisées."
+    remarque3="En renseignant votre numéro de téléphone, vous acceptez d'être contacté dans un délai de 30 jours par un conseiller pour poursuivre votre demande et conclure votre contrat si vous le souhaitez."
+    remarque4="Si vous ne souhaitez pas faire l’objet de démarchage téléphonique, inscrivez-vous sur le site : www.bloctel.gouv.fr"/>
   </form>
 </template>
 
 <script setup>
 import { reactive, onMounted, nextTick } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
+import BonASavoir from './BonASavoir.vue';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
 

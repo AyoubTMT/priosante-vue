@@ -6,7 +6,6 @@
         Nous avons sélectionné les meilleures offres qui se rapprochent le plus de vos besoins et de votre budget. Prenez le temps de les examiner et choisissez celle qui vous convient le mieux.
       </p>
     </div>
-
     <div class="step-section">
       <div v-if="loading" class="text-center">
         <div class="spinner-border text-primary" role="status">
@@ -14,20 +13,19 @@
         </div>
       </div>
       <div v-else>
-        <div class="row justify-content-center row-cols-1 row-cols-md-3 g-4">
+        <div class="row justify-content-center row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           <div class="col" v-for="(plan, index) in displayedPlans" :key="index">
             <div class="card h-100 pricing-card shadow-sm position-relative">
               <span v-if="plan.popular" class="badge gradient-custom text-white popular-badge px-4 py-2">Recommandé</span>
-              <div class="card-body p-5">
+              <div class="card-body p-4">
                 <h5 :class="['card-title', plan.popular ? 'colorFormuleSelected' : 'colorFormule', 'text-uppercase', 'mb-4']">
-                  <!-- {{ plan.produit.replace(/_/g, ' ') }} - {{ plan.formule.replace(/_/g, ' ') || '-' }} -->
-                 {{ plan.formule.replace(/_/g, ' ') || '-' }}
+                  {{ plan.formule.replace(/_/g, ' ') || '-' }}
                 </h5>
                 <h1 class="display-6 mb-4">
                   {{ formatPrice(plan.price) }}<small class="text-muted fw-light">€/mo</small>
                 </h1>
                 <ul class="list-unstyled feature-list">
-                  <li v-for="(feature, key) in plan.garanties" :key="key" class="d-flex justify-content-between">
+                  <li v-for="(feature, key) in plan.garanties" :key="key" class="d-flex justify-content-between align-items-center">
                     <span><i class="bi bi-check2 text-primary me-2"></i>{{ key }}</span>
                     <span>{{ feature }}</span>
                   </li>
@@ -52,9 +50,11 @@
       </div>
     </div>
   </div>
+  <BonASavoirTarificateur />
 </template>
 
 <script setup>
+import BonASavoirTarificateur from './BonASavoirTarificateur.vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { reactive, ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -68,6 +68,7 @@ const plans = ref({
   top3_compatible_formules: [],
   all_tariffs: []
 });
+
 const showAllPlans = ref(false);
 const loading = ref(true);
 
@@ -116,10 +117,8 @@ onMounted(async () => {
   try {
     const localData = formStore.getFormData.baseInfo || {};
     const tarifs = await fetchTarifs(localData);
-
     if (tarifs) {
       formStore.updateTarifs(tarifs);
-
       if (tarifs.top3_compatible_formules) {
         plans.value.top3_compatible_formules = tarifs.top3_compatible_formules.map(plan => ({
           produit: plan.produit || '-',
@@ -129,7 +128,6 @@ onMounted(async () => {
           popular: false
         }));
       }
-
       if (tarifs.all_tariffs) {
         plans.value.all_tariffs = tarifs.all_tariffs.map(plan => ({
           produit: plan.produit || '-',
@@ -140,13 +138,12 @@ onMounted(async () => {
         }));
         if (plans.value.all_tariffs.length > 1) {
           plans.value.all_tariffs[1].popular = true;
-        }else{
+        } else {
           if (plans.value.all_tariffs[0]) {
             plans.value.all_tariffs[0].popular = true;
           }
         }
       }
-      console.log(plans.value);
       if (plans.value.top3_compatible_formules.length > 1) {
         plans.value.top3_compatible_formules[1].popular = true;
       } else {
@@ -163,7 +160,7 @@ onMounted(async () => {
 
 <style scoped>
 .step-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: var(--e-global-typography-primary-font-family);
@@ -205,8 +202,6 @@ onMounted(async () => {
 .feature-list li {
   margin-bottom: 0.8rem;
   color: #6c757d;
-  display: flex;
-  justify-content: space-between;
 }
 
 .popular-badge {
@@ -250,5 +245,22 @@ onMounted(async () => {
   color: #fff;
   background-color: #467061;
   border-color: #467061;
+}
+
+/* Media queries pour les tablettes */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .row-cols-md-2 {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .row-cols-md-2 > .col {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .pricing-card {
+    margin-bottom: 20px;
+  }
 }
 </style>

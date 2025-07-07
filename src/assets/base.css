@@ -629,3 +629,49 @@ img, svg {
   padding: 30px;
   box-shadow: -5px -5px 0px 7px var(--color4);
 }
+
+/****
+ * Bon à savoir styles
+ ****/
+.explications{
+  background-color: #fff;
+}
+
+.nonassured {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  min-height: 72px;
+  flex-direction: row;
+}
+
+.assured {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  min-height: 72px;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.assured .assuredIcon{
+  margin:0;
+  margin-bottom: 10px;
+}
+
+.assuredIcon{
+  margin-right: 10px;
+  min-width: 37px!important;
+  max-width: 37px!important;
+}
+
+.assuredIconBig {
+  min-height: 60px;
+  max-height: 60px;
+  margin-bottom: 20px;
+}
+.miniText {
+  color: #a7a7a7;
+  font-size: 14px;
+}

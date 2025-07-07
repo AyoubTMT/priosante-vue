@@ -180,7 +180,12 @@
       <div class="step-footer">
         <button type="submit" class="submit-button" v-if="localData.codePostal">Obtenir mon devis</button>
       </div>
+      
     </div>
+    <BonASavoir remarque="Votre régime social dépend de votre activité professionnelle." 
+    remarque2="Budget Entre 20 et 50€ : Je n’ai pas de besoins conséquents." 
+    remarque3="Budget Entre 50 et 100€ : J’aimerais payer une cotisation complémentaire santé qui me permettra de payer une cotisation complémentaire santé qui me permettra d'améliorer mes remboursements." 
+    remarque4="Budget Entre 100 et 250€ : Je suis prêt à payer une cotisation complémentaire santé plus conséquente afin de minimiser mon reste à charge." />
   </form>
 </template>
 
@@ -188,6 +193,7 @@
 import { reactive, ref, watch, computed, nextTick, onMounted } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import { toast } from 'vue3-toastify';
+import BonASavoir from './BonASavoir.vue';
 
 const formStore = useFormStore();
 

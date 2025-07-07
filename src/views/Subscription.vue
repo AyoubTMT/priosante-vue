@@ -21,7 +21,7 @@
 
     <!-- 💡 Step Content -->
     <div class="row justify-content-md-center justify-content-lg-center m-0">
-      <div class="col-md-9 col-lg-8 col-xl-6 col-xxl-8 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
+      <div class="col-xxl-12 hideSlides px-0 px-md-2 animate__animated animate__fadeIn animate__slow">
         <div class="container-fluid p-0">
           <Step1 v-if="formStore.currentStep === 1" />
           <Step2 v-if="formStore.currentStep === 2" />
@@ -35,7 +35,7 @@
     </div>
 
     <!-- 💡 Sidebar -->
-    <div class="step-sidebar d-none d-xl-block">
+    <div class="step-sidebar">
       <div class="sidebar-title">Mes étapes</div>
       <div class="sidebar-description">Sélectionnez l’étape sur laquelle vous souhaitez revenir</div>
       <div class="sidebar-steps">
@@ -163,5 +163,24 @@ if (formStore.currentStep > filteredSteps.value.length) {
   color: var(--e-global-color-text);
   font-size: 13px;
   font-weight: 500;
+}
+
+.stepTitle {
+  font-weight: bold;
+  font-size: 21px;
+}
+
+@media screen and (min-width: 1825px) {
+  .step-sidebar {
+    display: block;
+  }
+  
+}
+
+@media screen and (max-width: 1824px) {
+  .step-sidebar {
+    display: none;
+  }
+  
 }
 </style>
